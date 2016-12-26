@@ -1,45 +1,44 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
+import android.support.annotation.Nullable;
+
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.ToMany;
+import org.greenrobot.greendao.annotation.ToOne;
+import org.greenrobot.greendao.annotation.Unique;
+
+import java.util.List;
+
 /**
  * Created by Phoenix on 2016/5/31.
  */
 public class FractureSurface {
+    @Unique
+    private String id;
+    @Nullable
+    private String position;
+    @Nullable
+    private float distance2Bank;
+    @Nullable
+    private String id_MonitoringSite;
 
-    private String ID;
-    private String Position;
-    private float Distance2Bank;
-    private String ID_MonitoringSite;
+    // ****************************************
 
-    public void setPosition(String position) {
-        Position = position;
-    }
+    @Id
+    private Long greenId;
 
-    public void setID(String ID) {
-        this.ID = ID;
-    }
+    @ToMany(referencedJoinProperty = "fractureSurfaceId")
+    private List<Benthos> benthoses;
 
-    public void setDistance2Bank(float distance2Bank) {
-        Distance2Bank = distance2Bank;
-    }
+    @ToMany(referencedJoinProperty = "fractureSurfaceId")
+    private List<Phytoplankton> phytoplanktons;
 
-    public void setID_MonitoringSite(String ID_MonitoringSite) {
-        this.ID_MonitoringSite = ID_MonitoringSite;
-    }
+    @ToMany(referencedJoinProperty = "fractureSurfaceId")
+    private List<Zooplankton> zooplanktons;
 
-    public String getKey() {
-        return ID;
-    }
+    @ToOne(joinProperty = "id")
+    private MonitoringSite monitoringSite;
 
-    public String getPosition() {
-        return Position;
-    }
-
-    public float getDistance2Bank() {
-        return Distance2Bank;
-    }
-
-    public String getID_MonitoringSite() {
-        return ID_MonitoringSite;
-    }
+    private Long monitorSiteId;
 }

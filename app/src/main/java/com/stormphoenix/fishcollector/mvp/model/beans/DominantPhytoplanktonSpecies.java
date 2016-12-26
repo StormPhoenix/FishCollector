@@ -1,63 +1,35 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
+import android.support.annotation.Nullable;
+
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.ToOne;
+import org.greenrobot.greendao.annotation.Unique;
+
 /**
  * Created by Phoenix on 2016/5/31.
  */
 public class DominantPhytoplanktonSpecies {
-
+    @Unique
     private String sampleID;
+    @Nullable
     private String name;
+    @Nullable
     private String photo;
+    @Nullable
     private float quality;
+    @Nullable
     private float biomass;
+    @Nullable
     private String idPhytoplankton;
 
-    public String getSampleID() {
-        return sampleID;
-    }
+    // ********************************
+    @Id
+    private Long id;
 
-    public void setSampleID(String sampleID) {
-        this.sampleID = sampleID;
-    }
+    @ToOne(joinProperty = "id")
+    private Phytoplankton phytoplankton;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public float getQuality() {
-        return quality;
-    }
-
-    public void setQuality(float quality) {
-        this.quality = quality;
-    }
-
-    public float getBiomass() {
-        return biomass;
-    }
-
-    public void setBiomass(float biomass) {
-        this.biomass = biomass;
-    }
-
-    public String getIdPhytoplankton() {
-        return idPhytoplankton;
-    }
-
-    public void setIdPhytoplankton(String idPhytoplankton) {
-        this.idPhytoplankton = idPhytoplankton;
-    }
+    private Long phytoplanktonId;
 }

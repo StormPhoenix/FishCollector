@@ -1,55 +1,35 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
+import android.support.annotation.Nullable;
+
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.ToMany;
+import org.greenrobot.greendao.annotation.Unique;
+
+import java.util.List;
+
 /**
  * Created by Phoenix on 2016/5/31.
  */
 public class Zooplankton {
-
+    @Unique
     private String SampleID;
+    @Nullable
     private String Photo;
+    @Nullable
     private int Quality;
+    @Nullable
     private float Biomass;
+    @Nullable
     private String ID_FractureSurface;
 
-    public void setSampleID(String sampleID) {
-        SampleID = sampleID;
-    }
+    // **********************************
+    @Id
+    private Long id;
 
-    public void setPhoto(String photo) {
-        Photo = photo;
-    }
+    private Long fractureSurfaceId;
 
-    public void setQuality(int quality) {
-        Quality = quality;
-    }
-
-    public void setBiomass(float biomass) {
-        Biomass = biomass;
-    }
-
-    public void setID_FractureSurface(String ID_FractureSurface) {
-        this.ID_FractureSurface = ID_FractureSurface;
-    }
-
-
-    public String getID_FractureSurface() {
-        return ID_FractureSurface;
-    }
-
-    public String getKey() {
-        return SampleID;
-    }
-
-    public String getPhoto() {
-        return Photo;
-    }
-
-    public float getQuality() {
-        return Quality;
-    }
-
-    public float getBiomass() {
-        return Biomass;
-    }
+    @ToMany(referencedJoinProperty = "zooplanktonId")
+    private List<DominantZooplanktonSpecies> dominantZooplanktonSpecies;
 }

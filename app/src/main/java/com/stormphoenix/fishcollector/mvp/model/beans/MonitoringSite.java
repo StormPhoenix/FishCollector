@@ -1,151 +1,56 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
+import android.support.annotation.Nullable;
+
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.ToMany;
+import org.greenrobot.greendao.annotation.Unique;
+
+import java.util.List;
+
 /**
  * Created by Phoenix on 2016/5/31.
  */
 public class MonitoringSite {
-    public void setInverstigationID(String inverstigationID) {
-        InverstigationID = inverstigationID;
-    }
 
-    public void setInstitution(String institution) {
-        Institution = institution;
-    }
-
-    public void setInvestigator(String investigator) {
-        Investigator = investigator;
-    }
-
-    public void setInvestigationDate(String investigationDate) {
-        InvestigationDate = investigationDate;
-    }
-
-    public void setSite(String site) {
-        Site = site;
-    }
-
-    public void setRiver(String river) {
-        River = river;
-    }
-
-    public void setPhoto(String photo) {
-        Photo = photo;
-    }
-
-    public void setStartTime(String startTime) {
-        StartTime = startTime;
-    }
-
-    public void setEndTime(String endTime) {
-        EndTime = endTime;
-    }
-
-    public void setStartLongitude(float startLongitude) {
-        StartLongitude = startLongitude;
-    }
-
-    public void setStartLatitude(float startLatitude) {
-        StartLatitude = startLatitude;
-    }
-
-    public void setEndLongitude(float endLongitude) {
-        EndLongitude = endLongitude;
-    }
-
-    public void setEndLatitude(float endLatitude) {
-        EndLatitude = endLatitude;
-    }
-
-    public void setWeather(String weather) {
-        Weather = weather;
-    }
-
-    public void setTemperature(float temperature) {
-        Temperature = temperature;
-    }
-
+    @Unique
     private String InverstigationID;
+    @Nullable
     private String Institution;
+    @Nullable
     private String Investigator;
+    @Nullable
     private String InvestigationDate;
+    @Nullable
     private String Site;
+    @Nullable
     private String River;
+    @Nullable
     private String Photo;
+    @Nullable
     private String StartTime;
+    @Nullable
     private String EndTime;
+    @Nullable
     private float StartLongitude;
+    @Nullable
     private float StartLatitude;
+    @Nullable
     private float EndLongitude;
+    @Nullable
     private float EndLatitude;
+    @Nullable
     private String Weather;
+    @Nullable
     private float Temperature;
+    @Nullable
     private int userId;
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+    // ***********************************
+    @Id
+    private Long id;
 
-    public String getInstitution() {
-        return Institution;
-    }
+    @ToMany(referencedJoinProperty = "monitorSiteId")
+    private List<FractureSurface> fractureSurfaces;
 
-    public String getInvestigator() {
-        return Investigator;
-    }
-
-    public String getInvestigationDate() {
-        return InvestigationDate;
-    }
-
-    public String getSite() {
-        return Site;
-    }
-
-    public String getRiver() {
-        return River;
-    }
-
-    public String getPhoto() {
-        return Photo;
-    }
-
-    public String getStartTime() {
-        return StartTime;
-    }
-
-    public String getEndTime() {
-        return EndTime;
-    }
-
-    public float getStartLongitude() {
-        return StartLongitude;
-    }
-
-    public float getStartLatitude() {
-        return StartLatitude;
-    }
-
-    public float getEndLongitude() {
-        return EndLongitude;
-    }
-
-    public float getEndLatitude() {
-        return EndLatitude;
-    }
-
-    public String getWeather() {
-        return Weather;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public float getTemperature() {
-        return Temperature;
-    }
-
-    public String getKey() {
-        return InverstigationID;
-    }
 }

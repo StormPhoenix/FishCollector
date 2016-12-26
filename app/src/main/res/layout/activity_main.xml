@@ -17,7 +17,15 @@
         android:layout_width="@dimen/drawer_width"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:background="@color/colorWhite"
         android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/tree_view_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
 
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

@@ -439,4 +439,18 @@
     <string name="ic_whatshot">&#xe1ae;</string>
     <string name="ic_wifi_tethering">&#xe1af;</string>
     <string name="ic_work">&#xe1b0;</string>
+    <string name="navigation_drawer_open">open navigation drawer</string>
+    <string name="navigation_drawer_close">close navigation drawer</string>
+    <string name="detection_unit">监测单位</string>
+    <string name="monitors">监测人员(多人名用“|”分隔)</string>
+    <string name="date">日期</string>
+    <string name="water_area">水域</string>
+    <string name="start_time">开始时间</string>
+    <string name="end_date">结束时间</string>
+    <string name="weather">天气</string>
+    <string name="heat">天气</string>
+    <string name="start_longitude">起点经度</string>
+    <string name="start_latitude">起点纬度</string>
+    <string name="end_longitude">终点经度</string>
+    <string name="end_latitude">终点纬度</string>
 </resources>

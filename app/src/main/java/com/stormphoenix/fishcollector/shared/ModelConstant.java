@@ -1,27 +1,41 @@
 package com.stormphoenix.fishcollector.shared;
 
+import com.stormphoenix.fishcollector.mvp.model.beans.Benthos;
+import com.stormphoenix.fishcollector.mvp.model.beans.CatchTools;
+import com.stormphoenix.fishcollector.mvp.model.beans.Catches;
+import com.stormphoenix.fishcollector.mvp.model.beans.DominantBenthosSpecies;
+import com.stormphoenix.fishcollector.mvp.model.beans.DominantPhytoplanktonSpecies;
+import com.stormphoenix.fishcollector.mvp.model.beans.DominantZooplanktonSpecies;
+import com.stormphoenix.fishcollector.mvp.model.beans.FishEggs;
+import com.stormphoenix.fishcollector.mvp.model.beans.Fishes;
+import com.stormphoenix.fishcollector.mvp.model.beans.FractureSurface;
+import com.stormphoenix.fishcollector.mvp.model.beans.MeasuringPoint;
+import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
+import com.stormphoenix.fishcollector.mvp.model.beans.Phytoplankton;
+import com.stormphoenix.fishcollector.mvp.model.beans.Sediment;
+import com.stormphoenix.fishcollector.mvp.model.beans.WaterLayer;
+import com.stormphoenix.fishcollector.mvp.model.beans.Zooplankton;
+
 /**
  * Created by Developer on 16-12-26.
  * Wang Cheng is a intelligent Android developer.
  */
 
 public class ModelConstant {
-    public static final Integer BENTHOS = 0x0001;
-    public static final Integer CATCHES = 0x0002;
-    public static final Integer CATCH_TOOLS = 0x0003;
-    public static final Integer DOMINANT_BENTHOS_SPECIES = 0x0004;
-    public static final Integer DOMINANT_PHYTOPLANKTON_SPECIES = 0x0005;
-    public static final Integer DOMINANT_ZOOPLANKTON_SPECIES = 0x0006;
-    public static final Integer FISH_EGGS = 0x0007;
-    public static final Integer FISHES = 0x0008;
-    public static final Integer FRACTURE_SURFACE = 0x0009;
-    public static final Integer FRACTURE_SURFACE_SEDIMENT = 0x000A;
-    public static final Integer MEASURING_LINE = 0x000B;
-    public static final Integer MEASURING_POINT = 0x000C;
-    public static final Integer MONITORING_SITE = 0x000D;
-    public static final Integer PHYTOPLANKTON = 0x000E;
-    public static final Integer SEDIMENT = 0x000F;
-    public static final Integer WATER_LAYER = 0x0010;
-    public static final Integer WATER_LAYER_CATCH_TOOLS = 0x0011;
-    public static final Integer ZOOPLANKTON = 0x0012;
+    public static final String BENTHOS = Benthos.class.getName();
+    public static final String CATCHES = Catches.class.getName();
+    public static final String CATCH_TOOLS = CatchTools.class.getName();
+    public static final String DOMINANT_BENTHOS_SPECIES = DominantBenthosSpecies.class.getName();
+    public static final String DOMINANT_PHYTOPLANKTON_SPECIES = DominantPhytoplanktonSpecies.class.getName();
+    public static final String DOMINANT_ZOOPLANKTON_SPECIES = DominantZooplanktonSpecies.class.getName();
+    public static final String FISH_EGGS = FishEggs.class.getName();
+    public static final String FISHES = Fishes.class.getName();
+    public static final String FRACTURE_SURFACE = FractureSurface.class.getName();
+    public static final String MEASURING_LINE = MeasuringPoint.class.getName();
+    public static final String MEASURING_POINT = MeasuringPoint.class.getName();
+    public static final String MONITORING_SITE = MonitoringSite.class.getName();
+    public static final String PHYTOPLANKTON = Phytoplankton.class.getName();
+    public static final String SEDIMENT = Sediment.class.getName();
+    public static final String WATER_LAYER = WaterLayer.class.getName();
+    public static final String ZOOPLANKTON = Zooplankton.class.getName();
 }

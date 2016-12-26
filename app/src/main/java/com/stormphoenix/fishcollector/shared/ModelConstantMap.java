@@ -23,17 +23,21 @@ public class ModelConstantMap {
     public static final ModelHolder FISH_EGGS_HOLDER = new ModelHolder(ModelNames.FISH_EGGS_NAME, R.string.ic_folder, "hello", null);
     public static final ModelHolder FISHES_HOLDER = new ModelHolder(ModelNames.FISHES_NAME, R.string.ic_folder, "hello", null);
     public static final ModelHolder FRACTURE_SURFACE_HOLDER = new ModelHolder(ModelNames.FRACTURE_SURFACE_NAME, R.string.ic_folder, "hello", Arrays.asList(ModelConstant.MEASURING_LINE, ModelConstant.SEDIMENT, ModelConstant.PHYTOPLANKTON, ModelConstant.ZOOPLANKTON, ModelConstant.BENTHOS));
-//    public static final ModelHolder FRACTURE_SURFACE_SEDIMENT_HOLDER = new ModelHolder(ModelNames.FRACTURE_SURFACE_SEDIMENT_NAME, R.string.ic_folder, "hello", null);
+    //    public static final ModelHolder FRACTURE_SURFACE_SEDIMENT_HOLDER = new ModelHolder(ModelNames.FRACTURE_SURFACE_SEDIMENT_NAME, R.string.ic_folder, "hello", null);
     public static final ModelHolder MEASURING_LINE_HOLDER = new ModelHolder(ModelNames.MEASURING_LINE_NAME, R.string.ic_folder, "hello", Arrays.asList(ModelConstant.MEASURING_POINT));
     public static final ModelHolder MEASURING_POINT_HOLDER = new ModelHolder(ModelNames.MEASURING_POINT_NAME, R.string.ic_folder, "hello", Arrays.asList(ModelConstant.WATER_LAYER));
     public static final ModelHolder MONITORING_SITE_HOLDER = new ModelHolder(ModelNames.MONITORING_SITE_NAME, R.string.ic_folder, "hello", Arrays.asList(ModelConstant.FRACTURE_SURFACE));
     public static final ModelHolder PHYTOPLANKTON_HOLDER = new ModelHolder(ModelNames.PHYTOPLANKTON_NAME, R.string.ic_folder, "hello", Arrays.asList(ModelConstant.DOMINANT_PHYTOPLANKTON_SPECIES));
     public static final ModelHolder SEDIMENT_HOLDER = new ModelHolder(ModelNames.SEDIMENT_NAME, R.string.ic_folder, "hello", null);
     public static final ModelHolder WATER_LAYER_HOLDER = new ModelHolder(ModelNames.WATER_LAYER_NAME, R.string.ic_folder, "hello", Arrays.asList(ModelConstant.CATCH_TOOLS, ModelConstant.CATCHES));
-//    public static final ModelHolder WATER_LAYER_CATCH_TOOLS_HOLDER = new ModelHolder(ModelNames.WATER_LAYER_CATCH_TOOLS_NAME, R.string.ic_folder, "hello", null);
+    //    public static final ModelHolder WATER_LAYER_CATCH_TOOLS_HOLDER = new ModelHolder(ModelNames.WATER_LAYER_CATCH_TOOLS_NAME, R.string.ic_folder, "hello", null);
     public static final ModelHolder ZOOPLANKTON_HOLDER = new ModelHolder(ModelNames.ZOOPLANKTON_NAME, R.string.ic_folder, "hello", Arrays.asList(ModelConstant.DOMINANT_ZOOPLANKTON_SPECIES));
 
-    public static Map<Integer, ModelHolder> modelMap = new LinkedHashMap<>();
+    private static Map<String, ModelHolder> modelMap = new LinkedHashMap<>();
+
+    public static ModelHolder getHolder(String className) {
+        return modelMap.get(className);
+    }
 
     static {
         modelMap.put(ModelConstant.BENTHOS, BENTHOS_HOLDER);
@@ -61,9 +65,9 @@ public class ModelConstantMap {
         public String MODEL_NAME;
         public int iconResId;
         public String fragmentClassName;
-        public List<Integer> subModels;
+        public List<String> subModels;
 
-        public ModelHolder(String model_name, int iconResId, String fragmentClassName, List<Integer> subModels) {
+        public ModelHolder(String model_name, int iconResId, String fragmentClassName, List<String> subModels) {
             MODEL_NAME = model_name;
             this.iconResId = iconResId;
             this.fragmentClassName = fragmentClassName;
