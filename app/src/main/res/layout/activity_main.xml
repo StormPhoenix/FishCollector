@@ -4,21 +4,27 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:openDrawer="start"
-    tools:context="com.stormphoenix.fishcollector.mvp.ui.activities.MainActivity">
+    tools:context="com.stormphoenix.fishcollector.mvp.ui.activities.MainActivity"
+    tools:openDrawer="start">
 
     <include
         layout="@layout/content_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <LinearLayout
-        android:layout_height="match_parent"
         android:layout_width="@dimen/drawer_width"
+        android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
         android:background="@color/colorWhite"
+        android:fitsSystemWindows="true"
         android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_add_site_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="addSite" />
 
         <FrameLayout
             android:id="@+id/tree_view_wrapper"

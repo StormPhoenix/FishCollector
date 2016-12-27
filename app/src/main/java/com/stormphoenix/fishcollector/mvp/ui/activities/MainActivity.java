@@ -4,16 +4,15 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.stormphoenix.fishcollector.R;
+import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.ui.activities.base.BaseActivity;
-import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeItemHolder;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeViewImpl;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces.ITreeView;
-import com.stormphoenix.fishcollector.shared.ModelConstant;
-import com.unnamed.b.atv.model.TreeNode;
-import com.unnamed.b.atv.view.AndroidTreeView;
 
 import butterknife.BindView;
 
@@ -25,6 +24,8 @@ public class MainActivity extends BaseActivity {
     DrawerLayout drawerLayout;
     @BindView(R.id.tree_view_wrapper)
     FrameLayout treeViewWrapper;
+    @BindView(R.id.btn_add_site_main)
+    Button btnAddSite;
 
     private ITreeView treeView;
 
@@ -42,10 +43,16 @@ public class MainActivity extends BaseActivity {
     protected void initViews() {
         initToolbar();
         initTreeView();
+        btnAddSite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                treeView.addNode(null, new ITreeView.TreeItem(MonitoringSite.class.getName()));
+            }
+        });
     }
 
     private void initTreeView() {
-        ITreeView treeView = new TreeViewImpl(this);
+        treeView = new TreeViewImpl(this);
         treeViewWrapper.addView(treeView.getView());
     }
 
@@ -59,10 +66,5 @@ public class MainActivity extends BaseActivity {
                 R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 }

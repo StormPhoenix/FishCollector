@@ -1,0 +1,77 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:id="@+id/tv_longitude"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text=" 经度    " />
+
+    <ImageView
+        android:id="@+id/img_longitude"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_weight="1"
+        android:src="@drawable/img_locate" />
+
+    <ProgressBar
+        android:id="@+id/pb_longitude"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_weight="1"
+        android:src="@drawable/img_locate"
+        android:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/longitude"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/img_longitude"
+        android:layout_toRightOf="@id/tv_longitude"
+        android:paddingLeft="10dp"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@id/longitude"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text=" 纬度    " />
+
+    <EditText
+        android:id="@+id/latitude"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_below="@id/longitude"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@id/img_longitude"
+        android:layout_toRightOf="@id/tv_longitude"
+        android:paddingLeft="10dp"
+        android:singleLine="true" />
+
+    <ImageView
+        android:id="@+id/img_latitude"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/longitude"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1" />
+
+
+</RelativeLayout>

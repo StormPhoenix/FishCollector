@@ -1,0 +1,74 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:id="@+id/tv_zoop_num"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:text=" 数量    " />
+
+    <EditText
+        android:id="@+id/mount"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/tv_zoop_num"
+        android:hint=" 数量"
+        android:paddingLeft="10dp"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignRight="@id/mount"
+        android:layout_marginRight="5dp"
+        android:text="ind.L"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tv_biomass"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@id/mount"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:text=" 生物量   " />
+
+    <EditText
+        android:id="@+id/biomass"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_alignLeft="@id/mount"
+        android:layout_below="@id/mount"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/tv_biomass"
+        android:hint=" 生物量"
+        android:paddingLeft="10dp"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignRight="@id/biomass"
+        android:layout_alignTop="@id/biomass"
+        android:layout_marginRight="5dp"
+        android:text="mg/L"
+        android:textSize="20sp" />
+
+    <GridLayout
+        android:id="@+id/zoo_add_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_biomass"
+        android:layout_marginTop="20dp"
+        android:columnCount="4">
+
+    </GridLayout>
+
+</RelativeLayout>

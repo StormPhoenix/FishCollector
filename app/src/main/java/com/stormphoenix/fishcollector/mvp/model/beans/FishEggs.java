@@ -1,29 +1,83 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
+import android.support.annotation.Nullable;
+
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.ToOne;
+import org.greenrobot.greendao.annotation.Unique;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.DaoException;
+
 /**
  * Created by Phoenix on 2016/5/31.
  */
+@Entity
 public class FishEggs {
-    private String sampleID;
+    @Unique
+    private String modelId;
+    @Nullable
     private String photo;
+    @Nullable
     private String period;
+    @Nullable
     private float diameter;
+    @Nullable
     private float emDiameter;
+    @Nullable
     private String pigmentProp;
+    @Nullable
     private String embryoProp;
+    @Nullable
     private String idCatches;
 
-    public String getSampleID() {
-        return sampleID;
+    // ******************************
+
+    @Id
+    private Long id;
+
+    @ToOne(joinProperty = "catchesId")
+    private Catches catches;
+
+    private Long catchesId;
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+    /** Used for active entity operations. */
+    @Generated(hash = 1913398067)
+    private transient FishEggsDao myDao;
+
+    @Generated(hash = 1181376747)
+    public FishEggs(String modelId, String photo, String period, float diameter,
+            float emDiameter, String pigmentProp, String embryoProp,
+            String idCatches, Long id, Long catchesId) {
+        this.modelId = modelId;
+        this.photo = photo;
+        this.period = period;
+        this.diameter = diameter;
+        this.emDiameter = emDiameter;
+        this.pigmentProp = pigmentProp;
+        this.embryoProp = embryoProp;
+        this.idCatches = idCatches;
+        this.id = id;
+        this.catchesId = catchesId;
     }
 
-    public void setSampleID(String sampleID) {
-        this.sampleID = sampleID;
+    @Generated(hash = 734232265)
+    public FishEggs() {
+    }
+
+    public String getModelId() {
+        return this.modelId;
+    }
+
+    public void setModelId(String modelId) {
+        this.modelId = modelId;
     }
 
     public String getPhoto() {
-        return photo;
+        return this.photo;
     }
 
     public void setPhoto(String photo) {
@@ -31,7 +85,7 @@ public class FishEggs {
     }
 
     public String getPeriod() {
-        return period;
+        return this.period;
     }
 
     public void setPeriod(String period) {
@@ -39,7 +93,7 @@ public class FishEggs {
     }
 
     public float getDiameter() {
-        return diameter;
+        return this.diameter;
     }
 
     public void setDiameter(float diameter) {
@@ -47,7 +101,7 @@ public class FishEggs {
     }
 
     public float getEmDiameter() {
-        return emDiameter;
+        return this.emDiameter;
     }
 
     public void setEmDiameter(float emDiameter) {
@@ -55,7 +109,7 @@ public class FishEggs {
     }
 
     public String getPigmentProp() {
-        return pigmentProp;
+        return this.pigmentProp;
     }
 
     public void setPigmentProp(String pigmentProp) {
@@ -63,7 +117,7 @@ public class FishEggs {
     }
 
     public String getEmbryoProp() {
-        return embryoProp;
+        return this.embryoProp;
     }
 
     public void setEmbryoProp(String embryoProp) {
@@ -71,10 +125,101 @@ public class FishEggs {
     }
 
     public String getIdCatches() {
-        return idCatches;
+        return this.idCatches;
     }
 
     public void setIdCatches(String idCatches) {
         this.idCatches = idCatches;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getCatchesId() {
+        return this.catchesId;
+    }
+
+    public void setCatchesId(Long catchesId) {
+        this.catchesId = catchesId;
+    }
+
+    @Generated(hash = 822618378)
+    private transient Long catches__resolvedKey;
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 2147097369)
+    public Catches getCatches() {
+        Long __key = this.catchesId;
+        if (catches__resolvedKey == null || !catches__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            CatchesDao targetDao = daoSession.getCatchesDao();
+            Catches catchesNew = targetDao.load(__key);
+            synchronized (this) {
+                catches = catchesNew;
+                catches__resolvedKey = __key;
+            }
+        }
+        return catches;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1770100891)
+    public void setCatches(Catches catches) {
+        synchronized (this) {
+            this.catches = catches;
+            catchesId = catches == null ? null : catches.getId();
+            catches__resolvedKey = catchesId;
+        }
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 1942392019)
+    public void refresh() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.refresh(this);
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 713229351)
+    public void update() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.update(this);
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 911340968)
+    public void __setDaoSession(DaoSession daoSession) {
+        this.daoSession = daoSession;
+        myDao = daoSession != null ? daoSession.getFishEggsDao() : null;
     }
 }

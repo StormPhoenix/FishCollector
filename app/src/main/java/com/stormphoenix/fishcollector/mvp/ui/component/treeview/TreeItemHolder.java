@@ -8,8 +8,8 @@ import android.widget.TextView;
 import com.github.johnkil.print.PrintView;
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces.ITreeView;
-import com.stormphoenix.fishcollector.shared.ModelConstant;
-import com.stormphoenix.fishcollector.shared.ModelConstantMap;
+import com.stormphoenix.fishcollector.shared.constants.ModelConstant;
+import com.stormphoenix.fishcollector.shared.constants.ModelConstantMap;
 import com.unnamed.b.atv.model.TreeNode;
 
 /**

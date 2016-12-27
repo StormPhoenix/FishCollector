@@ -1,0 +1,74 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:id="@+id/tv_phytoplankton_num"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:text="@string/nums" />
+
+    <EditText
+        android:id="@+id/mount"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/tv_phytoplankton_num"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/mount"
+        android:layout_alignTop="@id/mount"
+        android:layout_marginRight="5dp"
+        android:text="@string/mount_unit"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tv_phytoplankton_creature_num"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@id/mount"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:text="@string/create_mount" />
+
+    <EditText
+        android:id="@+id/biomass"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_alignLeft="@id/mount"
+        android:layout_below="@id/mount"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/tv_phytoplankton_creature_num"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/biomass"
+        android:layout_alignTop="@id/biomass"
+        android:layout_marginRight="5dp"
+        android:text="@string/weight_unit"
+        android:textSize="20sp" />
+
+    <GridLayout
+        android:layout_below="@id/biomass"
+        android:id="@+id/gl_pictures_wrapper_phytoplankton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:columnCount="4">
+
+    </GridLayout>
+
+
+</RelativeLayout>

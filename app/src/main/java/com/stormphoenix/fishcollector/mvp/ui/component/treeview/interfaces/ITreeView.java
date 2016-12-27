@@ -28,7 +28,6 @@ public interface ITreeView {
         public TreeItem(String modelConstant) {
             this.modelConstant = modelConstant;
         }
-
         public String modelConstant;
     }
 }

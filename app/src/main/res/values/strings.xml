@@ -453,4 +453,22 @@
     <string name="start_latitude">起点纬度</string>
     <string name="end_longitude">终点经度</string>
     <string name="end_latitude">终点纬度</string>
+    <string name="collect_position">采样方位</string>
+    <string name="shore_distance">距岸距离</string>
+    <string name="meter">m</string>
+    <string name="nums">数量</string>
+    <string name="mount_unit">ind.L</string>
+    <string name="create_mount">生物量</string>
+    <string name="weight_unit">mg/L</string>
+    <string name="name">名字</string>
+    <string name="egg_diameter">卵径</string>
+    <string name="milis_meter_unit">mm</string>
+    <string name="pigment_property">色素性状</string>
+    <string name="embryo_traits">胚胎性状</string>
+    <string name="fish_name">鱼类名称</string>
+    <string name="fry_total_mount">卵苗总数</string>
+    <string name="fish_egg_mount">鱼卵数</string>
+    <string name="grain">粒</string>
+    <string name="parr_num">幼鱼数</string>
+    <string name="tail">尾</string>
 </resources>

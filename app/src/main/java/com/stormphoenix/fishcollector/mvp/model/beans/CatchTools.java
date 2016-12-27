@@ -1,42 +1,100 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
-import java.util.Date;
+import android.support.annotation.Nullable;
+
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.annotation.ToOne;
+import org.greenrobot.greendao.annotation.Unique;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by Phoenix on 2016/5/31.
  */
+@Entity
 public class CatchTools {
     //CatchTools主键
-    private String sampleID;
+    @Unique
+    private String modelId;
     //网具名字
+    @Nullable
     private String name;
     //照片路径，多个路径用分号隔开
+    @Nullable
     private String photo;
     //网型
+    @Nullable
     private String netsModel;
     //网口面积
+    @Nullable
     private float netMouthArea;
     //网口倾角
+    @Nullable
     private float netMouthDip;
     //开始时间
-    private Date startTime;
+    @Nullable
+    private String startTime;
     //结束时间
-    private Date endTime;
+    @Nullable
+    private String endTime;
     //网口流速
+    @Nullable
     private float netMouthVelocity;
     // 水层外键
+    @NotNull
     private String idWaterLayer;
 
-    public String getSampleID() {
-        return sampleID;
+    // ******************************
+
+    @Id
+    private Long id;
+
+    @ToOne(joinProperty = "waterLayerId")
+    private WaterLayer waterLayer;
+
+    private Long waterLayerId;
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+    /** Used for active entity operations. */
+    @Generated(hash = 135108567)
+    private transient CatchToolsDao myDao;
+
+    @Generated(hash = 1172864423)
+    public CatchTools(String modelId, String name, String photo, String netsModel,
+            float netMouthArea, float netMouthDip, String startTime, String endTime,
+            float netMouthVelocity, @NotNull String idWaterLayer, Long id,
+            Long waterLayerId) {
+        this.modelId = modelId;
+        this.name = name;
+        this.photo = photo;
+        this.netsModel = netsModel;
+        this.netMouthArea = netMouthArea;
+        this.netMouthDip = netMouthDip;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.netMouthVelocity = netMouthVelocity;
+        this.idWaterLayer = idWaterLayer;
+        this.id = id;
+        this.waterLayerId = waterLayerId;
     }
 
-    public void setSampleID(String sampleID) {
-        this.sampleID = sampleID;
+    @Generated(hash = 1486274156)
+    public CatchTools() {
+    }
+
+    public String getModelId() {
+        return this.modelId;
+    }
+
+    public void setModelId(String modelId) {
+        this.modelId = modelId;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -44,7 +102,7 @@ public class CatchTools {
     }
 
     public String getPhoto() {
-        return photo;
+        return this.photo;
     }
 
     public void setPhoto(String photo) {
@@ -52,7 +110,7 @@ public class CatchTools {
     }
 
     public String getNetsModel() {
-        return netsModel;
+        return this.netsModel;
     }
 
     public void setNetsModel(String netsModel) {
@@ -60,7 +118,7 @@ public class CatchTools {
     }
 
     public float getNetMouthArea() {
-        return netMouthArea;
+        return this.netMouthArea;
     }
 
     public void setNetMouthArea(float netMouthArea) {
@@ -68,31 +126,31 @@ public class CatchTools {
     }
 
     public float getNetMouthDip() {
-        return netMouthDip;
+        return this.netMouthDip;
     }
 
     public void setNetMouthDip(float netMouthDip) {
         this.netMouthDip = netMouthDip;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public String getStartTime() {
+        return this.startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public String getEndTime() {
+        return this.endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
     public float getNetMouthVelocity() {
-        return netMouthVelocity;
+        return this.netMouthVelocity;
     }
 
     public void setNetMouthVelocity(float netMouthVelocity) {
@@ -100,10 +158,102 @@ public class CatchTools {
     }
 
     public String getIdWaterLayer() {
-        return idWaterLayer;
+        return this.idWaterLayer;
     }
 
     public void setIdWaterLayer(String idWaterLayer) {
         this.idWaterLayer = idWaterLayer;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getWaterLayerId() {
+        return this.waterLayerId;
+    }
+
+    public void setWaterLayerId(Long waterLayerId) {
+        this.waterLayerId = waterLayerId;
+    }
+
+    @Generated(hash = 1203946248)
+    private transient Long waterLayer__resolvedKey;
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 2138006968)
+    public WaterLayer getWaterLayer() {
+        Long __key = this.waterLayerId;
+        if (waterLayer__resolvedKey == null
+                || !waterLayer__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            WaterLayerDao targetDao = daoSession.getWaterLayerDao();
+            WaterLayer waterLayerNew = targetDao.load(__key);
+            synchronized (this) {
+                waterLayer = waterLayerNew;
+                waterLayer__resolvedKey = __key;
+            }
+        }
+        return waterLayer;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1020917516)
+    public void setWaterLayer(WaterLayer waterLayer) {
+        synchronized (this) {
+            this.waterLayer = waterLayer;
+            waterLayerId = waterLayer == null ? null : waterLayer.getId();
+            waterLayer__resolvedKey = waterLayerId;
+        }
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 1942392019)
+    public void refresh() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.refresh(this);
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 713229351)
+    public void update() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.update(this);
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 465198582)
+    public void __setDaoSession(DaoSession daoSession) {
+        this.daoSession = daoSession;
+        myDao = daoSession != null ? daoSession.getCatchToolsDao() : null;
     }
 }

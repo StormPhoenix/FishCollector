@@ -31,7 +31,7 @@ public class MonitoringSiteFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_monitoring_site;
+        return R.layout.fragment_monitor_site;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class MonitoringSiteFragment extends BaseFragment {
 //            case R.id.img_start_location:
 //                pb_start_locate.setVisibility(View.VISIBLE);
 //                startLocate.setVisibility(View.INVISIBLE);
-//                LocationUtils.locate(mActivity.getApplicationContext(), new Callback() {
+//                LocationUtils.img_locate(mActivity.getApplicationContext(), new Callback() {
 //                    @Override
 //                    public void onLBSResultBack(final double latitude, final double longitude) {
 //                        mActivity.runOnUiThread(new Runnable() {
@@ -102,7 +102,7 @@ public class MonitoringSiteFragment extends BaseFragment {
 //            case R.id.img_end_location:
 //                pb_end_locate.setVisibility(View.VISIBLE);
 //                endLocate.setVisibility(View.INVISIBLE);
-//                LocationUtils.locate(mActivity.getApplicationContext(), new Callback() {
+//                LocationUtils.img_locate(mActivity.getApplicationContext(), new Callback() {
 //                    @Override
 //                    public void onLBSResultBack(final double latitude, final double longitude) {
 //                        mActivity.runOnUiThread(new Runnable() {

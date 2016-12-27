@@ -1,0 +1,154 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:id="@+id/tv_puberty_name"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/name" />
+
+    <EditText
+        android:id="@+id/et_puberty"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/tv_puberty_name"
+        android:paddingLeft="10dp"
+        android:singleLine="true" />
+
+    <LinearLayout
+        android:id="@+id/egg_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_puberty"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        android:weightSum="2">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/tv_egg_size"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:gravity="center_vertical"
+                android:text="@string/egg_diameter" />
+
+
+            <EditText
+                android:id="@+id/egg_size"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@id/tv_egg_size"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/egg_size"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:text="@string/milis_meter_unit"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_egg_membrane_diameter"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:text=" 卵膜径    " />
+
+
+            <EditText
+                android:id="@+id/egg_membrane_diameter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_toRightOf="@id/tv_egg_membrane_diameter"
+                android:paddingLeft="10dp"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/egg_membrane_diameter"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:text="@string/milis_meter_unit"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_pigment_properties"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@id/egg_layout"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:text="@string/pigment_property" />
+
+
+    <EditText
+        android:id="@+id/pigment_properties"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_below="@id/egg_layout"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/tv_pigment_properties"
+        android:paddingLeft="10dp"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/tv_embryo_traits"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@id/tv_pigment_properties"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:text="@string/embryo_traits" />
+
+
+    <EditText
+        android:id="@+id/embryo_traits"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_below="@id/pigment_properties"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/tv_embryo_traits"
+        android:paddingLeft="10dp"
+        android:singleLine="true" />
+
+    <GridLayout
+        android:id="@+id/gl_pictures_wrapper_fish_egg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/embryo_traits"
+        android:layout_marginTop="10dp"
+        android:columnCount="4"
+        android:padding="3dp">
+
+    </GridLayout>
+
+</RelativeLayout>

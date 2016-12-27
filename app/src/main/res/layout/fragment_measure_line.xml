@@ -1,0 +1,144 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:id="@+id/tv_start_longitude_line"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:text="@string/start_longitude" />
+
+    <ImageView
+        android:id="@+id/img_start_location_line"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/img_locate" />
+
+    <ProgressBar
+        android:id="@+id/pb_start_location_line"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/et_start_longitude_line"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@id/img_start_location_line"
+        android:layout_toRightOf="@id/tv_start_longitude_line"
+        android:paddingLeft="10dp"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@id/et_start_longitude_line"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text="@string/start_latitude" />
+
+    <EditText
+        android:id="@+id/et_start_latitude_line"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_alignLeft="@id/et_start_longitude_line"
+        android:layout_alignRight="@id/et_start_longitude_line"
+        android:layout_below="@id/et_start_longitude_line"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="10dp"
+        android:singleLine="true" />
+
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/et_start_longitude_line"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="40" /><!-- 占位-->
+
+
+    <TextView
+        android:id="@+id/tv_end_longitude_line"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@id/et_start_latitude_line"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text="@string/end_longitude" />
+
+    <ImageView
+        android:id="@+id/img_end_location_line"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/et_start_latitude_line"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/img_locate" />
+
+    <ProgressBar
+        android:id="@+id/pb_end_location_line"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/et_start_latitude_line"
+        android:layout_marginTop="5dp"
+        android:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/_end_longitude"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_alignLeft="@id/et_start_longitude_line"
+        android:layout_alignRight="@id/et_start_longitude_line"
+        android:layout_below="@id/et_start_latitude_line"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@id/img_end_location_line"
+        android:layout_toRightOf="@id/tv_end_longitude_line"
+        android:paddingLeft="10dp"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@id/_end_longitude"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text="@string/end_latitude" />
+
+    <EditText
+        android:id="@+id/et_end_latitude_line"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_alignLeft="@id/_end_longitude"
+        android:layout_alignRight="@id/_end_longitude"
+        android:layout_below="@id/_end_longitude"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="5dp"
+        android:layout_weight="17"
+        android:paddingLeft="10dp"
+        android:singleLine="true" />
+
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dp"
+        android:layout_weight="40" /><!-- 占位-->
+
+</RelativeLayout>

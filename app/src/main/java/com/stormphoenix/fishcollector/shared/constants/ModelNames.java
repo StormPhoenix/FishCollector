@@ -1,4 +1,4 @@
-package com.stormphoenix.fishcollector.shared;
+package com.stormphoenix.fishcollector.shared.constants;
 
 /**
  * Created by Phoenix on 2016/5/31.
