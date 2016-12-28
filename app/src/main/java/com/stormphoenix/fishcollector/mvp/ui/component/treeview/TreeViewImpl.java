@@ -1,9 +1,9 @@
 package com.stormphoenix.fishcollector.mvp.ui.component.treeview;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
-import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.db.DbManager;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces.ITreeView;
@@ -21,18 +21,32 @@ import java.util.List;
  */
 
 public class TreeViewImpl implements ITreeView {
-    private ITreeView.Listener listener = null;
-    private AndroidTreeView treeView = null;
+
+    public static final String TAG = "ITreeView";
+
+    private AndroidTreeView androidTreeView = null;
     private TreeNode root = null;
     private Context context = null;
     private DbManager dbManager = null;
 
+    private TreeItemHolder.ItemOperationListener listener = null;
+
     public TreeViewImpl(Context context) {
         this.context = context;
         dbManager = new DbManager(context);
-        root = TreeNode.root();
-        List<TreeNode> treeNodesList = new ArrayList<>();
+    }
 
+    @Override
+    public void buildTree() {
+        if (listener == null) {
+            Log.e(TAG, "buildTree: listener is null");
+        } else {
+            Log.e(TAG, "buildTree: listener is not null");
+        }
+
+        root = TreeNode.root();
+
+        List<TreeNode> treeNodesList = new ArrayList<>();
         List<MonitoringSite> monitoringSites = dbManager.queryAll();
         for (Object obj : monitoringSites) {
             TreeNode tempNode = null;
@@ -52,10 +66,10 @@ public class TreeViewImpl implements ITreeView {
             root.addChildren(treeNodesList);
         }
 
-        treeView = new AndroidTreeView(context, root);
-        treeView.setDefaultAnimation(true);
-        treeView.setDefaultContainerStyle(R.style.TreeNodeStyleCustom);
-        treeView.setDefaultViewHolder(TreeItemHolder.class);
+        androidTreeView = new AndroidTreeView(context, root);
+        androidTreeView.setDefaultAnimation(true);
+//        androidTreeView.setDefaultContainerStyle(R.style.TreeNodeStyleCustom);
+//        androidTreeView.setDefaultViewHolder(TreeItemHolder.class);
     }
 
     private TreeNode treeRecursion(Object obj) throws InvocationTargetException, IllegalAccessException {
@@ -64,6 +78,14 @@ public class TreeViewImpl implements ITreeView {
         }
         // 判断 obj 的类型，并将其存储
         TreeNode treeNode = new TreeNode(new ITreeView.TreeItem(obj.getClass().getName()));
+        TreeItemHolder holder = new TreeItemHolder(context);
+        if (listener == null) {
+            Log.e(TAG, "treeRecursion: listener is null");
+        } else {
+            Log.e(TAG, "treeRecursion: listener is not null");
+        }
+        holder.setItemOperationListener(listener);
+        treeNode.setViewHolder(holder);
         List<TreeNode> childrenList = new ArrayList<>();
 
         // obj中的方法进行遍历，查找是否有下级节点
@@ -88,24 +110,35 @@ public class TreeViewImpl implements ITreeView {
 
     @Override
     public View getView() {
-        return treeView.getView();
+        return androidTreeView.getView();
     }
 
     @Override
-    public void setAddClickListener(final Listener listener) {
+    public void setItemOprationListener(TreeItemHolder.ItemOperationListener listener) {
         this.listener = listener;
     }
 
     @Override
     public void addNode(TreeNode node, TreeItem item) {
+        TreeNode parentTreeNode = null;
+        TreeNode tempNode = null;
+
         if (node == null) {
-            TreeNode treeNode = new TreeNode(new TreeItem(MonitoringSite.class.getName()));
-            treeView.addNode(root, treeNode);
+            parentTreeNode = root;
+        } else {
+            parentTreeNode = node;
         }
+
+        tempNode = new TreeNode(item);
+        TreeItemHolder treeItemHolder = new TreeItemHolder(context);
+        treeItemHolder.setItemOperationListener(listener);
+        tempNode.setViewHolder(treeItemHolder);
+
+        parentTreeNode.getViewHolder().getTreeView().addNode(parentTreeNode, tempNode);
     }
 
     @Override
     public void deleteNode(TreeNode node) {
-
+        androidTreeView.removeNode(node);
     }
 }

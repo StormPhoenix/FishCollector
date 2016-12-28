@@ -2,6 +2,7 @@ package com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces;
 
 import android.view.View;
 
+import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeItemHolder;
 import com.unnamed.b.atv.model.TreeNode;
 
 /**
@@ -12,22 +13,19 @@ import com.unnamed.b.atv.model.TreeNode;
 public interface ITreeView {
     View getView();
 
-    void setAddClickListener(Listener listener);
+    void buildTree();
+
+    void setItemOprationListener(TreeItemHolder.ItemOperationListener listener);
 
     void addNode(TreeNode node, TreeItem item);
 
     void deleteNode(TreeNode node);
 
-    public interface Listener {
-        void onAddClick(TreeNode node);
-
-        void onDeleteClick(TreeNode node);
-    }
-
     public static class TreeItem {
         public TreeItem(String modelConstant) {
             this.modelConstant = modelConstant;
         }
+
         public String modelConstant;
     }
 }

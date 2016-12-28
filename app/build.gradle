@@ -45,4 +45,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.wdullaer:materialdatetimepicker:2.3.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile files('libs/smoothcompoundbuttonlibrary.jar')
 }

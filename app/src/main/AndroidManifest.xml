@@ -32,11 +32,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.ui.activities.MainActivity"></activity>
+        <activity android:name=".mvp.ui.activities.MainActivity" />
         <activity
             android:name=".mvp.ui.activities.LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".mvp.ui.activities.DialogStyleActivity"
+            android:theme="@style/AppTheme.Dialog"></activity>
     </application>
 
 </manifest>

@@ -471,4 +471,5 @@
     <string name="grain">粒</string>
     <string name="parr_num">幼鱼数</string>
     <string name="tail">尾</string>
+    <string name="action_save">保存</string>
 </resources>

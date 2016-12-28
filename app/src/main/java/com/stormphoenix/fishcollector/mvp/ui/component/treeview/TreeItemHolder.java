@@ -1,6 +1,7 @@
 package com.stormphoenix.fishcollector.mvp.ui.component.treeview;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -18,22 +19,35 @@ import com.unnamed.b.atv.model.TreeNode;
  */
 
 public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<ITreeView.TreeItem> {
+    public static final String TAG = "TreeItemHolder";
+
     private TextView tvValue;
     private PrintView arrowView;
     private Context context;
+
+    private ItemOperationListener listener = null;
 
     public TreeItemHolder(Context context) {
         super(context);
         this.context = context;
     }
 
+    public void setItemOperationListener(ItemOperationListener listener) {
+        this.listener = listener;
+    }
+
     @Override
-    public View createNodeView(final TreeNode node, ITreeView.TreeItem value) {
+    public View createNodeView(final TreeNode node, final ITreeView.TreeItem value) {
+        Log.e(TAG, "createNodeView: " + value.modelConstant);
+
         final LayoutInflater inflater = LayoutInflater.from(context);
         final View view = inflater.inflate(R.layout.layout_icon_node, null, false);
         // 节点名字
         tvValue = (TextView) view.findViewById(R.id.node_value);
-        tvValue.setText(ModelConstantMap.getHolder(ModelConstant.BENTHOS).MODEL_NAME);
+
+        Log.e(TAG, "createNodeView: value.modelConstant " + value.modelConstant);
+
+        tvValue.setText(ModelConstantMap.getHolder(value.modelConstant).MODEL_NAME);
 
         // 图标
         final PrintView iconView = (PrintView) view.findViewById(R.id.icon);
@@ -45,8 +59,15 @@ public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<ITreeView.TreeIt
         view.findViewById(R.id.btn_addFolder).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TreeNode newFolder = new TreeNode(new ITreeView.TreeItem(ModelConstant.BENTHOS));
-                getTreeView().addNode(node, newFolder);
+                if (listener != null) {
+                    listener.onItemAddBtnClicked(node, "model_name", value.modelConstant);
+                } else {
+                    TreeNode newFolder = new TreeNode(new ITreeView.TreeItem(ModelConstant.BENTHOS));
+                    TreeItemHolder itemHolder = new TreeItemHolder(context);
+                    itemHolder.setItemOperationListener(listener);
+                    newFolder.setViewHolder(itemHolder);
+                    getTreeView().addNode(node, newFolder);
+                }
             }
         });
 
@@ -57,9 +78,20 @@ public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<ITreeView.TreeIt
             }
         });
 
-        if (node.getLevel() == 1) {
-            view.findViewById(R.id.btn_delete).setVisibility(View.GONE);
-        }
+//        if (node.getLevel() == 1) {
+//            view.findViewById(R.id.btn_delete).setVisibility(View.GONE);
+//        }
         return view;
+    }
+
+    @Override
+    public void toggle(boolean active) {
+        arrowView.setIconText(context.getResources().getString(active ? R.string.ic_keyboard_arrow_down : R.string.ic_keyboard_arrow_right));
+    }
+
+    public static interface ItemOperationListener {
+        void onItemAddBtnClicked(TreeNode node, String key, String value);
+
+        void onItemDeleteBtnClicked(TreeNode node);
     }
 }
