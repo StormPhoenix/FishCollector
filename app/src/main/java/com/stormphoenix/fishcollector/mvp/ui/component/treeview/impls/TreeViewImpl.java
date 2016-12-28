@@ -1,12 +1,13 @@
-package com.stormphoenix.fishcollector.mvp.ui.component.treeview;
+package com.stormphoenix.fishcollector.mvp.ui.component.treeview.impls;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 
 import com.stormphoenix.fishcollector.db.DbManager;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
+import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeItemHolder;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces.ITreeView;
+import com.stormphoenix.fishcollector.mvp.ui.component.treeview.utils.TreeUtils;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
@@ -38,12 +39,6 @@ public class TreeViewImpl implements ITreeView {
 
     @Override
     public void buildTree() {
-        if (listener == null) {
-            Log.e(TAG, "buildTree: listener is null");
-        } else {
-            Log.e(TAG, "buildTree: listener is not null");
-        }
-
         root = TreeNode.root();
 
         List<TreeNode> treeNodesList = new ArrayList<>();
@@ -68,8 +63,6 @@ public class TreeViewImpl implements ITreeView {
 
         androidTreeView = new AndroidTreeView(context, root);
         androidTreeView.setDefaultAnimation(true);
-//        androidTreeView.setDefaultContainerStyle(R.style.TreeNodeStyleCustom);
-//        androidTreeView.setDefaultViewHolder(TreeItemHolder.class);
     }
 
     private TreeNode treeRecursion(Object obj) throws InvocationTargetException, IllegalAccessException {
@@ -77,15 +70,7 @@ public class TreeViewImpl implements ITreeView {
             return null;
         }
         // 判断 obj 的类型，并将其存储
-        TreeNode treeNode = new TreeNode(new ITreeView.TreeItem(obj.getClass().getName()));
-        TreeItemHolder holder = new TreeItemHolder(context);
-        if (listener == null) {
-            Log.e(TAG, "treeRecursion: listener is null");
-        } else {
-            Log.e(TAG, "treeRecursion: listener is not null");
-        }
-        holder.setItemOperationListener(listener);
-        treeNode.setViewHolder(holder);
+        TreeNode treeNode = TreeUtils.createTreeNode(context, obj.getClass().getName(), listener);
         List<TreeNode> childrenList = new ArrayList<>();
 
         // obj中的方法进行遍历，查找是否有下级节点

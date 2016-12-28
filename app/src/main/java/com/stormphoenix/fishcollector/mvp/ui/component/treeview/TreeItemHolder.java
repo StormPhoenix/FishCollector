@@ -1,7 +1,6 @@
 package com.stormphoenix.fishcollector.mvp.ui.component.treeview;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -38,14 +37,10 @@ public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<ITreeView.TreeIt
 
     @Override
     public View createNodeView(final TreeNode node, final ITreeView.TreeItem value) {
-        Log.e(TAG, "createNodeView: " + value.modelConstant);
-
         final LayoutInflater inflater = LayoutInflater.from(context);
         final View view = inflater.inflate(R.layout.layout_icon_node, null, false);
         // 节点名字
         tvValue = (TextView) view.findViewById(R.id.node_value);
-
-        Log.e(TAG, "createNodeView: value.modelConstant " + value.modelConstant);
 
         tvValue.setText(ModelConstantMap.getHolder(value.modelConstant).MODEL_NAME);
 
@@ -61,12 +56,6 @@ public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<ITreeView.TreeIt
             public void onClick(View v) {
                 if (listener != null) {
                     listener.onItemAddBtnClicked(node, "model_name", value.modelConstant);
-                } else {
-                    TreeNode newFolder = new TreeNode(new ITreeView.TreeItem(ModelConstant.BENTHOS));
-                    TreeItemHolder itemHolder = new TreeItemHolder(context);
-                    itemHolder.setItemOperationListener(listener);
-                    newFolder.setViewHolder(itemHolder);
-                    getTreeView().addNode(node, newFolder);
                 }
             }
         });
@@ -77,10 +66,6 @@ public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<ITreeView.TreeIt
                 getTreeView().removeNode(node);
             }
         });
-
-//        if (node.getLevel() == 1) {
-//            view.findViewById(R.id.btn_delete).setVisibility(View.GONE);
-//        }
         return view;
     }
 
