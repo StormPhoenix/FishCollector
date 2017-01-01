@@ -3,22 +3,24 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.support.annotation.Nullable;
 
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
 
 import java.util.List;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * 渔获物
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class Catches {
+public class Catches implements BaseModel {
 
     //主键
     @Unique
@@ -46,27 +48,31 @@ public class Catches {
     @Id
     private Long id;
 
-    private Long waterLayerId;
+    private Long foreignKey;
 
-    @ToOne(joinProperty = "waterLayerId")
+    @ToOne(joinProperty = "foreignKey")
     private WaterLayer waterLayer;
 
-    @ToMany(referencedJoinProperty = "catchesId")
+    @ToMany(referencedJoinProperty = "foreignKey")
     private List<Fishes> fishes;
 
-    @ToMany(referencedJoinProperty = "catchesId")
+    @ToMany(referencedJoinProperty = "foreignKey")
     private List<FishEggs> fishEggses;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 1459665042)
     private transient CatchesDao myDao;
 
-    @Generated(hash = 567274718)
+    @Generated(hash = 1474779920)
     public Catches(String modelId, String name, String photo, int totalQuality,
-            int eggQuality, int fryQuality, String idWaterLayer, Long id,
-            Long waterLayerId) {
+                   int eggQuality, int fryQuality, String idWaterLayer, Long id,
+                   Long foreignKey) {
         this.modelId = modelId;
         this.name = name;
         this.photo = photo;
@@ -75,7 +81,7 @@ public class Catches {
         this.fryQuality = fryQuality;
         this.idWaterLayer = idWaterLayer;
         this.id = id;
-        this.waterLayerId = waterLayerId;
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 1720481633)
@@ -146,21 +152,23 @@ public class Catches {
         this.id = id;
     }
 
-    public Long getWaterLayerId() {
-        return this.waterLayerId;
+    public Long getForeignKey() {
+        return this.foreignKey;
     }
 
-    public void setWaterLayerId(Long waterLayerId) {
-        this.waterLayerId = waterLayerId;
+    public void setForeignKey(Long foreignKey) {
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 1203946248)
     private transient Long waterLayer__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 2138006968)
+    /**
+     * To-one relationship, resolved on first access.
+     */
+    @Generated(hash = 2125111669)
     public WaterLayer getWaterLayer() {
-        Long __key = this.waterLayerId;
+        Long __key = this.foreignKey;
         if (waterLayer__resolvedKey == null
                 || !waterLayer__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
@@ -177,13 +185,15 @@ public class Catches {
         return waterLayer;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1020917516)
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
+    @Generated(hash = 95803670)
     public void setWaterLayer(WaterLayer waterLayer) {
         synchronized (this) {
             this.waterLayer = waterLayer;
-            waterLayerId = waterLayer == null ? null : waterLayer.getId();
-            waterLayer__resolvedKey = waterLayerId;
+            foreignKey = waterLayer == null ? null : waterLayer.getId();
+            waterLayer__resolvedKey = foreignKey;
         }
     }
 
@@ -209,7 +219,9 @@ public class Catches {
         return fishes;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 306342869)
     public synchronized void resetFishes() {
         fishes = null;
@@ -237,7 +249,9 @@ public class Catches {
         return fishEggses;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 24613756)
     public synchronized void resetFishEggses() {
         fishEggses = null;

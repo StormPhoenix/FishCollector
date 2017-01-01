@@ -3,21 +3,23 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.support.annotation.Nullable;
 
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
 
 import java.util.List;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class Zooplankton {
+public class Zooplankton implements BaseModel {
     @Unique
     private String modelId;
     @Nullable
@@ -33,30 +35,34 @@ public class Zooplankton {
     @Id
     private Long id;
 
-    private Long fractureSurfaceId;
+    private Long foreignKey;
 
-    @ToOne(joinProperty = "fractureSurfaceId")
+    @ToOne(joinProperty = "foreignKey")
     private FractureSurface fractureSurface;
 
-    @ToMany(referencedJoinProperty = "zooplanktonId")
+    @ToMany(referencedJoinProperty = "foreignKey")
     private List<DominantZooplanktonSpecies> dominantZooplanktonSpecies;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 1027756039)
     private transient ZooplanktonDao myDao;
 
-    @Generated(hash = 385699949)
+    @Generated(hash = 1303900111)
     public Zooplankton(String modelId, String Photo, int Quality, float Biomass,
-            String ID_FractureSurface, Long id, Long fractureSurfaceId) {
+                       String ID_FractureSurface, Long id, Long foreignKey) {
         this.modelId = modelId;
         this.Photo = Photo;
         this.Quality = Quality;
         this.Biomass = Biomass;
         this.ID_FractureSurface = ID_FractureSurface;
         this.id = id;
-        this.fractureSurfaceId = fractureSurfaceId;
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 318554425)
@@ -111,21 +117,23 @@ public class Zooplankton {
         this.id = id;
     }
 
-    public Long getFractureSurfaceId() {
-        return this.fractureSurfaceId;
+    public Long getForeignKey() {
+        return this.foreignKey;
     }
 
-    public void setFractureSurfaceId(Long fractureSurfaceId) {
-        this.fractureSurfaceId = fractureSurfaceId;
+    public void setForeignKey(Long foreignKey) {
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 844368361)
     private transient Long fractureSurface__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1111745244)
+    /**
+     * To-one relationship, resolved on first access.
+     */
+    @Generated(hash = 610717877)
     public FractureSurface getFractureSurface() {
-        Long __key = this.fractureSurfaceId;
+        Long __key = this.foreignKey;
         if (fractureSurface__resolvedKey == null
                 || !fractureSurface__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
@@ -142,14 +150,15 @@ public class Zooplankton {
         return fractureSurface;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1218494074)
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
+    @Generated(hash = 1813620905)
     public void setFractureSurface(FractureSurface fractureSurface) {
         synchronized (this) {
             this.fractureSurface = fractureSurface;
-            fractureSurfaceId = fractureSurface == null ? null
-                    : fractureSurface.getId();
-            fractureSurface__resolvedKey = fractureSurfaceId;
+            foreignKey = fractureSurface == null ? null : fractureSurface.getId();
+            fractureSurface__resolvedKey = foreignKey;
         }
     }
 
@@ -177,7 +186,9 @@ public class Zooplankton {
         return dominantZooplanktonSpecies;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 1040578637)
     public synchronized void resetDominantZooplanktonSpecies() {
         dominantZooplanktonSpecies = null;

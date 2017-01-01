@@ -10,11 +10,15 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.stormphoenix.fishcollector.R;
+import com.stormphoenix.fishcollector.db.DbManager;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.ui.activities.base.BaseActivity;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeItemHolder;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.impls.TreeViewImpl;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces.ITreeView;
+import com.stormphoenix.fishcollector.shared.KeyGenerator;
+import com.stormphoenix.fishcollector.shared.ModelUtils;
 import com.stormphoenix.fishcollector.shared.constants.ModelConstantMap;
 import com.unnamed.b.atv.model.TreeNode;
 
@@ -73,16 +77,9 @@ public class MainActivity extends BaseActivity {
         btnAddSite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                treeView.addNode(null, new ITreeView.TreeItem(MonitoringSite.class.getName()));
+                addMonitorSite();
             }
         });
-    }
-
-    private void initTreeView() {
-        treeView = new TreeViewImpl(this);
-        treeView.setItemOprationListener(listener);
-        treeView.buildTree();
-        treeViewWrapper.addView(treeView.getView());
     }
 
     private void initToolbar() {
@@ -104,10 +101,51 @@ public class MainActivity extends BaseActivity {
             case REQUEST_CODE_ADD_NODE:
                 if (resultCode == RESULT_OK) {
                     String modelName = data.getStringExtra(DialogStyleActivity.MODEL_NAME);
-                    treeView.addNode(currentNode, new ITreeView.TreeItem(modelName));
+                    addNewNode(modelName);
                 }
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void initTreeView() {
+        treeView = new TreeViewImpl(this);
+        treeView.setItemOprationListener(listener);
+        treeView.buildTree();
+        treeViewWrapper.addView(treeView.getView());
+    }
+
+
+    private void addMonitorSite() {
+        MonitoringSite model = new MonitoringSite();
+        model.setModelId(KeyGenerator.generateModelKey(MonitoringSite.class.getSimpleName()));
+        Long modelMainKey = saveLocal(model);
+        model.setId(modelMainKey);
+
+        ITreeView.TreeItem treeItem = new ITreeView.TreeItem(MonitoringSite.class.getName());
+        treeItem.setAttachedModel(model);
+
+        treeView.addNode(null, treeItem);
+    }
+
+    private void addNewNode(String modelClassName) {
+        BaseModel attachedModel = ((ITreeView.TreeItem) currentNode.getValue()).getAttachedModel();
+        if (attachedModel == null) {
+            Log.e(TAG, "addNewNode: model == null");
+        }
+        Long currentId = attachedModel.getId();
+
+        BaseModel resultObj = ModelUtils.createModelObject(currentId, modelClassName);
+        Long saveId = saveLocal(resultObj);
+        resultObj.setId(saveId);
+
+        ITreeView.TreeItem treeItem = new ITreeView.TreeItem(modelClassName);
+        treeItem.setAttachedModel(resultObj);
+        treeView.addNode(currentNode, treeItem);
+    }
+
+    private Long saveLocal(BaseModel modelObj) {
+        DbManager dbManager = new DbManager(this);
+        return dbManager.save(modelObj);
     }
 }

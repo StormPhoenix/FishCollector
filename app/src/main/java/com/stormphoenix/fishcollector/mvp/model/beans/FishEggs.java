@@ -3,6 +3,8 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.support.annotation.Nullable;
 
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
@@ -14,7 +16,7 @@ import org.greenrobot.greendao.DaoException;
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class FishEggs {
+public class FishEggs  implements BaseModel {
     @Unique
     private String modelId;
     @Nullable
@@ -37,10 +39,10 @@ public class FishEggs {
     @Id
     private Long id;
 
-    @ToOne(joinProperty = "catchesId")
+    @ToOne(joinProperty = "foreignKey")
     private Catches catches;
 
-    private Long catchesId;
+    private Long foreignKey;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -48,10 +50,10 @@ public class FishEggs {
     @Generated(hash = 1913398067)
     private transient FishEggsDao myDao;
 
-    @Generated(hash = 1181376747)
+    @Generated(hash = 1515414799)
     public FishEggs(String modelId, String photo, String period, float diameter,
             float emDiameter, String pigmentProp, String embryoProp,
-            String idCatches, Long id, Long catchesId) {
+            String idCatches, Long id, Long foreignKey) {
         this.modelId = modelId;
         this.photo = photo;
         this.period = period;
@@ -61,7 +63,7 @@ public class FishEggs {
         this.embryoProp = embryoProp;
         this.idCatches = idCatches;
         this.id = id;
-        this.catchesId = catchesId;
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 734232265)
@@ -140,21 +142,21 @@ public class FishEggs {
         this.id = id;
     }
 
-    public Long getCatchesId() {
-        return this.catchesId;
+    public Long getForeignKey() {
+        return this.foreignKey;
     }
 
-    public void setCatchesId(Long catchesId) {
-        this.catchesId = catchesId;
+    public void setForeignKey(Long foreignKey) {
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 822618378)
     private transient Long catches__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 2147097369)
+    @Generated(hash = 343607068)
     public Catches getCatches() {
-        Long __key = this.catchesId;
+        Long __key = this.foreignKey;
         if (catches__resolvedKey == null || !catches__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
@@ -171,12 +173,12 @@ public class FishEggs {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1770100891)
+    @Generated(hash = 720081995)
     public void setCatches(Catches catches) {
         synchronized (this) {
             this.catches = catches;
-            catchesId = catches == null ? null : catches.getId();
-            catches__resolvedKey = catchesId;
+            foreignKey = catches == null ? null : catches.getId();
+            catches__resolvedKey = foreignKey;
         }
     }
 

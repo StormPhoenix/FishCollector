@@ -3,9 +3,10 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.support.annotation.Nullable;
 
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
@@ -18,7 +19,7 @@ import org.greenrobot.greendao.DaoException;
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class MeasurePoint {
+public class MeasurePoint  implements BaseModel {
 
     @Unique
     private String modelId;
@@ -26,19 +27,19 @@ public class MeasurePoint {
     private float longitude;
     @Nullable
     private float latitude;
-    @NotNull
+    @Nullable
     private String idMeasuringLine;
 
     // ********************************
     @Id
     private Long id;
 
-    private Long measuringLineId;
+    private Long foreignKey;
 
-    @ToMany(referencedJoinProperty = "measurePointId")
+    @ToMany(referencedJoinProperty = "foreignKey")
     private List<WaterLayer> waterLayers;
 
-    @ToOne(joinProperty = "measuringLineId")
+    @ToOne(joinProperty = "foreignKey")
     private MeasuringLine measuringLine;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -47,15 +48,15 @@ public class MeasurePoint {
     @Generated(hash = 1617290021)
     private transient MeasurePointDao myDao;
 
-    @Generated(hash = 1852468799)
-    public MeasurePoint(String modelId, float longitude, float latitude,
-            @NotNull String idMeasuringLine, Long id, Long measuringLineId) {
+    @Generated(hash = 1859168494)
+    public MeasurePoint(String modelId, float longitude, float latitude, String idMeasuringLine,
+            Long id, Long foreignKey) {
         this.modelId = modelId;
         this.longitude = longitude;
         this.latitude = latitude;
         this.idMeasuringLine = idMeasuringLine;
         this.id = id;
-        this.measuringLineId = measuringLineId;
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 878361328)
@@ -102,21 +103,21 @@ public class MeasurePoint {
         this.id = id;
     }
 
-    public Long getMeasuringLineId() {
-        return this.measuringLineId;
+    public Long getForeignKey() {
+        return this.foreignKey;
     }
 
-    public void setMeasuringLineId(Long measuringLineId) {
-        this.measuringLineId = measuringLineId;
+    public void setForeignKey(Long foreignKey) {
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 270898113)
     private transient Long measuringLine__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1378756308)
+    @Generated(hash = 524236604)
     public MeasuringLine getMeasuringLine() {
-        Long __key = this.measuringLineId;
+        Long __key = this.foreignKey;
         if (measuringLine__resolvedKey == null
                 || !measuringLine__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
@@ -134,12 +135,12 @@ public class MeasurePoint {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 753059090)
+    @Generated(hash = 1557940170)
     public void setMeasuringLine(MeasuringLine measuringLine) {
         synchronized (this) {
             this.measuringLine = measuringLine;
-            measuringLineId = measuringLine == null ? null : measuringLine.getId();
-            measuringLine__resolvedKey = measuringLineId;
+            foreignKey = measuringLine == null ? null : measuringLine.getId();
+            measuringLine__resolvedKey = foreignKey;
         }
     }
 

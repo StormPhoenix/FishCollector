@@ -1,5 +1,7 @@
 package com.stormphoenix.fishcollector.shared;
 
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+
 /**
  * Created by Developer on 16-12-27.
  * Wang Cheng is a intelligent Android developer.
@@ -7,12 +9,16 @@ package com.stormphoenix.fishcollector.shared;
 
 public class KeyGenerator {
 
-    public String generateModelKey(Object obj) {
-        String className = obj.getClass().getName();
-        return className.substring(0, 3).toUpperCase() + generateKeyByTime();
+    public static String generateModelKey(String modelSimpleName) {
+        return modelSimpleName.substring(0, 3).toUpperCase() + generateKeyByTime();
     }
 
-    private String generateKeyByTime() {
+    public static String generateModelKey(BaseModel obj) {
+        String classSimpleName = obj.getClass().getSimpleName();
+        return generateModelKey(classSimpleName);
+    }
+
+    private static String generateKeyByTime() {
         StringBuilder sb = new StringBuilder();
         return sb.append(DateUtils.getYear())
                 .append(DateUtils.getMonNum())

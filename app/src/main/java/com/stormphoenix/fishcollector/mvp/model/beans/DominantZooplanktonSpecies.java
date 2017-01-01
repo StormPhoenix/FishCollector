@@ -3,18 +3,20 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.support.annotation.Nullable;
 
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class DominantZooplanktonSpecies {
+public class DominantZooplanktonSpecies implements BaseModel {
     @Unique
     private String modelId;
     @Nullable
@@ -32,21 +34,25 @@ public class DominantZooplanktonSpecies {
     @Id
     private Long id;
 
-    @ToOne(joinProperty = "zooplanktonId")
+    @ToOne(joinProperty = "foreignKey")
     private Zooplankton zooplankton;
 
-    private Long zooplanktonId;
-    /** Used to resolve relations */
+    private Long foreignKey;
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 781743425)
     private transient DominantZooplanktonSpeciesDao myDao;
 
-    @Generated(hash = 742495160)
+    @Generated(hash = 325900820)
     public DominantZooplanktonSpecies(String modelId, String name, String photo,
-            float quality, float biomass, String idZooplankton, Long id,
-            Long zooplanktonId) {
+                                      float quality, float biomass, String idZooplankton, Long id,
+                                      Long foreignKey) {
         this.modelId = modelId;
         this.name = name;
         this.photo = photo;
@@ -54,7 +60,7 @@ public class DominantZooplanktonSpecies {
         this.biomass = biomass;
         this.idZooplankton = idZooplankton;
         this.id = id;
-        this.zooplanktonId = zooplanktonId;
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 990087073)
@@ -117,21 +123,23 @@ public class DominantZooplanktonSpecies {
         this.id = id;
     }
 
-    public Long getZooplanktonId() {
-        return this.zooplanktonId;
+    public Long getForeignKey() {
+        return this.foreignKey;
     }
 
-    public void setZooplanktonId(Long zooplanktonId) {
-        this.zooplanktonId = zooplanktonId;
+    public void setForeignKey(Long foreignKey) {
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 253600324)
     private transient Long zooplankton__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1227914635)
+    /**
+     * To-one relationship, resolved on first access.
+     */
+    @Generated(hash = 66129134)
     public Zooplankton getZooplankton() {
-        Long __key = this.zooplanktonId;
+        Long __key = this.foreignKey;
         if (zooplankton__resolvedKey == null
                 || !zooplankton__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
@@ -148,13 +156,15 @@ public class DominantZooplanktonSpecies {
         return zooplankton;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1121485628)
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
+    @Generated(hash = 1366662862)
     public void setZooplankton(Zooplankton zooplankton) {
         synchronized (this) {
             this.zooplankton = zooplankton;
-            zooplanktonId = zooplankton == null ? null : zooplankton.getId();
-            zooplankton__resolvedKey = zooplanktonId;
+            foreignKey = zooplankton == null ? null : zooplankton.getId();
+            zooplankton__resolvedKey = foreignKey;
         }
     }
 

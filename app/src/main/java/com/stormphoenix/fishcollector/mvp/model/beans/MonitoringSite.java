@@ -2,20 +2,22 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.support.annotation.Nullable;
 
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.Unique;
 
 import java.util.List;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class MonitoringSite {
+public class MonitoringSite implements BaseModel {
 
     /**
      * 这个是给后台使用的主键，用时间拼凑的
@@ -57,21 +59,25 @@ public class MonitoringSite {
     @Id
     private Long id;
 
-    @ToMany(referencedJoinProperty = "monitorSiteId")
+    @ToMany(referencedJoinProperty = "foreignKey")
     private List<FractureSurface> fractureSurfaces;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 1608688954)
     private transient MonitoringSiteDao myDao;
 
     @Generated(hash = 1479612113)
     public MonitoringSite(String modelId, String institution, String investigator,
-            String investigationDate, String site, String river, String photo,
-            String startTime, String endTime, float startLongitude,
-            float startLatitude, float endLongitude, float endLatitude,
-            String weather, float temperature, int userId, Long id) {
+                          String investigationDate, String site, String river, String photo,
+                          String startTime, String endTime, float startLongitude,
+                          float startLatitude, float endLongitude, float endLatitude,
+                          String weather, float temperature, int userId, Long id) {
         this.modelId = modelId;
         this.institution = institution;
         this.investigator = investigator;
@@ -231,6 +237,16 @@ public class MonitoringSite {
         this.id = id;
     }
 
+    @Override
+    public Long getForeignKey() {
+        return null;
+    }
+
+    @Override
+    public void setForeignKey(Long foreignKey) {
+
+    }
+
     /**
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
@@ -254,7 +270,9 @@ public class MonitoringSite {
         return fractureSurfaces;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 911387358)
     public synchronized void resetFractureSurfaces() {
         fractureSurfaces = null;
@@ -302,5 +320,4 @@ public class MonitoringSite {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getMonitoringSiteDao() : null;
     }
-
 }

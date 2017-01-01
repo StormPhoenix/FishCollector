@@ -2,6 +2,8 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.support.annotation.Nullable;
 
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
@@ -16,7 +18,7 @@ import org.greenrobot.greendao.DaoException;
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class MeasuringLine {
+public class MeasuringLine  implements BaseModel {
 
     @Unique
     private String modelId;
@@ -36,13 +38,13 @@ public class MeasuringLine {
     @Id
     private Long id;
 
-    @ToOne(joinProperty = "fractureSurfaceId")
+    @ToOne(joinProperty = "foreignKey")
     private FractureSurface fractureSurface;
 
-    @ToMany(referencedJoinProperty = "measuringLineId")
+    @ToMany(referencedJoinProperty = "foreignKey")
     private List<MeasurePoint> measurePoints;
 
-    private Long fractureSurfaceId;
+    private Long foreignKey;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -50,10 +52,10 @@ public class MeasuringLine {
     @Generated(hash = 1481508108)
     private transient MeasuringLineDao myDao;
 
-    @Generated(hash = 219044219)
+    @Generated(hash = 1134349867)
     public MeasuringLine(String modelId, float startLongitude, float startLatitude,
             float endLongitude, float endLatitude, String idFractureSurface,
-            Long id, Long fractureSurfaceId) {
+            Long id, Long foreignKey) {
         this.modelId = modelId;
         this.startLongitude = startLongitude;
         this.startLatitude = startLatitude;
@@ -61,7 +63,7 @@ public class MeasuringLine {
         this.endLatitude = endLatitude;
         this.idFractureSurface = idFractureSurface;
         this.id = id;
-        this.fractureSurfaceId = fractureSurfaceId;
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 85376486)
@@ -124,21 +126,21 @@ public class MeasuringLine {
         this.id = id;
     }
 
-    public Long getFractureSurfaceId() {
-        return this.fractureSurfaceId;
+    public Long getForeignKey() {
+        return this.foreignKey;
     }
 
-    public void setFractureSurfaceId(Long fractureSurfaceId) {
-        this.fractureSurfaceId = fractureSurfaceId;
+    public void setForeignKey(Long foreignKey) {
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 844368361)
     private transient Long fractureSurface__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1111745244)
+    @Generated(hash = 610717877)
     public FractureSurface getFractureSurface() {
-        Long __key = this.fractureSurfaceId;
+        Long __key = this.foreignKey;
         if (fractureSurface__resolvedKey == null
                 || !fractureSurface__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
@@ -156,13 +158,12 @@ public class MeasuringLine {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1218494074)
+    @Generated(hash = 1813620905)
     public void setFractureSurface(FractureSurface fractureSurface) {
         synchronized (this) {
             this.fractureSurface = fractureSurface;
-            fractureSurfaceId = fractureSurface == null ? null
-                    : fractureSurface.getId();
-            fractureSurface__resolvedKey = fractureSurfaceId;
+            foreignKey = fractureSurface == null ? null : fractureSurface.getId();
+            fractureSurface__resolvedKey = foreignKey;
         }
     }
 

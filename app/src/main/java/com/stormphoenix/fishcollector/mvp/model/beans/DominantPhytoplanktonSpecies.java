@@ -3,6 +3,8 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.support.annotation.Nullable;
 
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
@@ -14,7 +16,7 @@ import org.greenrobot.greendao.DaoException;
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class DominantPhytoplanktonSpecies {
+public class DominantPhytoplanktonSpecies  implements BaseModel {
     @Unique
     private String modelId;
     @Nullable
@@ -32,10 +34,10 @@ public class DominantPhytoplanktonSpecies {
     @Id
     private Long id;
 
-    @ToOne(joinProperty = "phytoplanktonId")
+    @ToOne(joinProperty = "foreignKey")
     private Phytoplankton phytoplankton;
 
-    private Long phytoplanktonId;
+    private Long foreignKey;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -43,10 +45,10 @@ public class DominantPhytoplanktonSpecies {
     @Generated(hash = 1308065015)
     private transient DominantPhytoplanktonSpeciesDao myDao;
 
-    @Generated(hash = 1463690878)
+    @Generated(hash = 889410372)
     public DominantPhytoplanktonSpecies(String modelId, String name, String photo,
             float quality, float biomass, String idPhytoplankton, Long id,
-            Long phytoplanktonId) {
+            Long foreignKey) {
         this.modelId = modelId;
         this.name = name;
         this.photo = photo;
@@ -54,7 +56,7 @@ public class DominantPhytoplanktonSpecies {
         this.biomass = biomass;
         this.idPhytoplankton = idPhytoplankton;
         this.id = id;
-        this.phytoplanktonId = phytoplanktonId;
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 1524043572)
@@ -117,21 +119,21 @@ public class DominantPhytoplanktonSpecies {
         this.id = id;
     }
 
-    public Long getPhytoplanktonId() {
-        return this.phytoplanktonId;
+    public Long getForeignKey() {
+        return this.foreignKey;
     }
 
-    public void setPhytoplanktonId(Long phytoplanktonId) {
-        this.phytoplanktonId = phytoplanktonId;
+    public void setForeignKey(Long foreignKey) {
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 1533042808)
     private transient Long phytoplankton__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 398209780)
+    @Generated(hash = 804450410)
     public Phytoplankton getPhytoplankton() {
-        Long __key = this.phytoplanktonId;
+        Long __key = this.foreignKey;
         if (phytoplankton__resolvedKey == null
                 || !phytoplankton__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
@@ -149,12 +151,12 @@ public class DominantPhytoplanktonSpecies {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 992180354)
+    @Generated(hash = 854444498)
     public void setPhytoplankton(Phytoplankton phytoplankton) {
         synchronized (this) {
             this.phytoplankton = phytoplankton;
-            phytoplanktonId = phytoplankton == null ? null : phytoplankton.getId();
-            phytoplankton__resolvedKey = phytoplanktonId;
+            foreignKey = phytoplankton == null ? null : phytoplankton.getId();
+            phytoplankton__resolvedKey = foreignKey;
         }
     }
 

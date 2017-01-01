@@ -10,6 +10,7 @@ import com.stormphoenix.fishcollector.mvp.model.beans.FishEggs;
 import com.stormphoenix.fishcollector.mvp.model.beans.Fishes;
 import com.stormphoenix.fishcollector.mvp.model.beans.FractureSurface;
 import com.stormphoenix.fishcollector.mvp.model.beans.MeasurePoint;
+import com.stormphoenix.fishcollector.mvp.model.beans.MeasuringLine;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.model.beans.Phytoplankton;
 import com.stormphoenix.fishcollector.mvp.model.beans.Sediment;
@@ -31,7 +32,7 @@ public class ModelConstant {
     public static final String FISH_EGGS = FishEggs.class.getName();
     public static final String FISHES = Fishes.class.getName();
     public static final String FRACTURE_SURFACE = FractureSurface.class.getName();
-    public static final String MEASURING_LINE = MeasurePoint.class.getName();
+    public static final String MEASURING_LINE = MeasuringLine.class.getName();
     public static final String MEASURING_POINT = MeasurePoint.class.getName();
     public static final String MONITORING_SITE = MonitoringSite.class.getName();
     public static final String PHYTOPLANKTON = Phytoplankton.class.getName();

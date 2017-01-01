@@ -3,6 +3,8 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.support.annotation.Nullable;
 
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
@@ -15,7 +17,7 @@ import org.greenrobot.greendao.DaoException;
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class DominantBenthosSpecies {
+public class DominantBenthosSpecies implements BaseModel {
     @Unique
     private String modelId;
     @Nullable
@@ -33,10 +35,10 @@ public class DominantBenthosSpecies {
     @Id
     private Long id;
 
-    @ToOne(joinProperty = "benthosId")
+    @ToOne(joinProperty = "foreignKey")
     private Benthos benthos;
 
-    private Long benthosId;
+    private Long foreignKey;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -44,10 +46,10 @@ public class DominantBenthosSpecies {
     @Generated(hash = 655655680)
     private transient DominantBenthosSpeciesDao myDao;
 
-    @Generated(hash = 1909768481)
+    @Generated(hash = 1178577145)
     public DominantBenthosSpecies(String modelId, String name, String photo,
             float quality, float biomass, String idBenthos, Long id,
-            Long benthosId) {
+            Long foreignKey) {
         this.modelId = modelId;
         this.name = name;
         this.photo = photo;
@@ -55,7 +57,7 @@ public class DominantBenthosSpecies {
         this.biomass = biomass;
         this.idBenthos = idBenthos;
         this.id = id;
-        this.benthosId = benthosId;
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 936238251)
@@ -118,21 +120,21 @@ public class DominantBenthosSpecies {
         this.id = id;
     }
 
-    public Long getBenthosId() {
-        return this.benthosId;
+    public Long getForeignKey() {
+        return this.foreignKey;
     }
 
-    public void setBenthosId(Long benthosId) {
-        this.benthosId = benthosId;
+    public void setForeignKey(Long foreignKey) {
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 1006378000)
     private transient Long benthos__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 445962206)
+    @Generated(hash = 997316169)
     public Benthos getBenthos() {
-        Long __key = this.benthosId;
+        Long __key = this.foreignKey;
         if (benthos__resolvedKey == null || !benthos__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
@@ -149,12 +151,12 @@ public class DominantBenthosSpecies {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 910197832)
+    @Generated(hash = 806677006)
     public void setBenthos(Benthos benthos) {
         synchronized (this) {
             this.benthos = benthos;
-            benthosId = benthos == null ? null : benthos.getId();
-            benthos__resolvedKey = benthosId;
+            foreignKey = benthos == null ? null : benthos.getId();
+            benthos__resolvedKey = foreignKey;
         }
     }
 

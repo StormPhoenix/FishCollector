@@ -3,6 +3,8 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.support.annotation.Nullable;
 
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
@@ -17,7 +19,7 @@ import org.greenrobot.greendao.DaoException;
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class FractureSurface {
+public class FractureSurface  implements BaseModel {
     @Unique
     private String modelId;
     @Nullable
@@ -32,25 +34,25 @@ public class FractureSurface {
     @Id
     private Long id;
 
-    @ToMany(referencedJoinProperty = "fractureSurfaceId")
+    @ToMany(referencedJoinProperty = "foreignKey")
     private List<Benthos> benthoses;
 
-    @ToMany(referencedJoinProperty = "fractureSurfaceId")
+    @ToMany(referencedJoinProperty = "foreignKey")
     private List<Phytoplankton> phytoplanktons;
 
-    @ToMany(referencedJoinProperty = "fractureSurfaceId")
+    @ToMany(referencedJoinProperty = "foreignKey")
     private List<Zooplankton> zooplanktons;
 
-    @ToOne(joinProperty = "monitorSiteId")
+    @ToOne(joinProperty = "foreignKey")
     private MonitoringSite monitoringSite;
 
-    @ToMany(referencedJoinProperty = "fractureSurfaceId")
+    @ToMany(referencedJoinProperty = "foreignKey")
     private List<Sediment> sediments;
 
-    @ToMany(referencedJoinProperty = "fractureSurfaceId")
+    @ToMany(referencedJoinProperty = "foreignKey")
     private List<MeasuringLine> measuringLines;
 
-    private Long monitorSiteId;
+    private Long foreignKey;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -58,15 +60,15 @@ public class FractureSurface {
     @Generated(hash = 857002845)
     private transient FractureSurfaceDao myDao;
 
-    @Generated(hash = 463992281)
+    @Generated(hash = 1731540934)
     public FractureSurface(String modelId, String position, float distance2Bank,
-            String id_MonitoringSite, Long id, Long monitorSiteId) {
+            String id_MonitoringSite, Long id, Long foreignKey) {
         this.modelId = modelId;
         this.position = position;
         this.distance2Bank = distance2Bank;
         this.id_MonitoringSite = id_MonitoringSite;
         this.id = id;
-        this.monitorSiteId = monitorSiteId;
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 563633098)
@@ -113,21 +115,21 @@ public class FractureSurface {
         this.id = id;
     }
 
-    public Long getMonitorSiteId() {
-        return this.monitorSiteId;
+    public Long getForeignKey() {
+        return this.foreignKey;
     }
 
-    public void setMonitorSiteId(Long monitorSiteId) {
-        this.monitorSiteId = monitorSiteId;
+    public void setForeignKey(Long foreignKey) {
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 272232982)
     private transient Long monitoringSite__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1151831135)
+    @Generated(hash = 1728717077)
     public MonitoringSite getMonitoringSite() {
-        Long __key = this.monitorSiteId;
+        Long __key = this.foreignKey;
         if (monitoringSite__resolvedKey == null
                 || !monitoringSite__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
@@ -145,12 +147,12 @@ public class FractureSurface {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1187647077)
+    @Generated(hash = 2127374704)
     public void setMonitoringSite(MonitoringSite monitoringSite) {
         synchronized (this) {
             this.monitoringSite = monitoringSite;
-            monitorSiteId = monitoringSite == null ? null : monitoringSite.getId();
-            monitoringSite__resolvedKey = monitorSiteId;
+            foreignKey = monitoringSite == null ? null : monitoringSite.getId();
+            monitoringSite__resolvedKey = foreignKey;
         }
     }
 

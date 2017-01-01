@@ -2,9 +2,10 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.support.annotation.Nullable;
 
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
 import org.greenrobot.greendao.annotation.Generated;
@@ -14,7 +15,7 @@ import org.greenrobot.greendao.DaoException;
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class CatchTools {
+public class CatchTools  implements BaseModel {
     //CatchTools主键
     @Unique
     private String modelId;
@@ -43,7 +44,7 @@ public class CatchTools {
     @Nullable
     private float netMouthVelocity;
     // 水层外键
-    @NotNull
+    @Nullable
     private String idWaterLayer;
 
     // ******************************
@@ -51,10 +52,10 @@ public class CatchTools {
     @Id
     private Long id;
 
-    @ToOne(joinProperty = "waterLayerId")
+    @ToOne(joinProperty = "foreignKey")
     private WaterLayer waterLayer;
 
-    private Long waterLayerId;
+    private Long foreignKey;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -62,11 +63,10 @@ public class CatchTools {
     @Generated(hash = 135108567)
     private transient CatchToolsDao myDao;
 
-    @Generated(hash = 1172864423)
+    @Generated(hash = 1672380762)
     public CatchTools(String modelId, String name, String photo, String netsModel,
             float netMouthArea, float netMouthDip, String startTime, String endTime,
-            float netMouthVelocity, @NotNull String idWaterLayer, Long id,
-            Long waterLayerId) {
+            float netMouthVelocity, String idWaterLayer, Long id, Long foreignKey) {
         this.modelId = modelId;
         this.name = name;
         this.photo = photo;
@@ -78,7 +78,7 @@ public class CatchTools {
         this.netMouthVelocity = netMouthVelocity;
         this.idWaterLayer = idWaterLayer;
         this.id = id;
-        this.waterLayerId = waterLayerId;
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 1486274156)
@@ -173,21 +173,21 @@ public class CatchTools {
         this.id = id;
     }
 
-    public Long getWaterLayerId() {
-        return this.waterLayerId;
+    public Long getForeignKey() {
+        return this.foreignKey;
     }
 
-    public void setWaterLayerId(Long waterLayerId) {
-        this.waterLayerId = waterLayerId;
+    public void setForeignKey(Long foreignKey) {
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 1203946248)
     private transient Long waterLayer__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 2138006968)
+    @Generated(hash = 2125111669)
     public WaterLayer getWaterLayer() {
-        Long __key = this.waterLayerId;
+        Long __key = this.foreignKey;
         if (waterLayer__resolvedKey == null
                 || !waterLayer__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
@@ -205,12 +205,12 @@ public class CatchTools {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1020917516)
+    @Generated(hash = 95803670)
     public void setWaterLayer(WaterLayer waterLayer) {
         synchronized (this) {
             this.waterLayer = waterLayer;
-            waterLayerId = waterLayer == null ? null : waterLayer.getId();
-            waterLayer__resolvedKey = waterLayerId;
+            foreignKey = waterLayer == null ? null : waterLayer.getId();
+            waterLayer__resolvedKey = foreignKey;
         }
     }
 

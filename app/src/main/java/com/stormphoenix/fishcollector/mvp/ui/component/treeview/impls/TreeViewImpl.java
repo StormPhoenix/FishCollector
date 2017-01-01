@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.stormphoenix.fishcollector.db.DbManager;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeItemHolder;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces.ITreeView;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.utils.TreeUtils;
@@ -40,10 +41,9 @@ public class TreeViewImpl implements ITreeView {
     @Override
     public void buildTree() {
         root = TreeNode.root();
-
         List<TreeNode> treeNodesList = new ArrayList<>();
         List<MonitoringSite> monitoringSites = dbManager.queryAll();
-        for (Object obj : monitoringSites) {
+        for (BaseModel obj : monitoringSites) {
             TreeNode tempNode = null;
             try {
                 tempNode = treeRecursion(obj);
@@ -65,12 +65,12 @@ public class TreeViewImpl implements ITreeView {
         androidTreeView.setDefaultAnimation(true);
     }
 
-    private TreeNode treeRecursion(Object obj) throws InvocationTargetException, IllegalAccessException {
+    private TreeNode treeRecursion(BaseModel obj) throws InvocationTargetException, IllegalAccessException {
         if (obj == null) {
             return null;
         }
         // 判断 obj 的类型，并将其存储
-        TreeNode treeNode = TreeUtils.createTreeNode(context, obj.getClass().getName(), listener);
+        TreeNode treeNode = TreeUtils.createTreeNode(context, obj, listener);
         List<TreeNode> childrenList = new ArrayList<>();
 
         // obj中的方法进行遍历，查找是否有下级节点
@@ -78,8 +78,8 @@ public class TreeViewImpl implements ITreeView {
         for (Method method : methods) {
             String methodName = method.getName();
             if (methodName.startsWith("get") && method.getReturnType().equals(List.class)) {
-                List<Object> objList = (List<Object>) method.invoke(obj, null);
-                for (Object mObj : objList) {
+                List<BaseModel> objList = (List<BaseModel>) method.invoke(obj, null);
+                for (BaseModel mObj : objList) {
                     TreeNode tempNode = treeRecursion(mObj);
                     if (tempNode != null) {
                         childrenList.add(tempNode);

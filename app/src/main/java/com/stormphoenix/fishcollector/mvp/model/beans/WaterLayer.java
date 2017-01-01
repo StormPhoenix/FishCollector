@@ -3,21 +3,23 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.support.annotation.Nullable;
 
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
 
 import java.util.List;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class WaterLayer {
+public class WaterLayer implements BaseModel {
     @Unique
     private String modelId;
     @Nullable
@@ -37,27 +39,31 @@ public class WaterLayer {
     @Id
     private Long id;
 
-    private Long measurePointId;
+    private Long foreignKey;
 
-    @ToOne(joinProperty = "measurePointId")
+    @ToOne(joinProperty = "foreignKey")
     private MeasurePoint measurePoint;
 
-    @ToMany(referencedJoinProperty = "waterLayerId")
+    @ToMany(referencedJoinProperty = "foreignKey")
     private List<Catches> catches;
 
-    @ToMany(referencedJoinProperty = "waterLayerId")
+    @ToMany(referencedJoinProperty = "foreignKey")
     private List<CatchTools> catchToolses;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 1028787526)
     private transient WaterLayerDao myDao;
 
-    @Generated(hash = 1765978184)
+    @Generated(hash = 1884360656)
     public WaterLayer(String modelId, String layer, float depth, float temperature,
-            float waterLevel, float velocity, String idMeasurePoint, Long id,
-            Long measurePointId) {
+                      float waterLevel, float velocity, String idMeasurePoint, Long id,
+                      Long foreignKey) {
         this.modelId = modelId;
         this.layer = layer;
         this.depth = depth;
@@ -66,7 +72,7 @@ public class WaterLayer {
         this.velocity = velocity;
         this.idMeasurePoint = idMeasurePoint;
         this.id = id;
-        this.measurePointId = measurePointId;
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 1475513300)
@@ -137,21 +143,23 @@ public class WaterLayer {
         this.id = id;
     }
 
-    public Long getMeasurePointId() {
-        return this.measurePointId;
+    public Long getForeignKey() {
+        return this.foreignKey;
     }
 
-    public void setMeasurePointId(Long measurePointId) {
-        this.measurePointId = measurePointId;
+    public void setForeignKey(Long foreignKey) {
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 1875589804)
     private transient Long measurePoint__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 2023765787)
+    /**
+     * To-one relationship, resolved on first access.
+     */
+    @Generated(hash = 1883620794)
     public MeasurePoint getMeasurePoint() {
-        Long __key = this.measurePointId;
+        Long __key = this.foreignKey;
         if (measurePoint__resolvedKey == null
                 || !measurePoint__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
@@ -168,13 +176,15 @@ public class WaterLayer {
         return measurePoint;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 569446088)
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
+    @Generated(hash = 290805500)
     public void setMeasurePoint(MeasurePoint measurePoint) {
         synchronized (this) {
             this.measurePoint = measurePoint;
-            measurePointId = measurePoint == null ? null : measurePoint.getId();
-            measurePoint__resolvedKey = measurePointId;
+            foreignKey = measurePoint == null ? null : measurePoint.getId();
+            measurePoint__resolvedKey = foreignKey;
         }
     }
 
@@ -200,7 +210,9 @@ public class WaterLayer {
         return catches;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 85715937)
     public synchronized void resetCatches() {
         catches = null;
@@ -229,7 +241,9 @@ public class WaterLayer {
         return catchToolses;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 1840662511)
     public synchronized void resetCatchToolses() {
         catchToolses = null;

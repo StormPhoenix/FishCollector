@@ -2,16 +2,17 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.support.annotation.Nullable;
 
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
 
 import java.util.List;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * 底栖生物
@@ -19,7 +20,7 @@ import org.greenrobot.greendao.DaoException;
  */
 
 @Entity(nameInDb = "benthos")
-public class Benthos {
+public class Benthos implements BaseModel {
     //地栖生物主键
     @Unique
     private String modelId = null;
@@ -29,26 +30,26 @@ public class Benthos {
     private String photo = null;
 
     //数量
-    @NotNull
+    @Nullable
     private int quality = 0;
 
     //生物量
-    @NotNull
+    @Nullable
     private float biomass = 0;
     //断面外键
     private String idFractureSurface = null;
 
-    // ***************************************
+    /** *************************************** **/
 
-    @ToOne(joinProperty = "fractureSurfaceId")
+    @ToOne(joinProperty = "foreignKey")
     private FractureSurface fractureSurface;
 
     @Id
     private Long id;
 
-    private Long fractureSurfaceId;
+    private Long foreignKey;
 
-    @ToMany(referencedJoinProperty = "benthosId")
+    @ToMany(referencedJoinProperty = "foreignKey")
     private List<DominantBenthosSpecies> dominantBenthosSpecies;
 
     /** Used to resolve relations */
@@ -59,16 +60,16 @@ public class Benthos {
     @Generated(hash = 792678032)
     private transient BenthosDao myDao;
 
-    @Generated(hash = 1353604831)
+    @Generated(hash = 791386)
     public Benthos(String modelId, String photo, int quality, float biomass,
-            String idFractureSurface, Long id, Long fractureSurfaceId) {
+            String idFractureSurface, Long id, Long foreignKey) {
         this.modelId = modelId;
         this.photo = photo;
         this.quality = quality;
         this.biomass = biomass;
         this.idFractureSurface = idFractureSurface;
         this.id = id;
-        this.fractureSurfaceId = fractureSurfaceId;
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 989772010)
@@ -123,21 +124,21 @@ public class Benthos {
         this.id = id;
     }
 
-    public Long getFractureSurfaceId() {
-        return this.fractureSurfaceId;
+    public Long getForeignKey() {
+        return this.foreignKey;
     }
 
-    public void setFractureSurfaceId(Long fractureSurfaceId) {
-        this.fractureSurfaceId = fractureSurfaceId;
+    public void setForeignKey(Long foreignKey) {
+        this.foreignKey = foreignKey;
     }
 
     @Generated(hash = 844368361)
     private transient Long fractureSurface__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1111745244)
+    @Generated(hash = 610717877)
     public FractureSurface getFractureSurface() {
-        Long __key = this.fractureSurfaceId;
+        Long __key = this.foreignKey;
         if (fractureSurface__resolvedKey == null
                 || !fractureSurface__resolvedKey.equals(__key)) {
             final DaoSession daoSession = this.daoSession;
@@ -155,13 +156,12 @@ public class Benthos {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1218494074)
+    @Generated(hash = 1813620905)
     public void setFractureSurface(FractureSurface fractureSurface) {
         synchronized (this) {
             this.fractureSurface = fractureSurface;
-            fractureSurfaceId = fractureSurface == null ? null
-                    : fractureSurface.getId();
-            fractureSurface__resolvedKey = fractureSurfaceId;
+            foreignKey = fractureSurface == null ? null : fractureSurface.getId();
+            fractureSurface__resolvedKey = foreignKey;
         }
     }
 
