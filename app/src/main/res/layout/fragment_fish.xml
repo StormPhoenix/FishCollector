@@ -1,165 +1,125 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="com.stormphoenix.fishcollector.mvp.model.beans.Fishes" />
+
+        <variable
+            name="fishBean"
+            type="Fishes" />
+    </data>
 
     <LinearLayout
-        android:id="@+id/fish_layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tv_body_length"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text=" 体长    " />
-
-            <EditText
-                android:id="@+id/body_length"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:layout_toRightOf="@id/tv_body_length"
-                android:layout_weight="1"
-                android:hint=" 体长"
-                android:paddingLeft="10dp"
-                android:singleLine="true" />
-
-            <TextView
+                android:id="@+id/tv_body_length_unit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@id/body_length"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:text="cm"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/cm_unit"
                 android:textSize="20sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/tv_body_length_unit">
+
+                <EditText
+                    android:id="@+id/et_body_length_fish"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/body_length"
+                    android:text="@{String.valueOf(fishBean.bodyLength)}" />
+            </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tv_overall_length"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text=" 全长    " />
-
-            <EditText
-                android:id="@+id/overall_length"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:layout_toRightOf="@id/tv_overall_length"
-                android:hint=" 全长"
-                android:paddingLeft="10dp"
-                android:singleLine="true" />
-
-            <TextView
+                android:id="@+id/tv_whole_length_unit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@id/overall_length"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:text="cm"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/cm_unit"
                 android:textSize="20sp" />
-        </RelativeLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/fish_layout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/fish_layout1"
-        android:layout_marginTop="5dp"
-        android:orientation="vertical"
-        android:weightSum="2">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:id="@+id/tv_weight"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text=" 体重    " />
-
-            <EditText
-                android:id="@+id/weight"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:layout_toRightOf="@id/tv_weight"
-                android:layout_weight="1"
-                android:hint=" 体重"
-                android:paddingLeft="10dp"
-                android:singleLine="true" />
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/tv_whole_length_unit">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_alignRight="@id/weight"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:text="g"
-                android:textSize="20sp" />
+                <EditText
+                    android:id="@+id/et_whole_length"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/whole_length"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(fishBean.length)}" />
+            </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tv_age"
+                android:id="@+id/tv_fish_body_weight_unit"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text=" 年龄    " />
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/fish_weight_unit"
+                android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/age"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:layout_toRightOf="@id/tv_age"
-                android:hint=" 年龄"
-                android:paddingLeft="10dp"
-                android:singleLine="true" />
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/tv_fish_body_weight_unit">
 
+                <EditText
+                    android:id="@+id/et_body_weight_fish"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/body_weight"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(fishBean.bodyWeight)}" />
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_age_fish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/tv_age_fish">
+
+                <EditText
+                    android:id="@+id/et_age_fish"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/age"
+                    android:text="@{String.valueOf(fishBean.age)}" />
+            </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
     </LinearLayout>
-
-    <GridLayout
-        android:id="@+id/cont_egg_add_pic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/fish_layout2"
-        android:layout_marginTop="10dp"
-        android:columnCount="4"
-        android:padding="3dp">
-
-    </GridLayout>
-
-</RelativeLayout>
+</layout>

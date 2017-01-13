@@ -1,6 +1,8 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
@@ -20,7 +22,7 @@ import java.util.List;
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class Catches implements BaseModel {
+public class Catches extends BaseObservable implements BaseModel {
 
     //主键
     @Unique
@@ -96,6 +98,7 @@ public class Catches implements BaseModel {
         this.modelId = modelId;
     }
 
+    @Bindable
     public String getName() {
         return this.name;
     }
@@ -112,6 +115,7 @@ public class Catches implements BaseModel {
         this.photo = photo;
     }
 
+    @Bindable
     public int getTotalQuality() {
         return this.totalQuality;
     }
@@ -120,6 +124,7 @@ public class Catches implements BaseModel {
         this.totalQuality = totalQuality;
     }
 
+    @Bindable
     public int getEggQuality() {
         return this.eggQuality;
     }
@@ -128,6 +133,7 @@ public class Catches implements BaseModel {
         this.eggQuality = eggQuality;
     }
 
+    @Bindable
     public int getFryQuality() {
         return this.fryQuality;
     }

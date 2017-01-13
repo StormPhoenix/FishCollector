@@ -23,7 +23,6 @@ import java.util.List;
  */
 
 public class TreeViewImpl implements ITreeView {
-
     public static final String TAG = "ITreeView";
 
     private AndroidTreeView androidTreeView = null;
@@ -32,6 +31,7 @@ public class TreeViewImpl implements ITreeView {
     private DbManager dbManager = null;
 
     private TreeItemHolder.ItemOperationListener listener = null;
+    private TreeNode.TreeNodeClickListener nodeClickListener = null;
 
     public TreeViewImpl(Context context) {
         this.context = context;
@@ -63,6 +63,15 @@ public class TreeViewImpl implements ITreeView {
 
         androidTreeView = new AndroidTreeView(context, root);
         androidTreeView.setDefaultAnimation(true);
+        if (nodeClickListener != null) {
+            androidTreeView.setDefaultNodeClickListener(nodeClickListener);
+        }
+//        tView.setDefaultNodeLongClickListener(nodeLongClickListener);
+    }
+
+    @Override
+    public void setNodeClickListener(TreeNode.TreeNodeClickListener listener) {
+        this.nodeClickListener = listener;
     }
 
     private TreeNode treeRecursion(BaseModel obj) throws InvocationTargetException, IllegalAccessException {

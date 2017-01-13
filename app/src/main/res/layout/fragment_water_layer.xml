@@ -1,186 +1,133 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.stormphoenix.fishcollector.mvp.model.beans.WaterLayer" />
+
+        <variable
+            name="waterLayerBean"
+            type="WaterLayer" />
+    </data>
 
     <LinearLayout
-        android:id="@+id/con_water_ly_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        android:weightSum="2">
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_depth_water"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:gravity="center_vertical"
-                android:text=" 水层    " />
-
-            <Spinner
-                android:id="@+id/water_course"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_toRightOf="@id/tv_depth_water"
-                android:layout_weight="1">
-
-            </Spinner>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/tv_depth"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:gravity="center_vertical"
-                android:text=" 深度    " />
-
-            <EditText
-                android:id="@+id/deep"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_toRightOf="@id/tv_depth"
-                android:hint=" 深度"
-                android:paddingLeft="10dp"
-                android:singleLine="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@id/deep"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:text="m"
-                android:textSize="20sp" />
-        </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/con_water_ly_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/con_water_ly_1"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        android:weightSum="2">
-
-        <RelativeLayout
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/sp_water_layer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1">
+            app:ms_arrowColor="@color/spinner_arrow_color"
+            app:ms_baseColor="@color/spinner_base_color"
+            app:ms_enableErrorLabel="true"
+            app:ms_enableFloatingLabel="true"
+            app:ms_floatingLabelColor="@color/spinner_floating_label_color"
+            app:ms_floatingLabelText="@string/collect_water_layer"
+            app:ms_hint="@string/collect_water_layer"
+            app:ms_multiline="false" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tv_water_heat"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:gravity="center_vertical"
-                android:text=" 水温    " />
-
-            <EditText
-                android:id="@+id/water_temperature"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_gravity="center_vertical"
-                android:layout_toRightOf="@id/tv_water_heat"
-                android:hint=" 水温"
-                android:paddingLeft="10dp"
-                android:singleLine="true" />
-
-            <TextView
+                android:id="@+id/tv_water_depth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@id/water_temperature"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:text="℃"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/m_unit"
                 android:textSize="20sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/tv_water_depth">
+
+                <EditText
+                    android:id="@+id/et_depth_water_layer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/depth"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(waterLayerBean.depth)}" />
+            </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tv_water_height"
+                android:id="@+id/tv_water_temperature"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:gravity="center_vertical"
-                android:text=" 水位    " />
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/temperature_unit"
+                android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/water_level"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_toRightOf="@id/tv_water_height"
-                android:hint=" 水位"
-                android:paddingLeft="10dp"
-                android:singleLine="true" />
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/tv_water_temperature">
 
+                <EditText
+                    android:id="@+id/et_water_temperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/water_temperature"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(waterLayerBean.temperature)}" />
+            </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/con_water_ly_3"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_below="@+id/con_water_ly_2"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tv_flow"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:gravity="center_vertical"
-                android:text=" 流量    " />
-
-            <EditText
-                android:id="@+id/water_flow"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_toRightOf="@id/tv_flow"
-                android:hint=" 流量"
-                android:paddingLeft="10dp"
-                android:singleLine="true" />
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_water_level"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/water_level"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(waterLayerBean.waterLevel)}" />
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tv_water_velocity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@id/water_flow"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:text="m³/s"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/velocity_unit"
                 android:textSize="20sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/tv_water_velocity">
+
+                <EditText
+                    android:id="@+id/et_water_velocity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/water_velocity"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(waterLayerBean.velocity)}" />
+            </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
     </LinearLayout>
-
-</RelativeLayout>
+</layout>

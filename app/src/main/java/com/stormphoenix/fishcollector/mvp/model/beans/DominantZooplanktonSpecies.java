@@ -1,6 +1,8 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
@@ -16,7 +18,7 @@ import org.greenrobot.greendao.annotation.Unique;
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class DominantZooplanktonSpecies implements BaseModel {
+public class DominantZooplanktonSpecies extends BaseObservable implements BaseModel {
     @Unique
     private String modelId;
     @Nullable
@@ -75,6 +77,7 @@ public class DominantZooplanktonSpecies implements BaseModel {
         this.modelId = modelId;
     }
 
+    @Bindable
     public String getName() {
         return this.name;
     }
@@ -91,6 +94,7 @@ public class DominantZooplanktonSpecies implements BaseModel {
         this.photo = photo;
     }
 
+    @Bindable
     public float getQuality() {
         return this.quality;
     }
@@ -99,6 +103,7 @@ public class DominantZooplanktonSpecies implements BaseModel {
         this.quality = quality;
     }
 
+    @Bindable
     public float getBiomass() {
         return this.biomass;
     }

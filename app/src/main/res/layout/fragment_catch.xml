@@ -1,166 +1,181 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <GridLayout
-        android:id="@+id/catch_addfish"
+    <data>
+
+        <import type="com.stormphoenix.fishcollector.mvp.model.beans.Catches" />
+
+        <variable
+            name="catchBean"
+            type="Catches" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:columnCount="4">
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
 
-    </GridLayout>
-
-    <GridLayout
-        android:id="@+id/catch_addegg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/catch_addfish"
-        android:layout_marginTop="10dp"
-        android:columnCount="4">
-
-    </GridLayout>
-
-    <LinearLayout
-        android:id="@+id/la1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/catch_addegg"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
-
-        <RelativeLayout
+        <GridLayout
+            android:id="@+id/catch_addfish"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:columnCount="4">
 
-            <TextView
-                android:id="@+id/tv_fish"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:gravity="center_vertical"
-                android:text="@string/fish_name" />
+        </GridLayout>
 
-            <EditText
-                android:id="@+id/et_fish_name"
+        <GridLayout
+            android:id="@+id/catch_addegg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/catch_addfish"
+            android:layout_marginTop="10dp"
+            android:columnCount="4">
+
+        </GridLayout>
+
+        <LinearLayout
+            android:id="@+id/la1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/catch_addegg"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginRight="20dp"
-                android:layout_toRightOf="@id/tv_fish"
-                android:layout_weight="1"
-                android:paddingLeft="10dp"
-                android:singleLine="true" />
-        </RelativeLayout>
+                android:layout_height="wrap_content">
 
-        <RelativeLayout
+                <TextView
+                    android:id="@+id/tv_fish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/fish_name" />
+
+                <EditText
+                    android:id="@+id/et_fish_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_toRightOf="@id/tv_fish"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"/>
+                    <!--android:text="@={catchBean.name}" />-->
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_fish_egg_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/fry_total_mount" />
+
+                <EditText
+                    android:id="@+id/et_fry_total_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@id/tv_fish_egg_num"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"/>
+                    <!--android:text="@={catchBean.fryQuality}" />-->
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fish_ovum_num_rl"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/la1"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_fish_egg_num"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginTop="20dp"
-                android:gravity="center_vertical"
-                android:text="@string/fry_total_mount" />
+                android:layout_weight="1">
 
-            <EditText
-                android:id="@+id/et_fry_total_num"
+                <TextView
+                    android:id="@+id/tv_egg_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/fish_egg_mount" />
+
+
+                <EditText
+                    android:id="@+id/fish_ovum_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_toRightOf="@id/tv_egg_num"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"/>
+                    <!--android:text="@={catchBean.eggQuality}" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@id/fish_ovum_num"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:text="@string/grain"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginRight="20dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
-                android:layout_toRightOf="@id/tv_fish_egg_num"
-                android:layout_weight="1"
-                android:paddingLeft="10dp"
-                android:singleLine="true" />
-        </RelativeLayout>
+                android:layout_weight="1">
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_little_fish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/parr_num" />
 
-    <LinearLayout
-        android:id="@+id/fish_ovum_num_rl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/la1"
-        android:layout_marginTop="5dp"
-        android:orientation="vertical">
+                <EditText
+                    android:id="@+id/kid_fish_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_toRightOf="@id/tv_little_fish"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"/>
+                    <!--android:text="@={catchBean.fishes}" />-->
 
-        <RelativeLayout
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/kid_fish_num"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:text="@string/tail"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <GridLayout
+            android:id="@+id/gl_pictures_wrapper_catch"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/tv_egg_num"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:gravity="center_vertical"
-                android:text="@string/fish_egg_mount" />
-
-
-            <EditText
-                android:id="@+id/fish_ovum_num"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginRight="20dp"
-                android:layout_toRightOf="@id/tv_egg_num"
-                android:paddingLeft="10dp"
-                android:singleLine="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@id/fish_ovum_num"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:text="@string/grain"
-                android:textSize="20sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/tv_little_fish"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:gravity="center_vertical"
-                android:text="@string/parr_num" />
-
-            <EditText
-                android:id="@+id/kid_fish_num"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginRight="20dp"
-                android:layout_toRightOf="@id/tv_little_fish"
-                android:paddingLeft="10dp"
-                android:singleLine="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/kid_fish_num"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:text="@string/tail"
-                android:textSize="20sp" />
-        </RelativeLayout>
-    </LinearLayout>
-
-    <GridLayout
-        android:id="@+id/gl_pictures_wrapper_catch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/fish_ovum_num_rl"
-        android:layout_marginTop="10dp"
-        android:columnCount="4"
-        android:padding="3dp">
-    </GridLayout>
-</RelativeLayout>
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fish_ovum_num_rl"
+            android:layout_marginTop="10dp"
+            android:columnCount="4"
+            android:padding="3dp"></GridLayout>
+    </RelativeLayout>
+</layout>

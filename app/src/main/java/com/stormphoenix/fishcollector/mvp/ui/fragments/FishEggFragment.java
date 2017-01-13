@@ -1,5 +1,6 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
+import android.util.Log;
 import android.view.View;
 
 import com.stormphoenix.fishcollector.R;
@@ -11,6 +12,8 @@ import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
  */
 
 public class FishEggFragment extends BaseFragment {
+    private static final String TAG = "FishEggFragment";
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_fish_egg;
@@ -20,7 +23,15 @@ public class FishEggFragment extends BaseFragment {
     protected void initVariables() {
 
     }
-
+    @Override
+    public void onStart() {
+        if (binding != null && attachedBean != null) {
+            Log.e(TAG, "onStart: binding != null && attachedBean != null");
+//            ((FragmentFishEggBinding) binding).setFishEggBean((FishEggs) attachedBean);
+        } else {
+            Log.e(TAG, "onStart: binding == null || attachedBean == null");
+        }
+    }
     @Override
     protected void initViews(View view) {
 

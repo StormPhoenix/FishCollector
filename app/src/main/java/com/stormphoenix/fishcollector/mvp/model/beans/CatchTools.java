@@ -1,21 +1,23 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class CatchTools  implements BaseModel {
+public class CatchTools extends BaseObservable implements BaseModel {
     //CatchTools主键
     @Unique
     private String modelId;
@@ -56,17 +58,21 @@ public class CatchTools  implements BaseModel {
     private WaterLayer waterLayer;
 
     private Long foreignKey;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 135108567)
     private transient CatchToolsDao myDao;
 
     @Generated(hash = 1672380762)
     public CatchTools(String modelId, String name, String photo, String netsModel,
-            float netMouthArea, float netMouthDip, String startTime, String endTime,
-            float netMouthVelocity, String idWaterLayer, Long id, Long foreignKey) {
+                      float netMouthArea, float netMouthDip, String startTime, String endTime,
+                      float netMouthVelocity, String idWaterLayer, Long id, Long foreignKey) {
         this.modelId = modelId;
         this.name = name;
         this.photo = photo;
@@ -93,6 +99,7 @@ public class CatchTools  implements BaseModel {
         this.modelId = modelId;
     }
 
+    @Bindable
     public String getName() {
         return this.name;
     }
@@ -109,6 +116,7 @@ public class CatchTools  implements BaseModel {
         this.photo = photo;
     }
 
+    @Bindable
     public String getNetsModel() {
         return this.netsModel;
     }
@@ -117,6 +125,7 @@ public class CatchTools  implements BaseModel {
         this.netsModel = netsModel;
     }
 
+    @Bindable
     public float getNetMouthArea() {
         return this.netMouthArea;
     }
@@ -125,6 +134,7 @@ public class CatchTools  implements BaseModel {
         this.netMouthArea = netMouthArea;
     }
 
+    @Bindable
     public float getNetMouthDip() {
         return this.netMouthDip;
     }
@@ -133,6 +143,7 @@ public class CatchTools  implements BaseModel {
         this.netMouthDip = netMouthDip;
     }
 
+    @Bindable
     public String getStartTime() {
         return this.startTime;
     }
@@ -141,6 +152,7 @@ public class CatchTools  implements BaseModel {
         this.startTime = startTime;
     }
 
+    @Bindable
     public String getEndTime() {
         return this.endTime;
     }
@@ -149,6 +161,7 @@ public class CatchTools  implements BaseModel {
         this.endTime = endTime;
     }
 
+    @Bindable
     public float getNetMouthVelocity() {
         return this.netMouthVelocity;
     }
@@ -184,7 +197,9 @@ public class CatchTools  implements BaseModel {
     @Generated(hash = 1203946248)
     private transient Long waterLayer__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 2125111669)
     public WaterLayer getWaterLayer() {
         Long __key = this.foreignKey;
@@ -204,7 +219,9 @@ public class CatchTools  implements BaseModel {
         return waterLayer;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 95803670)
     public void setWaterLayer(WaterLayer waterLayer) {
         synchronized (this) {

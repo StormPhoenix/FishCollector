@@ -1,71 +1,84 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/tv_num_benthos"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:gravity="center_vertical"
-        android:text="@string/nums" />
+    <data>
 
-    <EditText
-        android:id="@+id/et_benthos_mount_benthos"
+        <import type="com.stormphoenix.fishcollector.mvp.model.beans.Benthos" />
+
+        <variable
+            name="benthosBean"
+            type="Benthos" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="30dp"
-        android:layout_toRightOf="@id/tv_num_benthos"
+        android:layout_height="match_parent"
         android:paddingLeft="10dp"
-        android:singleLine="true" />
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@id/et_benthos_mount_benthos"
-        android:layout_marginRight="5dp"
-        android:text="@string/mount_unit"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/tv_num_benthos"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            android:text="@string/nums" />
 
-    <TextView
-        android:id="@+id/tv_creature_num_benthos"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_below="@id/et_benthos_mount_benthos"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        android:text="@string/create_mount" />
+        <EditText
+            android:id="@+id/et_benthos_mount_benthos"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@id/tv_num_benthos"
+            android:paddingLeft="10dp"
+            android:singleLine="true"/>
+            <!--android:text="@={benthosBean.quality}" />-->
 
-    <EditText
-        android:id="@+id/et_biomass_benthos"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_alignLeft="@id/et_benthos_mount_benthos"
-        android:layout_below="@id/et_benthos_mount_benthos"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="20dp"
-        android:layout_toRightOf="@id/tv_creature_num_benthos"
-        android:paddingLeft="10dp"
-        android:singleLine="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/et_benthos_mount_benthos"
+            android:layout_marginRight="5dp"
+            android:text="@string/mount_unit"
+            android:textSize="20sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@id/et_biomass_benthos"
-        android:layout_alignTop="@id/et_biomass_benthos"
-        android:layout_marginRight="5dp"
-        android:text="@string/weight_unit"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/tv_creature_num_benthos"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_below="@id/et_benthos_mount_benthos"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:text="@string/create_mount" />
 
-    <GridLayout
-        android:id="@+id/gl_pictures_wrapper_benthos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/et_biomass_benthos"
-        android:layout_marginTop="10dp"
-        android:columnCount="4">
-    </GridLayout>
-</RelativeLayout>
+        <EditText
+            android:id="@+id/et_biomass_benthos"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_alignLeft="@id/et_benthos_mount_benthos"
+            android:layout_below="@id/et_benthos_mount_benthos"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/tv_creature_num_benthos"
+            android:paddingLeft="10dp"
+            android:singleLine="true"/>
+            <!--android:text="@={benthosBean.biomass}" />-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/et_biomass_benthos"
+            android:layout_alignTop="@id/et_biomass_benthos"
+            android:layout_marginRight="5dp"
+            android:text="@string/weight_unit"
+            android:textSize="20sp" />
+
+        <GridLayout
+            android:id="@+id/gl_pictures_wrapper_benthos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_biomass_benthos"
+            android:layout_marginTop="10dp"
+            android:columnCount="4"></GridLayout>
+    </RelativeLayout>
+</layout>

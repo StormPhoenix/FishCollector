@@ -1,77 +1,71 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/tv_longitude"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:text=" 经度    " />
+    <data>
 
-    <ImageView
-        android:id="@+id/img_longitude"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_alignParentRight="true"
-        android:layout_weight="1"
-        android:src="@drawable/img_locate" />
+        <import type="com.stormphoenix.fishcollector.mvp.model.beans.MeasurePoint" />
 
-    <ProgressBar
-        android:id="@+id/pb_longitude"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_alignParentRight="true"
-        android:layout_weight="1"
-        android:src="@drawable/img_locate"
-        android:visibility="invisible" />
+        <variable
+            name="measuringPointBean"
+            type="MeasurePoint" />
+    </data>
 
-    <EditText
-        android:id="@+id/longitude"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@id/img_longitude"
-        android:layout_toRightOf="@id/tv_longitude"
-        android:paddingLeft="10dp"
-        android:singleLine="true" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="10dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_below="@id/longitude"
-        android:layout_marginTop="5dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:text=" 纬度    " />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/latitude"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_below="@id/longitude"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_toLeftOf="@id/img_longitude"
-        android:layout_toRightOf="@id/tv_longitude"
-        android:paddingLeft="10dp"
-        android:singleLine="true" />
+            <ImageButton
+                android:id="@+id/imgBtn_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:src="@mipmap/ic_pin_drop_black_24dp" />
 
-    <ImageView
-        android:id="@+id/img_latitude"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/longitude"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="5dp"
-        android:layout_weight="1" />
+            <ProgressBar
+                android:id="@+id/pb_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:visibility="invisible" />
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/imgBtn_location">
 
-</RelativeLayout>
+                <EditText
+                    android:id="@+id/et_longitude"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/longitude"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(measuringPointBean.longitude)}" />
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_latitude"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/latitude"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(measuringPointBean.latitude)}" />
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

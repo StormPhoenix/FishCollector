@@ -1,72 +1,50 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.stormphoenix.fishcollector.mvp.model.beans.FractureSurface" />
+
+        <variable
+            name="fractureSurfaceBean"
+            type="FractureSurface" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
 
-        <RelativeLayout
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/spin_collect_pos"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            app:ms_arrowColor="@color/spinner_arrow_color"
+            app:ms_baseColor="@color/spinner_base_color"
+            app:ms_enableErrorLabel="true"
+            app:ms_enableFloatingLabel="true"
+            app:ms_floatingLabelColor="@color/spinner_floating_label_color"
+            app:ms_floatingLabelText="@string/collect_position"
+            app:ms_hint="@string/collect_position"
+            app:ms_multiline="false" />
+        <!--app:ms_floatingLabelText="floating label"-->
 
-            <TextView
-                android:id="@+id/tv_position"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/collect_position" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/tv_position">
-
-                <Spinner
-                    android:id="@+id/spin_collect_pos"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/et_date_wrapper"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/tv_shore_distance"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/shore_distance" />
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/et_shore_distance"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@id/tv_shore_distance"
-                android:paddingLeft="10dp"
-                android:singleLine="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@id/et_shore_distance"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:text="@string/meter"
-                android:textSize="20sp" />
-        </RelativeLayout>
+                android:hint="@string/shore_distance"
+                android:singleLine="true"
+                android:text="@{String.valueOf(fractureSurfaceBean.distance2Bank)}" />
+        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
-</RelativeLayout>
+</layout>

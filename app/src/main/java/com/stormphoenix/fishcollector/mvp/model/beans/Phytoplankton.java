@@ -1,6 +1,8 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
@@ -19,7 +21,7 @@ import java.util.List;
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class Phytoplankton implements BaseModel {
+public class Phytoplankton extends BaseObservable implements BaseModel {
     @Unique
     private String modelId;
     @Nullable
@@ -85,6 +87,7 @@ public class Phytoplankton implements BaseModel {
         this.photo = photo;
     }
 
+    @Bindable
     public int getPuality() {
         return this.puality;
     }
@@ -93,6 +96,7 @@ public class Phytoplankton implements BaseModel {
         this.puality = puality;
     }
 
+    @Bindable
     public float getBiomass() {
         return this.biomass;
     }

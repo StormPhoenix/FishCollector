@@ -1,5 +1,7 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
@@ -20,7 +22,7 @@ import java.util.List;
  */
 
 @Entity(nameInDb = "benthos")
-public class Benthos implements BaseModel {
+public class Benthos extends BaseObservable implements BaseModel {
     //地栖生物主键
     @Unique
     private String modelId = null;
@@ -92,6 +94,7 @@ public class Benthos implements BaseModel {
         this.photo = photo;
     }
 
+    @Bindable
     public int getQuality() {
         return this.quality;
     }
@@ -100,6 +103,7 @@ public class Benthos implements BaseModel {
         this.quality = quality;
     }
 
+    @Bindable
     public float getBiomass() {
         return this.biomass;
     }

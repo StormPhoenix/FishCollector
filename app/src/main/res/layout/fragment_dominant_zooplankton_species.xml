@@ -1,0 +1,133 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="com.stormphoenix.fishcollector.mvp.model.beans.DominantZooplanktonSpecies" />
+
+        <variable
+            name="dominantZooplanktonBean"
+            type="DominantZooplanktonSpecies" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
+
+        <LinearLayout
+            android:id="@+id/mount_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_dom_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:gravity="center_vertical"
+                    android:text=" 数量    " />
+
+                <EditText
+                    android:id="@+id/mount"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toRightOf="@id/tv_dom_num"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"/>
+                    <!--android:text="@={dominantZooplanktonBean.quality}" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@id/mount"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:text="ind.L"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_creature_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:gravity="center_vertical"
+                    android:text=" 生物量    " />
+
+                <EditText
+                    android:id="@+id/biomass"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toRightOf="@id/tv_creature_num"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"/>
+                    <!--android:text="@={dominantZooplanktonBean.biomass}" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@id/biomass"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:text="mg/L"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:gravity="center_vertical"
+                android:text=" 名字    " />
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_toRightOf="@id/tv_name"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:singleLine="true"/>
+                <!--android:text="@={dominantZooplanktonBean.name}" />-->
+
+        </RelativeLayout>
+
+
+        <GridLayout
+            android:id="@+id/dom_add_pic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mount_layout"
+            android:layout_marginTop="10dp"
+            android:columnCount="4">
+
+        </GridLayout>
+
+    </LinearLayout>
+</layout>

@@ -448,7 +448,7 @@
     <string name="start_time">开始时间</string>
     <string name="end_date">结束时间</string>
     <string name="weather">天气</string>
-    <string name="heat">天气</string>
+    <string name="heat">温度</string>
     <string name="start_longitude">起点经度</string>
     <string name="start_latitude">起点纬度</string>
     <string name="end_longitude">终点经度</string>
@@ -472,4 +472,22 @@
     <string name="parr_num">幼鱼数</string>
     <string name="tail">尾</string>
     <string name="action_save">保存</string>
+    <string name="address_details">详细地址</string>
+    <string name="input_type_error">输入数据类型错误</string>
+    <string name="longitude">经度</string>
+    <string name="latitude">纬度</string>
+    <string name="body_length">体长</string>
+    <string name="whole_length">全长</string>
+    <string name="cm_unit">cm</string>
+    <string name="body_weight">体重</string>
+    <string name="fish_weight_unit">g</string>
+    <string name="age">年龄</string>
+    <string name="depth">深度</string>
+    <string name="m_unit">m</string>
+    <string name="temperature_unit">℃</string>
+    <string name="water_temperature">水温</string>
+    <string name="water_level">水位</string>
+    <string name="velocity_unit">m³/s</string>
+    <string name="water_velocity">流量</string>
+    <string name="collect_water_layer">采样水层</string>
 </resources>

@@ -1,306 +1,333 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <data>
+
+        <import type="com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite" />
+
+        <variable
+            name="monitoringSiteBean"
+            type="MonitoringSite" />
+    </data>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp">
 
-        <GridLayout
-            android:id="@+id/mon_site_add_fra_sur"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="4">
-
-        </GridLayout>
-
         <LinearLayout
-            android:id="@+id/spinner_layout"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp">
 
-            <Spinner
-                android:id="@+id/sp_province"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-            </Spinner>
-
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp"
-                android:background="#bdbdbd" />
-
-            <Spinner
-                android:id="@+id/sp_city"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-            </Spinner>
-        </LinearLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_detection_unit_wrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/et_detection_unit"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_below="@id/spinner_layout"
-                android:layout_marginTop="10dp"
-                android:hint="@string/detection_unit"
-                android:paddingLeft="10dp"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_monitors_wrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/et_monitors"
+            <GridLayout
+                android:id="@+id/mon_site_add_fra_sur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/monitors"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
+                android:columnCount="4">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_date_wrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/et_detection_unit_wrapper">
+            </GridLayout>
 
-            <EditText
-                android:id="@+id/et_date"
+            <LinearLayout
+                android:id="@+id/spinner_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/monitors"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_details_address_wrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/et_detection_unit_wrapper">
-
-            <EditText
-                android:id="@+id/et_details_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/date"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_water_area_wrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/et_detection_unit_wrapper">
-
-            <EditText
-                android:id="@+id/et_water_area"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:hint="@string/water_area"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_start_time_wrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/et_start_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/start_time"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_end_time_wrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/et_end_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/end_date"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_weather_wrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/et_weather"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/weather"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_heat_wrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/et_heat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/heat"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/img_start_location"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_alignParentRight="true"
                 android:layout_marginTop="5dp"
-                android:src="@mipmap/ic_launcher" />
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-            <ProgressBar
-                android:id="@+id/pb_start_location"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_alignParentRight="true"
-                android:visibility="invisible" />
+                <Spinner
+                    android:id="@+id/sp_province"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                </Spinner>
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp"
+                    android:background="#bdbdbd" />
+
+                <Spinner
+                    android:id="@+id/sp_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                </Spinner>
+            </LinearLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/et_start_longitude_monitor_wrapper"
+                android:id="@+id/et_detection_unit_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_detection_unit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/spinner_layout"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/detection_unit"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"
+                    android:text="@={monitoringSiteBean.institution}" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/et_monitors_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_monitors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/monitors"
+                    android:singleLine="true"
+                    android:text="@={monitoringSiteBean.investigator}" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/et_date_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_detection_unit_wrapper">
+
+                <EditText
+                    android:id="@+id/et_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/date"
+                    android:singleLine="true"
+                    android:text="@={monitoringSiteBean.investigationDate}" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/et_details_address_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_detection_unit_wrapper">
+
+                <EditText
+                    android:id="@+id/et_details_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/address_details"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/et_water_area_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_detection_unit_wrapper">
+
+                <EditText
+                    android:id="@+id/et_water_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/water_area"
+                    android:singleLine="true"
+                    android:text="@={monitoringSiteBean.river}" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/et_start_time_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_start_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/start_time"
+                    android:inputType="datetime"
+                    android:singleLine="true"
+                    android:text="@={monitoringSiteBean.startTime}" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/et_end_time_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_end_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/end_date"
+                    android:inputType="datetime"
+                    android:singleLine="true"
+                    android:text="@={monitoringSiteBean.endTime}" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/et_weather_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_weather"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/weather"
+                    android:singleLine="true"
+                    android:text="@={monitoringSiteBean.weather}" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/et_heat_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_temperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/heat"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(monitoringSiteBean.temperature)}" />
+            </android.support.design.widget.TextInputLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img_start_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:src="@mipmap/ic_pin_drop_black_24dp" />
+
+                <ProgressBar
+                    android:id="@+id/pb_start_location"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentRight="true"
+                    android:visibility="invisible" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/et_start_longitude_monitor_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/img_start_location">
+
+                    <EditText
+                        android:id="@+id/et_start_longitude"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:hint="@string/start_longitude"
+                        android:inputType="number"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:text="@{String.valueOf(monitoringSiteBean.startLongitude)}" />
+                </android.support.design.widget.TextInputLayout>
+            </RelativeLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/et_start_latitude_monitor_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/img_start_location">
 
                 <EditText
-                    android:id="@+id/et_start_longitude"
+                    android:id="@+id/et_start_latitude"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:hint="@string/start_longitude"
+                    android:hint="@string/start_latitude"
                     android:paddingLeft="10dp"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(monitoringSiteBean.startLatitude)}" />
             </android.support.design.widget.TextInputLayout>
-        </RelativeLayout>
 
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_start_latitude_monitor_wrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/img_start_location">
-
-            <EditText
-                android:id="@+id/et_start_latitude"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="5dp"
-                android:hint="@string/start_latitude"
-                android:paddingLeft="10dp"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/img_end_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:src="@mipmap/ic_pin_drop_black_24dp" />
 
-            <ImageView
-                android:id="@+id/img_end_location"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="5dp"
-                android:src="@mipmap/ic_launcher" />
+                <ProgressBar
+                    android:id="@+id/pb_end_location"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone" />
 
-            <ProgressBar
-                android:id="@+id/pb_end_location"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="5dp"
-                android:visibility="gone" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/et_end_longitude_monitor_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/img_end_location">
+
+                    <EditText
+                        android:id="@+id/et_end_longitude"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:layout_toLeftOf="@id/img_end_location"
+                        android:hint="@string/end_longitude"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:text="@{String.valueOf(monitoringSiteBean.endLongitude)}" />
+                </android.support.design.widget.TextInputLayout>
+            </RelativeLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/et_end_longitude_monitor_wrapper"
+                android:id="@+id/et_end_latitude_monitor_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/img_end_location">
+                android:layout_toLeftOf="@id/img_start_location">
 
                 <EditText
-                    android:id="@+id/et_end_longitude"
+                    android:id="@+id/et_end_latitude"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="5dp"
-                    android:layout_toLeftOf="@id/img_end_location"
-                    android:hint="@string/end_longitude"
+                    android:hint="@string/end_latitude"
                     android:paddingLeft="10dp"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(monitoringSiteBean.endLatitude)}" />
             </android.support.design.widget.TextInputLayout>
-        </RelativeLayout>
 
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_end_latitude_monitor_wrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/img_start_location">
-
-            <EditText
-                android:id="@+id/et_end_latitude"
+            <GridLayout
+                android:id="@+id/mon_site_add_pic"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="5dp"
-                android:hint="@string/end_latitude"
-                android:paddingLeft="10dp"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-
-        <GridLayout
-            android:id="@+id/mon_site_add_pic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:columnCount="3"
-            android:padding="3dp"></GridLayout>
-    </LinearLayout>
-</ScrollView>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:columnCount="3"
+                android:padding="3dp"></GridLayout>
+        </LinearLayout>
+    </ScrollView>
+</layout>

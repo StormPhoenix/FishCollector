@@ -1,6 +1,8 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
@@ -19,7 +21,7 @@ import org.greenrobot.greendao.DaoException;
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class FractureSurface  implements BaseModel {
+public class FractureSurface extends BaseObservable implements BaseModel {
     @Unique
     private String modelId;
     @Nullable
@@ -83,6 +85,7 @@ public class FractureSurface  implements BaseModel {
         this.modelId = modelId;
     }
 
+    @Bindable
     public String getPosition() {
         return this.position;
     }
@@ -91,6 +94,7 @@ public class FractureSurface  implements BaseModel {
         this.position = position;
     }
 
+    @Bindable
     public float getDistance2Bank() {
         return this.distance2Bank;
     }

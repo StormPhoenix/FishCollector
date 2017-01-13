@@ -1,5 +1,6 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
+import android.util.Log;
 import android.view.View;
 
 import com.stormphoenix.fishcollector.R;
@@ -11,9 +12,21 @@ import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
  */
 
 public class PhytoplanktonFragment extends BaseFragment {
+    private static final String TAG = "PhytoplanktonFragment";
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_phytoplankton;
+    }
+
+    @Override
+    public void onStart() {
+        if (binding != null && attachedBean != null) {
+            Log.e(TAG, "onStart: binding != null && attachedBean != null");
+//            ((FragmentPhytoplanktonBinding) binding).setPhytoplankBean((Phytoplankton) attachedBean);
+        } else {
+            Log.e(TAG, "onStart: binding == null || attachedBean == null");
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
@@ -18,7 +20,7 @@ import org.greenrobot.greendao.DaoException;
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class MeasuringLine  implements BaseModel {
+public class MeasuringLine extends BaseObservable implements BaseModel {
 
     @Unique
     private String modelId;
@@ -78,6 +80,7 @@ public class MeasuringLine  implements BaseModel {
         this.modelId = modelId;
     }
 
+    @Bindable
     public float getStartLongitude() {
         return this.startLongitude;
     }
@@ -86,6 +89,7 @@ public class MeasuringLine  implements BaseModel {
         this.startLongitude = startLongitude;
     }
 
+    @Bindable
     public float getStartLatitude() {
         return this.startLatitude;
     }
@@ -94,6 +98,7 @@ public class MeasuringLine  implements BaseModel {
         this.startLatitude = startLatitude;
     }
 
+    @Bindable
     public float getEndLongitude() {
         return this.endLongitude;
     }
@@ -102,6 +107,7 @@ public class MeasuringLine  implements BaseModel {
         this.endLongitude = endLongitude;
     }
 
+    @Bindable
     public float getEndLatitude() {
         return this.endLatitude;
     }

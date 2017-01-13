@@ -1,6 +1,8 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
@@ -19,7 +21,7 @@ import java.util.List;
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class WaterLayer implements BaseModel {
+public class WaterLayer extends BaseObservable implements BaseModel {
     @Unique
     private String modelId;
     @Nullable
@@ -87,6 +89,7 @@ public class WaterLayer implements BaseModel {
         this.modelId = modelId;
     }
 
+    @Bindable
     public String getLayer() {
         return this.layer;
     }
@@ -95,6 +98,7 @@ public class WaterLayer implements BaseModel {
         this.layer = layer;
     }
 
+    @Bindable
     public float getDepth() {
         return this.depth;
     }
@@ -103,6 +107,7 @@ public class WaterLayer implements BaseModel {
         this.depth = depth;
     }
 
+    @Bindable
     public float getTemperature() {
         return this.temperature;
     }
@@ -111,6 +116,7 @@ public class WaterLayer implements BaseModel {
         this.temperature = temperature;
     }
 
+    @Bindable
     public float getWaterLevel() {
         return this.waterLevel;
     }
@@ -119,6 +125,7 @@ public class WaterLayer implements BaseModel {
         this.waterLevel = waterLevel;
     }
 
+    @Bindable
     public float getVelocity() {
         return this.velocity;
     }

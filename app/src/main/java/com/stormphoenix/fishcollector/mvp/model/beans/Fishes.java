@@ -1,5 +1,7 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
@@ -15,7 +17,7 @@ import org.greenrobot.greendao.DaoException;
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class Fishes  implements BaseModel {
+public class Fishes extends BaseObservable implements BaseModel {
 
     @Unique
     private String modelId;

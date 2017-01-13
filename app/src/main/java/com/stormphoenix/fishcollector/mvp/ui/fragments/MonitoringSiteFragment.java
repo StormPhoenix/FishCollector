@@ -2,25 +2,61 @@ package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
+import com.stormphoenix.fishcollector.databinding.FragmentMonitorSiteBinding;
+import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
+import com.stormphoenix.fishcollector.shared.AddressUtils;
+import com.stormphoenix.fishcollector.shared.constants.Constants;
+import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
+import com.stormphoenix.fishcollector.shared.textutils.DefaultTextWatcher;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 维护 监测点 界面
  */
 @SuppressLint("ValidFragment")
-public class MonitoringSiteFragment extends BaseFragment {
+public class MonitoringSiteFragment extends BaseFragment implements AdapterView.OnItemSelectedListener {
+    private static final String TAG = "MonitoringSiteFragment";
+    @BindView(R.id.et_temperature)
+    EditText etTemperature;
+    @BindView(R.id.et_start_longitude)
+    EditText etStartLongitude;
+    @BindView(R.id.et_start_latitude)
+    EditText etStartLatitude;
+    @BindView(R.id.et_end_longitude)
+    EditText etEndLongitude;
+    @BindView(R.id.et_end_latitude)
+    EditText etEndLatitude;
+    @BindView(R.id.sp_province)
+    Spinner spinProvince;
+    @BindView(R.id.sp_city)
+    Spinner spinCity;
+    @BindView(R.id.et_details_address)
+    EditText etDetailsAddress;
 
 //    private ArrayAdapter<String> provinceAdapter = null;
 //    private ArrayAdapter<String> cityAdapter = null;
 
     //城市在省级常量表中的下标值
     private int cityPosition = 0;
+    private int cityIndex = 0;
+    private String detailAddress = null;
+    private String site = null;
 
     //    private View addSurfaceView = null;
     private View addPictureView = null;
@@ -30,207 +66,147 @@ public class MonitoringSiteFragment extends BaseFragment {
     private RelativeLayout.LayoutParams params = null;
 
     @Override
+    public void onStart() {
+        Log.i(TAG, "onStart");
+        if (binding != null && attachedBean != null) {
+            Log.e(TAG, "onStart: binding != null && attachedBean != null");
+            ((FragmentMonitorSiteBinding) binding).setMonitoringSiteBean((MonitoringSite) attachedBean);
+        } else {
+            Log.e(TAG, "onStart: binding == null || attachedBean == null");
+        }
+        super.onStart();
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.fragment_monitor_site;
     }
 
     @Override
     protected void initVariables() {
-
+        AddressUtils.processAddress(((MonitoringSite) attachedBean).getSite());
+        cityPosition = AddressUtils.getCityPosition();
+        cityIndex = AddressUtils.getCityIndex();
+        detailAddress = AddressUtils.getAddressDetails();
+        site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
     }
 
     @Override
     protected void initViews(View view) {
+        etTemperature.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+                    text = 0;
+                }
+                ((MonitoringSite) attachedBean).setTemperature(text);
+            }
+        });
 
+        etStartLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+                    text = 0;
+                }
+                ((MonitoringSite) attachedBean).setStartLatitude(text);
+            }
+        });
+
+        etStartLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+                    text = 0;
+                }
+                ((MonitoringSite) attachedBean).setStartLongitude(text);
+            }
+        });
+        etEndLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+                    text = 0;
+                }
+                ((MonitoringSite) attachedBean).setEndLatitude(text);
+            }
+        });
+        etEndLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+                    text = 0;
+                }
+                ((MonitoringSite) attachedBean).setEndLongitude(text);
+            }
+        });
+
+        etDetailsAddress.setText(detailAddress);
+        etDetailsAddress.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
+                detailAddress = text;
+                site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
+                ((MonitoringSite) attachedBean).setSite(site);
+            }
+        });
+
+        spinProvince.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, Constants.PROVINCE));
+        spinProvince.setSelection(cityPosition);
+        spinProvince.setOnItemSelectedListener(this);
+
+        spinCity.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, Constants.CITY[cityPosition]));
+        spinCity.setSelection(cityIndex);
+        spinCity.setOnItemSelectedListener(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView");
+        ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-//    private void setTimeText(final TextView text) {
-//        Calendar cal = Calendar.getInstance();
-//        final DatePickerDialog dpd = DatePickerDialog.newInstance(
-//                dpl,
-//                cal.get(Calendar.YEAR),
-//                cal.get(Calendar.MONTH),
-//                cal.get(Calendar.DAY_OF_MONTH)
-//        );
-//        dpd.show(getFragmentManager(), "Datepickerdialog");
-//        dpd.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//            @Override
-//            public void onDismiss(DialogInterface dialog) {
-//                MonthAdapter.CalendarDay day = dpd.getSelectedDay();
-//                text.setText(TimeUtils.mergeTime(day.getYear(), day.getMonth() + 1, day.getDay()));
-//            }
-//        });
-//    }
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.sp_province:
+                cityPosition = position;
+                cityIndex = 0;
+                spinCity.setAdapter(new ArrayAdapter<>(getActivity(),
+                        android.R.layout.simple_spinner_item, Constants.CITY[position]));
+                spinCity.setSelection(cityIndex);
+                site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
+                ((MonitoringSite) attachedBean).setSite(site);
+                break;
+            case R.id.sp_city:
+                cityIndex = position;
+                site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
+                ((MonitoringSite) attachedBean).setSite(site);
+                break;
+            default:
+                break;
+        }
+    }
 
-//    @Override
-//    public void onClick(final View v) {
-//        final Activity mActivity = MonitoringSiteFragment.this.getActivity();
-//        switch (v.getId()) {
-//            case R.id.monitoring_date:
-//                setTimeText(monitoringDate);
-//                break;
-//            case R.id.end_time:
-//                setTimeText(endTime);
-//                break;
-//            case R.id.start_time:
-//                setTimeText(startTime);
-//                break;
-//            case R.id.img_start_location:
-//                pb_start_locate.setVisibility(View.VISIBLE);
-//                startLocate.setVisibility(View.INVISIBLE);
-//                LocationUtils.img_locate(mActivity.getApplicationContext(), new Callback() {
-//                    @Override
-//                    public void onLBSResultBack(final double latitude, final double longitude) {
-//                        mActivity.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                pb_start_locate.setVisibility(View.INVISIBLE);
-//                                startLocate.setVisibility(View.VISIBLE);
-//                                startLongitude.setText(String.valueOf(longitude));
-//                                startLatitude.setText(String.valueOf(latitude));
-//                            }
-//                        });
-//                    }
-//                });
-//                break;
-//            case R.id.img_end_location:
-//                pb_end_locate.setVisibility(View.VISIBLE);
-//                endLocate.setVisibility(View.INVISIBLE);
-//                LocationUtils.img_locate(mActivity.getApplicationContext(), new Callback() {
-//                    @Override
-//                    public void onLBSResultBack(final double latitude, final double longitude) {
-//                        mActivity.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                pb_end_locate.setVisibility(View.INVISIBLE);
-//                                endLocate.setVisibility(View.VISIBLE);
-//                                endLongitude.setText(String.valueOf(longitude));
-//                                endLatitude.setText(String.valueOf(latitude));
-//                            }
-//                        });
-//                    }
-//                });
-//                break;
-//            case R.id.add_pic:
-//                File imageFile = PictureUtils.takePicture(this.getActivity());
-//                ImageAware ia = new ImageAware(this.getActivity(), params);
-//                ia.setImagePath(imageFile.getPath());
-//                imagesAware.add(ia);
-//                break;
-//        }
-//    }
-
-//    @Override
-//    public void updateUI() {
-//        pictureGallery.removeAllViews();
-//        for (final ImageAware ia : imagesAware) {
-////            if (ia.checkIsFileExists()) {
-////            } else {
-////                imagesAware.remove(ia);
-////                continue;
-////            }
-//            ia.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent it = new Intent(MonitoringSiteFragment.this.getActivity(), PhotoActivity.class);
-//                    it.putExtra("filePath", ia.getImagePath());
-//                    startActivity(it);
-//                }
-//            });
-//            pictureGallery.addView(ia.getViewHolder());
-//            ia.showImage();
-//        }
-//
-//        addPictureView = LayoutInflater.from(getActivity())
-//                .inflate(R.layout.grid_view_add_pic, null);
-//        addPictureView.setLayoutParams(params);
-//        addPictureView.setOnClickListener(this);
-//        pictureGallery.addView(addPictureView);
-//        System.gc();
-//    }
-
-//    @Override
-//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//        switch (parent.getId()) {
-//            case R.id.province:
-//                provinceStr = ConstantData.PROVINCE[position];
-//                cityPosition = position;
-//                cityAdapter = new ArrayAdapter<>(getActivity(),
-//                        android.R.layout.simple_spinner_item, ConstantData.CITY[position]);
-//                city.setAdapter(cityAdapter);
-//                city.setSelection(0);
-//                break;
-//            case R.id.city:
-//                Log.e("OnItemSelected", ConstantData.CITY[cityPosition][position]);
-//                cityIndex = position;
-//                cityStr = ConstantData.CITY[cityPosition][position];
-//                break;
-//        }
-//    }
-
-//    @Override
-//    public void onNothingSelected(AdapterView<?> parent) {
-//
-//    }
-
-//    @Override
-//    public BaseNode save() {
-//        MonitoringSite monitorSiteNode = null;
-//        if (this.baseNode != null) {
-//            monitorSiteNode = (MonitoringSite) this.baseNode;
-//        } else {
-//            return null;
-//        }
-//        String detectionUnitStr = detectionUnit.getText().toString(); //检测单位
-//        String monitorsStr = monitors.getText().toString(); //检测人员
-//        String monitoringDateStr = monitoringDate.getText().toString(); //日期
-//        String addressDetails = village.getText().toString(); //详细地址
-//        String waterAreaStr = waterArea.getText().toString(); //水域
-//        String startTimeStr = startTime.getText().toString();
-//        String endTimeStr = endTime.getText().toString();
-//        String weatherStr = weather.getText().toString();
-//        String temperatureStr = temperature.getText().toString();
-//        String startLatitudeStr = startLatitude.getText().toString();
-//        String startLongitudeStr = startLongitude.getText().toString();
-//        String endLatitudeStr = endLatitude.getText().toString();
-//        String endLongitudeStr = endLongitude.getText().toString();
-//
-//        try {
-//            monitorSiteNode.setInstitution(detectionUnitStr);
-//            monitorSiteNode.setInvestigator(monitorsStr);
-//            monitorSiteNode.setInvestigationDate(monitoringDateStr);
-//            monitorSiteNode.setSite(String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + addressDetails);
-//            monitorSiteNode.setRiver(waterAreaStr);
-//            monitorSiteNode.setStartTime(startTimeStr);
-//            monitorSiteNode.setEndTime(endTimeStr);
-//            monitorSiteNode.setWeather(weatherStr);
-//            if (!StringUtils.isStringEmpty(temperatureStr)) {
-//                monitorSiteNode.setTemperature(Float.valueOf(temperatureStr));
-//            }
-//            if (!StringUtils.isStringEmpty(startLatitudeStr)) {
-//                monitorSiteNode.setStartLatitude(Float.valueOf(startLatitudeStr));
-//            }
-//            if (!StringUtils.isStringEmpty(startLongitudeStr)) {
-//                monitorSiteNode.setStartLongitude(Float.valueOf(startLongitudeStr));
-//            }
-//            if (!StringUtils.isStringEmpty(endLatitudeStr)) {
-//                monitorSiteNode.setEndLatitude(Float.valueOf(endLatitudeStr));
-//            }
-//            if (!StringUtils.isStringEmpty(endLongitudeStr)) {
-//                monitorSiteNode.setEndLongitude(Float.valueOf(endLongitudeStr));
-//            }
-//            monitorSiteNode.setPhoto(StringUtils.mergeBySemicolon(imagesAware));
-//        } catch (NumberFormatException nfe) {
-//            Toast.makeText(getActivity(), "输入数据格式有误", Toast.LENGTH_SHORT).show();
-//            return null;
-//        }
-//
-//        return monitorSiteNode;
-//    }
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
 }

@@ -1,12 +1,17 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments.base;
 
+import android.app.Fragment;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.stormphoenix.fishcollector.db.DbManager;
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.BasePresenter;
 
 import butterknife.ButterKnife;
@@ -23,6 +28,20 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
     private View mFragmentView;
     protected Subscription mSubscription;
 
+    protected ViewDataBinding binding = null;
+    protected BaseModel attachedBean = null;
+
+    public void setModel(BaseModel model) {
+        this.attachedBean = model;
+    }
+
+    public void save() {
+        DbManager manager = new DbManager(getActivity());
+        if (attachedBean != null) {
+            manager.save(attachedBean);
+        }
+    }
+
     protected abstract int getLayoutId();
 
     protected abstract void initVariables();
@@ -38,7 +57,12 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mFragmentView == null) {
-            mFragmentView = inflater.inflate(getLayoutId(), container, false);
+            binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
+            if (binding != null) {
+                mFragmentView = binding.getRoot();
+            } else {
+                mFragmentView = inflater.inflate(getLayoutId(), container, false);
+            }
             ButterKnife.bind(this, mFragmentView);
             initVariables();
             initViews(mFragmentView);

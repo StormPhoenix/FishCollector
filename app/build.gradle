@@ -1,8 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'org.greenrobot.greendao'
+//apply plugin: 'com.android.databinding'
 
 android {
+    dataBinding {
+        enabled = true
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
     defaultConfig {
@@ -45,5 +49,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.wdullaer:materialdatetimepicker:2.3.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.github.ganfra:material-spinner:1.1.1'
     compile files('libs/smoothcompoundbuttonlibrary.jar')
 }

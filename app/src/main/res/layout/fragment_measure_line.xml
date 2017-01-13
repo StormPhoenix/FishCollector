@@ -1,144 +1,130 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/tv_start_longitude_line"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginTop="5dp"
-        android:gravity="center_vertical"
-        android:text="@string/start_longitude" />
+    <data>
 
-    <ImageView
-        android:id="@+id/img_start_location_line"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="5dp"
-        android:src="@drawable/img_locate" />
+        <import type="com.stormphoenix.fishcollector.mvp.model.beans.MeasuringLine" />
 
-    <ProgressBar
-        android:id="@+id/pb_start_location_line"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_alignParentRight="true"
-        android:visibility="invisible" />
+        <variable
+            name="measuringLineBean"
+            type="MeasuringLine" />
+    </data>
 
-    <EditText
-        android:id="@+id/et_start_longitude_line"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_toLeftOf="@id/img_start_location_line"
-        android:layout_toRightOf="@id/tv_start_longitude_line"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:paddingLeft="10dp"
-        android:singleLine="true" />
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_below="@id/et_start_longitude_line"
-        android:layout_marginTop="5dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:text="@string/start_latitude" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/et_start_latitude_line"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_alignLeft="@id/et_start_longitude_line"
-        android:layout_alignRight="@id/et_start_longitude_line"
-        android:layout_below="@id/et_start_longitude_line"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="5dp"
-        android:paddingLeft="10dp"
-        android:singleLine="true" />
+            <ImageButton
+                android:id="@+id/imgBtn_start_location_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:src="@mipmap/ic_pin_drop_black_24dp" />
 
-    <ImageView
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/et_start_longitude_line"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="40" /><!-- 占位-->
+            <ProgressBar
+                android:id="@+id/pb_start_location_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/imgBtn_start_location_line"
+                android:layout_alignRight="@id/imgBtn_start_location_line"
+                android:layout_alignTop="@id/imgBtn_start_location_line"
+                android:visibility="invisible" />
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/imgBtn_start_location_line">
 
-    <TextView
-        android:id="@+id/tv_end_longitude_line"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_below="@id/et_start_latitude_line"
-        android:layout_marginTop="5dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:text="@string/end_longitude" />
+                <EditText
+                    android:id="@+id/et_start_longitude_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/start_longitude"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(measuringLineBean.startLongitude)}" />
+            </android.support.design.widget.TextInputLayout>
 
-    <ImageView
-        android:id="@+id/img_end_location_line"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/et_start_latitude_line"
-        android:layout_marginTop="5dp"
-        android:src="@drawable/img_locate" />
+        </RelativeLayout>
 
-    <ProgressBar
-        android:id="@+id/pb_end_location_line"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/et_start_latitude_line"
-        android:layout_marginTop="5dp"
-        android:visibility="invisible" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/_end_longitude"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_alignLeft="@id/et_start_longitude_line"
-        android:layout_alignRight="@id/et_start_longitude_line"
-        android:layout_below="@id/et_start_latitude_line"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="5dp"
-        android:layout_toLeftOf="@id/img_end_location_line"
-        android:layout_toRightOf="@id/tv_end_longitude_line"
-        android:paddingLeft="10dp"
-        android:singleLine="true" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_below="@id/_end_longitude"
-        android:layout_marginTop="5dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:text="@string/end_latitude" />
+                <EditText
+                    android:id="@+id/et_start_latitude_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:hint="@string/start_latitude"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(measuringLineBean.startLatitude)}" />
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
 
-    <EditText
-        android:id="@+id/et_end_latitude_line"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_alignLeft="@id/_end_longitude"
-        android:layout_alignRight="@id/_end_longitude"
-        android:layout_below="@id/_end_longitude"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="5dp"
-        android:layout_weight="17"
-        android:paddingLeft="10dp"
-        android:singleLine="true" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="10dp"
-        android:layout_weight="40" /><!-- 占位-->
+            <ImageButton
+                android:id="@+id/imgBtn_end_location_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:src="@mipmap/ic_pin_drop_black_24dp" />
 
-</RelativeLayout>
+            <ProgressBar
+                android:id="@+id/pb_end_location_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/imgBtn_end_location_line"
+                android:layout_alignRight="@id/imgBtn_end_location_line"
+                android:layout_alignTop="@id/imgBtn_end_location_line"
+                android:visibility="invisible" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/imgBtn_end_location_line">
+
+                <EditText
+                    android:id="@+id/et_end_longitude_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/end_longitude"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(measuringLineBean.endLongitude)}" />
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_end_latitude_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:hint="@string/end_latitude"
+                    android:text="@{String.valueOf(measuringLineBean.endLatitude)}" />
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

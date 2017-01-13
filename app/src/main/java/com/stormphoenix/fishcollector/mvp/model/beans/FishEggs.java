@@ -1,6 +1,8 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
@@ -16,7 +18,7 @@ import org.greenrobot.greendao.DaoException;
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class FishEggs  implements BaseModel {
+public class FishEggs extends BaseObservable implements BaseModel {
     @Unique
     private String modelId;
     @Nullable
@@ -86,6 +88,7 @@ public class FishEggs  implements BaseModel {
         this.photo = photo;
     }
 
+    @Bindable
     public String getPeriod() {
         return this.period;
     }
@@ -94,6 +97,7 @@ public class FishEggs  implements BaseModel {
         this.period = period;
     }
 
+    @Bindable
     public float getDiameter() {
         return this.diameter;
     }
@@ -102,6 +106,7 @@ public class FishEggs  implements BaseModel {
         this.diameter = diameter;
     }
 
+    @Bindable
     public float getEmDiameter() {
         return this.emDiameter;
     }
@@ -110,6 +115,7 @@ public class FishEggs  implements BaseModel {
         this.emDiameter = emDiameter;
     }
 
+    @Bindable
     public String getPigmentProp() {
         return this.pigmentProp;
     }
@@ -118,6 +124,7 @@ public class FishEggs  implements BaseModel {
         this.pigmentProp = pigmentProp;
     }
 
+    @Bindable
     public String getEmbryoProp() {
         return this.embryoProp;
     }

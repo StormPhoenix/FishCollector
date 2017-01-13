@@ -2,7 +2,6 @@ package com.stormphoenix.fishcollector.mvp.ui.activities;
 
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -62,7 +61,7 @@ public class DialogStyleActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_save:
+            case R.id.action_chose:
                 if (choseBtnWrapper.getChosenValue() != null) {
                     Intent view = new Intent();
                     view.putExtra(MODEL_NAME, choseBtnWrapper.getChosenValue());

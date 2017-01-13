@@ -1,22 +1,24 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class DominantPhytoplanktonSpecies  implements BaseModel {
+public class DominantPhytoplanktonSpecies extends BaseObservable implements BaseModel {
     @Unique
     private String modelId;
     @Nullable
@@ -38,17 +40,21 @@ public class DominantPhytoplanktonSpecies  implements BaseModel {
     private Phytoplankton phytoplankton;
 
     private Long foreignKey;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 1308065015)
     private transient DominantPhytoplanktonSpeciesDao myDao;
 
     @Generated(hash = 889410372)
     public DominantPhytoplanktonSpecies(String modelId, String name, String photo,
-            float quality, float biomass, String idPhytoplankton, Long id,
-            Long foreignKey) {
+                                        float quality, float biomass, String idPhytoplankton, Long id,
+                                        Long foreignKey) {
         this.modelId = modelId;
         this.name = name;
         this.photo = photo;
@@ -71,6 +77,7 @@ public class DominantPhytoplanktonSpecies  implements BaseModel {
         this.modelId = modelId;
     }
 
+    @Bindable
     public String getName() {
         return this.name;
     }
@@ -87,6 +94,7 @@ public class DominantPhytoplanktonSpecies  implements BaseModel {
         this.photo = photo;
     }
 
+    @Bindable
     public float getQuality() {
         return this.quality;
     }
@@ -95,6 +103,7 @@ public class DominantPhytoplanktonSpecies  implements BaseModel {
         this.quality = quality;
     }
 
+    @Bindable
     public float getBiomass() {
         return this.biomass;
     }
@@ -130,7 +139,9 @@ public class DominantPhytoplanktonSpecies  implements BaseModel {
     @Generated(hash = 1533042808)
     private transient Long phytoplankton__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 804450410)
     public Phytoplankton getPhytoplankton() {
         Long __key = this.foreignKey;
@@ -150,7 +161,9 @@ public class DominantPhytoplanktonSpecies  implements BaseModel {
         return phytoplankton;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 854444498)
     public void setPhytoplankton(Phytoplankton phytoplankton) {
         synchronized (this) {
