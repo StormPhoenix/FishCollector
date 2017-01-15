@@ -2,170 +2,129 @@
 
     <data>
 
-        <!--<import type="com.stormphoenix.fishcollector.mvp.model.beans.FishEggs" />-->
+        <import type="com.stormphoenix.fishcollector.mvp.model.beans.FishEggs" />
 
-        <!--<variable-->
-            <!--name="fishEggBean"-->
-            <!--type="FishEggs" />-->
+        <variable
+            name="fishEggBean"
+            type="FishEggs" />
     </data>
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp">
-
-        <TextView
-            android:id="@+id/tv_puberty_name"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="@string/name" />
-
-        <EditText
-            android:id="@+id/et_puberty"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/tv_puberty_name"
-            android:paddingLeft="10dp"
-            android:singleLine="true" />
-            <!--android:text="@={fishEggBean.period}"-->
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/egg_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/et_puberty"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical"
-            android:weightSum="2">
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginTop="20dp">
+                android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/tv_egg_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/egg_diameter" />
-
-
-                <EditText
-                    android:id="@+id/et_egg_diameter"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="10dp"
-                    android:layout_toRightOf="@id/tv_egg_size"
-                    android:layout_weight="1"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true" />
-                    <!--android:text="@={fishEggBean.diameter}"-->
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignRight="@id/et_egg_diameter"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="5dp"
-                    android:text="@string/milis_meter_unit"
-                    android:textSize="20sp" />
+                    <EditText
+                        android:id="@+id/et_puberty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/puberty"
+                        android:singleLine="true"
+                        android:text="@={fishEggBean.period}" />
+                </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1">
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/tv_egg_membrane_diameter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
-                    android:text=" 卵膜径    " />
-
-
-                <EditText
-                    android:id="@+id/et_emDiameter"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_toRightOf="@id/tv_egg_membrane_diameter"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true" />
-                    <!--android:text="@={fishEggBean.emDiameter}"-->
-
-                <TextView
+                    android:id="@+id/tv_egg_diameter_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignRight="@id/et_emDiameter"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
                     android:text="@string/milis_meter_unit"
                     android:textSize="20sp" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/tv_egg_diameter_unit">
+
+                    <EditText
+                        android:id="@+id/et_egg_diameter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/egg_diameter"
+                        android:singleLine="true"
+                        android:text="@{String.valueOf(fishEggBean.diameter)}" />
+                </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_em_diameter_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/milis_meter_unit"
+                    android:textSize="20sp" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/tv_em_diameter_unit">
+
+                    <EditText
+                        android:id="@+id/et_emDiameter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/egg_membrane_diameter"
+                        android:singleLine="true"
+                        android:text="@{String.valueOf(fishEggBean.emDiameter)}" />
+                </android.support.design.widget.TextInputLayout>
+            </RelativeLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_pigment_prop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/pigment_property"
+                    android:singleLine="true"
+                    android:text="@={fishEggBean.pigmentProp}" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_embryo_traits"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/embryo_traits"
+                    android:singleLine="true"
+                    android:text="@={fishEggBean.embryoProp}" />
+            </android.support.design.widget.TextInputLayout>
+
+            <GridLayout
+                android:id="@+id/gl_pictures_wrapper_fish_egg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:columnCount="4"
+                android:padding="3dp"></GridLayout>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_pigment_properties"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_below="@id/egg_layout"
-            android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
-            android:text="@string/pigment_property" />
-
-
-        <EditText
-            android:id="@+id/et_pigment_prop"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_below="@id/egg_layout"
-            android:layout_marginTop="20dp"
-            android:layout_toRightOf="@id/tv_pigment_properties"
-            android:paddingLeft="10dp"
-            android:singleLine="true" />
-            <!--android:text="@={fishEggBean.pigmentProp}"-->
-
-        <TextView
-            android:id="@+id/tv_embryo_traits"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_below="@id/tv_pigment_properties"
-            android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
-            android:text="@string/embryo_traits" />
-
-
-        <EditText
-            android:id="@+id/embryo_traits"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_below="@id/et_pigment_prop"
-            android:layout_marginTop="20dp"
-            android:layout_toRightOf="@id/tv_embryo_traits"
-            android:paddingLeft="10dp"
-            android:singleLine="true" />
-            <!--android:text="@={fishEggBean.embryoProp}"-->
-
-        <GridLayout
-            android:id="@+id/gl_pictures_wrapper_fish_egg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/embryo_traits"
-            android:layout_marginTop="10dp"
-            android:columnCount="4"
-            android:padding="3dp">
-
-        </GridLayout>
-
-    </RelativeLayout>
+    </ScrollView>
 </layout>

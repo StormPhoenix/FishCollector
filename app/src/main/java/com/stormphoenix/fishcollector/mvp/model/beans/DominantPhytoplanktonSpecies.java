@@ -5,6 +5,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
 import org.greenrobot.greendao.DaoException;
@@ -84,6 +85,7 @@ public class DominantPhytoplanktonSpecies extends BaseObservable implements Base
 
     public void setName(String name) {
         this.name = name;
+        notifyPropertyChanged(BR.name);
     }
 
     public String getPhoto() {
@@ -94,7 +96,6 @@ public class DominantPhytoplanktonSpecies extends BaseObservable implements Base
         this.photo = photo;
     }
 
-    @Bindable
     public float getQuality() {
         return this.quality;
     }
@@ -103,7 +104,6 @@ public class DominantPhytoplanktonSpecies extends BaseObservable implements Base
         this.quality = quality;
     }
 
-    @Bindable
     public float getBiomass() {
         return this.biomass;
     }

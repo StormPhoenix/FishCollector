@@ -9,76 +9,72 @@
             type="Benthos" />
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_num_benthos"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:gravity="center_vertical"
-            android:text="@string/nums" />
-
-        <EditText
-            android:id="@+id/et_benthos_mount_benthos"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="30dp"
-            android:layout_toRightOf="@id/tv_num_benthos"
-            android:paddingLeft="10dp"
-            android:singleLine="true"/>
-            <!--android:text="@={benthosBean.quality}" />-->
+            android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@id/et_benthos_mount_benthos"
-            android:layout_marginRight="5dp"
-            android:text="@string/mount_unit"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/tv_benthos_mount_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/mount_unit"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/tv_creature_num_benthos"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_below="@id/et_benthos_mount_benthos"
-            android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
-            android:text="@string/create_mount" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/tv_benthos_mount_unit">
 
-        <EditText
-            android:id="@+id/et_biomass_benthos"
+                <EditText
+                    android:id="@+id/et_mount_benthos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/nums"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(benthosBean.quality)}" />
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_alignLeft="@id/et_benthos_mount_benthos"
-            android:layout_below="@id/et_benthos_mount_benthos"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="20dp"
-            android:layout_toRightOf="@id/tv_creature_num_benthos"
-            android:paddingLeft="10dp"
-            android:singleLine="true"/>
-            <!--android:text="@={benthosBean.biomass}" />-->
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@id/et_biomass_benthos"
-            android:layout_alignTop="@id/et_biomass_benthos"
-            android:layout_marginRight="5dp"
-            android:text="@string/weight_unit"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/tv_benthos_biomass_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/weight_unit"
+                android:textSize="20sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/tv_benthos_biomass_unit">
+
+                <EditText
+                    android:id="@+id/et_benthos_biomass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/create_mount"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(benthosBean.biomass)}" />
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
 
         <GridLayout
-            android:id="@+id/gl_pictures_wrapper_benthos"
+            android:id="@+id/gl_benthos_pictures_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/et_biomass_benthos"
             android:layout_marginTop="10dp"
-            android:columnCount="4"></GridLayout>
-    </RelativeLayout>
+            android:columnCount="4" />
+    </LinearLayout>
 </layout>

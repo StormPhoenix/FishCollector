@@ -25,11 +25,11 @@ public class Zooplankton extends BaseObservable implements BaseModel {
     @Unique
     private String modelId;
     @Nullable
-    private String Photo;
+    private String photo;
     @Nullable
-    private int Quality;
+    private int quality;
     @Nullable
-    private float Biomass;
+    private float biomass;
     @Nullable
     private String ID_FractureSurface;
 
@@ -44,24 +44,20 @@ public class Zooplankton extends BaseObservable implements BaseModel {
 
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<DominantZooplanktonSpecies> dominantZooplanktonSpecies;
-    /**
-     * Used to resolve relations
-     */
+    /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /**
-     * Used for active entity operations.
-     */
+    /** Used for active entity operations. */
     @Generated(hash = 1027756039)
     private transient ZooplanktonDao myDao;
 
-    @Generated(hash = 1303900111)
-    public Zooplankton(String modelId, String Photo, int Quality, float Biomass,
-                       String ID_FractureSurface, Long id, Long foreignKey) {
+    @Generated(hash = 335956638)
+    public Zooplankton(String modelId, String photo, int quality, float biomass,
+            String ID_FractureSurface, Long id, Long foreignKey) {
         this.modelId = modelId;
-        this.Photo = Photo;
-        this.Quality = Quality;
-        this.Biomass = Biomass;
+        this.photo = photo;
+        this.quality = quality;
+        this.biomass = biomass;
         this.ID_FractureSurface = ID_FractureSurface;
         this.id = id;
         this.foreignKey = foreignKey;
@@ -79,31 +75,28 @@ public class Zooplankton extends BaseObservable implements BaseModel {
         this.modelId = modelId;
     }
 
-    @Bindable
     public String getPhoto() {
-        return this.Photo;
+        return this.photo;
     }
 
-    public void setPhoto(String Photo) {
-        this.Photo = Photo;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
-    @Bindable
     public int getQuality() {
-        return this.Quality;
+        return this.quality;
     }
 
-    public void setQuality(int Quality) {
-        this.Quality = Quality;
+    public void setQuality(int quality) {
+        this.quality = quality;
     }
 
-    @Bindable
     public float getBiomass() {
-        return this.Biomass;
+        return this.biomass;
     }
 
-    public void setBiomass(float Biomass) {
-        this.Biomass = Biomass;
+    public void setBiomass(float biomass) {
+        this.biomass = biomass;
     }
 
     public String getID_FractureSurface() {
@@ -133,9 +126,7 @@ public class Zooplankton extends BaseObservable implements BaseModel {
     @Generated(hash = 844368361)
     private transient Long fractureSurface__resolvedKey;
 
-    /**
-     * To-one relationship, resolved on first access.
-     */
+    /** To-one relationship, resolved on first access. */
     @Generated(hash = 610717877)
     public FractureSurface getFractureSurface() {
         Long __key = this.foreignKey;
@@ -155,9 +146,7 @@ public class Zooplankton extends BaseObservable implements BaseModel {
         return fractureSurface;
     }
 
-    /**
-     * called by internal mechanisms, do not call yourself.
-     */
+    /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1813620905)
     public void setFractureSurface(FractureSurface fractureSurface) {
         synchronized (this) {
@@ -191,9 +180,7 @@ public class Zooplankton extends BaseObservable implements BaseModel {
         return dominantZooplanktonSpecies;
     }
 
-    /**
-     * Resets a to-many relationship, making the next get call to query for a fresh result.
-     */
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 1040578637)
     public synchronized void resetDominantZooplanktonSpecies() {
         dominantZooplanktonSpecies = null;

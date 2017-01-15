@@ -27,7 +27,7 @@ public class Phytoplankton extends BaseObservable implements BaseModel {
     @Nullable
     private String photo;
     @Nullable
-    private int puality;
+    private int quality;
     @Nullable
     private float biomass;
     @Nullable
@@ -44,23 +44,19 @@ public class Phytoplankton extends BaseObservable implements BaseModel {
 
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<DominantPhytoplanktonSpecies> phytoplanktons;
-    /**
-     * Used to resolve relations
-     */
+    /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /**
-     * Used for active entity operations.
-     */
+    /** Used for active entity operations. */
     @Generated(hash = 1895206844)
     private transient PhytoplanktonDao myDao;
 
-    @Generated(hash = 1789049601)
-    public Phytoplankton(String modelId, String photo, int puality, float biomass,
-                         String idFractureSurface, Long id, Long foreignKey) {
+    @Generated(hash = 1124047863)
+    public Phytoplankton(String modelId, String photo, int quality, float biomass,
+            String idFractureSurface, Long id, Long foreignKey) {
         this.modelId = modelId;
         this.photo = photo;
-        this.puality = puality;
+        this.quality = quality;
         this.biomass = biomass;
         this.idFractureSurface = idFractureSurface;
         this.id = id;
@@ -87,16 +83,14 @@ public class Phytoplankton extends BaseObservable implements BaseModel {
         this.photo = photo;
     }
 
-    @Bindable
-    public int getPuality() {
-        return this.puality;
+    public int getQuality() {
+        return this.quality;
     }
 
-    public void setPuality(int puality) {
-        this.puality = puality;
+    public void setQuality(int quality) {
+        this.quality = quality;
     }
 
-    @Bindable
     public float getBiomass() {
         return this.biomass;
     }
@@ -132,9 +126,7 @@ public class Phytoplankton extends BaseObservable implements BaseModel {
     @Generated(hash = 844368361)
     private transient Long fractureSurface__resolvedKey;
 
-    /**
-     * To-one relationship, resolved on first access.
-     */
+    /** To-one relationship, resolved on first access. */
     @Generated(hash = 610717877)
     public FractureSurface getFractureSurface() {
         Long __key = this.foreignKey;
@@ -154,9 +146,7 @@ public class Phytoplankton extends BaseObservable implements BaseModel {
         return fractureSurface;
     }
 
-    /**
-     * called by internal mechanisms, do not call yourself.
-     */
+    /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1813620905)
     public void setFractureSurface(FractureSurface fractureSurface) {
         synchronized (this) {
@@ -190,9 +180,7 @@ public class Phytoplankton extends BaseObservable implements BaseModel {
         return phytoplanktons;
     }
 
-    /**
-     * Resets a to-many relationship, making the next get call to query for a fresh result.
-     */
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 1915235998)
     public synchronized void resetPhytoplanktons() {
         phytoplanktons = null;

@@ -1,9 +1,9 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
-import android.util.Log;
 import android.view.View;
 
 import com.stormphoenix.fishcollector.R;
+import com.stormphoenix.fishcollector.mvp.model.beans.Sediment;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 
 /**
@@ -14,6 +14,8 @@ import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 public class SedimentFragment extends BaseFragment {
     private static final String TAG = "SedimentFragment";
 
+    private Sediment model;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_sediment;
@@ -21,6 +23,7 @@ public class SedimentFragment extends BaseFragment {
 
     @Override
     protected void initVariables() {
+        model = (Sediment) attachedBean;
     }
 
     @Override

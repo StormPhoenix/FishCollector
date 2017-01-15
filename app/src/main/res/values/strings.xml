@@ -460,7 +460,7 @@
     <string name="mount_unit">ind.L</string>
     <string name="create_mount">生物量</string>
     <string name="weight_unit">mg/L</string>
-    <string name="name">名字</string>
+    <string name="name">名称</string>
     <string name="egg_diameter">卵径</string>
     <string name="milis_meter_unit">mm</string>
     <string name="pigment_property">色素性状</string>
@@ -490,4 +490,11 @@
     <string name="velocity_unit">m³/s</string>
     <string name="water_velocity">流量</string>
     <string name="collect_water_layer">采样水层</string>
+    <string name="net_type">网型</string>
+    <string name="net_area">网口面积</string>
+    <string name="net_angle">网口倾角</string>
+    <string name="net_velocity">网口流速</string>
+    <string name="end_time">结束时间</string>
+    <string name="puberty">发育期</string>
+    <string name="egg_membrane_diameter">卵膜径</string>
 </resources>

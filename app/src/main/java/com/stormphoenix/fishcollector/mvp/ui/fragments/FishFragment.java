@@ -1,19 +1,18 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
-import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
-import com.stormphoenix.fishcollector.mvp.model.beans.Fishes;
 import com.stormphoenix.fishcollector.databinding.FragmentFishBinding;
+import com.stormphoenix.fishcollector.mvp.model.beans.Fishes;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
+import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by Developer on 16-12-27.
@@ -57,6 +56,56 @@ public class FishFragment extends BaseFragment {
 
     @Override
     protected void initViews(View view) {
+        etBodyLengthFish.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+                    text = 0;
+                }
+                model.setBodyLength(text);
+            }
+        });
 
+        etWholeLength.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+                    text = 0;
+                }
+                model.setLength(text);
+            }
+        });
+
+        etBodyWeightFish.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+                    text = 0;
+                }
+                model.setBodyWeight(text);
+            }
+        });
+
+        etAgeFish.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+                    text = 0;
+                }
+                model.setAge(text);
+            }
+        });
     }
 }

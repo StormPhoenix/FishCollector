@@ -94,7 +94,6 @@ public class Benthos extends BaseObservable implements BaseModel {
         this.photo = photo;
     }
 
-    @Bindable
     public int getQuality() {
         return this.quality;
     }
@@ -103,7 +102,6 @@ public class Benthos extends BaseObservable implements BaseModel {
         this.quality = quality;
     }
 
-    @Bindable
     public float getBiomass() {
         return this.biomass;
     }

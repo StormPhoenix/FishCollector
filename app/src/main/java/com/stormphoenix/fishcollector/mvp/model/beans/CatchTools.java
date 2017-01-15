@@ -125,7 +125,6 @@ public class CatchTools extends BaseObservable implements BaseModel {
         this.netsModel = netsModel;
     }
 
-    @Bindable
     public float getNetMouthArea() {
         return this.netMouthArea;
     }
@@ -134,7 +133,6 @@ public class CatchTools extends BaseObservable implements BaseModel {
         this.netMouthArea = netMouthArea;
     }
 
-    @Bindable
     public float getNetMouthDip() {
         return this.netMouthDip;
     }
@@ -161,7 +159,6 @@ public class CatchTools extends BaseObservable implements BaseModel {
         this.endTime = endTime;
     }
 
-    @Bindable
     public float getNetMouthVelocity() {
         return this.netMouthVelocity;
     }

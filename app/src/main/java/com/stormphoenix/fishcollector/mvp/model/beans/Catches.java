@@ -5,6 +5,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
 import org.greenrobot.greendao.DaoException;
@@ -105,6 +106,7 @@ public class Catches extends BaseObservable implements BaseModel {
 
     public void setName(String name) {
         this.name = name;
+        notifyPropertyChanged(BR.name);
     }
 
     public String getPhoto() {
@@ -115,7 +117,6 @@ public class Catches extends BaseObservable implements BaseModel {
         this.photo = photo;
     }
 
-    @Bindable
     public int getTotalQuality() {
         return this.totalQuality;
     }
@@ -124,7 +125,6 @@ public class Catches extends BaseObservable implements BaseModel {
         this.totalQuality = totalQuality;
     }
 
-    @Bindable
     public int getEggQuality() {
         return this.eggQuality;
     }
@@ -133,7 +133,6 @@ public class Catches extends BaseObservable implements BaseModel {
         this.eggQuality = eggQuality;
     }
 
-    @Bindable
     public int getFryQuality() {
         return this.fryQuality;
     }
