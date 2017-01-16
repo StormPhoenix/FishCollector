@@ -1,4 +1,4 @@
-package com.stormphoenix.fishcollector.shared.constants;
+package com.stormphoenix.imagepicker;
 
 /**
  * Created by Developer on 17-1-16.
@@ -6,5 +6,6 @@ package com.stormphoenix.fishcollector.shared.constants;
  */
 
 public class FishImageType {
+    public static final String IMAGE_TYPE = "image_type";
     public static final String MONITORING_SITE = "mon";
 }

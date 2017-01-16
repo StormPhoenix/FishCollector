@@ -16,10 +16,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.stormphoenix.imagepicker.bean.ImageItem;
 import com.stormphoenix.imagepicker.ImagePicker;
 import com.stormphoenix.imagepicker.R;
 import com.stormphoenix.imagepicker.Utils;
+import com.stormphoenix.imagepicker.bean.ImageItem;
 import com.stormphoenix.imagepicker.ui.ImageBaseActivity;
 import com.stormphoenix.imagepicker.ui.ImageGridActivity;
 import com.stormphoenix.imagepicker.view.SuperCheckBox;
@@ -38,9 +38,11 @@ public class ImageGridAdapter extends BaseAdapter {
     private boolean isShowCamera;         //是否显示拍照按钮
     private int mImageSize;               //每个条目的大小
     private OnImageItemClickListener listener;   //图片被点击的监听
+    private String imageType = null;
 
-    public ImageGridAdapter(Activity activity, ArrayList<ImageItem> images) {
+    public ImageGridAdapter(Activity activity, String imageType, ArrayList<ImageItem> images) {
         this.mActivity = activity;
+        this.imageType = imageType;
         if (images == null || images.size() == 0) this.images = new ArrayList<>();
         else this.images = images;
 
@@ -100,7 +102,7 @@ public class ImageGridAdapter extends BaseAdapter {
                     if (!((ImageBaseActivity) mActivity).checkPermission(Manifest.permission.CAMERA)) {
                         ActivityCompat.requestPermissions(mActivity, new String[]{Manifest.permission.CAMERA}, ImageGridActivity.REQUEST_PERMISSION_CAMERA);
                     } else {
-                        imagePicker.takePicture(mActivity, ImagePicker.REQUEST_CODE_TAKE);
+                        imagePicker.takePicture(mActivity, imageType, ImagePicker.REQUEST_CODE_TAKE);
                     }
                 }
             });
@@ -119,7 +121,8 @@ public class ImageGridAdapter extends BaseAdapter {
             holder.ivThumb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (listener != null) listener.onImageItemClick(holder.rootView, imageItem, position);
+                    if (listener != null)
+                        listener.onImageItemClick(holder.rootView, imageItem, position);
                 }
             });
             holder.cbCheck.setOnClickListener(new View.OnClickListener() {

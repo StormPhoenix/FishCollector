@@ -14,21 +14,30 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 
+import com.stormphoenix.imagepicker.DirUtils;
+import com.stormphoenix.imagepicker.FishImageType;
 import com.stormphoenix.imagepicker.ImageDataSource;
-import com.stormphoenix.imagepicker.bean.ImageFolder;
-import com.stormphoenix.imagepicker.bean.ImageItem;
 import com.stormphoenix.imagepicker.ImagePicker;
 import com.stormphoenix.imagepicker.R;
 import com.stormphoenix.imagepicker.adapter.ImageFolderAdapter;
 import com.stormphoenix.imagepicker.adapter.ImageGridAdapter;
+import com.stormphoenix.imagepicker.bean.ImageFolder;
+import com.stormphoenix.imagepicker.bean.ImageItem;
 import com.stormphoenix.imagepicker.view.FolderPopUpWindow;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ImageGridActivity extends ImageBaseActivity implements ImageDataSource.OnImagesLoadedListener, ImageGridAdapter.OnImageItemClickListener, ImagePicker.OnImageSelectedListener, View.OnClickListener {
 
     public static final int REQUEST_PERMISSION_STORAGE = 0x01;
     public static final int REQUEST_PERMISSION_CAMERA = 0x02;
+    private static final String TAG = "ImageGridActivity";
 
     private ImagePicker imagePicker;
 
@@ -43,10 +52,14 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
     private List<ImageFolder> mImageFolders;   //所有的图片文件夹
     private ImageGridAdapter mImageGridAdapter;  //图片九宫格展示的适配器
 
+    private String currentImageType = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_grid);
+
+        currentImageType = getIntent().getStringExtra(FishImageType.IMAGE_TYPE);
 
         imagePicker = ImagePicker.getInstance();
         imagePicker.clear();
@@ -69,7 +82,7 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
             mBtnPre.setVisibility(View.GONE);
         }
 
-        mImageGridAdapter = new ImageGridAdapter(this, null);
+        mImageGridAdapter = new ImageGridAdapter(this, currentImageType, null);
         mImageFolderAdapter = new ImageFolderAdapter(this, null);
 
         onImageSelected(0, null, false);
@@ -94,7 +107,7 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
             }
         } else if (requestCode == REQUEST_PERMISSION_CAMERA) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                imagePicker.takePicture(this, ImagePicker.REQUEST_CODE_TAKE);
+                imagePicker.takePicture(this, currentImageType, ImagePicker.REQUEST_CODE_TAKE);
             } else {
                 showToast("权限被禁止，无法打开相机");
             }
@@ -114,7 +127,28 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
             Intent intent = new Intent();
             intent.putExtra(ImagePicker.EXTRA_RESULT_ITEMS, imagePicker.getSelectedImages());
             setResult(ImagePicker.RESULT_CODE_ITEMS, intent);  //多选不允许裁剪裁剪，返回数据
+//            **********************
+            ArrayList<ImageItem> images = imagePicker.getSelectedImages();
+            for (ImageItem item : images) {
+                try {
+                    File resultFile = new File(DirUtils.getAppRootDir(this, currentImageType), System.currentTimeMillis() + ".jpg");
+                    FileInputStream fis = new FileInputStream(item.path);
+                    FileOutputStream fos = new FileOutputStream(resultFile);
+                    int ch = 0;
+                    while ((ch = fis.read()) != -1) {
+                        fos.write(ch);
+                    }
+                    fos.flush();
+                    fis.close();
+                    fos.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             finish();
+//            **********************
         } else if (id == R.id.btn_dir) {
             if (mImageFolders == null) {
                 Log.i("ImageGridActivity", "您的手机没有图片");

@@ -17,8 +17,8 @@ public class DirUtils {
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
 
-    public static File getAppRootDir(Context context) {
-        File f = new File(getAppRootDirPath(context));
+    public static File getAppRootDir(Context context, String imageType) {
+        File f = new File(getAppRootDirPath(context, imageType));
         if (!f.exists()) {
             Log.e(TAG, "getAppRootDir: exists false");
             f.mkdirs();
@@ -28,8 +28,8 @@ public class DirUtils {
         return f;
     }
 
-    private static String getAppRootDirPath(Context context) {
-        String path = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + "fishDir";
+    private static String getAppRootDirPath(Context context, String imageType) {
+        String path = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + "fishDir" + File.separator + imageType;
         Log.e(TAG, "getAppRootDirPath: " + path);
         return path;
     }

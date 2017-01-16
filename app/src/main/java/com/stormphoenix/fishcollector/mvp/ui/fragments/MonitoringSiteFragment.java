@@ -2,6 +2,7 @@ package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -18,13 +19,13 @@ import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
 import com.stormphoenix.fishcollector.databinding.FragmentMonitorSiteBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
-import com.stormphoenix.fishcollector.mvp.ui.activities.MainActivity;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.shared.AddressUtils;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultTextWatcher;
 import com.stormphoenix.imagepicker.DirUtils;
+import com.stormphoenix.imagepicker.FishImageType;
 import com.stormphoenix.imagepicker.ImagePicker;
 import com.stormphoenix.imagepicker.bean.ImageItem;
 import com.stormphoenix.imagepicker.ui.ImageGridActivity;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 
 import static com.stormphoenix.fishcollector.mvp.ui.activities.MainActivity.IMAGE_ITEM_ADD;
+import static com.stormphoenix.fishcollector.mvp.ui.activities.MainActivity.REQUEST_CODE_SELECT;
 import static com.stormphoenix.imagepicker.ImagePicker.REQUEST_CODE_PREVIEW;
 
 /**
@@ -108,7 +110,7 @@ public class MonitoringSiteFragment extends BaseFragment implements AdapterView.
 
     private void updatePicturesData() {
         selImageList = new ArrayList<>();
-        File rootDir = DirUtils.getAppRootDir(this.getActivity());
+        File rootDir = DirUtils.getAppRootDir(this.getActivity(), FishImageType.MONITORING_SITE);
         for (File file : rootDir.listFiles()) {
             ImageItem item = new ImageItem();
             item.path = file.getAbsolutePath();
@@ -218,6 +220,20 @@ public class MonitoringSiteFragment extends BaseFragment implements AdapterView.
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.e(TAG, "onActivityResult: ");
+        switch (requestCode) {
+            case REQUEST_CODE_SELECT:
+                if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
+                } else {
+                }
+                updatePicturesData();
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
             case R.id.sp_province:
@@ -245,20 +261,27 @@ public class MonitoringSiteFragment extends BaseFragment implements AdapterView.
 
     @Override
     public void onItemClick(View view, int position) {
+        Log.e(TAG, "onItemClick: " );
         switch (position) {
             case IMAGE_ITEM_ADD:
                 //打开选择,本次允许选择的数量
                 ImagePicker.getInstance().setSelectLimit(maxImgCount - selImageList.size());
                 Intent intent = new Intent(this.getActivity(), ImageGridActivity.class);
-                startActivityForResult(intent, MainActivity.REQUEST_CODE_SELECT);
+                intent.putExtra(FishImageType.IMAGE_TYPE, FishImageType.MONITORING_SITE);
+                getActivity().startActivityForResult(intent, REQUEST_CODE_SELECT);
                 break;
             default:
 //                打开预览
                 Intent intentPreview = new Intent(this.getActivity(), ImagePreviewDelActivity.class);
                 intentPreview.putExtra(ImagePicker.EXTRA_IMAGE_ITEMS, (ArrayList<ImageItem>) adapter.getImages());
                 intentPreview.putExtra(ImagePicker.EXTRA_SELECTED_IMAGE_POSITION, position);
-                startActivityForResult(intentPreview, REQUEST_CODE_PREVIEW);
+                getActivity().startActivityForResult(intentPreview, REQUEST_CODE_PREVIEW);
                 break;
         }
+    }
+
+    @Override
+    public void updateData() {
+        updatePicturesData();
     }
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.stormphoenix.imagepicker.bean.ImageFolder;
 import com.stormphoenix.imagepicker.bean.ImageItem;
@@ -237,12 +238,13 @@ public class ImagePicker {
     /**
      * 拍照的方法
      */
-    public void takePicture(Activity activity, int requestCode) {
+    public void takePicture(Activity activity, String imageType, int requestCode) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         takePictureIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
-            takeImageFile = DirUtils.getAppRootDir(activity);
+            takeImageFile = DirUtils.getAppRootDir(activity, imageType);
             takeImageFile = createFile(takeImageFile, "IMG_", ".jpg");
+            Log.e(TAG, "takePicture: " + takeImageFile.getAbsolutePath());
             // 默认情况下，即不需要指定intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             // 照相机有自己默认的存储路径，拍摄的照片将返回一个缩略图。如果想访问原始图片，
             // 可以通过dat extra能够得到原始图片位置。即，如果指定了目标uri，data就没有数据，

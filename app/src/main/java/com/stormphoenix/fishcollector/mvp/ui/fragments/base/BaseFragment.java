@@ -12,9 +12,6 @@ import android.view.ViewGroup;
 import com.stormphoenix.fishcollector.db.DbManager;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.BasePresenter;
-import com.stormphoenix.imagepicker.bean.ImageItem;
-
-import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import rx.Subscription;
@@ -44,13 +41,14 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
         }
     }
 
+    public void updateData() {
+    }
+
     protected abstract int getLayoutId();
 
     protected abstract void initVariables();
 
     protected abstract void initViews(View view);
-
-    public void updateImageData(ArrayList<ImageItem> data) {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
