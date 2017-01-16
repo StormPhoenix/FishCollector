@@ -43,9 +43,15 @@
             android:name=".mvp.ui.activities.DialogStyleActivity"
             android:theme="@style/AppTheme.Dialog"></activity>
 
-        <activity
-            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
-            android:configChanges="orientation|screenSize" />
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.stormphoenix.fishcollector.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

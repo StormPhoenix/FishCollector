@@ -1,12 +1,12 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
+import android.content.Intent;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -15,22 +15,35 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
+import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
 import com.stormphoenix.fishcollector.databinding.FragmentMonitorSiteBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
+import com.stormphoenix.fishcollector.mvp.ui.activities.MainActivity;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.shared.AddressUtils;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultTextWatcher;
+import com.stormphoenix.imagepicker.DirUtils;
+import com.stormphoenix.imagepicker.ImagePicker;
+import com.stormphoenix.imagepicker.bean.ImageItem;
+import com.stormphoenix.imagepicker.ui.ImageGridActivity;
+import com.stormphoenix.imagepicker.ui.ImagePreviewDelActivity;
+
+import java.io.File;
+import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+
+import static com.stormphoenix.fishcollector.mvp.ui.activities.MainActivity.IMAGE_ITEM_ADD;
+import static com.stormphoenix.imagepicker.ImagePicker.REQUEST_CODE_PREVIEW;
 
 /**
  * 维护 监测点 界面
  */
 @SuppressLint("ValidFragment")
-public class MonitoringSiteFragment extends BaseFragment implements AdapterView.OnItemSelectedListener {
+public class MonitoringSiteFragment extends BaseFragment implements AdapterView.OnItemSelectedListener, ImagePickerAdapter.OnRecyclerViewItemClickListener {
+
     private static final String TAG = "MonitoringSiteFragment";
     @BindView(R.id.et_temperature)
     EditText etTemperature;
@@ -48,15 +61,17 @@ public class MonitoringSiteFragment extends BaseFragment implements AdapterView.
     Spinner spinCity;
     @BindView(R.id.et_details_address)
     EditText etDetailsAddress;
-
-//    private ArrayAdapter<String> provinceAdapter = null;
-//    private ArrayAdapter<String> cityAdapter = null;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
 
     //城市在省级常量表中的下标值
     private int cityPosition = 0;
     private int cityIndex = 0;
     private String detailAddress = null;
     private String site = null;
+    int maxImgCount;
+    ImagePickerAdapter adapter;
+    ArrayList<ImageItem> selImageList;
 
     //    private View addSurfaceView = null;
     private View addPictureView = null;
@@ -89,6 +104,17 @@ public class MonitoringSiteFragment extends BaseFragment implements AdapterView.
         cityIndex = AddressUtils.getCityIndex();
         detailAddress = AddressUtils.getAddressDetails();
         site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
+    }
+
+    private void updatePicturesData() {
+        selImageList = new ArrayList<>();
+        File rootDir = DirUtils.getAppRootDir(this.getActivity());
+        for (File file : rootDir.listFiles()) {
+            ImageItem item = new ImageItem();
+            item.path = file.getAbsolutePath();
+            selImageList.add(item);
+        }
+        adapter.setImages(selImageList);
     }
 
     @Override
@@ -174,6 +200,21 @@ public class MonitoringSiteFragment extends BaseFragment implements AdapterView.
         spinCity.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, Constants.CITY[cityPosition]));
         spinCity.setSelection(cityIndex);
         spinCity.setOnItemSelectedListener(this);
+
+        initPicturesListView();
+    }
+
+    private void initPicturesListView() {
+        selImageList = new ArrayList<>();
+        maxImgCount = 10;
+        adapter = new ImagePickerAdapter(this.getActivity(), selImageList, maxImgCount);
+        adapter.setOnItemClickListener(this);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), 4));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapter);
+
+        updatePicturesData();
     }
 
     @Override
@@ -200,5 +241,24 @@ public class MonitoringSiteFragment extends BaseFragment implements AdapterView.
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        switch (position) {
+            case IMAGE_ITEM_ADD:
+                //打开选择,本次允许选择的数量
+                ImagePicker.getInstance().setSelectLimit(maxImgCount - selImageList.size());
+                Intent intent = new Intent(this.getActivity(), ImageGridActivity.class);
+                startActivityForResult(intent, MainActivity.REQUEST_CODE_SELECT);
+                break;
+            default:
+//                打开预览
+                Intent intentPreview = new Intent(this.getActivity(), ImagePreviewDelActivity.class);
+                intentPreview.putExtra(ImagePicker.EXTRA_IMAGE_ITEMS, (ArrayList<ImageItem>) adapter.getImages());
+                intentPreview.putExtra(ImagePicker.EXTRA_SELECTED_IMAGE_POSITION, position);
+                startActivityForResult(intentPreview, REQUEST_CODE_PREVIEW);
+                break;
+        }
     }
 }

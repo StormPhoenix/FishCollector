@@ -26,7 +26,17 @@ import com.stormphoenix.fishcollector.shared.KeyGenerator;
 import com.stormphoenix.fishcollector.shared.ModelUtils;
 import com.stormphoenix.fishcollector.shared.constants.ModelConstant;
 import com.stormphoenix.fishcollector.shared.constants.ModelConstantMap;
+import com.stormphoenix.imagepicker.DirUtils;
+import com.stormphoenix.imagepicker.ImagePicker;
+import com.stormphoenix.imagepicker.bean.ImageItem;
 import com.unnamed.b.atv.model.TreeNode;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +45,8 @@ public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
     public static final int REQUEST_CODE_ADD_NODE = 5;
+    public static final int IMAGE_ITEM_ADD = -1;
+    public static final int REQUEST_CODE_SELECT = 100;
 
     @BindView(R.id.toolbar_main)
     Toolbar toolbar;
@@ -124,6 +136,34 @@ public class MainActivity extends BaseActivity {
                 if (resultCode == RESULT_OK) {
                     String modelName = data.getStringExtra(DialogStyleActivity.MODEL_NAME);
                     addNewNode(modelName);
+                }
+                break;
+            case REQUEST_CODE_SELECT:
+                if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
+                    if (data != null) {
+                        ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                        for (ImageItem item : images) {
+                            try {
+                                File resultFile = new File(DirUtils.getAppRootDir(this), System.currentTimeMillis() + ".jpg");
+                                FileInputStream fis = new FileInputStream(item.path);
+                                FileOutputStream fos = new FileOutputStream(resultFile);
+                                int ch = 0;
+                                while ((ch = fis.read()) != -1) {
+                                    fos.write(ch);
+                                }
+                                fos.flush();
+                                fis.close();
+                                fos.close();
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        currentFragment.updateImageData(images);
+                    }
+                } else {
+
                 }
                 break;
         }

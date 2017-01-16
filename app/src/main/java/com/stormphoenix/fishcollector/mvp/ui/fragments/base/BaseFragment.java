@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,9 @@ import android.view.ViewGroup;
 import com.stormphoenix.fishcollector.db.DbManager;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.BasePresenter;
+import com.stormphoenix.imagepicker.bean.ImageItem;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import rx.Subscription;
@@ -47,6 +49,8 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
     protected abstract void initVariables();
 
     protected abstract void initViews(View view);
+
+    public void updateImageData(ArrayList<ImageItem> data) {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
