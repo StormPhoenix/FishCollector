@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import rx.Subscription;
 
 public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
 
+    private static final String TAG = "BaseFragment";
     protected T mPresenter;
     private View mFragmentView;
     protected Subscription mSubscription;
@@ -74,12 +76,31 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
 
     @Override
     public void onDestroy() {
+        Log.d(TAG, "onDestroy: onDestory");
         super.onDestroy();
         if (mPresenter != null) {
-            mPresenter.onCreate();
+            mPresenter.onDestory();
         }
         if (mSubscription != null && !mSubscription.isUnsubscribed()) {
             mSubscription.unsubscribe();
         }
+    }
+
+    @Override
+    public void onPause() {
+        Log.d(TAG, "onPause: ");
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        Log.d(TAG, "onStop: ");
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroyView() {
+        Log.d(TAG, "onDestroyView: ");
+        super.onDestroyView();
     }
 }

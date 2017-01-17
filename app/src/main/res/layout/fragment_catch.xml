@@ -1,4 +1,6 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -17,23 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <GridLayout
-                android:id="@+id/catch_addfish"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:columnCount="4">
-
-            </GridLayout>
-
-            <GridLayout
-                android:id="@+id/catch_addegg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/catch_addfish"
-                android:layout_marginTop="10dp"
-                android:columnCount="4"></GridLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -130,13 +115,18 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <GridLayout
-                android:id="@+id/gl_pictures_wrapper_catch"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_pic_catch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:columnCount="4"
-                android:padding="3dp" />
+                android:choiceMode="singleChoice"
+                android:divider="@null"
+                android:fadingEdge="none"
+                android:listSelector="@android:color/transparent"
+                android:scrollbarStyle="outsideOverlay"
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                app:spanCount="4"
+                tools:listitem="@layout/list_item_image" />
         </LinearLayout>
     </ScrollView>
 </layout>

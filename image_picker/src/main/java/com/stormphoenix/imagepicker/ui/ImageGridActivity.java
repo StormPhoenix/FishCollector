@@ -18,6 +18,7 @@ import com.stormphoenix.imagepicker.DirUtils;
 import com.stormphoenix.imagepicker.FishImageType;
 import com.stormphoenix.imagepicker.ImageDataSource;
 import com.stormphoenix.imagepicker.ImagePicker;
+import com.stormphoenix.imagepicker.LocalVariables;
 import com.stormphoenix.imagepicker.R;
 import com.stormphoenix.imagepicker.adapter.ImageFolderAdapter;
 import com.stormphoenix.imagepicker.adapter.ImageGridAdapter;
@@ -125,12 +126,13 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
         int id = v.getId();
         if (id == R.id.btn_ok) {
             Intent intent = new Intent();
-            intent.putExtra(ImagePicker.EXTRA_RESULT_ITEMS, imagePicker.getSelectedImages());
+//            intent.putExtra(ImagePicker.EXTRA_RESULT_ITEMS, imagePicker.getSelectedImages());
             setResult(ImagePicker.RESULT_CODE_ITEMS, intent);  //多选不允许裁剪裁剪，返回数据
 //            **********************
             ArrayList<ImageItem> images = imagePicker.getSelectedImages();
-            for (ImageItem item : images) {
-                try {
+            LocalVariables.newImageFilePaths = new ArrayList<String>();
+            try {
+                for (ImageItem item : images) {
                     File resultFile = new File(DirUtils.getAppRootDir(this, currentImageType), System.currentTimeMillis() + ".jpg");
                     FileInputStream fis = new FileInputStream(item.path);
                     FileOutputStream fos = new FileOutputStream(resultFile);
@@ -141,11 +143,18 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
                     fos.flush();
                     fis.close();
                     fos.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    if (resultFile.exists()) {
+                        LocalVariables.newImageFilePaths.add(resultFile.getAbsolutePath());
+                    }
                 }
+            } catch (FileNotFoundException e) {
+                Log.e(TAG, "onClick: FileNotFoundException");
+                e.printStackTrace();
+            } catch (IOException e) {
+                Log.e(TAG, "onClick: IOException");
+                e.printStackTrace();
+            } catch (Exception e) {
+                Log.e(TAG, "onClick: " + e.getCause().toString());
             }
             finish();
 //            **********************

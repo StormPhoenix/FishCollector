@@ -2,6 +2,7 @@ package com.stormphoenix.fishcollector.mvp.ui.component.treeview.utils;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.util.Log;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeItemHolder;
@@ -16,9 +17,12 @@ import com.unnamed.b.atv.model.TreeNode;
  */
 
 public class TreeUtils {
+    private static final String TAG = "TreeUtils";
+
     public static TreeNode createTreeNode(Context context, BaseModel model, TreeItemHolder.ItemOperationListener listener) {
         String modelClassName = model.getClass().getName();
         ITreeView.TreeItem treeItem = new ITreeView.TreeItem(modelClassName);
+        Log.e(TAG, "createTreeNode: " + model.getClass().getName());
         treeItem.setAttachedModel(model);
 
         /** ********* 设置对应的fragment ********** **/

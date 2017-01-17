@@ -173,6 +173,7 @@ public class MainActivity extends BaseActivity {
         ITreeView.TreeItem treeItem = new ITreeView.TreeItem(modelClassName);
         treeItem.setAttachedModel(resultObj);
 
+        Log.e(TAG, "addNewNode: " + ModelConstantMap.getHolder(resultObj.getClass().getName()).fragmentClassName);
         BaseFragment attachedFragment = (BaseFragment) Fragment.instantiate(this, ModelConstantMap.getHolder(resultObj.getClass().getName()).fragmentClassName);
         attachedFragment.setModel(resultObj);
         treeItem.setAttachedFragment(attachedFragment);

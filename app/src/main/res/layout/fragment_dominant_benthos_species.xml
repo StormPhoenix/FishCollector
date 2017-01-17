@@ -1,4 +1,6 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -93,11 +95,18 @@
 
             </RelativeLayout>
 
-            <GridLayout
-                android:id="@+id/dom_add_pic"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_pic_dom_benthos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="4"></GridLayout>
+                android:choiceMode="singleChoice"
+                android:divider="@null"
+                android:fadingEdge="none"
+                android:listSelector="@android:color/transparent"
+                android:scrollbarStyle="outsideOverlay"
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                app:spanCount="4"
+                tools:listitem="@layout/list_item_image"/>
         </LinearLayout>
     </ScrollView>
 </layout>

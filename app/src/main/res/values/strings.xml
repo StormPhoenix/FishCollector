@@ -497,4 +497,5 @@
     <string name="end_time">结束时间</string>
     <string name="puberty">发育期</string>
     <string name="egg_membrane_diameter">卵膜径</string>
+    <string name="locate_error">网络错误，无法定位</string>
 </resources>

@@ -1,4 +1,6 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -118,13 +120,18 @@
                     android:text="@={fishEggBean.embryoProp}" />
             </android.support.design.widget.TextInputLayout>
 
-            <GridLayout
-                android:id="@+id/gl_pictures_wrapper_fish_egg"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_pic_fish_egg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:columnCount="4"
-                android:padding="3dp"></GridLayout>
+                android:choiceMode="singleChoice"
+                android:divider="@null"
+                android:fadingEdge="none"
+                android:listSelector="@android:color/transparent"
+                android:scrollbarStyle="outsideOverlay"
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                app:spanCount="4"
+                tools:listitem="@layout/list_item_image"/>
         </LinearLayout>
     </ScrollView>
 </layout>

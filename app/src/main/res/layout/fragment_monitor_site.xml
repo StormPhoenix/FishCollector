@@ -31,14 +31,6 @@
             android:paddingRight="10dp"
             android:paddingTop="10dp">
 
-            <GridLayout
-                android:id="@+id/mon_site_add_fra_sur"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="4">
-
-            </GridLayout>
-
             <LinearLayout
                 android:id="@+id/spinner_layout"
                 android:layout_width="match_parent"
@@ -324,7 +316,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
+                android:id="@+id/rv_pic_monitor_site"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:choiceMode="singleChoice"

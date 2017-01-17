@@ -1,6 +1,7 @@
 package com.stormphoenix.fishcollector;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.stormphoenix.imagepicker.ImagePicker;
 import com.stormphoenix.imagepicker.loader.GlideImageLoader;
@@ -12,10 +13,18 @@ import com.stormphoenix.imagepicker.view.CropImageView;
  */
 
 public class FishApplication extends Application {
+
+    private static Context instance = null;
+
     @Override
     public void onCreate() {
         super.onCreate();
         initImageLoader();
+        instance = this;
+    }
+
+    public static Context getInstance() {
+        return instance;
     }
 
     private void initImageLoader() {

@@ -2,7 +2,6 @@ package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -11,7 +10,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -19,22 +19,24 @@ import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
 import com.stormphoenix.fishcollector.databinding.FragmentMonitorSiteBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
-import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
+import com.stormphoenix.fishcollector.mvp.presenter.impls.LocationPresenterImpl;
+import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
+import com.stormphoenix.fishcollector.mvp.view.LocationView;
+import com.stormphoenix.fishcollector.permissions.PermissionsUtils;
 import com.stormphoenix.fishcollector.shared.AddressUtils;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultTextWatcher;
-import com.stormphoenix.imagepicker.DirUtils;
 import com.stormphoenix.imagepicker.FishImageType;
 import com.stormphoenix.imagepicker.ImagePicker;
 import com.stormphoenix.imagepicker.bean.ImageItem;
 import com.stormphoenix.imagepicker.ui.ImageGridActivity;
 import com.stormphoenix.imagepicker.ui.ImagePreviewDelActivity;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 import static com.stormphoenix.fishcollector.mvp.ui.activities.MainActivity.IMAGE_ITEM_ADD;
 import static com.stormphoenix.fishcollector.mvp.ui.activities.MainActivity.REQUEST_CODE_SELECT;
@@ -44,7 +46,7 @@ import static com.stormphoenix.imagepicker.ImagePicker.REQUEST_CODE_PREVIEW;
  * 维护 监测点 界面
  */
 @SuppressLint("ValidFragment")
-public class MonitoringSiteFragment extends BaseFragment implements AdapterView.OnItemSelectedListener, ImagePickerAdapter.OnRecyclerViewItemClickListener {
+public class MonitoringSiteFragment extends BaseImageListFragment implements AdapterView.OnItemSelectedListener, ImagePickerAdapter.OnRecyclerViewItemClickListener {
 
     private static final String TAG = "MonitoringSiteFragment";
     @BindView(R.id.et_temperature)
@@ -63,24 +65,27 @@ public class MonitoringSiteFragment extends BaseFragment implements AdapterView.
     Spinner spinCity;
     @BindView(R.id.et_details_address)
     EditText etDetailsAddress;
-    @BindView(R.id.recyclerView)
+    @BindView(R.id.rv_pic_monitor_site)
     RecyclerView recyclerView;
+    @BindView(R.id.img_start_location)
+    ImageView imgStartLocation;
+    @BindView(R.id.img_end_location)
+    ImageView imgEndLocation;
+    @BindView(R.id.pb_start_location)
+    ProgressBar pbStartLocation;
+    @BindView(R.id.pb_end_location)
+    ProgressBar pbEndLocation;
 
     //城市在省级常量表中的下标值
     private int cityPosition = 0;
     private int cityIndex = 0;
     private String detailAddress = null;
     private String site = null;
-    int maxImgCount;
-    ImagePickerAdapter adapter;
-    ArrayList<ImageItem> selImageList;
 
-    //    private View addSurfaceView = null;
-    private View addPictureView = null;
-
-    //用于计算GridLayout一个View的大小
-    private int size;
-    private RelativeLayout.LayoutParams params = null;
+    MonitoringSite model = null;
+    LocationPresenterImpl locationPresenter;
+    LocationView startLocationView;
+    LocationView endLocationView;
 
     @Override
     public void onStart() {
@@ -101,22 +106,63 @@ public class MonitoringSiteFragment extends BaseFragment implements AdapterView.
 
     @Override
     protected void initVariables() {
-        AddressUtils.processAddress(((MonitoringSite) attachedBean).getSite());
+        model = (MonitoringSite) attachedBean;
+        AddressUtils.processAddress(model.getSite());
         cityPosition = AddressUtils.getCityPosition();
         cityIndex = AddressUtils.getCityIndex();
         detailAddress = AddressUtils.getAddressDetails();
         site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
-    }
 
-    private void updatePicturesData() {
-        selImageList = new ArrayList<>();
-        File rootDir = DirUtils.getAppRootDir(this.getActivity(), FishImageType.MONITORING_SITE);
-        for (File file : rootDir.listFiles()) {
-            ImageItem item = new ImageItem();
-            item.path = file.getAbsolutePath();
-            selImageList.add(item);
-        }
-        adapter.setImages(selImageList);
+        locationPresenter = new LocationPresenterImpl();
+        locationPresenter.onCreate();
+
+        startLocationView = new LocationView() {
+            @Override
+            public void onLocationSuccess(double longitude, double latitude) {
+                etStartLongitude.setText(String.valueOf(longitude));
+                etStartLatitude.setText(String.valueOf(latitude));
+            }
+
+            @Override
+            public void onLocationFailed(String errorMsg) {
+                Toast.makeText(getActivity(), errorMsg, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), getResources().getString(R.string.locate_error), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void showProgress() {
+                pbStartLocation.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void hideProgress() {
+                pbStartLocation.setVisibility(View.GONE);
+            }
+        };
+
+        endLocationView = new LocationView() {
+            @Override
+            public void onLocationSuccess(double longitude, double latitude) {
+                etEndLongitude.setText(String.valueOf(longitude));
+                etEndLatitude.setText(String.valueOf(latitude));
+            }
+
+            @Override
+            public void onLocationFailed(String errorMsg) {
+//                Toast.makeText(getActivity(), getResources().getString(R.string.locate_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), errorMsg, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void showProgress() {
+                pbEndLocation.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void hideProgress() {
+                pbEndLocation.setVisibility(View.GONE);
+            }
+        };
     }
 
     @Override
@@ -220,20 +266,6 @@ public class MonitoringSiteFragment extends BaseFragment implements AdapterView.
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.e(TAG, "onActivityResult: ");
-        switch (requestCode) {
-            case REQUEST_CODE_SELECT:
-                if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
-                } else {
-                }
-                updatePicturesData();
-                break;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
             case R.id.sp_province:
@@ -261,7 +293,7 @@ public class MonitoringSiteFragment extends BaseFragment implements AdapterView.
 
     @Override
     public void onItemClick(View view, int position) {
-        Log.e(TAG, "onItemClick: " );
+        Log.e(TAG, "onItemClick: ");
         switch (position) {
             case IMAGE_ITEM_ADD:
                 //打开选择,本次允许选择的数量
@@ -282,6 +314,33 @@ public class MonitoringSiteFragment extends BaseFragment implements AdapterView.
 
     @Override
     public void updateData() {
+        super.updateData();
         updatePicturesData();
+    }
+
+    @OnClick({R.id.img_start_location, R.id.img_end_location})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_start_location:
+                if (PermissionsUtils.checkLocationPermissions(getActivity())) {
+                    locationStart(startLocationView);
+                }
+                break;
+            case R.id.img_end_location:
+                if (PermissionsUtils.checkLocationPermissions(getActivity())) {
+                    locationEnd(endLocationView);
+                }
+                break;
+        }
+    }
+
+    private void locationEnd(LocationView endLocationView) {
+        locationPresenter.attachView(endLocationView);
+        locationPresenter.locate();
+    }
+
+    private void locationStart(LocationView startLocationView) {
+        locationPresenter.attachView(startLocationView);
+        locationPresenter.locate();
     }
 }
