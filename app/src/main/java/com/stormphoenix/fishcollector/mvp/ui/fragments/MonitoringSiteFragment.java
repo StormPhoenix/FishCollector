@@ -20,8 +20,11 @@ import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
 import com.stormphoenix.fishcollector.databinding.FragmentMonitorSiteBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.presenter.impls.LocationPresenterImpl;
+import com.stormphoenix.fishcollector.mvp.presenter.impls.SubmitPresenterImpl;
+import com.stormphoenix.fishcollector.mvp.presenter.interfaces.SubmitPresenter;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.mvp.view.LocationView;
+import com.stormphoenix.fishcollector.mvp.view.SubmitSingleModelView;
 import com.stormphoenix.fishcollector.permissions.PermissionsUtils;
 import com.stormphoenix.fishcollector.shared.AddressUtils;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
@@ -86,6 +89,9 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
     LocationPresenterImpl locationPresenter;
     LocationView startLocationView;
     LocationView endLocationView;
+
+    private SubmitPresenter submitPresenter = null;
+    private SubmitSingleModelView submitSingleModelView = null;
 
     @Override
     public void onStart() {
@@ -163,6 +169,30 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
                 pbEndLocation.setVisibility(View.GONE);
             }
         };
+
+        submitSingleModelView = new SubmitSingleModelView() {
+            @Override
+            public void onSubmitSuccess() {
+                Toast.makeText(getActivity(), "提交成功", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSubmitError(String msg) {
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void showProgress() {
+
+            }
+
+            @Override
+            public void hideProgress() {
+
+            }
+        };
+
+        submitPresenter = new SubmitPresenterImpl(submitSingleModelView);
     }
 
     @Override
@@ -337,6 +367,14 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
     private void locationEnd(LocationView endLocationView) {
         locationPresenter.attachView(endLocationView);
         locationPresenter.locate();
+    }
+
+    @Override
+    public void uploadModel() {
+        super.uploadModel();
+        if (model != null) {
+            submitPresenter.submit("MonitoringSite", model);
+        }
     }
 
     private void locationStart(LocationView startLocationView) {

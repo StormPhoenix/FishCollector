@@ -207,6 +207,13 @@ public class MainActivity extends BaseActivity {
                     currentFragment.save();
                 }
                 break;
+            case R.id.action_upload:
+                if (currentFragment != null) {
+                    currentFragment.uploadModel();
+                }
+                break;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

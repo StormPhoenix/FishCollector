@@ -6,4 +6,10 @@
         android:icon="@mipmap/ic_account_balance_wallet_white_24dp"
         android:title="@string/action_save"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_upload"
+        android:icon="@mipmap/ic_backup_white_24dp"
+        android:title="@string/ic_cloud_upload"
+        app:showAsAction="always" />
 </menu>

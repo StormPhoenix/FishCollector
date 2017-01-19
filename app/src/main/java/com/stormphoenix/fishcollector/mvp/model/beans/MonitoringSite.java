@@ -5,6 +5,8 @@ import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.android.databinding.library.baseAdapters.BR;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
 import org.greenrobot.greendao.DaoException;
@@ -26,34 +28,50 @@ public class MonitoringSite extends BaseObservable implements BaseModel {
      * 这个是给后台使用的主键，用时间拼凑的
      */
     @Unique
+    @Expose
+    @SerializedName("inverstigationId")
     private String modelId;
     @Nullable
+    @Expose
     private String institution;
     @Nullable
+    @Expose
     private String investigator;
     @Nullable
+    @Expose
     private String investigationDate;
     @Nullable
+    @Expose
     private String site;
     @Nullable
+    @Expose
     private String river;
     @Nullable
+    @Expose
     private String photo;
     @Nullable
+    @Expose
     private String startTime;
     @Nullable
+    @Expose
     private String endTime;
     @Nullable
+    @Expose
     private float startLongitude;
     @Nullable
+    @Expose
     private float startLatitude;
     @Nullable
+    @Expose
     private float endLongitude;
     @Nullable
+    @Expose
     private float endLatitude;
     @Nullable
+    @Expose
     private String weather;
     @Nullable
+    @Expose
     private float temperature;
     @Nullable
     private int userId;

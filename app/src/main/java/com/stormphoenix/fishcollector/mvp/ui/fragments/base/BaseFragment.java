@@ -74,6 +74,9 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
         return mFragmentView;
     }
 
+    public void uploadModel() {
+    }
+
     @Override
     public void onDestroy() {
         Log.d(TAG, "onDestroy: onDestory");
