@@ -4,6 +4,7 @@
 
 FishCollector(鱼类信息采集系统)是野外水生生物信息采集app，采用了MVP设计模式，可以对输入地理信息，对样本拍照，最终提交到后台汇总。
 ---------------------
+![new1](https://github.com/StormPhoenix/FishCollector/raw/master/screenshot/new1.png)
 ![pic1](https://github.com/StormPhoenix/FishCollector/raw/master/screenshot/pic1.png)
 ![pic2](https://github.com/StormPhoenix/FishCollector/raw/master/screenshot/pic2.png)
 ![pic3](https://github.com/StormPhoenix/FishCollector/raw/master/screenshot/pic3.png)
