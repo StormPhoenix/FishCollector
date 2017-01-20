@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FishCollector</string>
+    <string name="app_name">鱼类信息采集系统</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="username">用户名</string>
     <string name="password">密码</string>
