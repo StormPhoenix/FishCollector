@@ -22,14 +22,11 @@ FishCollector(鱼类信息采集系统)是野外水生生物信息采集app
 
 
 ###关于我：
-我是个学生，酷爱开发，擅长Android、php、python、nodejs、web，如果您手头有适合我的实习或者工作机会，欢迎邮件联系我:  [daimajia#gmail.com](mailto:daimajia@gmail.com)
+我是个学生，酷爱开发，擅长Android、Java，如果您手头有适合我的实习或者工作机会，欢迎邮件联系我:  [hzau.cs.wangcheng@gmail.com]
 
-*	[西北大学](http://zh.wikipedia.org/wiki/%E8%A5%BF%E5%8C%97%E5%A4%A7%E5%AD%A6_\(%E4%B8%AD%E5%9B%BD\))
-*	[北京师范大学](http://www.bnu.edu.cn)
-*	我的站点: [代码家](http://www.daimajia.com)
+*	[华中农业大学](http://www.hzau.edu.cn/2014/ch/）
+* [Email](hzau.cs.wangcheng@gmail.com)
 *	我的微博:[代码家](http://weibo.com/daimajia)
-*	Twitter:[daimajia](http://twitter.com/daimajia)
-*	Instagram:[daimajia](http://instagram.com/daimajia)
 
-欢迎Follow我，我会关注和开源一些Android、Node、Python、Java相关项目。
+欢迎Follow我，我会关注和开源一些Android、Java、Python相关项目。
 
