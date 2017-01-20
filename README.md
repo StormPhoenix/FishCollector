@@ -1,15 +1,15 @@
-#FishCollector(鱼类信息采集系统)[![Build Status]]
+#FishCollector(鱼类信息采集系统)
 
 ---------------------
 
-FishCollector(鱼类信息采集系统)是野外水生生物信息采集app
-
+FishCollector(鱼类信息采集系统)是野外水生生物信息采集app，采用了MVP设计模式，可以对输入地理信息，对样本拍照，最终提交到后台汇总。
 ---------------------
 
 欢迎任何方式的与StormPhoenix的合作。
 
 ### 感谢以下库作者和组织
 
+* [高德地图]相当优秀的地图api框架
 *	[TimePickerDialog]https://github.com/JZXiang/TimePickerDialog 一个时间选择器框架
 *	[GreenDao](https://github.com/greenrobot/greenDAO) GreenDao的ORM映射框架
 * [Retrofit](https://github.com/square/retrofit) Square公司的网络请求框架
