@@ -4,15 +4,20 @@ import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.databinding.FragmentMeasureLineBinding;
+import com.stormphoenix.fishcollector.location.Locator;
 import com.stormphoenix.fishcollector.mvp.model.beans.MeasuringLine;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
+import com.stormphoenix.fishcollector.mvp.view.LocationView;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by Developer on 16-12-27.
@@ -29,8 +34,19 @@ public class MeasureLineFragment extends BaseFragment {
     EditText etEndLongitude;
     @BindView(R.id.et_end_latitude_line)
     EditText etEndLatitude;
+    @BindView(R.id.imgBtn_start_location_line)
+    ImageButton imgBtnStartLocationLine;
+    @BindView(R.id.pb_start_location_line)
+    ProgressBar pbStartLocationLine;
+    @BindView(R.id.imgBtn_end_location_line)
+    ImageButton imgBtnEndLocationLine;
+    @BindView(R.id.pb_end_location_line)
+    ProgressBar pbEndLocationLine;
 
     private MeasuringLine model;
+    private Locator locator = null;
+    private LocationView startLocationView;
+    private LocationView endLocationView;
 
     @Override
     protected int getLayoutId() {
@@ -51,6 +67,59 @@ public class MeasureLineFragment extends BaseFragment {
     @Override
     protected void initVariables() {
         model = (MeasuringLine) attachedBean;
+        locator = new Locator();
+
+        startLocationView = new LocationView() {
+            @Override
+            public void onLocationSuccess(double longitude, double latitude) {
+                etStartLongitude.setText(String.valueOf(longitude));
+                etStartLatitude.setText(String.valueOf(latitude));
+            }
+
+            @Override
+            public void onLocationFailed(String errorMsg) {
+                Toast.makeText(getActivity(), errorMsg, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), getResources().getString(R.string.locate_error), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void showProgress() {
+                imgBtnStartLocationLine.setVisibility(View.GONE);
+                pbStartLocationLine.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void hideProgress() {
+                imgBtnStartLocationLine.setVisibility(View.VISIBLE);
+                pbStartLocationLine.setVisibility(View.GONE);
+            }
+        };
+
+        endLocationView = new LocationView() {
+            @Override
+            public void onLocationSuccess(double longitude, double latitude) {
+                etEndLongitude.setText(String.valueOf(longitude));
+                etEndLatitude.setText(String.valueOf(latitude));
+            }
+
+            @Override
+            public void onLocationFailed(String errorMsg) {
+//                Toast.makeText(getActivity(), getResources().getString(R.string.locate_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), errorMsg, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void showProgress() {
+                imgBtnEndLocationLine.setVisibility(View.GONE);
+                pbEndLocationLine.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void hideProgress() {
+                imgBtnEndLocationLine.setVisibility(View.VISIBLE);
+                pbEndLocationLine.setVisibility(View.GONE);
+            }
+        };
     }
 
     @Override
@@ -106,5 +175,17 @@ public class MeasureLineFragment extends BaseFragment {
                 model.setEndLatitude(text);
             }
         });
+    }
+
+    @OnClick({R.id.imgBtn_start_location_line, R.id.imgBtn_end_location_line})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.imgBtn_start_location_line:
+                locator.startLocate(startLocationView, getActivity());
+                break;
+            case R.id.imgBtn_end_location_line:
+                locator.startLocate(endLocationView, getActivity());
+                break;
+        }
     }
 }

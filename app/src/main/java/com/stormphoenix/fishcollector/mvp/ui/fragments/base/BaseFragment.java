@@ -9,10 +9,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.db.DbManager;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+import com.stormphoenix.fishcollector.mvp.presenter.impls.SubmitPresenterImpl;
+import com.stormphoenix.fishcollector.mvp.presenter.interfaces.SubmitPresenter;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.BasePresenter;
+import com.stormphoenix.fishcollector.mvp.ui.dialog.ProgressDialogGenerator;
+import com.stormphoenix.fishcollector.mvp.view.SubmitSingleModelView;
 
 import butterknife.ButterKnife;
 import rx.Subscription;
@@ -52,6 +58,47 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
 
     protected abstract void initViews(View view);
 
+    protected ProgressDialogGenerator submitDialogGenerator;
+    protected SubmitSingleModelView submitSingleModelView;
+    protected SubmitPresenter submitPresenter;
+
+    @Override
+    public void onStart() {
+        Log.d(TAG, "onAttach: ");
+        /**
+         * *********** 提交信息代码 *************
+         **/
+        submitDialogGenerator = new ProgressDialogGenerator(getActivity());
+        submitSingleModelView = new SubmitSingleModelView() {
+            @Override
+            public void onSubmitSuccess() {
+                Toast.makeText(getActivity(), "提交成功", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSubmitError(String msg) {
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void showProgress() {
+                submitDialogGenerator.title(getResources().getString(R.string.submiting));
+                submitDialogGenerator.content(getResources().getString(R.string.please_waiting));
+                submitDialogGenerator.circularProgress();
+                submitDialogGenerator.cancelable(false);
+                submitDialogGenerator.show();
+            }
+
+            @Override
+            public void hideProgress() {
+                submitDialogGenerator.cancel();
+            }
+        };
+        submitPresenter = new SubmitPresenterImpl(submitSingleModelView);
+
+        super.onStart();
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +122,13 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
     }
 
     public void uploadModel() {
+        uploadModel(attachedBean);
+    }
+
+    protected void uploadModel(BaseModel model) {
+        if (model != null) {
+            submitPresenter.submit(model.getClass().getSimpleName(), model);
+        }
     }
 
     @Override
@@ -106,4 +160,5 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
         Log.d(TAG, "onDestroyView: ");
         super.onDestroyView();
     }
+
 }

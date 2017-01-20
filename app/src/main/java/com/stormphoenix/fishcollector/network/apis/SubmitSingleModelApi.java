@@ -2,6 +2,7 @@ package com.stormphoenix.fishcollector.network.apis;
 
 import com.stormphoenix.fishcollector.network.HttpResult;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
@@ -16,8 +17,13 @@ import rx.Observable;
 
 public interface SubmitSingleModelApi {
     @Headers({"Content-Type: application/json", "Accept: application/json"})
-    @POST("commit")
-    Observable<HttpResult<Void>> submit(
+    @POST("submitModel")
+    Observable<HttpResult<Void>> sumbitModel(
             @Query("modelType") String modelType,
             @Body RequestBody modelBody);
+
+    @POST("submitWithPhoto")
+    Observable<HttpResult<Void>> submitWithPhoto(
+            @Query("modelType") String modelType,
+            @Body MultipartBody modelBody);
 }

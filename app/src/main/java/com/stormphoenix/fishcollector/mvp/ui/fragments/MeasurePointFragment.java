@@ -1,11 +1,8 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
-import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -13,12 +10,13 @@ import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.databinding.FragmentMeasurePointBinding;
+import com.stormphoenix.fishcollector.location.Locator;
 import com.stormphoenix.fishcollector.mvp.model.beans.MeasurePoint;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
+import com.stormphoenix.fishcollector.mvp.view.LocationView;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -37,6 +35,8 @@ public class MeasurePointFragment extends BaseFragment {
     @BindView(R.id.et_latitude)
     EditText etLatitude;
 
+    Locator locator = null;
+    LocationView locationView = null;
     private MeasurePoint model;
 
     @Override
@@ -47,6 +47,32 @@ public class MeasurePointFragment extends BaseFragment {
     @Override
     protected void initVariables() {
         model = (MeasurePoint) attachedBean;
+        locator = new Locator();
+        locationView = new LocationView() {
+            @Override
+            public void onLocationSuccess(double longitude, double latitude) {
+                etLongitude.setText(String.valueOf(longitude));
+                etLatitude.setText(String.valueOf(latitude));
+            }
+
+            @Override
+            public void onLocationFailed(String errorMsg) {
+                Toast.makeText(getActivity(), errorMsg, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), getResources().getString(R.string.locate_error), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void showProgress() {
+                imgBtnLocation.setVisibility(View.GONE);
+                pbLocation.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void hideProgress() {
+                imgBtnLocation.setVisibility(View.VISIBLE);
+                pbLocation.setVisibility(View.GONE);
+            }
+        };
     }
 
     @Override
@@ -89,14 +115,12 @@ public class MeasurePointFragment extends BaseFragment {
         });
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
     @OnClick(R.id.imgBtn_location)
-    public void onClick() {
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.imgBtn_location:
+                locator.startLocate(locationView, getActivity());
+                break;
+        }
     }
 }

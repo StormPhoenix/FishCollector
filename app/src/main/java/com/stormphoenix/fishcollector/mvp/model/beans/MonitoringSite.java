@@ -22,7 +22,17 @@ import java.util.List;
  * Created by Phoenix on 2016/5/31.
  */
 @Entity
-public class MonitoringSite extends BaseObservable implements BaseModel {
+public class MonitoringSite extends BaseObservable implements BaseModel, Cloneable {
+    @Override
+    public MonitoringSite clone() {
+        MonitoringSite obj = null;
+        try {
+            obj = (MonitoringSite) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
 
     /**
      * 这个是给后台使用的主键，用时间拼凑的
@@ -47,7 +57,7 @@ public class MonitoringSite extends BaseObservable implements BaseModel {
     @Expose
     private String river;
     @Nullable
-    @Expose
+//    @Expose
     private String photo;
     @Nullable
     @Expose

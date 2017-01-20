@@ -1,6 +1,7 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments.base;
 
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
+import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.shared.PicturePathUtils;
 import com.stormphoenix.imagepicker.LocalVariables;
 import com.stormphoenix.imagepicker.bean.ImageItem;
@@ -20,6 +21,7 @@ public abstract class BaseImageListFragment extends BaseFragment {
     protected int maxImgCount;
     protected ImagePickerAdapter adapter;
     protected ArrayList<ImageItem> selImageList;
+    private String TAG = "BaseImageListFragment";
 
     protected void updatePicturesData() {
         selImageList = new ArrayList<>();
@@ -53,6 +55,18 @@ public abstract class BaseImageListFragment extends BaseFragment {
             }
         }
         adapter.setImages(selImageList);
+    }
+
+    @Override
+    public void uploadModel() {
+        uploadModel(attachedBean);
+    }
+
+    @Override
+    protected void uploadModel(BaseModel model) {
+        if (model != null) {
+            submitPresenter.submitWithPhoto(model.getClass().getSimpleName(), model);
+        }
     }
 
     @Override

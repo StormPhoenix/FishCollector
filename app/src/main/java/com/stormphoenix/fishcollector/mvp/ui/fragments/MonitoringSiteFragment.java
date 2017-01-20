@@ -2,6 +2,7 @@ package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -15,17 +16,17 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.jzxiang.pickerview.TimePickerDialog;
+import com.jzxiang.pickerview.data.Type;
+import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
 import com.stormphoenix.fishcollector.databinding.FragmentMonitorSiteBinding;
+import com.stormphoenix.fishcollector.location.Locator;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
-import com.stormphoenix.fishcollector.mvp.presenter.impls.LocationPresenterImpl;
-import com.stormphoenix.fishcollector.mvp.presenter.impls.SubmitPresenterImpl;
-import com.stormphoenix.fishcollector.mvp.presenter.interfaces.SubmitPresenter;
+import com.stormphoenix.fishcollector.mvp.ui.dialog.TimeSelectorDialogGenerator;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.mvp.view.LocationView;
-import com.stormphoenix.fishcollector.mvp.view.SubmitSingleModelView;
-import com.stormphoenix.fishcollector.permissions.PermissionsUtils;
 import com.stormphoenix.fishcollector.shared.AddressUtils;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
@@ -36,7 +37,9 @@ import com.stormphoenix.imagepicker.bean.ImageItem;
 import com.stormphoenix.imagepicker.ui.ImageGridActivity;
 import com.stormphoenix.imagepicker.ui.ImagePreviewDelActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -78,6 +81,18 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
     ProgressBar pbStartLocation;
     @BindView(R.id.pb_end_location)
     ProgressBar pbEndLocation;
+    @BindView(R.id.img_select_date_monitor)
+    ImageView imgSelectDateMonitor;
+    @BindView(R.id.et_date)
+    EditText etDate;
+    @BindView(R.id.img_select_start_date_time_monitor)
+    ImageView imgSelectStartDateTimeMonitor;
+    @BindView(R.id.et_start_time)
+    EditText etStartTime;
+    @BindView(R.id.img_select_end_date_time_monitor)
+    ImageView imgSelectEndDateTimeMonitor;
+    @BindView(R.id.et_end_time)
+    EditText etEndTime;
 
     //城市在省级常量表中的下标值
     private int cityPosition = 0;
@@ -86,12 +101,13 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
     private String site = null;
 
     MonitoringSite model = null;
-    LocationPresenterImpl locationPresenter;
+    Locator locator = null;
     LocationView startLocationView;
     LocationView endLocationView;
 
-    private SubmitPresenter submitPresenter = null;
-    private SubmitSingleModelView submitSingleModelView = null;
+    OnDateSetListener onDateSetListener = null;
+    OnDateSetListener onStartDateSetListener = null;
+    OnDateSetListener onEndDateSetListener = null;
 
     @Override
     public void onStart() {
@@ -119,8 +135,7 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
         detailAddress = AddressUtils.getAddressDetails();
         site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
 
-        locationPresenter = new LocationPresenterImpl();
-        locationPresenter.onCreate();
+        locator = new Locator();
 
         startLocationView = new LocationView() {
             @Override
@@ -137,11 +152,13 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
 
             @Override
             public void showProgress() {
+                imgStartLocation.setVisibility(View.GONE);
                 pbStartLocation.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void hideProgress() {
+                imgStartLocation.setVisibility(View.VISIBLE);
                 pbStartLocation.setVisibility(View.GONE);
             }
         };
@@ -161,38 +178,39 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
 
             @Override
             public void showProgress() {
+                imgEndLocation.setVisibility(View.GONE);
                 pbEndLocation.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void hideProgress() {
+                imgEndLocation.setVisibility(View.VISIBLE);
                 pbEndLocation.setVisibility(View.GONE);
             }
         };
 
-        submitSingleModelView = new SubmitSingleModelView() {
+        onDateSetListener = new TimeSelectorDialogGenerator.DefaultTimeSetListener() {
             @Override
-            public void onSubmitSuccess() {
-                Toast.makeText(getActivity(), "提交成功", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onSubmitError(String msg) {
-                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void showProgress() {
-
-            }
-
-            @Override
-            public void hideProgress() {
-
+            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+                etDate.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(millseconds)));
             }
         };
 
-        submitPresenter = new SubmitPresenterImpl(submitSingleModelView);
+        onStartDateSetListener = new TimeSelectorDialogGenerator.DefaultTimeSetListener() {
+            @Override
+            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+                super.onDateSet(timePickerView, millseconds);
+                etStartTime.setText(fomatedTimeText);
+            }
+        };
+
+        onEndDateSetListener = new TimeSelectorDialogGenerator.DefaultTimeSetListener() {
+            @Override
+            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+                super.onDateSet(timePickerView, millseconds);
+                etEndTime.setText(fomatedTimeText);
+            }
+        };
     }
 
     @Override
@@ -348,37 +366,36 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
         updatePicturesData();
     }
 
-    @OnClick({R.id.img_start_location, R.id.img_end_location})
+    @Override
+    public void uploadModel() {
+        MonitoringSite cloneObj = model.clone();
+        cloneObj.setSite(AddressUtils.mergeAddress(cloneObj.getSite()));
+        super.uploadModel(cloneObj);
+    }
+
+    @OnClick({R.id.img_start_location, R.id.img_end_location, R.id.img_select_date_monitor, R.id.img_select_start_date_time_monitor, R.id.img_select_end_date_time_monitor})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_start_location:
-                if (PermissionsUtils.checkLocationPermissions(getActivity())) {
-                    locationStart(startLocationView);
-                }
+                locator.startLocate(startLocationView, getActivity());
                 break;
             case R.id.img_end_location:
-                if (PermissionsUtils.checkLocationPermissions(getActivity())) {
-                    locationEnd(endLocationView);
-                }
+                locator.startLocate(endLocationView, getActivity());
+                break;
+            case R.id.img_select_date_monitor:
+                Log.e(TAG, "onClick: et_date");
+                new TimeSelectorDialogGenerator(getActivity(), onDateSetListener)
+                        .setType(Type.YEAR_MONTH_DAY)
+                        .show(((AppCompatActivity) getActivity()).getSupportFragmentManager());
+                break;
+            case R.id.img_select_start_date_time_monitor:
+                new TimeSelectorDialogGenerator(getActivity(), onStartDateSetListener)
+                        .show(((AppCompatActivity) getActivity()).getSupportFragmentManager());
+                break;
+            case R.id.img_select_end_date_time_monitor:
+                new TimeSelectorDialogGenerator(getActivity(), onEndDateSetListener).
+                        show(((AppCompatActivity) getActivity()).getSupportFragmentManager());
                 break;
         }
-    }
-
-    private void locationEnd(LocationView endLocationView) {
-        locationPresenter.attachView(endLocationView);
-        locationPresenter.locate();
-    }
-
-    @Override
-    public void uploadModel() {
-        super.uploadModel();
-        if (model != null) {
-            submitPresenter.submit("MonitoringSite", model);
-        }
-    }
-
-    private void locationStart(LocationView startLocationView) {
-        locationPresenter.attachView(startLocationView);
-        locationPresenter.locate();
     }
 }

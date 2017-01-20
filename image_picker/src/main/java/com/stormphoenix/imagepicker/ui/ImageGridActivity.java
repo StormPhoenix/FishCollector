@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 
-import com.stormphoenix.imagepicker.DirUtils;
 import com.stormphoenix.imagepicker.FishImageType;
 import com.stormphoenix.imagepicker.ImageDataSource;
 import com.stormphoenix.imagepicker.ImagePicker;
@@ -26,11 +25,6 @@ import com.stormphoenix.imagepicker.bean.ImageFolder;
 import com.stormphoenix.imagepicker.bean.ImageItem;
 import com.stormphoenix.imagepicker.view.FolderPopUpWindow;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -131,31 +125,10 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
 //            **********************
             ArrayList<ImageItem> images = imagePicker.getSelectedImages();
             LocalVariables.newImageFilePaths = new ArrayList<String>();
-            try {
-                for (ImageItem item : images) {
-                    File resultFile = new File(DirUtils.getAppRootDir(this, currentImageType), System.currentTimeMillis() + ".jpg");
-                    FileInputStream fis = new FileInputStream(item.path);
-                    FileOutputStream fos = new FileOutputStream(resultFile);
-                    int ch = 0;
-                    while ((ch = fis.read()) != -1) {
-                        fos.write(ch);
-                    }
-                    fos.flush();
-                    fis.close();
-                    fos.close();
-                    if (resultFile.exists()) {
-                        LocalVariables.newImageFilePaths.add(resultFile.getAbsolutePath());
-                    }
-                }
-            } catch (FileNotFoundException e) {
-                Log.e(TAG, "onClick: FileNotFoundException");
-                e.printStackTrace();
-            } catch (IOException e) {
-                Log.e(TAG, "onClick: IOException");
-                e.printStackTrace();
-            } catch (Exception e) {
-                Log.e(TAG, "onClick: " + e.getCause().toString());
+            for (ImageItem item : images) {
+                LocalVariables.newImageFilePaths.add(item.path);
             }
+            System.gc();
             finish();
 //            **********************
         } else if (id == R.id.btn_dir) {

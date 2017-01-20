@@ -9,4 +9,6 @@ import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
 public interface SubmitPresenter {
     public void submit(String modelType, BaseModel model);
+
+    public void submitWithPhoto(String modelType, BaseModel model);
 }

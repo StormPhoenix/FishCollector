@@ -24,7 +24,12 @@ public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView
 
     @Override
     public void submit(String modelType, BaseModel model) {
-        HttpMethod.getInstance().submitSingleModel(modelType, model, this);
+        HttpMethod.getInstance().submitModel(modelType, model, this);
+    }
+
+    @Override
+    public void submitWithPhoto(String modelType, BaseModel model) {
+        HttpMethod.getInstance().submitModelWithPhoto(modelType, model, this);
     }
 
     @Override
