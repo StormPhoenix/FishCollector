@@ -1,58 +1,24 @@
-# FishCollector
-鱼类信息采集系统
-#AnimeTaste(全球动画精选)[![Build Status](https://travis-ci.org/daimajia/AnimeTaste.png?branch=master)](https://travis-ci.org/daimajia/AnimeTaste)
-[English](./README-en.md)
+#FishCollector(鱼类信息采集系统)[![Build Status]
 
 ---------------------
 
-AnimeTaste（品赏艾尼莫）是国内首个关注独立动画的网站。
-移动版聚焦更新的全球独立动画的传播，让您随时随地能观看动画，分享快乐给更多好友。品味动画，重拾幻想。
+FishCollector(鱼类信息采集系统)是野外水生生物信息采集app
 
 ---------------------
 
-AnimeTaste For Android，为全球动画爱好者所开发。
-
-### 体验地址: [豌豆荚](http://www.wandoujia.com/apps/com.zhan_dui.animetaste) [Google Play](https://play.google.com/store/apps/details?id=com.zhan_dui.animetaste) ###
-
-### [豌豆荚110期设计奖](http://www.wandoujia.com/award/blog/com.zhan_dui.animetaste)
-
-![AnimeTaste](http://ww2.sinaimg.cn/mw690/610dc034jw1e885o9kjgzj208c0b40ty.jpg)　
-![AnimeTaste](http://ww3.sinaimg.cn/mw690/610dc034jw1e885obnjy6j208c0b43zo.jpg)
-
-### 关于AnimeTaste: ###
-
-*	[AnimeTaste官网](http://www.animetaste.net)
-*	[AnimeTaste创始人Plidezus](http://www.plidezus.net/)
-*	[开发AnimeTaste的故事](http://blog.daimajia.com/?p=549)
-
-欢迎任何方式的与AnimeTaste的合作。
+欢迎任何方式的与StormPhoenix的合作。
 
 ### 感谢以下库作者和组织
 
-*	[ShareSDK for Android](http://sharesdk.cn/) 社交关注。
-*	[Picasso](https://github.com/square/picasso) 图片缓存
-*	[Baidu-T5Player-SDK-Android](http://developer.baidu.com/wiki/index.php?title=docs/cplat/media/sdk) 百度T5 Player SDK
-*	[Android-Switch-Backport](https://github.com/BoD/android-switch-backport) Switch的兼容库
-*	[Gif-Movie-View](https://github.com/sbakhtiarov/gif-movie-view) Gif动画播放
-*	[ViewPagerIndicator](https://github.com/JakeWharton/Android-ViewPagerIndicator) 滑动画廊
-*	[SuperToasts](https://github.com/JohnPersano/SuperToasts) 扩展的Toasts弹出框
-*	[SwipeBackLayout](https://github.com/Issacw0ng/SwipeBackLayout) 滑动退出
-*	Android-Support-v7-appcompat Android ActionBar 兼容库
-*	[sdk-manager-plugin](https://github.com/JakeWharton/sdk-manager-plugin) SDK管理工具
-
--------------------
-
-### 如何编译 ###
-
-Step-All: 
-
-**Mac和Linux用户在根目录运行`./gradlew assemble`, Windows用户运行`gradlew.bat assemble` 稍等片刻即可(会自动下载确实的SDK版本以及依赖包，可能会比较慢)。**
-
+*	[TimePickerDialog]https://github.com/JZXiang/TimePickerDialog 一个时间选择器框架
+*	[GreenDao](https://github.com/greenrobot/greenDAO) GreenDao的ORM映射框架
+* [Retrofit](https://github.com/square/retrofit) Square公司的网络请求框架
+* [Material-dialogs](https://github.com/afollestad/material-dialogs) 一个优秀的Material-Design 风格的对话框
+*	[Gson](https://github.com/google/gson) Google的JSON转化框架
+* [RxJava](https://github.com/ReactiveX/RxJava) RxJava，谁用谁知道
+* [ButterKnife] (https://github.com/JakeWharton/butterknife) JakeWharton的注解框架
 
 -------
-
-
-如果出现错误或者有任何问题，请放轻松[联系我](mailto:daimajia@gmail.com)。
 
 
 ###关于我：
