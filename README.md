@@ -13,8 +13,8 @@ FishCollector(鱼类信息采集系统)是野外水生生物信息采集app，�
 
 ### 感谢以下库作者和组织
 
-* [高德地图]相当优秀的地图api框架
-*	[TimePickerDialog]https://github.com/JZXiang/TimePickerDialog 一个时间选择器框架
+* [高德地图](http://lbs.amap.com/)相当优秀的地图api框架
+*	[TimePickerDialog](https://github.com/JZXiang/TimePickerDialog) 一个时间选择器框架
 *	[GreenDao](https://github.com/greenrobot/greenDAO) GreenDao的ORM映射框架
 * [Retrofit](https://github.com/square/retrofit) Square公司的网络请求框架
 * [Material-dialogs](https://github.com/afollestad/material-dialogs) 一个优秀的Material-Design 风格的对话框
