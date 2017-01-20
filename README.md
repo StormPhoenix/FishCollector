@@ -1,4 +1,4 @@
-#FishCollector(鱼类信息采集系统)[![Build Status]
+#FishCollector(鱼类信息采集系统)[![Build Status]]
 
 ---------------------
 
@@ -24,9 +24,8 @@ FishCollector(鱼类信息采集系统)是野外水生生物信息采集app
 ###关于我：
 我是个学生，酷爱开发，擅长Android、Java，如果您手头有适合我的实习或者工作机会，欢迎邮件联系我:  [hzau.cs.wangcheng@gmail.com]
 
-*	[华中农业大学](http://www.hzau.edu.cn/2014/ch/）
+*	[华中农业大学](http://www.hzau.edu.cn/2014/ch）
 * [Email](hzau.cs.wangcheng@gmail.com)
-*	我的微博:[代码家](http://weibo.com/daimajia)
 
 欢迎Follow我，我会关注和开源一些Android、Java、Python相关项目。
 
