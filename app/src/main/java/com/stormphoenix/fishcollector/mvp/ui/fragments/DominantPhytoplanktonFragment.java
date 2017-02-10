@@ -91,6 +91,8 @@ public class DominantPhytoplanktonFragment extends BaseImageListFragment impleme
     @Override
     protected void initVariables() {
         model = (DominantPhytoplanktonSpecies) attachedBean;
+        assert model.getForeignKey() != null;
+        model.setIdPhytoplankton(model.getPhytoplankton().getModelId());
     }
 
     @Override

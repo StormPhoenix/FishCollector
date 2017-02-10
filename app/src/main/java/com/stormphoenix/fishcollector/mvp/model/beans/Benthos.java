@@ -1,7 +1,6 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
@@ -41,7 +40,9 @@ public class Benthos extends BaseObservable implements BaseModel {
     //断面外键
     private String idFractureSurface = null;
 
-    /** *************************************** **/
+    /**
+     * **************************************
+     **/
 
     @ToOne(joinProperty = "foreignKey")
     private FractureSurface fractureSurface;
@@ -54,17 +55,21 @@ public class Benthos extends BaseObservable implements BaseModel {
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<DominantBenthosSpecies> dominantBenthosSpecies;
 
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 792678032)
     private transient BenthosDao myDao;
 
     @Generated(hash = 791386)
     public Benthos(String modelId, String photo, int quality, float biomass,
-            String idFractureSurface, Long id, Long foreignKey) {
+                   String idFractureSurface, Long id, Long foreignKey) {
         this.modelId = modelId;
         this.photo = photo;
         this.quality = quality;
@@ -76,6 +81,19 @@ public class Benthos extends BaseObservable implements BaseModel {
 
     @Generated(hash = 989772010)
     public Benthos() {
+    }
+
+    @Override
+    public boolean checkValue() {
+        if (modelId == null ||
+                photo == null ||
+                idFractureSurface == null ||
+                id == null ||
+                foreignKey == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public String getModelId() {
@@ -137,7 +155,9 @@ public class Benthos extends BaseObservable implements BaseModel {
     @Generated(hash = 844368361)
     private transient Long fractureSurface__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 610717877)
     public FractureSurface getFractureSurface() {
         Long __key = this.foreignKey;
@@ -157,7 +177,9 @@ public class Benthos extends BaseObservable implements BaseModel {
         return fractureSurface;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1813620905)
     public void setFractureSurface(FractureSurface fractureSurface) {
         synchronized (this) {
@@ -191,7 +213,9 @@ public class Benthos extends BaseObservable implements BaseModel {
         return dominantBenthosSpecies;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 220625143)
     public synchronized void resetDominantBenthosSpecies() {
         dominantBenthosSpecies = null;

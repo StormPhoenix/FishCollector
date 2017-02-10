@@ -91,6 +91,24 @@ public class CatchTools extends BaseObservable implements BaseModel {
     public CatchTools() {
     }
 
+    @Override
+    public boolean checkValue() {
+        if (modelId == null ||
+                name == null ||
+                photo == null ||
+                netsModel == null ||
+                netMouthArea == 0 ||
+                startTime == null ||
+                endTime == null ||
+                idWaterLayer == null ||
+                id == null ||
+                foreignKey == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public String getModelId() {
         return this.modelId;
     }

@@ -500,4 +500,5 @@
     <string name="locate_error">网络错误，无法定位</string>
     <string name="submiting">正在提交</string>
     <string name="please_waiting">请稍后...</string>
+    <string name="empty_prompt">您还没有添加任何信息数据\n请点击红色按钮添加检测点</string>
 </resources>

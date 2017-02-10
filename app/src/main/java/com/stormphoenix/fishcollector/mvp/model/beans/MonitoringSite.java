@@ -132,6 +132,28 @@ public class MonitoringSite extends BaseObservable implements BaseModel, Cloneab
     public MonitoringSite() {
     }
 
+    @Override
+    public boolean checkValue() {
+        if (modelId == null ||
+                institution == null ||
+                investigator == null ||
+                investigationDate == null ||
+                site == null ||
+                river == null ||
+                photo == null ||
+                startTime == null ||
+                endTime == null ||
+                startLatitude == 0 ||
+                startLongitude == 0 ||
+                endLatitude == 0 ||
+                endLongitude == 0 ||
+                id == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public String getModelId() {
         return this.modelId;
     }

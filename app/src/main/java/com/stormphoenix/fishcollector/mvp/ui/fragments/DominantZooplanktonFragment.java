@@ -61,6 +61,8 @@ public class DominantZooplanktonFragment extends BaseFragment implements ImagePi
     @Override
     protected void initVariables() {
         model = (DominantZooplanktonSpecies) attachedBean;
+        assert model.getForeignKey() != null;
+        model.setIdZooplankton(model.getZooplankton().getModelId());
     }
 
     @Override

@@ -58,6 +58,8 @@ public class BenthosFragment extends BaseImageListFragment implements ImagePicke
     @Override
     protected void initVariables() {
         model = (Benthos) attachedBean;
+        assert model.getForeignKey() != null;
+        model.setIdFractureSurface(model.getFractureSurface().getModelId());
     }
 
     @Override

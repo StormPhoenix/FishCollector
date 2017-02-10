@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
 
     private static final String TAG = "BaseFragment";
     protected T mPresenter;
-    private View mFragmentView;
+    protected View mFragmentView;
     protected Subscription mSubscription;
 
     protected ViewDataBinding binding = null;
@@ -46,6 +47,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
         DbManager manager = new DbManager(getActivity());
         if (attachedBean != null) {
             manager.save(attachedBean);
+            Snackbar.make(mFragmentView, "保存成功", Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -122,7 +124,11 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
     }
 
     public void uploadModel() {
-        uploadModel(attachedBean);
+        if (attachedBean.checkValue()) {
+            uploadModel(attachedBean);
+        } else {
+            Snackbar.make(mFragmentView, "数据不完善，无法提交", Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     protected void uploadModel(BaseModel model) {

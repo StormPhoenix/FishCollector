@@ -57,6 +57,8 @@ public class ZooplanktonFragment extends BaseImageListFragment implements ImageP
     @Override
     protected void initVariables() {
         model = (Zooplankton) attachedBean;
+        assert model.getForeignKey() != null;
+        model.setID_FractureSurface(model.getFractureSurface().getModelId());
     }
 
     @Override

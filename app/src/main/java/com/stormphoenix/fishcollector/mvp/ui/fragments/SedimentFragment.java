@@ -47,6 +47,8 @@ public class SedimentFragment extends BaseImageListFragment implements ImagePick
     @Override
     protected void initVariables() {
         model = (Sediment) attachedBean;
+        assert model.getForeignKey() != null;
+        model.setId_FractureSurface(model.getFractureSurface().getModelId());
     }
 
     @Override

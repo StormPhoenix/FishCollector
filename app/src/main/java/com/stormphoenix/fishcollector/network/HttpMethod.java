@@ -16,6 +16,7 @@ import java.lang.reflect.Method;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -33,8 +34,14 @@ public class HttpMethod {
     private static final String TAG = "HttpMethod";
     private static HttpMethod instance = null;
     private SubmitSingleModelApi submitSingleModelApi = null;
+    private OkHttpClient client = null;
 
     private HttpMethod() {
+        client = new OkHttpClient.Builder()
+                .readTimeout(5000, java.util.concurrent.TimeUnit.MILLISECONDS)
+                .connectTimeout(5000, java.util.concurrent.TimeUnit.MILLISECONDS)
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(NetManager.getBaseUrl())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())

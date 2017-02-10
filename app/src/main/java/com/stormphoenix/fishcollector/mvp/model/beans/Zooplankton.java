@@ -2,7 +2,6 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
@@ -44,16 +43,20 @@ public class Zooplankton extends BaseObservable implements BaseModel {
 
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<DominantZooplanktonSpecies> dominantZooplanktonSpecies;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 1027756039)
     private transient ZooplanktonDao myDao;
 
     @Generated(hash = 335956638)
     public Zooplankton(String modelId, String photo, int quality, float biomass,
-            String ID_FractureSurface, Long id, Long foreignKey) {
+                       String ID_FractureSurface, Long id, Long foreignKey) {
         this.modelId = modelId;
         this.photo = photo;
         this.quality = quality;
@@ -65,6 +68,19 @@ public class Zooplankton extends BaseObservable implements BaseModel {
 
     @Generated(hash = 318554425)
     public Zooplankton() {
+    }
+
+    @Override
+    public boolean checkValue() {
+        if (modelId == null ||
+                photo == null ||
+                ID_FractureSurface == null ||
+                id == null ||
+                foreignKey == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public String getModelId() {
@@ -126,7 +142,9 @@ public class Zooplankton extends BaseObservable implements BaseModel {
     @Generated(hash = 844368361)
     private transient Long fractureSurface__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 610717877)
     public FractureSurface getFractureSurface() {
         Long __key = this.foreignKey;
@@ -146,7 +164,9 @@ public class Zooplankton extends BaseObservable implements BaseModel {
         return fractureSurface;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1813620905)
     public void setFractureSurface(FractureSurface fractureSurface) {
         synchronized (this) {
@@ -180,7 +200,9 @@ public class Zooplankton extends BaseObservable implements BaseModel {
         return dominantZooplanktonSpecies;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 1040578637)
     public synchronized void resetDominantZooplanktonSpecies() {
         dominantZooplanktonSpecies = null;

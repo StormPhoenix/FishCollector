@@ -41,6 +41,8 @@ public class FishFragment extends BaseFragment {
     @Override
     protected void initVariables() {
         model = (Fishes) attachedBean;
+        assert model.getForeignKey() != null;
+        model.setId_Catches(model.getCatches().getModelId());
     }
 
     @Override

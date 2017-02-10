@@ -67,6 +67,9 @@ public class MeasureLineFragment extends BaseFragment {
     @Override
     protected void initVariables() {
         model = (MeasuringLine) attachedBean;
+        assert model.getForeignKey() != null;
+        model.setIdFractureSurface(model.getFractureSurface().getModelId());
+
         locator = new Locator();
 
         startLocationView = new LocationView() {

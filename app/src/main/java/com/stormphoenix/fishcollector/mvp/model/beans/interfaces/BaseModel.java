@@ -5,6 +5,7 @@ package com.stormphoenix.fishcollector.mvp.model.beans.interfaces;
  * Wang Cheng is a intelligent Android developer.
  */
 public interface BaseModel {
+    public boolean checkValue();
 
     public String getModelId();
 

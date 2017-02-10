@@ -41,6 +41,9 @@ public class FractureSurfaceFragment extends BaseFragment implements AdapterView
     @Override
     protected void initVariables() {
         model = (FractureSurface) attachedBean;
+
+        assert model.getMonitoringSite() != null;
+        model.setId_MonitoringSite(model.getMonitoringSite().getModelId());
     }
 
     @Override

@@ -7,12 +7,12 @@ import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * 底栖生物优势种
@@ -41,17 +41,21 @@ public class DominantBenthosSpecies extends BaseObservable implements BaseModel 
     private Benthos benthos;
 
     private Long foreignKey;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 655655680)
     private transient DominantBenthosSpeciesDao myDao;
 
     @Generated(hash = 1178577145)
     public DominantBenthosSpecies(String modelId, String name, String photo,
-            float quality, float biomass, String idBenthos, Long id,
-            Long foreignKey) {
+                                  float quality, float biomass, String idBenthos, Long id,
+                                  Long foreignKey) {
         this.modelId = modelId;
         this.name = name;
         this.photo = photo;
@@ -64,6 +68,19 @@ public class DominantBenthosSpecies extends BaseObservable implements BaseModel 
 
     @Generated(hash = 936238251)
     public DominantBenthosSpecies() {
+    }
+
+    @Override
+    public boolean checkValue() {
+        if (modelId == null ||
+                name == null ||
+                photo == null ||
+                idBenthos == null ||
+                id == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public String getModelId() {
@@ -136,7 +153,9 @@ public class DominantBenthosSpecies extends BaseObservable implements BaseModel 
     @Generated(hash = 1006378000)
     private transient Long benthos__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 997316169)
     public Benthos getBenthos() {
         Long __key = this.foreignKey;
@@ -155,7 +174,9 @@ public class DominantBenthosSpecies extends BaseObservable implements BaseModel 
         return benthos;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 806677006)
     public void setBenthos(Benthos benthos) {
         synchronized (this) {

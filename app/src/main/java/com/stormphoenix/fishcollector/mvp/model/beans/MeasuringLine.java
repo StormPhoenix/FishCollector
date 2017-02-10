@@ -6,15 +6,15 @@ import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
 
 import java.util.List;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by Phoenix on 2016/5/31.
@@ -47,17 +47,21 @@ public class MeasuringLine extends BaseObservable implements BaseModel {
     private List<MeasurePoint> measurePoints;
 
     private Long foreignKey;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 1481508108)
     private transient MeasuringLineDao myDao;
 
     @Generated(hash = 1134349867)
     public MeasuringLine(String modelId, float startLongitude, float startLatitude,
-            float endLongitude, float endLatitude, String idFractureSurface,
-            Long id, Long foreignKey) {
+                         float endLongitude, float endLatitude, String idFractureSurface,
+                         Long id, Long foreignKey) {
         this.modelId = modelId;
         this.startLongitude = startLongitude;
         this.startLatitude = startLatitude;
@@ -70,6 +74,21 @@ public class MeasuringLine extends BaseObservable implements BaseModel {
 
     @Generated(hash = 85376486)
     public MeasuringLine() {
+    }
+
+    @Override
+    public boolean checkValue() {
+        if (modelId == null ||
+                startLongitude == 0 ||
+                startLatitude == 0 ||
+                endLongitude == 0 ||
+                endLatitude == 0 ||
+                idFractureSurface == null ||
+                id == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public String getModelId() {
@@ -143,7 +162,9 @@ public class MeasuringLine extends BaseObservable implements BaseModel {
     @Generated(hash = 844368361)
     private transient Long fractureSurface__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 610717877)
     public FractureSurface getFractureSurface() {
         Long __key = this.foreignKey;
@@ -163,7 +184,9 @@ public class MeasuringLine extends BaseObservable implements BaseModel {
         return fractureSurface;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1813620905)
     public void setFractureSurface(FractureSurface fractureSurface) {
         synchronized (this) {
@@ -196,7 +219,9 @@ public class MeasuringLine extends BaseObservable implements BaseModel {
         return measurePoints;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 1962954793)
     public synchronized void resetMeasurePoints() {
         measurePoints = null;

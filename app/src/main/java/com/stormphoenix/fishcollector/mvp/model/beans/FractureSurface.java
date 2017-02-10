@@ -5,17 +5,19 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
 
 import java.util.List;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by Phoenix on 2016/5/31.
@@ -23,12 +25,18 @@ import org.greenrobot.greendao.DaoException;
 @Entity
 public class FractureSurface extends BaseObservable implements BaseModel {
     @Unique
+    @Expose
+    @SerializedName("id")
     private String modelId;
     @Nullable
+    @Expose
     private String position;
     @Nullable
+    @Expose
     private float distance2Bank;
     @Nullable
+    @Expose
+    @SerializedName("idMonitoringSite")
     private String id_MonitoringSite;
 
     // ****************************************
@@ -55,16 +63,20 @@ public class FractureSurface extends BaseObservable implements BaseModel {
     private List<MeasuringLine> measuringLines;
 
     private Long foreignKey;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 857002845)
     private transient FractureSurfaceDao myDao;
 
     @Generated(hash = 1731540934)
     public FractureSurface(String modelId, String position, float distance2Bank,
-            String id_MonitoringSite, Long id, Long foreignKey) {
+                           String id_MonitoringSite, Long id, Long foreignKey) {
         this.modelId = modelId;
         this.position = position;
         this.distance2Bank = distance2Bank;
@@ -75,6 +87,19 @@ public class FractureSurface extends BaseObservable implements BaseModel {
 
     @Generated(hash = 563633098)
     public FractureSurface() {
+    }
+
+    @Override
+    public boolean checkValue() {
+        if (modelId == null ||
+                position == null ||
+                id_MonitoringSite == null ||
+                id == null ||
+                foreignKey == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public String getModelId() {
@@ -130,7 +155,9 @@ public class FractureSurface extends BaseObservable implements BaseModel {
     @Generated(hash = 272232982)
     private transient Long monitoringSite__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 1728717077)
     public MonitoringSite getMonitoringSite() {
         Long __key = this.foreignKey;
@@ -150,7 +177,9 @@ public class FractureSurface extends BaseObservable implements BaseModel {
         return monitoringSite;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 2127374704)
     public void setMonitoringSite(MonitoringSite monitoringSite) {
         synchronized (this) {
@@ -183,7 +212,9 @@ public class FractureSurface extends BaseObservable implements BaseModel {
         return benthoses;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 1729397372)
     public synchronized void resetBenthoses() {
         benthoses = null;
@@ -212,7 +243,9 @@ public class FractureSurface extends BaseObservable implements BaseModel {
         return phytoplanktons;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 1915235998)
     public synchronized void resetPhytoplanktons() {
         phytoplanktons = null;
@@ -241,7 +274,9 @@ public class FractureSurface extends BaseObservable implements BaseModel {
         return zooplanktons;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 2016089598)
     public synchronized void resetZooplanktons() {
         zooplanktons = null;
@@ -270,7 +305,9 @@ public class FractureSurface extends BaseObservable implements BaseModel {
         return sediments;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 1094743749)
     public synchronized void resetSediments() {
         sediments = null;
@@ -299,7 +336,9 @@ public class FractureSurface extends BaseObservable implements BaseModel {
         return measuringLines;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 1652497574)
     public synchronized void resetMeasuringLines() {
         measuringLines = null;

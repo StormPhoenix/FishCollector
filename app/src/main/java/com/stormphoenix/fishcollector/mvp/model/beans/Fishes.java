@@ -1,17 +1,16 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by Phoenix on 2016/5/31.
@@ -43,16 +42,20 @@ public class Fishes extends BaseObservable implements BaseModel {
     private Catches catches;
 
     private Long foreignKey;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 963653936)
     private transient FishesDao myDao;
 
     @Generated(hash = 135400818)
     public Fishes(String modelId, String photo, float bodyLength, float length,
-            float bodyWeight, float age, String id_Catches, Long id, Long foreignKey) {
+                  float bodyWeight, float age, String id_Catches, Long id, Long foreignKey) {
         this.modelId = modelId;
         this.photo = photo;
         this.bodyLength = bodyLength;
@@ -66,6 +69,19 @@ public class Fishes extends BaseObservable implements BaseModel {
 
     @Generated(hash = 824269915)
     public Fishes() {
+    }
+
+    @Override
+    public boolean checkValue() {
+        if (modelId == null ||
+                photo == null ||
+                id_Catches == null ||
+                id == null ||
+                foreignKey == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public String getModelId() {
@@ -143,7 +159,9 @@ public class Fishes extends BaseObservable implements BaseModel {
     @Generated(hash = 822618378)
     private transient Long catches__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 343607068)
     public Catches getCatches() {
         Long __key = this.foreignKey;
@@ -162,7 +180,9 @@ public class Fishes extends BaseObservable implements BaseModel {
         return catches;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 720081995)
     public void setCatches(Catches catches) {
         synchronized (this) {

@@ -82,6 +82,26 @@ public class DbManager {
         }
     }
 
+    public void delete(BaseModel obj) {
+        String simpleName = obj.getClass().getSimpleName();
+        String modelClassName = obj.getClass().getName();
+        Long result = null;
+        try {
+            Log.e(TAG, "save: " + modelClassName);
+            AbstractDao modelDao = getModelDao(simpleName);
+            if (modelDao != null) {
+                Log.e(TAG, "save: not null");
+                modelDao.delete(obj);
+                Log.e(TAG, "delete ");
+            }
+        } catch (NoSuchMethodException e) {
+            Log.e(TAG, "save: " + e.toString());
+        } catch (InvocationTargetException e) {
+            Log.e(TAG, "save: " + e.toString());
+        } catch (IllegalAccessException e) {
+            Log.e(TAG, "save: " + e.toString());
+        }
+    }
     /**
      * 存储一个 Model对象，并返回该对象的id值
      *

@@ -80,6 +80,19 @@ public class WaterLayer extends BaseObservable implements BaseModel {
     public WaterLayer() {
     }
 
+    @Override
+    public boolean checkValue() {
+        if (modelId == null ||
+                layer == null ||
+                idMeasurePoint == null ||
+                id == null ||
+                foreignKey == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public String getModelId() {
         return this.modelId;
     }

@@ -64,6 +64,9 @@ public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<ITreeView.TreeIt
             @Override
             public void onClick(View v) {
                 getTreeView().removeNode(node);
+                if (listener != null) {
+                    listener.onItemDeleteBtnClicked(node);
+                }
             }
         });
         return view;

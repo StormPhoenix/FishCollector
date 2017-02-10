@@ -129,6 +129,7 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
     @Override
     protected void initVariables() {
         model = (MonitoringSite) attachedBean;
+
         AddressUtils.processAddress(model.getSite());
         cityPosition = AddressUtils.getCityPosition();
         cityIndex = AddressUtils.getCityIndex();

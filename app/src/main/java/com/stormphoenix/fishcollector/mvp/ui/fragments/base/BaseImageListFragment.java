@@ -1,5 +1,7 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments.base;
 
+import android.support.design.widget.Snackbar;
+
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.shared.PicturePathUtils;
@@ -64,8 +66,11 @@ public abstract class BaseImageListFragment extends BaseFragment {
 
     @Override
     protected void uploadModel(BaseModel model) {
-        if (model != null) {
+        if (model != null && model.checkValue()) {
+//            super.uploadModel();
             submitPresenter.submitWithPhoto(model.getClass().getSimpleName(), model);
+        } else {
+            Snackbar.make(mFragmentView, "数据不完善，无法提交", Snackbar.LENGTH_SHORT).show();
         }
     }
 

@@ -47,6 +47,9 @@ public class MeasurePointFragment extends BaseFragment {
     @Override
     protected void initVariables() {
         model = (MeasurePoint) attachedBean;
+        assert model.getForeignKey() != null;
+        model.setIdMeasuringLine(model.getMeasuringLine().getModelId());
+
         locator = new Locator();
         locationView = new LocationView() {
             @Override

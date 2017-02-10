@@ -60,6 +60,8 @@ public class FishEggFragment extends BaseImageListFragment implements ImagePicke
     @Override
     protected void initVariables() {
         model = (FishEggs) attachedBean;
+        assert model.getForeignKey() != null;
+        model.setIdCatches(model.getCatches().getModelId());
     }
 
     @Override

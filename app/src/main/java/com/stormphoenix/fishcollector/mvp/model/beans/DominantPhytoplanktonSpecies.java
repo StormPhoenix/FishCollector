@@ -70,6 +70,19 @@ public class DominantPhytoplanktonSpecies extends BaseObservable implements Base
     public DominantPhytoplanktonSpecies() {
     }
 
+    @Override
+    public boolean checkValue() {
+        if (modelId == null ||
+                name == null ||
+                photo == null ||
+                idPhytoplankton == null ||
+                foreignKey == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public String getModelId() {
         return this.modelId;
     }

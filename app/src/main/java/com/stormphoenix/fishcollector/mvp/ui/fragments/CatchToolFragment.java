@@ -63,6 +63,8 @@ public class CatchToolFragment extends BaseImageListFragment implements ImagePic
     @Override
     protected void initVariables() {
         model = (CatchTools) attachedBean;
+        assert model.getForeignKey() != null;
+        model.setIdWaterLayer(model.getWaterLayer().getModelId());
     }
 
     @Override

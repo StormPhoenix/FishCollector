@@ -91,6 +91,20 @@ public class Catches extends BaseObservable implements BaseModel {
     public Catches() {
     }
 
+    @Override
+    public boolean checkValue() {
+        if (modelId == null ||
+                name == null ||
+                photo == null ||
+                idWaterLayer == null ||
+                id == null ||
+                foreignKey == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public String getModelId() {
         return this.modelId;
     }

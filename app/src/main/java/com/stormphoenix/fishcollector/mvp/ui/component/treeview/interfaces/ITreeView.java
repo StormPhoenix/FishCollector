@@ -15,6 +15,8 @@ import com.unnamed.b.atv.model.TreeNode;
 public interface ITreeView {
     View getView();
 
+    BaseFragment getRootFirstChildFragment();
+
     void buildTree();
 
     void setNodeClickListener(TreeNode.TreeNodeClickListener listener);

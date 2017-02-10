@@ -47,6 +47,9 @@ public class WaterLayerFragment extends BaseFragment implements AdapterView.OnIt
     @Override
     protected void initVariables() {
         model = (WaterLayer) attachedBean;
+
+        assert model.getForeignKey() != null;
+        model.setIdMeasurePoint(model.getMeasurePoint().getModelId());
     }
 
     @Override

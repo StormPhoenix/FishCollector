@@ -63,6 +63,8 @@ public class DominantBenthosFragment extends BaseImageListFragment implements Im
     @Override
     protected void initVariables() {
         model = (DominantBenthosSpecies) attachedBean;
+        assert model.getForeignKey() != null;
+        model.setIdBenthos(model.getBenthos().getModelId());
     }
 
     @Override

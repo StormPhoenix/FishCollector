@@ -69,6 +69,20 @@ public class DominantZooplanktonSpecies extends BaseObservable implements BaseMo
     public DominantZooplanktonSpecies() {
     }
 
+    @Override
+    public boolean checkValue() {
+        if (modelId == null ||
+                name == null ||
+                photo == null ||
+                idZooplankton == null ||
+                id == null ||
+                foreignKey == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public String getModelId() {
         return this.modelId;
     }

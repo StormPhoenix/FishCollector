@@ -112,6 +112,8 @@ public class PhytoplanktonFragment extends BaseImageListFragment implements Imag
     @Override
     protected void initVariables() {
         model = (Phytoplankton) attachedBean;
+        assert model.getForeignKey() != null;
+        model.setIdFractureSurface(model.getFractureSurface().getModelId());
     }
 
     @Override

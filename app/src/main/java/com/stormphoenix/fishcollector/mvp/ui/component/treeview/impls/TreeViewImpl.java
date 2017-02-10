@@ -1,5 +1,6 @@
 package com.stormphoenix.fishcollector.mvp.ui.component.treeview.impls;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.view.View;
 
@@ -9,6 +10,7 @@ import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeItemHolder;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces.ITreeView;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.utils.TreeUtils;
+import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
@@ -105,6 +107,15 @@ public class TreeViewImpl implements ITreeView {
     @Override
     public View getView() {
         return androidTreeView.getView();
+    }
+
+    @Override
+    public BaseFragment getRootFirstChildFragment() {
+        if (root == null || root.getChildren() == null || root.getChildren().size() == 0) {
+            return null;
+        }
+
+        return ((TreeItem) (root.getChildren().get(0).getValue())).getAttachedFragment();
     }
 
     @Override

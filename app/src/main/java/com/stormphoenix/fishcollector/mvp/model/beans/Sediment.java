@@ -59,6 +59,19 @@ public class Sediment extends BaseObservable implements BaseModel {
     public Sediment() {
     }
 
+    @Override
+    public boolean checkValue() {
+        if (modelId == null ||
+                photo == null ||
+                id_FractureSurface == null ||
+                id == null ||
+                foreignKey == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public String getModelId() {
         return this.modelId;
     }

@@ -60,6 +60,8 @@ public class CatchFragment extends BaseImageListFragment implements ImagePickerA
     @Override
     protected void initVariables() {
         model = (Catches) attachedBean;
+        assert model.getForeignKey() != null;
+        model.setIdWaterLayer(model.getWaterLayer().getModelId());
         Log.i(TAG, "initVariables: " + model.getTotalQuality());
     }
 

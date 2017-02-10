@@ -3,15 +3,17 @@ package com.stormphoenix.fishcollector.mvp.ui.activities;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.EventLog;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.db.DbManager;
@@ -29,7 +31,6 @@ import com.stormphoenix.fishcollector.shared.constants.ModelConstantMap;
 import com.unnamed.b.atv.model.TreeNode;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
 
@@ -45,9 +46,13 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.tree_view_wrapper)
     FrameLayout treeViewWrapper;
     @BindView(R.id.btn_add_site_main)
-    Button btnAddSite;
+    FloatingActionButton btnAddSite;
     @BindView(R.id.layout_fragment_wrapper)
     FrameLayout layoutFragmentWrapper;
+    @BindView(R.id.empty_display_wrapper)
+    RelativeLayout mEmptyDisplayWrapper;
+
+    private DbManager dbManager = null;
 
     private TreeItemHolder.ItemOperationListener listener = null;
     private TreeNode.TreeNodeClickListener nodeClickListener = null;
@@ -64,6 +69,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initVariables() {
+        dbManager = new DbManager(this);
         listener = new TreeItemHolder.ItemOperationListener() {
             @Override
             public void onItemAddBtnClicked(TreeNode node, String key, String value) {
@@ -79,13 +85,23 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onItemDeleteBtnClicked(TreeNode node) {
                 treeView.deleteNode(node);
+                BaseModel attachedModel = ((ITreeView.TreeItem) (node.getValue())).getAttachedModel();
+                dbManager.delete(attachedModel);
+                if (((ITreeView.TreeItem) (node.getValue())).getAttachedFragment() == currentFragment) {
+                    getFragmentManager().beginTransaction()
+                            .remove(currentFragment)
+                            .commit();
+                    setMainContent();
+                }
             }
         };
+
         nodeClickListener = new TreeNode.TreeNodeClickListener() {
             @Override
             public void onClick(TreeNode node, Object value) {
                 ITreeView.TreeItem item = (ITreeView.TreeItem) value;
                 String modelClassName = item.modelConstant;
+                mEmptyDisplayWrapper.setVisibility(View.GONE);
                 BaseFragment attachedFragment = item.getAttachedFragment();
                 getFragmentManager().beginTransaction().replace(R.id.layout_fragment_wrapper, attachedFragment, attachedFragment.getClass().getName()).commit();
                 currentFragment = attachedFragment;
@@ -101,6 +117,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 addMonitorSite();
+                setMainContent();
             }
         });
     }
@@ -189,8 +206,20 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+        setMainContent();
+    }
+
+    private void setMainContent() {
+        if (treeView.getRootFirstChildFragment() != null) {
+            mEmptyDisplayWrapper.setVisibility(View.GONE);
+            currentFragment = treeView.getRootFirstChildFragment();
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.layout_fragment_wrapper, currentFragment, currentFragment.getClass().getName())
+                    .commit();
+        } else {
+            mEmptyDisplayWrapper.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

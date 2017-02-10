@@ -7,15 +7,15 @@ import android.support.annotation.Nullable;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Unique;
 
 import java.util.List;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by Phoenix on 2016/5/31.
@@ -43,16 +43,20 @@ public class MeasurePoint extends BaseObservable implements BaseModel {
 
     @ToOne(joinProperty = "foreignKey")
     private MeasuringLine measuringLine;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 1617290021)
     private transient MeasurePointDao myDao;
 
     @Generated(hash = 1859168494)
     public MeasurePoint(String modelId, float longitude, float latitude, String idMeasuringLine,
-            Long id, Long foreignKey) {
+                        Long id, Long foreignKey) {
         this.modelId = modelId;
         this.longitude = longitude;
         this.latitude = latitude;
@@ -63,6 +67,20 @@ public class MeasurePoint extends BaseObservable implements BaseModel {
 
     @Generated(hash = 878361328)
     public MeasurePoint() {
+    }
+
+    @Override
+    public boolean checkValue() {
+        if (modelId == null ||
+                longitude == 0 ||
+                latitude == 0 ||
+                idMeasuringLine == null ||
+                id == null ||
+                foreignKey == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public String getModelId() {
@@ -118,7 +136,9 @@ public class MeasurePoint extends BaseObservable implements BaseModel {
     @Generated(hash = 270898113)
     private transient Long measuringLine__resolvedKey;
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 524236604)
     public MeasuringLine getMeasuringLine() {
         Long __key = this.foreignKey;
@@ -138,7 +158,9 @@ public class MeasurePoint extends BaseObservable implements BaseModel {
         return measuringLine;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 1557940170)
     public void setMeasuringLine(MeasuringLine measuringLine) {
         synchronized (this) {
@@ -171,7 +193,9 @@ public class MeasurePoint extends BaseObservable implements BaseModel {
         return waterLayers;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 426312877)
     public synchronized void resetWaterLayers() {
         waterLayers = null;
