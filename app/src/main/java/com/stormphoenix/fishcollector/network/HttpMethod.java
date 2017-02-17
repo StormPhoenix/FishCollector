@@ -67,6 +67,7 @@ public class HttpMethod {
     }
 
     public Subscription login(String username, String password, final RequestCallback<HttpResult<Void>> callback) {
+        callback.beforeRequest();
         return loginApi.login(username, password)
                 .compose(RxJavaCustomTransformer.<HttpResult<Void>>defaultSchedulers())
                 .subscribe(new Subscriber<HttpResult<Void>>() {

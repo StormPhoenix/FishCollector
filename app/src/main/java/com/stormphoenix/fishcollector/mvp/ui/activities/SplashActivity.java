@@ -1,15 +1,16 @@
 package com.stormphoenix.fishcollector.mvp.ui.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.mvp.ui.activities.base.BaseActivity;
+import com.stormphoenix.fishcollector.shared.ConfigUtils;
 import com.stormphoenix.fishcollector.shared.rxutils.RxJavaCustomTransformer;
 
 import java.util.concurrent.TimeUnit;
@@ -19,7 +20,6 @@ import rx.Observable;
 import rx.Subscriber;
 
 public class SplashActivity extends BaseActivity {
-    SharedPreferences userInfoSp = null;
     @BindView(R.id.imageView4)
     ImageView imageView4;
 
@@ -46,7 +46,6 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initVariables() {
-        userInfoSp = getSharedPreferences("user_info", MODE_PRIVATE);
     }
 
     @Override
@@ -73,7 +72,8 @@ public class SplashActivity extends BaseActivity {
                 .subscribe(new Subscriber<Long>() {
                     @Override
                     public void onCompleted() {
-                        if (userInfoSp.getBoolean("isLogin", false)) {
+                        if (!ConfigUtils.getInstance().isUserLogin()) {
+                            Log.e("TAG", "onCompleted: sdfjlsdkjfls;");
                             Intent view = new Intent(SplashActivity.this, LoginActivity.class);
                             startActivity(view);
                         } else {

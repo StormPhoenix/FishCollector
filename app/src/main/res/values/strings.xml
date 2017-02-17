@@ -503,4 +503,7 @@
     <string name="empty_prompt">您还没有添加任何信息数据\n请点击红色按钮添加检测点</string>
     <string name="already_inserted">该数据已经被插入</string>
     <string name="username_password_is_not_empty">用户名和密码不能为空</string>
+    <string name="login_failed">登录失败</string>
+    <string name="login">登录</string>
+    <string name="logining">正在登录</string>
 </resources>
