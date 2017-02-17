@@ -5,6 +5,8 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
 import org.greenrobot.greendao.DaoException;
@@ -20,20 +22,29 @@ import org.greenrobot.greendao.annotation.Unique;
 @Entity
 public class FishEggs extends BaseObservable implements BaseModel {
     @Unique
+    @Expose
+    @SerializedName("sampelId")
     private String modelId;
     @Nullable
+    @Expose
     private String photo;
     @Nullable
+    @Expose
     private String period;
     @Nullable
+    @Expose
     private float diameter;
     @Nullable
+    @Expose
     private float emDiameter;
     @Nullable
+    @Expose
     private String pigmentProp;
     @Nullable
+    @Expose
     private String embryoProp;
     @Nullable
+    @Expose
     private String idCatches;
 
     // ******************************

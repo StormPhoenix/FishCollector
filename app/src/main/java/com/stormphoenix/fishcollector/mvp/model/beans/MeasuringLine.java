@@ -4,6 +4,8 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
 import org.greenrobot.greendao.DaoException;
@@ -21,18 +23,25 @@ import java.util.List;
  */
 @Entity
 public class MeasuringLine extends BaseObservable implements BaseModel {
-
     @Unique
+    @Expose
+    @SerializedName("id")
     private String modelId;
     @Nullable
+    @Expose
     private float startLongitude;
     @Nullable
+    @Expose
     private float startLatitude;
     @Nullable
+    @Expose
     private float endLongitude;
     @Nullable
+    @Expose
     private float endLatitude;
     @Nullable
+    @Expose
+    @SerializedName("idFractureSurface")
     private String idFractureSurface;
 
     // *******************************

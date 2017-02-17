@@ -3,6 +3,8 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 import android.databinding.BaseObservable;
 import android.support.annotation.Nullable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
 import org.greenrobot.greendao.DaoException;
@@ -24,20 +26,27 @@ import java.util.List;
 public class Benthos extends BaseObservable implements BaseModel {
     //地栖生物主键
     @Unique
+    @Expose
+    @SerializedName("sampleId")
     private String modelId = null;
 
     //照片路径
     @Nullable
+    @Expose
     private String photo = null;
 
     //数量
     @Nullable
+    @Expose
     private int quality = 0;
 
     //生物量
     @Nullable
+    @Expose
     private float biomass = 0;
     //断面外键
+    @Expose
+    @Nullable
     private String idFractureSurface = null;
 
     /**

@@ -11,7 +11,7 @@ import android.net.NetworkInfo;
 
 public class NetManager {
     public static String getBaseUrl() {
-        return "http://192.168.0.106:8080/fish/api/";
+        return "http://192.168.1.114:8080/fish/api/";
     }
 
     public static boolean isNetworkWorkWell(Context context) {

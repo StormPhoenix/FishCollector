@@ -4,6 +4,8 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
 import org.greenrobot.greendao.DaoException;
@@ -20,33 +22,44 @@ import org.greenrobot.greendao.annotation.Unique;
 public class CatchTools extends BaseObservable implements BaseModel {
     //CatchTools主键
     @Unique
+    @Expose
+    @SerializedName("sampleId")
     private String modelId;
     //网具名字
     @Nullable
+    @Expose
     private String name;
     //照片路径，多个路径用分号隔开
     @Nullable
+    @Expose
     private String photo;
     //网型
     @Nullable
+    @Expose
     private String netsModel;
     //网口面积
     @Nullable
+    @Expose
     private float netMouthArea;
     //网口倾角
     @Nullable
+    @Expose
     private float netMouthDip;
     //开始时间
     @Nullable
+    @Expose
     private String startTime;
     //结束时间
     @Nullable
+    @Expose
     private String endTime;
     //网口流速
     @Nullable
+    @Expose
     private float netMouthVelocity;
     // 水层外键
     @Nullable
+    @Expose
     private String idWaterLayer;
 
     // ******************************

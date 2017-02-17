@@ -1,18 +1,26 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.jzxiang.pickerview.TimePickerDialog;
+import com.jzxiang.pickerview.data.Type;
+import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
 import com.stormphoenix.fishcollector.databinding.FragmentCatchToolsBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.CatchTools;
+import com.stormphoenix.fishcollector.mvp.ui.dialog.TimeSelectorDialogGenerator;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 import com.stormphoenix.imagepicker.FishImageType;
@@ -24,6 +32,8 @@ import com.stormphoenix.imagepicker.ui.ImagePreviewDelActivity;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.stormphoenix.fishcollector.mvp.ui.activities.MainActivity.IMAGE_ITEM_ADD;
 import static com.stormphoenix.fishcollector.mvp.ui.activities.MainActivity.REQUEST_CODE_SELECT;
@@ -54,6 +64,8 @@ public class CatchToolFragment extends BaseImageListFragment implements ImagePic
     RecyclerView rvPicCatchTools;
 
     private CatchTools model;
+    OnDateSetListener onStartDateSetListener = null;
+    OnDateSetListener onEndDateSetListener = null;
 
     @Override
     protected int getLayoutId() {
@@ -65,6 +77,22 @@ public class CatchToolFragment extends BaseImageListFragment implements ImagePic
         model = (CatchTools) attachedBean;
         assert model.getForeignKey() != null;
         model.setIdWaterLayer(model.getWaterLayer().getModelId());
+
+        onStartDateSetListener = new TimeSelectorDialogGenerator.DefaultTimeSetListener() {
+            @Override
+            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+                super.onDateSet(timePickerView, millseconds);
+                etStartTimeTools.setText(fomatedTimeText);
+            }
+        };
+
+        onEndDateSetListener = new TimeSelectorDialogGenerator.DefaultTimeSetListener() {
+            @Override
+            public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+                super.onDateSet(timePickerView, millseconds);
+                etEndTimeTools.setText(fomatedTimeText);
+            }
+        };
     }
 
     @Override
@@ -160,5 +188,31 @@ public class CatchToolFragment extends BaseImageListFragment implements ImagePic
     public void updateData() {
         super.updateData();
         updatePicturesData();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @OnClick({R.id.img_select_start_date_time_catch_tools, R.id.img_select_end_date_time_catch_tools})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_select_start_date_time_catch_tools:
+                Log.e(TAG, "onClick: et_date");
+                new TimeSelectorDialogGenerator(getActivity(), onStartDateSetListener)
+                        .setType(Type.YEAR_MONTH_DAY)
+                        .show(((AppCompatActivity) getActivity()).getSupportFragmentManager());
+                break;
+            case R.id.img_select_end_date_time_catch_tools:
+                Log.e(TAG, "onClick: et_date");
+                new TimeSelectorDialogGenerator(getActivity(), onEndDateSetListener)
+                        .setType(Type.YEAR_MONTH_DAY)
+                        .show(((AppCompatActivity) getActivity()).getSupportFragmentManager());
+                break;
+        }
     }
 }

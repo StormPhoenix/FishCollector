@@ -13,12 +13,15 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,6 +86,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/fish_egg_mount"
+                            android:inputType="number"
                             android:singleLine="true"
                             android:text="@{String.valueOf(catchBean.eggQuality)}" />
                     </android.support.design.widget.TextInputLayout>
@@ -109,6 +113,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/parr_num"
+                            android:inputType="number"
                             android:singleLine="true"
                             android:text="@{String.valueOf(catchBean.fryQuality)}" />
                     </android.support.design.widget.TextInputLayout>

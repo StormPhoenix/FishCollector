@@ -501,4 +501,6 @@
     <string name="submiting">正在提交</string>
     <string name="please_waiting">请稍后...</string>
     <string name="empty_prompt">您还没有添加任何信息数据\n请点击红色按钮添加检测点</string>
+    <string name="already_inserted">该数据已经被插入</string>
+    <string name="username_password_is_not_empty">用户名和密码不能为空</string>
 </resources>

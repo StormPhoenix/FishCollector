@@ -14,11 +14,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <TextView
                 android:id="@+id/tv_benthos_mount_unit"
@@ -39,6 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/nums"
+                    android:inputType="number"
                     android:singleLine="true"
                     android:text="@{String.valueOf(benthosBean.quality)}" />
             </android.support.design.widget.TextInputLayout>
@@ -67,6 +71,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/create_mount"
+                    android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:text="@{String.valueOf(benthosBean.biomass)}" />
             </android.support.design.widget.TextInputLayout>
@@ -83,6 +88,6 @@
             android:scrollbarStyle="outsideOverlay"
             app:layoutManager="android.support.v7.widget.GridLayoutManager"
             app:spanCount="4"
-            tools:listitem="@layout/list_item_image"/>
+            tools:listitem="@layout/list_item_image" />
     </LinearLayout>
 </layout>

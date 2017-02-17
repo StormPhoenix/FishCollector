@@ -51,6 +51,9 @@ public abstract class BaseImageListFragment extends BaseFragment {
         String[] paths = PicturePathUtils.processPicturePath(path);
         if (paths != null) {
             for (String tempPath : paths) {
+                if (!new File(tempPath).exists()) {
+                    continue;
+                }
                 ImageItem item = new ImageItem();
                 item.path = tempPath;
                 selImageList.add(item);

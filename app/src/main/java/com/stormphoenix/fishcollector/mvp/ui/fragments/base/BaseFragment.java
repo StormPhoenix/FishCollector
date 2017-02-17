@@ -131,6 +131,10 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
         }
     }
 
+    public BaseModel getAttachedBean() {
+        return attachedBean;
+    }
+
     protected void uploadModel(BaseModel model) {
         if (model != null) {
             submitPresenter.submit(model.getClass().getSimpleName(), model);

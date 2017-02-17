@@ -28,15 +28,15 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/empty_prompt" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btn_add_site_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="16dp"
-            app:fabSize="normal"
-            app:srcCompat="@drawable/ic_add_white_24dp" />
     </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_add_site_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_add_white_24dp" />
 </RelativeLayout>

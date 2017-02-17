@@ -4,6 +4,8 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 import android.databinding.BaseObservable;
 import android.support.annotation.Nullable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
 import org.greenrobot.greendao.DaoException;
@@ -22,18 +24,26 @@ import java.util.List;
 @Entity
 public class WaterLayer extends BaseObservable implements BaseModel {
     @Unique
+    @Expose
+    @SerializedName("id")
     private String modelId;
     @Nullable
+    @Expose
     private String layer;
     @Nullable
+    @Expose
     private float depth;
     @Nullable
+    @Expose
     private float temperature;
     @Nullable
+    @Expose
     private float waterLevel;
     @Nullable
+    @Expose
     private float velocity;
     @Nullable
+    @Expose
     private String idMeasurePoint;
 
     // *****************************

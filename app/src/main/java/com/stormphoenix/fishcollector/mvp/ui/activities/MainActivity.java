@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.EventLog;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -105,6 +104,7 @@ public class MainActivity extends BaseActivity {
                 BaseFragment attachedFragment = item.getAttachedFragment();
                 getFragmentManager().beginTransaction().replace(R.id.layout_fragment_wrapper, attachedFragment, attachedFragment.getClass().getName()).commit();
                 currentFragment = attachedFragment;
+                toolbar.setTitle(ModelConstantMap.getHolder(currentFragment.getAttachedBean().getClass().getName()).MODEL_NAME);
             }
         };
     }
@@ -217,6 +217,7 @@ public class MainActivity extends BaseActivity {
                     .beginTransaction()
                     .replace(R.id.layout_fragment_wrapper, currentFragment, currentFragment.getClass().getName())
                     .commit();
+            toolbar.setTitle(ModelConstantMap.getHolder(currentFragment.getAttachedBean().getClass().getName()).MODEL_NAME);
         } else {
             mEmptyDisplayWrapper.setVisibility(View.VISIBLE);
         }

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
+import com.stormphoenix.fishcollector.network.apis.LoginApi;
 import com.stormphoenix.fishcollector.network.apis.SubmitSingleModelApi;
 import com.stormphoenix.fishcollector.shared.JsonParser;
 import com.stormphoenix.fishcollector.shared.NetManager;
@@ -34,6 +35,8 @@ public class HttpMethod {
     private static final String TAG = "HttpMethod";
     private static HttpMethod instance = null;
     private SubmitSingleModelApi submitSingleModelApi = null;
+    private LoginApi loginApi = null;
+
     private OkHttpClient client = null;
 
     private HttpMethod() {
@@ -49,6 +52,7 @@ public class HttpMethod {
                 .build();
 
         submitSingleModelApi = retrofit.create(SubmitSingleModelApi.class);
+        loginApi = retrofit.create(LoginApi.class);
     }
 
     public static HttpMethod getInstance() {
@@ -60,6 +64,26 @@ public class HttpMethod {
             }
         }
         return instance;
+    }
+
+    public Subscription login(String username, String password, final RequestCallback<HttpResult<Void>> callback) {
+        return loginApi.login(username, password)
+                .compose(RxJavaCustomTransformer.<HttpResult<Void>>defaultSchedulers())
+                .subscribe(new Subscriber<HttpResult<Void>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(HttpResult<Void> result) {
+                        callback.success(result);
+                    }
+                });
     }
 
     public Subscription submitModelWithPhoto(String modelType, BaseModel model, final RequestCallback<HttpResult<Void>> callback) {

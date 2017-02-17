@@ -1,5 +1,9 @@
 package com.stormphoenix.fishcollector.mvp.presenter.impls;
 
+import android.util.Log;
+
+import com.stormphoenix.fishcollector.FishApplication;
+import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.presenter.impls.base.BasePresenterImpl;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.SubmitPresenter;
@@ -41,10 +45,17 @@ public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView
     @Override
     public void success(HttpResult<Void> data) {
         super.success(data);
-        if (data.getResultCode() != 0) {
-            mBaseView.onSubmitError(data.getResultMessage());
-        } else {
-            mBaseView.onSubmitSuccess();
+        switch (data.getResultCode()) {
+            case 0:
+                mBaseView.onSubmitSuccess();
+                break;
+            case 4:
+                mBaseView.onSubmitError(FishApplication.getInstance().getResources().getString(R.string.already_inserted));
+                break;
+            default:
+                Log.e("TAG", "error " + data.getResultCode());
+                mBaseView.onSubmitError("data error");
+                break;
         }
     }
 }

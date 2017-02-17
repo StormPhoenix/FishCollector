@@ -5,6 +5,8 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
 import org.greenrobot.greendao.DaoException;
@@ -24,12 +26,17 @@ import java.util.List;
 public class MeasurePoint extends BaseObservable implements BaseModel {
 
     @Unique
+    @Expose
+    @SerializedName("id")
     private String modelId;
     @Nullable
+    @Expose
     private float longitude;
     @Nullable
+    @Expose
     private float latitude;
     @Nullable
+    @Expose
     private String idMeasuringLine;
 
     // ********************************

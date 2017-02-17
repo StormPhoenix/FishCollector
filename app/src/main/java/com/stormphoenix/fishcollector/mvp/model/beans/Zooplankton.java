@@ -4,6 +4,8 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 import android.databinding.BaseObservable;
 import android.support.annotation.Nullable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
 import org.greenrobot.greendao.DaoException;
@@ -22,14 +24,21 @@ import java.util.List;
 @Entity
 public class Zooplankton extends BaseObservable implements BaseModel {
     @Unique
+    @Expose
+    @SerializedName("sampleId")
     private String modelId;
     @Nullable
+    @Expose
     private String photo;
     @Nullable
+    @Expose
     private int quality;
     @Nullable
+    @Expose
     private float biomass;
     @Nullable
+    @Expose
+    @SerializedName("idFractureSurface")
     private String ID_FractureSurface;
 
     // **********************************

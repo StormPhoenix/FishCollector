@@ -6,6 +6,8 @@ import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.android.databinding.library.baseAdapters.BR;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
 import org.greenrobot.greendao.DaoException;
@@ -24,27 +26,34 @@ import java.util.List;
  */
 @Entity
 public class Catches extends BaseObservable implements BaseModel {
-
     //主键
     @Unique
+    @Expose
+    @SerializedName("sampleId")
     private String modelId = null;
     //鱼类名称
     @Nullable
+    @Expose
     private String name = null;
     //图片路径
     @Nullable
+    @Expose
     private String photo = null;
     //卵苗总数
     @Nullable
+    @Expose
     private int totalQuality;
     //鱼卵总数
     @Nullable
+    @Expose
     private int eggQuality;
     //幼鱼数
     @Nullable
+    @Expose
     private int fryQuality;
     //水层外键
     @Nullable
+    @Expose
     private String idWaterLayer = null;
 
     // *******************************

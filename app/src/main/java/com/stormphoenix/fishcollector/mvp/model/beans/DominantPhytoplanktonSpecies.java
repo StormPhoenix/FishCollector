@@ -6,6 +6,8 @@ import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.android.databinding.library.baseAdapters.BR;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
 import org.greenrobot.greendao.DaoException;
@@ -21,16 +23,23 @@ import org.greenrobot.greendao.annotation.Unique;
 @Entity
 public class DominantPhytoplanktonSpecies extends BaseObservable implements BaseModel {
     @Unique
+    @Expose
+    @SerializedName("sampelId")
     private String modelId;
     @Nullable
+    @Expose
     private String name;
     @Nullable
+    @Expose
     private String photo;
     @Nullable
+    @Expose
     private float quality;
     @Nullable
+    @Expose
     private float biomass;
     @Nullable
+    @Expose
     private String idPhytoplankton;
 
     // ********************************

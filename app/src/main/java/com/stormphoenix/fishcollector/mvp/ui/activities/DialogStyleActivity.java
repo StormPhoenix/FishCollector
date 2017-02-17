@@ -61,6 +61,9 @@ public class DialogStyleActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
             case R.id.action_chose:
                 if (choseBtnWrapper.getChosenValue() != null) {
                     Intent view = new Intent();

@@ -136,11 +136,13 @@ public class WaterLayerFragment extends BaseFragment implements AdapterView.OnIt
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Log.e(TAG, "onItemSelected: " + position);
         switch (parent.getId()) {
-            case R.id.spin_collect_pos:
+            case R.id.sp_water_layer:
                 waterLayerPosition = position;
                 if (position == -1) {
+                    Log.e(TAG, "onItemSelected: -1");
                     model.setLayer(null);
                 } else if (position < Constants.WATER_LAYER.length) {
+                    Log.e(TAG, "onItemSelected: " + Constants.WATER_LAYER[waterLayerPosition]);
                     model.setLayer(Constants.WATER_LAYER[position]);
                 } else {
                     model.setLayer(null);
