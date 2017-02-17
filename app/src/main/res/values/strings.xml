@@ -506,4 +506,5 @@
     <string name="login_failed">登录失败</string>
     <string name="login">登录</string>
     <string name="logining">正在登录</string>
+    <string name="action_download">下载数据</string>
 </resources>

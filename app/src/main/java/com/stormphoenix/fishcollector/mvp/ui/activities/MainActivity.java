@@ -232,6 +232,13 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_download:
+                if (currentFragment != null) {
+                    removeAllTreeView();
+                    initTreeView();
+                    setMainContent();
+                }
+                break;
             case R.id.action_save:
                 if (currentFragment != null) {
                     currentFragment.save();
@@ -246,5 +253,13 @@ public class MainActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void removeAllTreeView() {
+        dbManager.deleteAll();
+        treeViewWrapper.removeAllViews();
+        getFragmentManager().beginTransaction().remove(currentFragment).commit();
+        currentFragment = null;
+        System.gc();
     }
 }

@@ -3,10 +3,25 @@ package com.stormphoenix.fishcollector.db;
 import android.content.Context;
 import android.util.Log;
 
+import com.stormphoenix.fishcollector.mvp.model.beans.Benthos;
+import com.stormphoenix.fishcollector.mvp.model.beans.CatchTools;
+import com.stormphoenix.fishcollector.mvp.model.beans.Catches;
 import com.stormphoenix.fishcollector.mvp.model.beans.DaoMaster;
 import com.stormphoenix.fishcollector.mvp.model.beans.DaoSession;
+import com.stormphoenix.fishcollector.mvp.model.beans.DominantBenthosSpecies;
+import com.stormphoenix.fishcollector.mvp.model.beans.DominantPhytoplanktonSpecies;
+import com.stormphoenix.fishcollector.mvp.model.beans.DominantZooplanktonSpecies;
+import com.stormphoenix.fishcollector.mvp.model.beans.FishEggs;
+import com.stormphoenix.fishcollector.mvp.model.beans.Fishes;
+import com.stormphoenix.fishcollector.mvp.model.beans.FractureSurface;
+import com.stormphoenix.fishcollector.mvp.model.beans.MeasurePoint;
+import com.stormphoenix.fishcollector.mvp.model.beans.MeasuringLine;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSiteDao;
+import com.stormphoenix.fishcollector.mvp.model.beans.Phytoplankton;
+import com.stormphoenix.fishcollector.mvp.model.beans.Sediment;
+import com.stormphoenix.fishcollector.mvp.model.beans.WaterLayer;
+import com.stormphoenix.fishcollector.mvp.model.beans.Zooplankton;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
 import org.greenrobot.greendao.AbstractDao;
@@ -82,6 +97,26 @@ public class DbManager {
         }
     }
 
+    public void deleteAll() {
+        DaoSession daoSession = new DaoMaster(devOpenHelper.getWritableDb()).newSession();
+        daoSession.deleteAll(DominantBenthosSpecies.class);
+        daoSession.deleteAll(DominantPhytoplanktonSpecies.class);
+        daoSession.deleteAll(DominantZooplanktonSpecies.class);
+        daoSession.deleteAll(Benthos.class);
+        daoSession.deleteAll(Zooplankton.class);
+        daoSession.deleteAll(Phytoplankton.class);
+        daoSession.deleteAll(Sediment.class);
+        daoSession.deleteAll(FishEggs.class);
+        daoSession.deleteAll(Fishes.class);
+        daoSession.deleteAll(Catches.class);
+        daoSession.deleteAll(CatchTools.class);
+        daoSession.deleteAll(WaterLayer.class);
+        daoSession.deleteAll(MeasurePoint.class);
+        daoSession.deleteAll(MeasuringLine.class);
+        daoSession.deleteAll(FractureSurface.class);
+        daoSession.deleteAll(MonitoringSite.class);
+    }
+
     public void delete(BaseModel obj) {
         String simpleName = obj.getClass().getSimpleName();
         String modelClassName = obj.getClass().getName();
@@ -102,6 +137,7 @@ public class DbManager {
             Log.e(TAG, "save: " + e.toString());
         }
     }
+
     /**
      * 存储一个 Model对象，并返回该对象的id值
      *
