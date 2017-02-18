@@ -52,6 +52,8 @@ public class MeasuringLine extends BaseObservable implements BaseModel {
     @ToOne(joinProperty = "foreignKey")
     private FractureSurface fractureSurface;
 
+    @Expose
+    @SerializedName("measurePointsById")
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<MeasurePoint> measurePoints;
 

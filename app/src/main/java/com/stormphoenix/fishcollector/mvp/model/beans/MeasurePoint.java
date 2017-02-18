@@ -45,6 +45,8 @@ public class MeasurePoint extends BaseObservable implements BaseModel {
 
     private Long foreignKey;
 
+    @Expose
+    @SerializedName("waterLayersById")
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<WaterLayer> waterLayers;
 

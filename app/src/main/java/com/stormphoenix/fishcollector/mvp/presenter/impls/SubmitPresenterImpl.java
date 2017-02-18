@@ -52,6 +52,9 @@ public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView
             case 4:
                 mBaseView.onSubmitError(FishApplication.getInstance().getResources().getString(R.string.already_inserted));
                 break;
+            case 6:
+                mBaseView.onSubmitError(FishApplication.getInstance().getString(R.string.submit_parent_data));
+                break;
             default:
                 Log.e("TAG", "error " + data.getResultCode());
                 mBaseView.onSubmitError("data error");

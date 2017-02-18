@@ -1,9 +1,14 @@
 package com.stormphoenix.fishcollector.network;
 
+import com.google.gson.annotations.Expose;
+
 public class HttpResult<T> {
+    @Expose
     private int resultCode;
+    @Expose
     private String resultMessage;
 
+    @Expose
     private T data;
 
     public int getResultCode() {

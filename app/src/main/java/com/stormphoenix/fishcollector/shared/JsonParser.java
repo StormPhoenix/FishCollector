@@ -24,6 +24,10 @@ public class JsonParser {
         return instance;
     }
 
+    public Gson getGson() {
+        return gson;
+    }
+
     private JsonParser() {
         gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()

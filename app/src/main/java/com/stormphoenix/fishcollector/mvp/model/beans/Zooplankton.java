@@ -50,6 +50,8 @@ public class Zooplankton extends BaseObservable implements BaseModel {
     @ToOne(joinProperty = "foreignKey")
     private FractureSurface fractureSurface;
 
+    @Expose
+    @SerializedName("dominantZooplanktonSpeciesBySampleId")
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<DominantZooplanktonSpecies> dominantZooplanktonSpecies;
     /**

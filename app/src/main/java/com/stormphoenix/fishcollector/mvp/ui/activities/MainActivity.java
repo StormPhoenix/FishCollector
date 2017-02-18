@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -18,16 +19,21 @@ import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.db.DbManager;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
 import com.stormphoenix.fishcollector.mvp.ui.activities.base.BaseActivity;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeItemHolder;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.impls.TreeViewImpl;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces.ITreeView;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
+import com.stormphoenix.fishcollector.network.HttpMethod;
+import com.stormphoenix.fishcollector.network.HttpResult;
 import com.stormphoenix.fishcollector.shared.KeyGenerator;
 import com.stormphoenix.fishcollector.shared.ModelUtils;
 import com.stormphoenix.fishcollector.shared.constants.ModelConstant;
 import com.stormphoenix.fishcollector.shared.constants.ModelConstantMap;
 import com.unnamed.b.atv.model.TreeNode;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -233,11 +239,24 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_download:
-                if (currentFragment != null) {
-                    removeAllTreeView();
-                    initTreeView();
-                    setMainContent();
-                }
+                HttpMethod.getInstance().downloadData(new RequestCallback<HttpResult<List<MonitoringSite>>>() {
+                    @Override
+                    public void beforeRequest() {
+                    }
+
+                    @Override
+                    public void success(HttpResult<List<MonitoringSite>> data) {
+                        removeAllTreeView();
+                        dbManager.saveModels(data.getData());
+                        initTreeView();
+                        setMainContent();
+                    }
+
+                    @Override
+                    public void onError(String errorMsg) {
+                        Snackbar.make(drawerLayout, getResources().getString(R.string.download_data_failed), Snackbar.LENGTH_SHORT).show();
+                    }
+                });
                 break;
             case R.id.action_save:
                 if (currentFragment != null) {
@@ -258,8 +277,10 @@ public class MainActivity extends BaseActivity {
     private void removeAllTreeView() {
         dbManager.deleteAll();
         treeViewWrapper.removeAllViews();
-        getFragmentManager().beginTransaction().remove(currentFragment).commit();
-        currentFragment = null;
+        if (currentFragment != null) {
+            getFragmentManager().beginTransaction().remove(currentFragment).commit();
+            currentFragment = null;
+        }
         System.gc();
     }
 }

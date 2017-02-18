@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.jzxiang.pickerview.TimePickerDialog;
@@ -65,10 +64,6 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
     EditText etEndLongitude;
     @BindView(R.id.et_end_latitude)
     EditText etEndLatitude;
-    @BindView(R.id.sp_province)
-    Spinner spinProvince;
-    @BindView(R.id.sp_city)
-    Spinner spinCity;
     @BindView(R.id.et_details_address)
     EditText etDetailsAddress;
     @BindView(R.id.rv_pic_monitor_site)
@@ -95,10 +90,10 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
     EditText etEndTime;
 
     //城市在省级常量表中的下标值
-    private int cityPosition = 0;
-    private int cityIndex = 0;
-    private String detailAddress = null;
-    private String site = null;
+//    private int cityPosition = 0;
+//    private int cityIndex = 0;
+//    private String detailAddress = null;
+//    private String site = null;
 
     MonitoringSite model = null;
     Locator locator = null;
@@ -130,11 +125,11 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
     protected void initVariables() {
         model = (MonitoringSite) attachedBean;
 
-        AddressUtils.processAddress(model.getSite());
-        cityPosition = AddressUtils.getCityPosition();
-        cityIndex = AddressUtils.getCityIndex();
-        detailAddress = AddressUtils.getAddressDetails();
-        site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
+//        AddressUtils.processAddress(model.getSite());
+//        cityPosition = AddressUtils.getCityPosition();
+//        cityIndex = AddressUtils.getCityIndex();
+//        detailAddress = AddressUtils.getAddressDetails();
+//        site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
 
         locator = new Locator();
 
@@ -279,24 +274,24 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
             }
         });
 
-        etDetailsAddress.setText(detailAddress);
+        etDetailsAddress.setText(model.getSite());
         etDetailsAddress.addTextChangedListener(new DefaultTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
                 super.afterTextChanged(s);
-                detailAddress = text;
-                site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
-                ((MonitoringSite) attachedBean).setSite(site);
+//                detailAddress = text;
+//                site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
+                ((MonitoringSite) attachedBean).setSite(text);
             }
         });
 
-        spinProvince.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, Constants.PROVINCE));
-        spinProvince.setSelection(cityPosition);
-        spinProvince.setOnItemSelectedListener(this);
-
-        spinCity.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, Constants.CITY[cityPosition]));
-        spinCity.setSelection(cityIndex);
-        spinCity.setOnItemSelectedListener(this);
+//        spinProvince.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, Constants.PROVINCE));
+//        spinProvince.setSelection(cityPosition);
+//        spinProvince.setOnItemSelectedListener(this);
+//
+//        spinCity.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, Constants.CITY[cityPosition]));
+//        spinCity.setSelection(cityIndex);
+//        spinCity.setOnItemSelectedListener(this);
 
         initPicturesListView();
     }
@@ -317,20 +312,20 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
-            case R.id.sp_province:
-                cityPosition = position;
-                cityIndex = 0;
-                spinCity.setAdapter(new ArrayAdapter<>(getActivity(),
-                        android.R.layout.simple_spinner_item, Constants.CITY[position]));
-                spinCity.setSelection(cityIndex);
-                site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
-                ((MonitoringSite) attachedBean).setSite(site);
-                break;
-            case R.id.sp_city:
-                cityIndex = position;
-                site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
-                ((MonitoringSite) attachedBean).setSite(site);
-                break;
+//            case R.id.sp_province:
+//                cityPosition = position;
+//                cityIndex = 0;
+//                spinCity.setAdapter(new ArrayAdapter<>(getActivity(),
+//                        android.R.layout.simple_spinner_item, Constants.CITY[position]));
+//                spinCity.setSelection(cityIndex);
+//                site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
+//                ((MonitoringSite) attachedBean).setSite(site);
+//                break;
+//            case R.id.sp_city:
+//                cityIndex = position;
+//                site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
+//                ((MonitoringSite) attachedBean).setSite(site);
+//                break;
             default:
                 break;
         }
@@ -370,7 +365,7 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
     @Override
     public void uploadModel() {
         MonitoringSite cloneObj = model.clone();
-        cloneObj.setSite(AddressUtils.mergeAddress(cloneObj.getSite()));
+//        cloneObj.setSite(AddressUtils.mergeAddress(cloneObj.getSite()));
         super.uploadModel(cloneObj);
     }
 

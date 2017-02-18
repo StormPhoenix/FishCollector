@@ -28,40 +28,39 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp">
+            android:paddingRight="10dp">
 
-            <LinearLayout
-                android:id="@+id/spinner_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/spinner_layout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:weightSum="2">-->
 
-                <Spinner
-                    android:id="@+id/sp_province"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
+                <!--<Spinner-->
+                    <!--android:id="@+id/sp_province"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1">-->
 
-                </Spinner>
+                <!--</Spinner>-->
 
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginTop="3dp"
-                    android:background="#bdbdbd" />
+                <!--<View-->
+                    <!--android:layout_width="0.5dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginBottom="3dp"-->
+                    <!--android:layout_marginTop="3dp"-->
+                    <!--android:background="#bdbdbd" />-->
 
-                <Spinner
-                    android:id="@+id/sp_city"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
+                <!--<Spinner-->
+                    <!--android:id="@+id/sp_city"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1">-->
 
-                </Spinner>
-            </LinearLayout>
+                <!--</Spinner>-->
+            <!--</LinearLayout>-->
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/et_detection_unit_wrapper"
@@ -72,7 +71,6 @@
                     android:id="@+id/et_detection_unit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/spinner_layout"
                     android:layout_marginTop="10dp"
                     android:hint="@string/detection_unit"
                     android:paddingLeft="10dp"

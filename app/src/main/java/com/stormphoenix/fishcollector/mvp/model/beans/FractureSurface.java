@@ -44,21 +44,31 @@ public class FractureSurface extends BaseObservable implements BaseModel {
     @Id
     private Long id;
 
+    @Expose
+    @SerializedName("benthosesById")
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<Benthos> benthoses;
 
+    @Expose
+    @SerializedName("phytoplanktonsById")
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<Phytoplankton> phytoplanktons;
 
+    @Expose
+    @SerializedName("zooplanktonsById")
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<Zooplankton> zooplanktons;
 
     @ToOne(joinProperty = "foreignKey")
     private MonitoringSite monitoringSite;
 
+    @Expose
+    @SerializedName("sedimentsById")
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<Sediment> sediments;
 
+    @Expose
+    @SerializedName("measuringLinesById")
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<MeasuringLine> measuringLines;
 

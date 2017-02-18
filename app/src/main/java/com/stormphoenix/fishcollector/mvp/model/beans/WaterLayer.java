@@ -55,9 +55,13 @@ public class WaterLayer extends BaseObservable implements BaseModel {
     @ToOne(joinProperty = "foreignKey")
     private MeasurePoint measurePoint;
 
+    @Expose
+    @SerializedName("catchesById")
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<Catches> catches;
 
+    @Expose
+    @SerializedName("catchToolsesById")
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<CatchTools> catchToolses;
     /**

@@ -49,6 +49,8 @@ public class Phytoplankton extends BaseObservable implements BaseModel {
     @ToOne(joinProperty = "foreignKey")
     private FractureSurface fractureSurface;
 
+    @Expose
+    @SerializedName("dominantPhytoplanktonSpeciesBySampleId")
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<DominantPhytoplanktonSpecies> phytoplanktons;
     /**

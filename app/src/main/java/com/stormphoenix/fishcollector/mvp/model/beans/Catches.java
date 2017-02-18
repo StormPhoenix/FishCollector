@@ -65,9 +65,13 @@ public class Catches extends BaseObservable implements BaseModel {
     @ToOne(joinProperty = "foreignKey")
     private WaterLayer waterLayer;
 
+    @Expose
+    @SerializedName("fishesBySampleId")
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<Fishes> fishes;
 
+    @Expose
+    @SerializedName("fishEggsesBySampleId")
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<FishEggs> fishEggses;
     /**

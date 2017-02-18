@@ -2,8 +2,11 @@ package com.stormphoenix.fishcollector.network;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
+import com.stormphoenix.fishcollector.network.apis.DownloadApi;
 import com.stormphoenix.fishcollector.network.apis.LoginApi;
 import com.stormphoenix.fishcollector.network.apis.SubmitSingleModelApi;
 import com.stormphoenix.fishcollector.shared.JsonParser;
@@ -14,6 +17,7 @@ import com.stormphoenix.fishcollector.shared.rxutils.RxJavaCustomTransformer;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -36,6 +40,7 @@ public class HttpMethod {
     private static HttpMethod instance = null;
     private SubmitSingleModelApi submitSingleModelApi = null;
     private LoginApi loginApi = null;
+    private DownloadApi downloadApi = null;
 
     private OkHttpClient client = null;
 
@@ -48,11 +53,12 @@ public class HttpMethod {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(NetManager.getBaseUrl())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(JsonParser.getInstance().getGson()))
                 .build();
 
         submitSingleModelApi = retrofit.create(SubmitSingleModelApi.class);
         loginApi = retrofit.create(LoginApi.class);
+        downloadApi = retrofit.create(DownloadApi.class);
     }
 
     public static HttpMethod getInstance() {
@@ -64,6 +70,29 @@ public class HttpMethod {
             }
         }
         return instance;
+    }
+
+    public Subscription downloadData(final RequestCallback<HttpResult<List<MonitoringSite>>> callback) {
+        callback.beforeRequest();
+        return downloadApi.downloadData()
+                .compose(RxJavaCustomTransformer.<HttpResult<List<MonitoringSite>>>defaultSchedulers())
+                .subscribe(new Subscriber<HttpResult<List<MonitoringSite>>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(HttpResult<List<MonitoringSite>> listHttpResult) {
+                        Log.e(TAG, "onNext: " + JsonParser.getInstance().toJson(listHttpResult));
+                        callback.success(listHttpResult);
+                    }
+                });
     }
 
     public Subscription login(String username, String password, final RequestCallback<HttpResult<Void>> callback) {
@@ -143,7 +172,6 @@ public class HttpMethod {
                 .subscribe(new Subscriber<HttpResult<Void>>() {
                     @Override
                     public void onCompleted() {
-
                     }
 
                     @Override

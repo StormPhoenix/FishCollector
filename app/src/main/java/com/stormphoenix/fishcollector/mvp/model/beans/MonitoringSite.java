@@ -90,6 +90,8 @@ public class MonitoringSite extends BaseObservable implements BaseModel, Cloneab
     @Id
     private Long id;
 
+    @Expose
+    @SerializedName("fractureSurfacesByInverstigationId")
     @ToMany(referencedJoinProperty = "foreignKey")
     private List<FractureSurface> fractureSurfaces;
     /**

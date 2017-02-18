@@ -26,10 +26,12 @@ import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.Property;
+import org.greenrobot.greendao.annotation.ToMany;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeItemHolder.TAG;
@@ -168,6 +170,43 @@ public class DbManager {
         } finally {
             return result;
         }
+    }
+
+    public void saveModels(List<MonitoringSite> models) {
+        for (MonitoringSite monitoringSite : models) {
+            saveMonitoringSite(monitoringSite);
+            List<List<BaseModel>> childrenModelsList = getChildrenModels(monitoringSite);
+            for (List<BaseModel> childrendModels : childrenModelsList) {
+                saveByDepthFirst(monitoringSite, childrendModels);
+            }
+        }
+    }
+
+    private void saveByDepthFirst(BaseModel baseModel, List<BaseModel> childrenModel) {
+        for (BaseModel childModel : childrenModel) {
+            childModel.setForeignKey(baseModel.getId());
+            save(childModel);
+
+            List<List<BaseModel>> childrenModelsList = getChildrenModels(childModel);
+            for (List<BaseModel> childrenModels : childrenModelsList) {
+                saveByDepthFirst(childModel, childrenModels);
+            }
+        }
+    }
+
+    private List<List<BaseModel>> getChildrenModels(BaseModel baseModel) {
+        List<List<BaseModel>> modelsList = new ArrayList<>();
+
+        for (Field field : baseModel.getClass().getDeclaredFields()) {
+            if (field.getAnnotation(ToMany.class) != null) {
+                try {
+                    modelsList.add((List<BaseModel>) field.get(baseModel));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return modelsList;
     }
 
     public List<MonitoringSite> queryAll() {
