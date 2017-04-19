@@ -6,6 +6,7 @@ import com.stormphoenix.fishcollector.network.HttpResult;
 import java.util.List;
 
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -14,6 +15,7 @@ import rx.Observable;
  */
 
 public interface DownloadApi {
-    @GET("download")
-    Observable<HttpResult<List<MonitoringSite>>> downloadData();
+    @GET("model/download")
+    Observable<HttpResult<List<MonitoringSite>>> downloadData(@Query("username") String username,
+                                                              @Query("password") String password);
 }

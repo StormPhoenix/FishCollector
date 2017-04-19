@@ -2,12 +2,15 @@ package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -26,7 +29,6 @@ import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.ui.dialog.TimeSelectorDialogGenerator;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.mvp.view.LocationView;
-import com.stormphoenix.fishcollector.shared.AddressUtils;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultTextWatcher;
@@ -41,7 +43,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fr.ganfra.materialspinner.MaterialSpinner;
 
 import static com.stormphoenix.fishcollector.mvp.ui.activities.MainActivity.IMAGE_ITEM_ADD;
 import static com.stormphoenix.fishcollector.mvp.ui.activities.MainActivity.REQUEST_CODE_SELECT;
@@ -104,6 +108,10 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
     OnDateSetListener onStartDateSetListener = null;
     OnDateSetListener onEndDateSetListener = null;
 
+    @BindView(R.id.spin_weather)
+    MaterialSpinner spinWeather;
+    private ArrayAdapter<String> weatherAdapter;
+
     @Override
     public void onStart() {
         Log.i(TAG, "onStart");
@@ -123,14 +131,14 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
 
     @Override
     protected void initVariables() {
+        weatherAdapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_item, Constants.SAMPLE_WEATHER);
         model = (MonitoringSite) attachedBean;
-
 //        AddressUtils.processAddress(model.getSite());
 //        cityPosition = AddressUtils.getCityPosition();
 //        cityIndex = AddressUtils.getCityIndex();
 //        detailAddress = AddressUtils.getAddressDetails();
 //        site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
-
         locator = new Locator();
 
         startLocationView = new LocationView() {
@@ -211,6 +219,35 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
 
     @Override
     protected void initViews(View view) {
+        spinWeather.setAdapter(weatherAdapter);
+        spinWeather.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e(TAG, "onItemSelected: " + position);
+                if (position == -1) {
+                    return;
+                } else {
+                    model.setWeather(Constants.SAMPLE_WEATHER[position]);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        if (model.getWeather() != null) {
+            for (int index = 0; index < Constants.SAMPLE_WEATHER.length; index++) {
+                if (model.getWeather().equals(Constants.SAMPLE_WEATHER[index])) {
+                    spinWeather.setSelection(index);
+                    break;
+                }
+            }
+        } else {
+            spinWeather.setSelection(0);
+            model.setWeather(Constants.SAMPLE_WEATHER[0]);
+        }
         etTemperature.addTextChangedListener(new DefaultFloatTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -340,10 +377,11 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
         Log.e(TAG, "onItemClick: ");
         switch (position) {
             case IMAGE_ITEM_ADD:
-                //打开选择,本次允许选择的数量
+                //添加图片
                 ImagePicker.getInstance().setSelectLimit(maxImgCount - selImageList.size());
                 Intent intent = new Intent(this.getActivity(), ImageGridActivity.class);
                 intent.putExtra(FishImageType.IMAGE_TYPE, FishImageType.MONITORING_SITE);
+                // 启动图片选择 Activity
                 getActivity().startActivityForResult(intent, REQUEST_CODE_SELECT);
                 break;
             default:
@@ -393,5 +431,13 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
                         show(((AppCompatActivity) getActivity()).getSupportFragmentManager());
                 break;
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
     }
 }

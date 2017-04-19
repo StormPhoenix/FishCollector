@@ -197,14 +197,23 @@ public class DbManager {
     private List<List<BaseModel>> getChildrenModels(BaseModel baseModel) {
         List<List<BaseModel>> modelsList = new ArrayList<>();
 
-        for (Field field : baseModel.getClass().getDeclaredFields()) {
-            if (field.getAnnotation(ToMany.class) != null) {
+        Field[] declaredFields = baseModel.getClass().getDeclaredFields();
+        for (Field field : declaredFields) {
+            if (field.getType() == List.class) {
+                field.setAccessible(true);
                 try {
-                    modelsList.add((List<BaseModel>) field.get(baseModel));
+                    modelsList.add((List<BaseModel>)field.get(baseModel));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
+//            if (field.getAnnotation(ToMany.class) != null) {
+//                try {
+//                    modelsList.add((List<BaseModel>) field.get(baseModel));
+//                } catch (IllegalAccessException e) {
+//                    e.printStackTrace();
+//                }
+//            }
         }
         return modelsList;
     }

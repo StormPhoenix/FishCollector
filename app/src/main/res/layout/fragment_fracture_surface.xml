@@ -31,18 +31,33 @@
             app:ms_multiline="false" />
         <!--app:ms_floatingLabelText="floating label"-->
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_date_wrapper"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="12">
 
-            <EditText
-                android:id="@+id/et_shore_distance"
-                android:layout_width="match_parent"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/et_date_wrapper"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/shore_distance"
-                android:singleLine="true"
-                android:text="@{String.valueOf(fractureSurfaceBean.distance2Bank)}" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_weight="11">
+
+                <EditText
+                    android:id="@+id/et_shore_distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/shore_distance"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(fractureSurfaceBean.distance2Bank)}" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="m" />
+        </LinearLayout>
     </LinearLayout>
 </layout>

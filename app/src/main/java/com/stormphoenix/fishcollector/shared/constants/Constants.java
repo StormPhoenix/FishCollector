@@ -54,6 +54,8 @@ public class Constants {
 
     public static final String[] SAMPLE_POSITION = {"左岸", "右岸", "中间"};
 
+    public static final String[] SAMPLE_WEATHER = {"晴", "阴", "多云", "少云", "小雨", "中雨", "大雨", "阵雨", "雷阵雨", "暴雨", "雪"};
+
     public static final String[] WATER_LAYER = {"上", "中", "下"};
 
     public static final int INPUTMOREDATA = 1;

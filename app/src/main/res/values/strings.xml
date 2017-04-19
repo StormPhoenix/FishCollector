@@ -86,7 +86,7 @@
     <string name="ic_cloud_download">&#xe04d;</string>
     <string name="ic_cloud_off">&#xe04e;</string>
     <string name="ic_cloud_queue">&#xe04f;</string>
-    <string name="ic_cloud_upload">&#xe050;</string>
+    <string name="ic_cloud_upload">上传数据</string>
     <string name="ic_comment">&#xe051;</string>
     <string name="ic_communities">&#xe052;</string>
     <string name="ic_content_copy">&#xe053;</string>
@@ -471,7 +471,7 @@
     <string name="grain">粒</string>
     <string name="parr_num">幼鱼数</string>
     <string name="tail">尾</string>
-    <string name="action_save">保存</string>
+    <string name="action_save">保存数据</string>
     <string name="address_details">详细地址</string>
     <string name="input_type_error">输入数据类型错误</string>
     <string name="longitude">经度</string>
@@ -500,7 +500,7 @@
     <string name="locate_error">网络错误，无法定位</string>
     <string name="submiting">正在提交</string>
     <string name="please_waiting">请稍后...</string>
-    <string name="empty_prompt">您还没有添加任何信息数据\n请点击红色按钮添加检测点</string>
+    <string name="empty_prompt">已添加0个监测点\n请点击红色按钮添加检测点</string>
     <string name="already_inserted">该数据已经被插入</string>
     <string name="username_password_is_not_empty">用户名和密码不能为空</string>
     <string name="login_failed">登录失败</string>
@@ -509,4 +509,22 @@
     <string name="action_download">下载数据</string>
     <string name="submit_parent_data">请先提交父节点数据</string>
     <string name="download_data_failed">下载数据失败</string>
+    <string name="register">注册</string>
+    <string name="add_monitor">添加检测点</string>
+    <string name="sure_to_add_monitor">确认添加检测点吗？</string>
+    <string name="no">否</string>
+    <string name="yes">是</string>
+    <string name="dispatch_task">分配任务</string>
+    <string name="is_dispatched">已经分配</string>
+    <string name="no_dispatched">尚未分配</string>
+    <string name="net_error">网络错误，请检查连接</string>
+    <string name="no_members_data">暂无成员数据</string>
+    <string name="monitorsite">监测点</string>
+    <string name="wait_to_be_dispatch">待分配成员</string>
+    <string name="undispatched">尚未分配</string>
+    <string name="delete">删除</string>
+    <string name="sure_to_delete">确定要删除吗?</string>
+    <string name="members_message_is_not_get">成员信息尚未获取，请稍后再试</string>
+    <string name="chose_member">请选择要分配的成员</string>
+    <string name="sure">确认</string>
 </resources>

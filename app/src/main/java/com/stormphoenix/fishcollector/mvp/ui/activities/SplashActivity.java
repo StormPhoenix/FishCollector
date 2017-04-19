@@ -2,8 +2,6 @@ package com.stormphoenix.fishcollector.mvp.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
@@ -22,22 +20,6 @@ import rx.Subscriber;
 public class SplashActivity extends BaseActivity {
     @BindView(R.id.imageView4)
     ImageView imageView4;
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-//                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 
     @Override
     protected int getLayoutId() {
@@ -72,6 +54,8 @@ public class SplashActivity extends BaseActivity {
                 .subscribe(new Subscriber<Long>() {
                     @Override
                     public void onCompleted() {
+//                        Intent view = new Intent(SplashActivity.this, MainActivity.class);
+//                        startActivity(view);
                         if (!ConfigUtils.getInstance().isUserLogin()) {
                             Log.e("TAG", "onCompleted: sdfjlsdkjfls;");
                             Intent view = new Intent(SplashActivity.this, LoginActivity.class);

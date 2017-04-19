@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.view.View;
 
+import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.db.DbManager;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
@@ -65,6 +66,8 @@ public class TreeViewImpl implements ITreeView {
 
         androidTreeView = new AndroidTreeView(context, root);
         androidTreeView.setDefaultAnimation(true);
+        androidTreeView.setDefaultContainerStyle(R.style.TreeNodeStyleCustom);
+        androidTreeView.setDefaultViewHolder(TreeItemHolder.class);
         if (nodeClickListener != null) {
             androidTreeView.setDefaultNodeClickListener(nodeClickListener);
         }

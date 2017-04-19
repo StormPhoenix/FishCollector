@@ -18,4 +18,78 @@ public class Account {
     private String superiorName;
     // 角色名称
     private String roleName;
+    // 是否被分配了任务
+    private boolean isDespatched;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
+    }
+
+    public String getSuperiorName() {
+        return superiorName;
+    }
+
+    public void setSuperiorName(String superiorName) {
+        this.superiorName = superiorName;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public boolean isDespatched() {
+        return isDespatched;
+    }
+
+    public void setDespatched(boolean despatched) {
+        isDespatched = despatched;
+    }
 }

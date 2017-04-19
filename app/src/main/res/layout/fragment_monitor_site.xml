@@ -31,35 +31,35 @@
             android:paddingRight="10dp">
 
             <!--<LinearLayout-->
-                <!--android:id="@+id/spinner_layout"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="5dp"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:weightSum="2">-->
+            <!--android:id="@+id/spinner_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:weightSum="2">-->
 
-                <!--<Spinner-->
-                    <!--android:id="@+id/sp_province"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1">-->
+            <!--<Spinner-->
+            <!--android:id="@+id/sp_province"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1">-->
 
-                <!--</Spinner>-->
+            <!--</Spinner>-->
 
-                <!--<View-->
-                    <!--android:layout_width="0.5dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_marginBottom="3dp"-->
-                    <!--android:layout_marginTop="3dp"-->
-                    <!--android:background="#bdbdbd" />-->
+            <!--<View-->
+            <!--android:layout_width="0.5dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginBottom="3dp"-->
+            <!--android:layout_marginTop="3dp"-->
+            <!--android:background="#bdbdbd" />-->
 
-                <!--<Spinner-->
-                    <!--android:id="@+id/sp_city"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="1">-->
+            <!--<Spinner-->
+            <!--android:id="@+id/sp_city"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1">-->
 
-                <!--</Spinner>-->
+            <!--</Spinner>-->
             <!--</LinearLayout>-->
 
             <android.support.design.widget.TextInputLayout
@@ -209,34 +209,49 @@
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/et_weather_wrapper"
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spin_weather"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:ms_arrowColor="@color/spinner_arrow_color"
+                app:ms_baseColor="@color/spinner_base_color"
+                app:ms_enableErrorLabel="true"
+                app:ms_enableFloatingLabel="true"
+                app:ms_floatingLabelColor="@color/spinner_floating_label_color"
+                app:ms_floatingLabelText="@string/weather"
+                app:ms_hint="@string/weather"
+                app:ms_multiline="false" />
 
-                <EditText
-                    android:id="@+id/et_weather"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/weather"
-                    android:singleLine="true"
-                    android:text="@={monitoringSiteBean.weather}" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/et_heat_wrapper"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="12">
 
-                <EditText
-                    android:id="@+id/et_temperature"
-                    android:layout_width="match_parent"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/et_heat_wrapper"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/heat"
-                    android:inputType="number"
-                    android:singleLine="true"
-                    android:text="@{String.valueOf(monitoringSiteBean.temperature)}" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_weight="11">
+
+                    <EditText
+                        android:id="@+id/et_temperature"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/heat"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:text="@{String.valueOf(monitoringSiteBean.temperature)}" />
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="℃"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"

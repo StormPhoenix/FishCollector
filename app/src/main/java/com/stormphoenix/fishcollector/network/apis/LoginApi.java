@@ -12,6 +12,6 @@ import rx.Observable;
  */
 
 public interface LoginApi {
-    @GET("login")
+    @GET("user/login")
     Observable<HttpResult<Void>> login(@Query("username") String username, @Query("password") String password);
 }

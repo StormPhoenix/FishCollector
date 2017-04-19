@@ -1,12 +1,14 @@
 package com.stormphoenix.fishcollector.mvp.ui.activities;
 
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +26,7 @@ import com.stormphoenix.fishcollector.mvp.ui.activities.base.BaseActivity;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeItemHolder;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.impls.TreeViewImpl;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces.ITreeView;
+import com.stormphoenix.fishcollector.mvp.ui.dialog.ProgressDialogGenerator;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.network.HttpMethod;
 import com.stormphoenix.fishcollector.network.HttpResult;
@@ -57,6 +60,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.empty_display_wrapper)
     RelativeLayout mEmptyDisplayWrapper;
 
+    private ProgressDialogGenerator generator = null;
     private DbManager dbManager = null;
 
     private TreeItemHolder.ItemOperationListener listener = null;
@@ -122,8 +126,25 @@ public class MainActivity extends BaseActivity {
         btnAddSite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addMonitorSite();
-                setMainContent();
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(getString(R.string.add_monitor));
+                builder.setMessage(getString(R.string.sure_to_add_monitor));
+                builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        addMonitorSite();
+                        setMainContent();
+                    }
+                });
+                builder.setCancelable(false);
+                builder.create().show();
             }
         });
     }
@@ -152,12 +173,16 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
             case REQUEST_CODE_SELECT:
+                // 图片选择完毕，更新数据
                 currentFragment.updateData();
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * 从这里开始创建树
+     */
     private void initTreeView() {
         treeView = new TreeViewImpl(this);
         treeView.setItemOprationListener(listener);
@@ -212,10 +237,14 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        generator = new ProgressDialogGenerator(this);
         setMainContent();
     }
 
     private void setMainContent() {
+        if (treeView == null) {
+            return;
+        }
         if (treeView.getRootFirstChildFragment() != null) {
             mEmptyDisplayWrapper.setVisibility(View.GONE);
             currentFragment = treeView.getRootFirstChildFragment();
@@ -242,10 +271,16 @@ public class MainActivity extends BaseActivity {
                 HttpMethod.getInstance().downloadData(new RequestCallback<HttpResult<List<MonitoringSite>>>() {
                     @Override
                     public void beforeRequest() {
+                        generator.cancelable(false);
+                        generator.circularProgress();
+                        generator.title("下载");
+                        generator.content("下载中...");
+                        generator.show();
                     }
 
                     @Override
                     public void success(HttpResult<List<MonitoringSite>> data) {
+                        generator.cancel();
                         removeAllTreeView();
                         dbManager.saveModels(data.getData());
                         initTreeView();
@@ -254,7 +289,8 @@ public class MainActivity extends BaseActivity {
 
                     @Override
                     public void onError(String errorMsg) {
-                        Snackbar.make(drawerLayout, getResources().getString(R.string.download_data_failed), Snackbar.LENGTH_SHORT).show();
+                        generator.cancel();
+                        Snackbar.make(mEmptyDisplayWrapper, getResources().getString(R.string.download_data_failed), Snackbar.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -268,6 +304,9 @@ public class MainActivity extends BaseActivity {
                     currentFragment.uploadModel();
                 }
                 break;
+            case R.id.action_dispatch:
+                Intent intent = new Intent(MainActivity.this, MemberTaskActivity.class);
+                startActivity(intent);
             default:
                 break;
         }

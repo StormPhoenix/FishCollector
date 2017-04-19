@@ -2,25 +2,20 @@ package com.stormphoenix.fishcollector.network;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
 import com.stormphoenix.fishcollector.network.apis.DownloadApi;
 import com.stormphoenix.fishcollector.network.apis.LoginApi;
 import com.stormphoenix.fishcollector.network.apis.SubmitSingleModelApi;
+import com.stormphoenix.fishcollector.shared.ConfigUtils;
 import com.stormphoenix.fishcollector.shared.JsonParser;
 import com.stormphoenix.fishcollector.shared.NetManager;
-import com.stormphoenix.fishcollector.shared.PicturePathUtils;
 import com.stormphoenix.fishcollector.shared.rxutils.RxJavaCustomTransformer;
 
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Retrofit;
@@ -74,17 +69,16 @@ public class HttpMethod {
 
     public Subscription downloadData(final RequestCallback<HttpResult<List<MonitoringSite>>> callback) {
         callback.beforeRequest();
-        return downloadApi.downloadData()
+        return downloadApi.downloadData(ConfigUtils.getInstance().getUsername(), ConfigUtils.getInstance().getPassword())
                 .compose(RxJavaCustomTransformer.<HttpResult<List<MonitoringSite>>>defaultSchedulers())
                 .subscribe(new Subscriber<HttpResult<List<MonitoringSite>>>() {
                     @Override
                     public void onCompleted() {
-
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        callback.onError(e.getMessage());
                     }
 
                     @Override
@@ -117,50 +111,51 @@ public class HttpMethod {
     }
 
     public Subscription submitModelWithPhoto(String modelType, BaseModel model, final RequestCallback<HttpResult<Void>> callback) {
-        callback.beforeRequest();
-        String[] paths = null;
-        try {
-            Method getPicMethod = model.getClass().getMethod("getPhoto", (Class[]) null);
-            String path = (String) getPicMethod.invoke(model, null);
-            paths = PicturePathUtils.processPicturePath(path);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            Log.e(TAG, "submitModelWithPhoto: " + e.toString());
-        }
-        if (paths == null) {
-            return null;
-        }
-
-        MultipartBody.Builder builder = new MultipartBody.Builder();
-        for (String path : paths) {
-            File file = new File(path);
-            builder.addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
-        }
-        builder.addFormDataPart("json", JsonParser.getInstance().toJson(model));
-
-        return submitSingleModelApi.submitWithPhoto(modelType, builder.build())
-                .compose(RxJavaCustomTransformer.<HttpResult<Void>>defaultSchedulers())
-                .subscribe(new Subscriber<HttpResult<Void>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        callback.onError(e.toString());
-                    }
-
-                    @Override
-                    public void onNext(HttpResult<Void> result) {
-                        callback.success(result);
-                    }
-                });
+        return submitModel(modelType, model, callback);
+//        callback.beforeRequest();
+//        String[] paths = null;
+//        try {
+//            Method getPicMethod = model.getClass().getMethod("getPhoto", (Class[]) null);
+//            String path = (String) getPicMethod.invoke(model, null);
+//            paths = PicturePathUtils.processPicturePath(path);
+//        } catch (NoSuchMethodException e) {
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        } catch (Exception e) {
+//            Log.e(TAG, "submitModelWithPhoto: " + e.toString());
+//        }
+//        if (paths == null) {
+//            return null;
+//        }
+//
+//        MultipartBody.Builder builder = new MultipartBody.Builder();
+//        for (String path : paths) {
+//            File file = new File(path);
+//            builder.addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+//        }
+//        builder.addFormDataPart("json", JsonParser.getInstance().toJson(model));
+//
+//        return submitSingleModelApi.submitWithPhoto(modelType, builder.build())
+//                .compose(RxJavaCustomTransformer.<HttpResult<Void>>defaultSchedulers())
+//                .subscribe(new Subscriber<HttpResult<Void>>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        callback.onError(e.toString());
+//                    }
+//
+//                    @Override
+//                    public void onNext(HttpResult<Void> result) {
+//                        callback.success(result);
+//                    }
+//                });
     }
 
     public Subscription submitModel(String modelType, BaseModel model, final RequestCallback<HttpResult<Void>> callback) {

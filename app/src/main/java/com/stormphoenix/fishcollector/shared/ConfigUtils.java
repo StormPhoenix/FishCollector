@@ -16,6 +16,7 @@ public class ConfigUtils {
     private static ConfigUtils INSTANCE = null;
 
     private SharedPreferences userInfoSp = null;
+    private SharedPreferences taskDispatch = null;
 
     public static ConfigUtils getInstance() {
         if (INSTANCE == null) {
@@ -30,6 +31,7 @@ public class ConfigUtils {
 
     private ConfigUtils(Context context) {
         userInfoSp = context.getSharedPreferences("user_info", MODE_PRIVATE);
+        taskDispatch = context.getSharedPreferences("task_dispatch", MODE_PRIVATE);
     }
 
     public boolean isUserLogin() {
@@ -53,5 +55,13 @@ public class ConfigUtils {
                 .putString("username", username)
                 .putString("password", password)
                 .commit();
+    }
+
+    public String getUsername() {
+        return userInfoSp.getString("username", null);
+    }
+
+    public String getPassword() {
+        return userInfoSp.getString("password", null);
     }
 }

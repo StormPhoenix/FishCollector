@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="is_dispatched" type="id">已分配</item>
+</resources>

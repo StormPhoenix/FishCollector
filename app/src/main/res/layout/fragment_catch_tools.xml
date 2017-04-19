@@ -59,13 +59,16 @@
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="12">
 
                 <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="11">
 
                     <EditText
                         android:id="@+id/et_net_area"
@@ -75,7 +78,14 @@
                         android:singleLine="true"
                         android:text="@{String.valueOf(catchToolsBean.netMouthArea)}" />
                 </android.support.design.widget.TextInputLayout>
-            </RelativeLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="m2" />
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -95,13 +105,16 @@
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="12">
 
                 <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="11">
 
                     <EditText
                         android:id="@+id/et_net_velocity"
@@ -111,7 +124,14 @@
                         android:singleLine="true"
                         android:text="@{String.valueOf(catchToolsBean.netMouthVelocity)}" />
                 </android.support.design.widget.TextInputLayout>
-            </RelativeLayout>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:text="m/s"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"

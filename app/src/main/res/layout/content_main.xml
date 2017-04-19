@@ -1,42 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/layout_fragment_wrapper"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <RelativeLayout
-        android:id="@+id/empty_display_wrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/img_empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_hourglass_empty_indigo_600_48dp" />
-
-        <TextView
+        <FrameLayout
+            android:id="@+id/layout_fragment_wrapper"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/img_empty"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="@string/empty_prompt" />
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:id="@+id/empty_display_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/img_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_hourglass_empty_indigo_600_48dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/img_empty"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/empty_prompt" />
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_add_site_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         app:fabSize="normal"
         app:srcCompat="@drawable/ic_add_white_24dp" />
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
