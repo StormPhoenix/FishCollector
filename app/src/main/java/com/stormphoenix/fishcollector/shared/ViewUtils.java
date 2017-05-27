@@ -1,6 +1,8 @@
 package com.stormphoenix.fishcollector.shared;
 
+import android.app.Activity;
 import android.support.v4.view.ViewCompat;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 /**
@@ -21,5 +23,11 @@ public class ViewUtils {
         v.setPivotY(v.getMeasuredHeight() / 2);
         ViewCompat.setPivotX(v, v.getMeasuredWidth() / 2);
         ViewCompat.animate(v).setInterpolator(null);
+    }
+
+    public static int dp2Pixel(Activity activity, int dp) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        return (int) (dp * metrics.density);
     }
 }

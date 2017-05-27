@@ -81,7 +81,7 @@
 
         <activity android:name=".mvp.ui.activities.RegisterActivity" />
         <activity
-            android:name=".mvp.ui.activities.MemberTaskActivity"
+            android:name=".mvp.ui.activities.GroupTaskActivity"
             android:theme="@style/AppTheme.Dialog" />
     </application>
 

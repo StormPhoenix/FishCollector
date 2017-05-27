@@ -6,8 +6,11 @@ import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
 import com.stormphoenix.fishcollector.network.apis.DownloadApi;
+import com.stormphoenix.fishcollector.network.apis.GroupApi;
 import com.stormphoenix.fishcollector.network.apis.LoginApi;
 import com.stormphoenix.fishcollector.network.apis.SubmitSingleModelApi;
+import com.stormphoenix.fishcollector.network.model.DispatchTable;
+import com.stormphoenix.fishcollector.network.model.Group;
 import com.stormphoenix.fishcollector.shared.ConfigUtils;
 import com.stormphoenix.fishcollector.shared.JsonParser;
 import com.stormphoenix.fishcollector.shared.NetManager;
@@ -36,6 +39,7 @@ public class HttpMethod {
     private SubmitSingleModelApi submitSingleModelApi = null;
     private LoginApi loginApi = null;
     private DownloadApi downloadApi = null;
+    private GroupApi groupApi = null;
 
     private OkHttpClient client = null;
 
@@ -54,6 +58,7 @@ public class HttpMethod {
         submitSingleModelApi = retrofit.create(SubmitSingleModelApi.class);
         loginApi = retrofit.create(LoginApi.class);
         downloadApi = retrofit.create(DownloadApi.class);
+        groupApi = retrofit.create(GroupApi.class);
     }
 
     public static HttpMethod getInstance() {
@@ -65,6 +70,28 @@ public class HttpMethod {
             }
         }
         return instance;
+    }
+
+    public Subscription createNewGroup(String groupName, final RequestCallback<HttpResult<Group>> callback) {
+        callback.beforeRequest();
+        return groupApi.createNewGroup(ConfigUtils.getInstance().getUsername(), ConfigUtils.getInstance().getPassword(), groupName)
+                .compose(RxJavaCustomTransformer.<HttpResult<Group>>defaultSchedulers())
+                .subscribe(new Subscriber<HttpResult<Group>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(HttpResult<Group> httpResult) {
+                        Log.e(TAG, "onNext: " + JsonParser.getInstance().toJson(httpResult));
+                        callback.success(httpResult);
+                    }
+                });
     }
 
     public Subscription downloadData(final RequestCallback<HttpResult<List<MonitoringSite>>> callback) {
@@ -89,11 +116,11 @@ public class HttpMethod {
                 });
     }
 
-    public Subscription login(String username, String password, final RequestCallback<HttpResult<Void>> callback) {
+    public Subscription login(String username, String password, final RequestCallback<HttpResult<List<DispatchTable>>> callback) {
         callback.beforeRequest();
         return loginApi.login(username, password)
-                .compose(RxJavaCustomTransformer.<HttpResult<Void>>defaultSchedulers())
-                .subscribe(new Subscriber<HttpResult<Void>>() {
+                .compose(RxJavaCustomTransformer.<HttpResult<List<DispatchTable>>>defaultSchedulers())
+                .subscribe(new Subscriber<HttpResult<List<DispatchTable>>>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -104,8 +131,8 @@ public class HttpMethod {
                     }
 
                     @Override
-                    public void onNext(HttpResult<Void> result) {
-                        callback.success(result);
+                    public void onNext(HttpResult<List<DispatchTable>> listHttpResult) {
+                        callback.success(listHttpResult);
                     }
                 });
     }

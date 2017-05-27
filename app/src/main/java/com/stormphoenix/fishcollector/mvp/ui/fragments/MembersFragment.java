@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.stormphoenix.fishcollector.adapter.BaseRecyclerAdapter;
 import com.stormphoenix.fishcollector.adapter.MembersAdapter;
 import com.stormphoenix.fishcollector.mvp.model.beans.Account;
-import com.stormphoenix.fishcollector.mvp.ui.fragments.base.TaskBaseFragment;
+import com.stormphoenix.fishcollector.mvp.ui.fragments.base.ListBaseFragment;
 import com.stormphoenix.fishcollector.network.HttpResult;
 import com.stormphoenix.fishcollector.network.apis.MembersApi;
 import com.stormphoenix.fishcollector.shared.ConfigUtils;
@@ -32,7 +32,7 @@ import rx.Subscriber;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class MembersFragment extends TaskBaseFragment<Account> {
+public class MembersFragment extends ListBaseFragment<Account> {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

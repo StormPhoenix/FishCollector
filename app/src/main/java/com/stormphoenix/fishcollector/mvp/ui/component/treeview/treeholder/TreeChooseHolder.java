@@ -1,4 +1,4 @@
-package com.stormphoenix.fishcollector.mvp.ui.component.treeview;
+package com.stormphoenix.fishcollector.mvp.ui.component.treeview.treeholder;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.github.johnkil.print.PrintView;
+import com.mixiaoxiao.smoothcompoundbutton.SmoothCheckBox;
+import com.mixiaoxiao.smoothcompoundbutton.SmoothCompoundButton;
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.mvp.model.beans.FractureSurface;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
@@ -20,56 +22,56 @@ import com.unnamed.b.atv.model.TreeNode;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class TreeTaskItemHolder extends TreeNode.BaseNodeViewHolder<ITreeView.TreeItem> {
-    public static final String TAG = TreeTaskItemHolder.class.getSimpleName();
-    private TextView tvValue;
-    private TextView isDispatched;
-
-    private OnTaskDispatchedListener listener = null;
+public class TreeChooseHolder extends TreeNode.BaseNodeViewHolder<ITreeView.TreeItem> {
+    public static final String TAG = TreeChooseHolder.class.getSimpleName();
     private PrintView arrowView;
+    private TextView nodeValue;
+    private TextView nodeInfo;
+    private SmoothCheckBox checkBox;
 
-    public void setOnTaskDispatchedListener(OnTaskDispatchedListener listener) {
+    private ItemChosenListener listener = null;
+
+    public void setItemChosenListener(ItemChosenListener listener) {
         this.listener = listener;
     }
 
-    public static interface OnTaskDispatchedListener extends TreeItemHolder.ItemOperationListener {
-        void onTaskDispatched(BaseModel baseModel);
+    public static interface ItemChosenListener extends TreeAddDeleteHolder.ItemAddDeleteListener {
+        void onItemChosen(BaseModel baseModel);
     }
 
-    public TreeTaskItemHolder(Context context) {
+    public TreeChooseHolder(Context context) {
         super(context);
     }
 
     @Override
     public View createNodeView(TreeNode node, ITreeView.TreeItem value) {
         final LayoutInflater inflater = LayoutInflater.from(context);
-        final View view = inflater.inflate(R.layout.layout_task_node, null, false);
+        final View view = inflater.inflate(R.layout.tree_choose_node, null, false);
         // 节点名字
-        tvValue = (TextView) view.findViewById(R.id.node_value);
-        tvValue.setText(ModelConstantMap.getHolder(value.modelConstant).MODEL_NAME);
+        nodeValue = (TextView) view.findViewById(R.id.node_value);
+        nodeValue.setText(ModelConstantMap.getHolder(value.modelConstant).MODEL_NAME);
         // 图标
         final PrintView iconView = (PrintView) view.findViewById(R.id.icon);
-//        iconView.setIconText(context.getResources().getString(ModelConstantMap.getHolder(value.modelConstant).iconResId));
+        // 设置图标
         iconView.setIconText(context.getResources().getString(ModelConstantMap.getHolder(ModelConstant.BENTHOS).iconResId));
         // 下拉箭头
         arrowView = (PrintView) view.findViewById(R.id.arrow_icon);
         // 节点信息
         final BaseModel attachedModel = value.getAttachedModel();
-        TextView tvInfo = (TextView) view.findViewById(R.id.node_info);
+        nodeInfo = (TextView) view.findViewById(R.id.node_info);
         if (attachedModel instanceof MonitoringSite) {
-            tvInfo.setText(((MonitoringSite) attachedModel).getSite());
+            nodeInfo.setText(((MonitoringSite) attachedModel).getSite());
         } else if (attachedModel instanceof FractureSurface) {
-            tvInfo.setText(((FractureSurface) attachedModel).getPosition());
+            nodeInfo.setText(((FractureSurface) attachedModel).getPosition());
         }
 
-        isDispatched = (TextView) view.findViewById(R.id.is_dispatched);
-        isDispatched.setText(context.getString(R.string.undispatched));
-
-        isDispatched.setOnClickListener(new View.OnClickListener() {
+        checkBox = (SmoothCheckBox) view.findViewById(R.id.is_chosen);
+        checkBox.setChecked(false);
+        checkBox.setOnCheckedChangeListener(new SmoothCompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onTaskDispatched(attachedModel);
+            public void onCheckedChanged(SmoothCompoundButton smoothCompoundButton, boolean b) {
+                if (b && listener != null) {
+                    listener.onItemChosen(attachedModel);
                 }
             }
         });

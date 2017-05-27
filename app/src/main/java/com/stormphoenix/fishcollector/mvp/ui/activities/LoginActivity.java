@@ -10,13 +10,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.stormphoenix.fishcollector.Locals;
 import com.stormphoenix.fishcollector.R;
+import com.stormphoenix.fishcollector.db.FSManager;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
 import com.stormphoenix.fishcollector.mvp.ui.activities.base.BaseActivity;
 import com.stormphoenix.fishcollector.mvp.ui.dialog.ProgressDialogGenerator;
 import com.stormphoenix.fishcollector.network.HttpMethod;
 import com.stormphoenix.fishcollector.network.HttpResult;
+import com.stormphoenix.fishcollector.network.model.DispatchTable;
 import com.stormphoenix.fishcollector.shared.ConfigUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -65,22 +70,30 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
-        HttpMethod.getInstance().login(username, password, new RequestCallback<HttpResult<Void>>() {
+        HttpMethod.getInstance().login(username, password, new RequestCallback<HttpResult<List<DispatchTable>>>() {
             @Override
             public void beforeRequest() {
                 showProgress();
             }
 
             @Override
-            public void success(HttpResult<Void> data) {
-                hideProgress();
+            public void success(final HttpResult<List<DispatchTable>> data) {
                 if (data.getResultCode() == 0) {
                     ConfigUtils.getInstance().saveUserInfo(etUsername.getText().toString().trim(), etPassword.getText().toString().trim());
                     ConfigUtils.getInstance().setUserLogin();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // 保存信息
+                            FSManager.getInstance().saveAll(data.getData());
+                            hideProgress();
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }).start();
                 } else {
+                    hideProgress();
                     Snackbar.make(btnLogin, getResources().getString(R.string.login_failed), Snackbar.LENGTH_SHORT).show();
                 }
             }

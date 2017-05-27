@@ -3,7 +3,7 @@ package com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces;
 import android.view.View;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
-import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeItemHolder;
+import com.stormphoenix.fishcollector.mvp.ui.component.treeview.treeholder.TreeAddDeleteHolder;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.unnamed.b.atv.model.TreeNode;
 
@@ -21,7 +21,7 @@ public interface ITreeView {
 
     void setNodeClickListener(TreeNode.TreeNodeClickListener listener);
 
-    void setItemOprationListener(TreeItemHolder.ItemOperationListener listener);
+    void setItemOprationListener(TreeAddDeleteHolder.ItemAddDeleteListener listener);
 
     void addNode(TreeNode node, TreeItem item);
 

@@ -7,8 +7,8 @@ import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.db.DbManager;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
-import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeItemHolder;
-import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeTaskItemHolder;
+import com.stormphoenix.fishcollector.mvp.ui.component.treeview.treeholder.TreeAddDeleteHolder;
+import com.stormphoenix.fishcollector.mvp.ui.component.treeview.treeholder.TreeChooseHolder;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces.ITreeView;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.utils.TreeUtils;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
@@ -33,7 +33,7 @@ public class TreeTaskViewImpl implements ITreeView {
     private Context context = null;
     private DbManager dbManager = null;
 
-    private TreeTaskItemHolder.OnTaskDispatchedListener listener = null;
+    private TreeChooseHolder.ItemChosenListener listener = null;
     private TreeNode.TreeNodeClickListener nodeClickListener = null;
 
     public TreeTaskViewImpl(Context context) {
@@ -45,7 +45,7 @@ public class TreeTaskViewImpl implements ITreeView {
     public void buildTree() {
         root = TreeNode.root();
         List<TreeNode> treeNodesList = new ArrayList<>();
-        List<MonitoringSite> monitoringSites = dbManager.queryAll();
+        List<MonitoringSite> monitoringSites = dbManager.queryAllMonitoringSite();
         for (BaseModel obj : monitoringSites) {
             TreeNode tempNode = null;
             try {
@@ -67,7 +67,7 @@ public class TreeTaskViewImpl implements ITreeView {
         androidTreeView = new AndroidTreeView(context, root);
         androidTreeView.setDefaultAnimation(true);
         androidTreeView.setDefaultContainerStyle(R.style.TreeNodeStyleCustom);
-        androidTreeView.setDefaultViewHolder(TreeTaskItemHolder.class);
+        androidTreeView.setDefaultViewHolder(TreeChooseHolder.class);
         if (nodeClickListener != null) {
             androidTreeView.setDefaultNodeClickListener(nodeClickListener);
         }
@@ -121,8 +121,8 @@ public class TreeTaskViewImpl implements ITreeView {
     }
 
     @Override
-    public void setItemOprationListener(TreeItemHolder.ItemOperationListener listener) {
-        this.listener = (TreeTaskItemHolder.OnTaskDispatchedListener) listener;
+    public void setItemOprationListener(TreeAddDeleteHolder.ItemAddDeleteListener listener) {
+        this.listener = (TreeChooseHolder.ItemChosenListener) listener;
     }
 
     @Override
@@ -137,8 +137,8 @@ public class TreeTaskViewImpl implements ITreeView {
         }
 
         tempNode = new TreeNode(item);
-        TreeTaskItemHolder treeItemHolder = new TreeTaskItemHolder(context);
-        treeItemHolder.setOnTaskDispatchedListener(listener);
+        TreeChooseHolder treeItemHolder = new TreeChooseHolder(context);
+        treeItemHolder.setItemChosenListener(listener);
         tempNode.setViewHolder(treeItemHolder);
         parentTreeNode.getViewHolder().getTreeView().addNode(parentTreeNode, tempNode);
     }

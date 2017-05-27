@@ -3,6 +3,8 @@ package com.stormphoenix.fishcollector.shared;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.lang.reflect.Type;
+
 /**
  * Created by Developer on 17-1-19.
  * Wang Cheng is a intelligent Android developer.
@@ -37,6 +39,10 @@ public class JsonParser {
 
     public Object fromJson(String json, Class clazz) {
         return gson.fromJson(json, clazz);
+    }
+
+    public Object fromJson(String json, Type type) {
+        return gson.fromJson(json, type);
     }
 
     public String toJson(Object model) {

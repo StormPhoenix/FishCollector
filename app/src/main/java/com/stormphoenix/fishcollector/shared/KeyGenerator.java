@@ -13,6 +13,10 @@ public class KeyGenerator {
         return modelSimpleName.substring(0, 3).toUpperCase() + generateKeyByTime();
     }
 
+    public static String generateGroupKey() {
+        return "Group_" + ConfigUtils.getInstance().getUsername() + "_" + generateKeyByTime();
+    }
+
     public static String generateModelKey(BaseModel obj) {
         String classSimpleName = obj.getClass().getSimpleName();
         return generateModelKey(classSimpleName);

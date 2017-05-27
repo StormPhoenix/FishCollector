@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="?android:attr/selectableItemBackground"
     android:minHeight="48dp">
+
 
     <com.github.johnkil.print.PrintView
         android:id="@+id/arrow_icon"
@@ -49,24 +50,8 @@
 
         <TextView
             android:id="@+id/node_info"
+            tools:text="what's the fuck!"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="what's the fuck!" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/buttonsContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
-
-        <TextView
-            android:id="@+id/is_dispatched"
-            android:text="@string/undispatched"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </RelativeLayout>

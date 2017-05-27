@@ -1,6 +1,9 @@
 package com.stormphoenix.fishcollector.network.apis;
 
 import com.stormphoenix.fishcollector.network.HttpResult;
+import com.stormphoenix.fishcollector.network.model.DispatchTable;
+
+import java.util.List;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -13,5 +16,5 @@ import rx.Observable;
 
 public interface LoginApi {
     @GET("user/login")
-    Observable<HttpResult<Void>> login(@Query("username") String username, @Query("password") String password);
+    Observable<HttpResult<List<DispatchTable>>> login(@Query("username") String username, @Query("password") String password);
 }

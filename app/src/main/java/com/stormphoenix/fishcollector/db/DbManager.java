@@ -26,7 +26,6 @@ import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.Property;
-import org.greenrobot.greendao.annotation.ToMany;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -34,7 +33,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeItemHolder.TAG;
+import static com.stormphoenix.fishcollector.mvp.ui.component.treeview.treeholder.TreeAddDeleteHolder.TAG;
 
 /**
  * Created by Developer on 16-12-27.
@@ -202,7 +201,7 @@ public class DbManager {
             if (field.getType() == List.class) {
                 field.setAccessible(true);
                 try {
-                    modelsList.add((List<BaseModel>)field.get(baseModel));
+                    modelsList.add((List<BaseModel>) field.get(baseModel));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -218,7 +217,7 @@ public class DbManager {
         return modelsList;
     }
 
-    public List<MonitoringSite> queryAll() {
+    public List<MonitoringSite> queryAllMonitoringSite() {
         DaoSession daoSession = new DaoMaster(devOpenHelper.getReadableDatabase()).newSession();
         MonitoringSiteDao dao = daoSession.getMonitoringSiteDao();
         return dao.queryBuilder().build().list();

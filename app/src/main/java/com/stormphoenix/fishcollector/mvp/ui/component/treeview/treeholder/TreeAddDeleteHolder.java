@@ -1,4 +1,4 @@
-package com.stormphoenix.fishcollector.mvp.ui.component.treeview;
+package com.stormphoenix.fishcollector.mvp.ui.component.treeview.treeholder;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,29 +22,29 @@ import com.unnamed.b.atv.model.TreeNode;
  * Wang Cheng is a intelligent Android developer.
  */
 
-public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<ITreeView.TreeItem> {
-    public static final String TAG = "TreeItemHolder";
+public class TreeAddDeleteHolder extends TreeNode.BaseNodeViewHolder<ITreeView.TreeItem> {
+    public static final String TAG = "TreeAddDeleteHolder";
 
     private TextView tvValue;
     private TextView tvInfo;
     private PrintView arrowView;
     private Context context;
 
-    private ItemOperationListener listener = null;
+    private ItemAddDeleteListener listener = null;
 
-    public TreeItemHolder(Context context) {
+    public TreeAddDeleteHolder(Context context) {
         super(context);
         this.context = context;
     }
 
-    public void setItemOperationListener(ItemOperationListener listener) {
+    public void setItemOperationListener(ItemAddDeleteListener listener) {
         this.listener = listener;
     }
 
     @Override
     public View createNodeView(final TreeNode node, final ITreeView.TreeItem value) {
         final LayoutInflater inflater = LayoutInflater.from(context);
-        final View view = inflater.inflate(R.layout.layout_icon_node, null, false);
+        final View view = inflater.inflate(R.layout.tree_add_delete_node, null, false);
 
         BaseModel attachedModel = value.getAttachedModel();
 
@@ -111,7 +111,7 @@ public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<ITreeView.TreeIt
         arrowView.setIconText(context.getResources().getString(active ? R.string.ic_keyboard_arrow_down : R.string.ic_keyboard_arrow_right));
     }
 
-    public static interface ItemOperationListener {
+    public static interface ItemAddDeleteListener {
         void onItemAddBtnClicked(TreeNode node, String key, String value);
 
         void onItemDeleteBtnClicked(TreeNode node);

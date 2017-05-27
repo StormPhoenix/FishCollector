@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.BaseRecyclerAdapter;
@@ -21,7 +22,7 @@ import butterknife.ButterKnife;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public abstract class TaskBaseFragment<T> extends Fragment {
+public abstract class ListBaseFragment<T> extends Fragment {
     @BindView(R.id.recycler_view)
     protected RecyclerView mRecyclerView;
 
@@ -32,6 +33,8 @@ public abstract class TaskBaseFragment<T> extends Fragment {
     protected BaseRecyclerAdapter mAdapter;
 
     protected View rootView = null;
+    @BindView(R.id.empty_group_wrapper)
+    protected RelativeLayout emptyWrapper;
 
     @Nullable
     @Override
@@ -72,4 +75,9 @@ public abstract class TaskBaseFragment<T> extends Fragment {
     }
 
     public abstract BaseRecyclerAdapter<T> getAdapter();
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 }

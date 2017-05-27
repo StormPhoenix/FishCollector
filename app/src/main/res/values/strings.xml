@@ -86,7 +86,7 @@
     <string name="ic_cloud_download">&#xe04d;</string>
     <string name="ic_cloud_off">&#xe04e;</string>
     <string name="ic_cloud_queue">&#xe04f;</string>
-    <string name="ic_cloud_upload">上传数据</string>
+    <string name="ic_cloud_upload">上传当前页面数据</string>
     <string name="ic_comment">&#xe051;</string>
     <string name="ic_communities">&#xe052;</string>
     <string name="ic_content_copy">&#xe053;</string>
@@ -500,7 +500,7 @@
     <string name="locate_error">网络错误，无法定位</string>
     <string name="submiting">正在提交</string>
     <string name="please_waiting">请稍后...</string>
-    <string name="empty_prompt">已添加0个监测点\n请点击红色按钮添加检测点</string>
+    <string name="empty_data_prompt">已添加0个监测点\n请点击红色按钮添加检测点</string>
     <string name="already_inserted">该数据已经被插入</string>
     <string name="username_password_is_not_empty">用户名和密码不能为空</string>
     <string name="login_failed">登录失败</string>
@@ -527,4 +527,26 @@
     <string name="members_message_is_not_get">成员信息尚未获取，请稍后再试</string>
     <string name="chose_member">请选择要分配的成员</string>
     <string name="sure">确认</string>
+    <string name="create_my_group">创建新组</string>
+    <string name="group_name">组名</string>
+    <string name="ok">确认</string>
+    <string name="group_name_can_not_be_empty">组名不能为空</string>
+    <string name="manager_group">管理组</string>
+    <string name="switch_group">切换组</string>
+    <string name="action_current_group_data" >下载当前页面数据</string>
+    <string name="group_empty">您尚未加入任何组</string>
+    <string name="my_group">我管理的组</string>
+    <string name="join_group">我参与的组</string>
+    <string name="havent_chosen_group">您尚未选择当前所在组别</string>
+    <string name="dispatch_table_error">分配表有误，可能出现了严重错误</string>
+    <string name="empty_group_prompt">当前还没有任何分组，\n点击红色按钮可以添加分组</string>
+    <string name="create_group_name">创建分组的名字</string>
+    <string name="uploading_group">正在上传组数据</string>
+    <string name="upload_data_failed">上传数据失败</string>
+    <string name="action_create_group">创建组</string>
+    <string name="action_join_group">参加组</string>
+    <string name="action_manager_group">管理组</string>
+    <string name="action_upload_current_page">提交当前页面信息</string>
+    <string name="action_download_current_page">下载当前页面信息</string>
+    <string name="action_look_group">查看组</string>
 </resources>

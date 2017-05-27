@@ -17,7 +17,6 @@ import java.util.List;
  * Created by StormPhoenix on 17-3-17.
  * StormPhoenix is a intelligent Android developer.
  */
-
 public class MembersAdapter extends BaseRecyclerAdapter<Account> {
 
     public void setListener(OnMemberItemClickListener listener) {
@@ -88,7 +87,7 @@ public class MembersAdapter extends BaseRecyclerAdapter<Account> {
 
         public void bind(Account account) {
             name.setText(account.getUsername());
-            if (account.isDespatched()) {
+            if (account.getIsDespatched()) {
                 isDispatched.setText(context.getString(R.string.is_dispatched));
             } else {
                 isDispatched.setText(context.getString(R.string.no_dispatched));

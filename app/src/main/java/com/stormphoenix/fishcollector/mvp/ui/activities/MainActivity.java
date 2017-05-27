@@ -4,6 +4,9 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
@@ -11,27 +14,36 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.stormphoenix.fishcollector.Locals;
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.db.DbManager;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
 import com.stormphoenix.fishcollector.mvp.ui.activities.base.BaseActivity;
-import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeItemHolder;
-import com.stormphoenix.fishcollector.mvp.ui.component.treeview.impls.TreeViewImpl;
+import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeBuilder;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces.ITreeView;
+import com.stormphoenix.fishcollector.mvp.ui.component.treeview.treeholder.TreeAddDeleteHolder;
+import com.stormphoenix.fishcollector.mvp.ui.dialog.ActionDialogGenerator;
 import com.stormphoenix.fishcollector.mvp.ui.dialog.ProgressDialogGenerator;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.network.HttpMethod;
 import com.stormphoenix.fishcollector.network.HttpResult;
+import com.stormphoenix.fishcollector.network.model.Group;
 import com.stormphoenix.fishcollector.shared.KeyGenerator;
 import com.stormphoenix.fishcollector.shared.ModelUtils;
+import com.stormphoenix.fishcollector.shared.ViewUtils;
 import com.stormphoenix.fishcollector.shared.constants.ModelConstant;
 import com.stormphoenix.fishcollector.shared.constants.ModelConstantMap;
 import com.unnamed.b.atv.model.TreeNode;
@@ -59,70 +71,111 @@ public class MainActivity extends BaseActivity {
     FrameLayout layoutFragmentWrapper;
     @BindView(R.id.empty_display_wrapper)
     RelativeLayout mEmptyDisplayWrapper;
+    @BindView(R.id.content_main)
+    CoordinatorLayout contentMain;
 
     private ProgressDialogGenerator generator = null;
     private DbManager dbManager = null;
 
-    private TreeItemHolder.ItemOperationListener listener = null;
+    private TreeAddDeleteHolder.ItemAddDeleteListener listener = null;
     private TreeNode.TreeNodeClickListener nodeClickListener = null;
-    private ITreeView treeView;
 
     // 当前被点击的树形节点
     private TreeNode currentNode;
     private BaseFragment currentFragment = null;
+    private TreeBuilder treeBuilder;
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
     }
 
+    /**
+     * initVariables() 用于初始化 Locales 中所有的数据
+     */
     @Override
     protected void initVariables() {
+        // 初始化当前登录用户所有的组
+//        FSManager.getInstance().queryAllGroupsAsync(new FSManager.FsCallback<List<Group>>() {
+//            @Override
+//            public void call(List<Group> groups) {
+//                Log.e(TAG, "call: " + groups.toString());
+//                Locals.userGroups = groups;
+//                if (Locals.userGroups == null || Locals.userGroups.size() == 0) {
+//                    Locals.currentGroup = -1;
+//                } else {
+//                    Locals.currentGroup = 0;
+//                }
+//            }
+//
+//            @Override
+//            public void onError(String errorMsg) {
+//                Snackbar.make(drawerLayout, errorMsg, Snackbar.LENGTH_LONG).show();
+//            }
+//        });
+//        FSManager.getInstance().queryDispatchTablesAsync(new FSManager.FsCallback<List<DispatchTable>>() {
+//            @Override
+//            public void call(List<DispatchTable> dispatchTables) {
+//                Log.e(TAG, "call: " + dispatchTables.toString());
+//                Locals.dispatchTables = dispatchTables;
+//                if (Locals.dispatchTables == null || Locals.dispatchTables.size() == 0) {
+//                    Locals.currentDispatchTable = -1;
+//                } else {
+//                    Locals.currentDispatchTable = 0;
+//                }
+//            }
+//
+//            @Override
+//            public void onError(String errorMsg) {
+//                Snackbar.make(drawerLayout, errorMsg, Snackbar.LENGTH_LONG).show();
+//            }
+//        });
         dbManager = new DbManager(this);
-        listener = new TreeItemHolder.ItemOperationListener() {
-            @Override
-            public void onItemAddBtnClicked(TreeNode node, String key, String value) {
-                if (ModelConstantMap.getHolder(value).subModels.isEmpty()) {
-                    return;
-                }
-                currentNode = node;
-                Intent view = new Intent(MainActivity.this, DialogStyleActivity.class);
-                view.putExtra(key, value);
-                startActivityForResult(view, REQUEST_CODE_ADD_NODE);
-            }
-
-            @Override
-            public void onItemDeleteBtnClicked(TreeNode node) {
-                treeView.deleteNode(node);
-                BaseModel attachedModel = ((ITreeView.TreeItem) (node.getValue())).getAttachedModel();
-                dbManager.delete(attachedModel);
-                if (((ITreeView.TreeItem) (node.getValue())).getAttachedFragment() == currentFragment) {
-                    getFragmentManager().beginTransaction()
-                            .remove(currentFragment)
-                            .commit();
-                    setMainContent();
-                }
-            }
-        };
-
-        nodeClickListener = new TreeNode.TreeNodeClickListener() {
-            @Override
-            public void onClick(TreeNode node, Object value) {
-                ITreeView.TreeItem item = (ITreeView.TreeItem) value;
-                String modelClassName = item.modelConstant;
-                mEmptyDisplayWrapper.setVisibility(View.GONE);
-                BaseFragment attachedFragment = item.getAttachedFragment();
-                getFragmentManager().beginTransaction().replace(R.id.layout_fragment_wrapper, attachedFragment, attachedFragment.getClass().getName()).commit();
-                currentFragment = attachedFragment;
-                toolbar.setTitle(ModelConstantMap.getHolder(currentFragment.getAttachedBean().getClass().getName()).MODEL_NAME);
-            }
-        };
+        // 点击树木项进行操作
+//        listener = new TreeAddDeleteHolder.ItemAddDeleteListener() {
+//            @Override
+//            public void onItemAddBtnClicked(TreeNode node, String key, String value) {
+//                if (ModelConstantMap.getHolder(value).subModels.isEmpty()) {
+//                    return;
+//                }
+//                currentNode = node;
+//                Intent view = new Intent(MainActivity.this, DialogStyleActivity.class);
+//                view.putExtra(key, value);
+//                startActivityForResult(view, REQUEST_CODE_ADD_NODE);
+//            }
+//
+//            @Override
+//            public void onItemDeleteBtnClicked(TreeNode node) {
+////                treeView.deleteNode(node);
+//                BaseModel attachedModel = ((ITreeView.TreeItem) (node.getValue())).getAttachedModel();
+//                dbManager.delete(attachedModel);
+//                if (((ITreeView.TreeItem) (node.getValue())).getAttachedFragment() == currentFragment) {
+//                    getFragmentManager().beginTransaction()
+//                            .remove(currentFragment)
+//                            .commit();
+//                    setMainContent();
+//                }
+//            }
+//        };
+        // 点击数目切换 Fragment
+//        nodeClickListener = new TreeNode.TreeNodeClickListener() {
+//            @Override
+//            public void onClick(TreeNode node, Object value) {
+//                ITreeView.TreeItem item = (ITreeView.TreeItem) value;
+//                String modelClassName = item.modelConstant;
+//                mEmptyDisplayWrapper.setVisibility(View.GONE);
+//                BaseFragment attachedFragment = item.getAttachedFragment();
+//                getFragmentManager().beginTransaction().replace(R.id.layout_fragment_wrapper, attachedFragment, attachedFragment.getClass().getName()).commit();
+//                currentFragment = attachedFragment;
+//                toolbar.setTitle(ModelConstantMap.getHolder(currentFragment.getAttachedBean().getClass().getName()).MODEL_NAME);
+//            }
+//        };
     }
 
     @Override
     protected void initViews() {
         initToolbar();
-        initTreeView();
+        refreshTreeView();
         btnAddSite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,12 +236,28 @@ public class MainActivity extends BaseActivity {
     /**
      * 从这里开始创建树
      */
-    private void initTreeView() {
-        treeView = new TreeViewImpl(this);
-        treeView.setItemOprationListener(listener);
-        treeView.setNodeClickListener(nodeClickListener);
-        treeView.buildTree();
-        treeViewWrapper.addView(treeView.getView());
+    private void refreshTreeView() {
+        // 先判断当前组是哪一个组
+        if (Locals.userGroups == null || Locals.currentGroup == -1) {
+            Snackbar.make(contentMain, getString(R.string.havent_chosen_group), Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
+        if (Locals.dispatchTables == null || Locals.currentDispatchTable == -1) {
+            Snackbar.make(contentMain, getString(R.string.dispatch_table_error), Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
+        TreeNode.BaseNodeViewHolder holder = new TreeAddDeleteHolder(MainActivity.this);
+        if (treeBuilder == null) {
+            if (Locals.isHeader) {
+                this.treeBuilder = new TreeBuilder(MainActivity.this, holder, Locals.userGroups.get(Locals.currentGroup), Locals.dispatchTables.get(Locals.currentGroup), TreeBuilder.HEADER_TREE_TYPE);
+            } else {
+                this.treeBuilder = new TreeBuilder(MainActivity.this, holder, Locals.userGroups.get(Locals.currentGroup), Locals.dispatchTables.get(Locals.currentGroup), TreeBuilder.MEMBER_TREE_TYPE);
+            }
+        }
+        treeBuilder.buildTree();
+        treeViewWrapper.addView(treeBuilder.getAndroidTreeView().getView());
     }
 
     private void addMonitorSite() {
@@ -204,7 +273,7 @@ public class MainActivity extends BaseActivity {
         attachedFragment.setModel(model);
         treeItem.setAttachedFragment(attachedFragment);
 
-        treeView.addNode(null, treeItem);
+//        treeView.addNode(null, treeItem);
     }
 
     private void addNewNode(String modelClassName) {
@@ -226,7 +295,7 @@ public class MainActivity extends BaseActivity {
         attachedFragment.setModel(resultObj);
         treeItem.setAttachedFragment(attachedFragment);
 
-        treeView.addNode(currentNode, treeItem);
+//        treeView.addNode(currentNode, treeItem);
     }
 
     private Long saveLocal(BaseModel modelObj) {
@@ -242,12 +311,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setMainContent() {
-        if (treeView == null) {
+        if (treeBuilder == null) {
             return;
         }
-        if (treeView.getRootFirstChildFragment() != null) {
+        if (treeBuilder.getRootFirstChildFragment() != null) {
             mEmptyDisplayWrapper.setVisibility(View.GONE);
-            currentFragment = treeView.getRootFirstChildFragment();
+            currentFragment = treeBuilder.getRootFirstChildFragment();
             getFragmentManager()
                     .beginTransaction()
                     .replace(R.id.layout_fragment_wrapper, currentFragment, currentFragment.getClass().getName())
@@ -260,7 +329,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_activity_toolbar_menu, menu);
+        getMenuInflater().inflate(R.menu.main_activity_toolbar_menu_normal, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -283,14 +352,14 @@ public class MainActivity extends BaseActivity {
                         generator.cancel();
                         removeAllTreeView();
                         dbManager.saveModels(data.getData());
-                        initTreeView();
+                        refreshTreeView();
                         setMainContent();
                     }
 
                     @Override
                     public void onError(String errorMsg) {
                         generator.cancel();
-                        Snackbar.make(mEmptyDisplayWrapper, getResources().getString(R.string.download_data_failed), Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(contentMain, getResources().getString(R.string.download_data_failed), Snackbar.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -304,9 +373,89 @@ public class MainActivity extends BaseActivity {
                     currentFragment.uploadModel();
                 }
                 break;
-            case R.id.action_dispatch:
-                Intent intent = new Intent(MainActivity.this, MemberTaskActivity.class);
+            case R.id.action_manager_group:
+                Intent intent = new Intent(MainActivity.this, GroupTaskActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.action_switch_group:
+                View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.ui_choose_button, drawerLayout, false);
+                // 在用户点击切换组之前，必须加载完成组别
+                assert Locals.userGroups != null;
+                List<Group> groups = Locals.userGroups;
+                if (groups == null || groups.size() == 0) {
+                    Snackbar.make(contentMain, getString(R.string.group_empty), Snackbar.LENGTH_LONG).show();
+                    break;
+                }
+
+                final RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radio_group);
+                for (int index = 0; index < groups.size(); index++) {
+                    RadioButton rb = new RadioButton(MainActivity.this);
+                    rb.setTag(new Integer(index));
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rb.getLayoutParams();
+                    layoutParams.bottomMargin = ViewUtils.dp2Pixel(MainActivity.this, 5);
+                    rb.setLayoutParams(layoutParams);
+                    radioGroup.addView(rb);
+                }
+                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                        Log.e(TAG, "onCheckedChanged: " + checkedId);
+                    }
+                });
+
+                final ActionDialogGenerator adg = new ActionDialogGenerator(MainActivity.this);
+                adg.title(getString(R.string.switch_group));
+                adg.cancelable(true);
+                adg.customView(view);
+                adg.setActionButton(DialogAction.POSITIVE, getString(R.string.ok));
+                adg.onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        int radioButtonId = radioGroup.getCheckedRadioButtonId();
+                        RadioButton radioButton = (RadioButton) radioGroup.findViewById(radioButtonId);
+                        if (radioButton != null) {
+                            Integer index = (Integer) radioButton.getTag();
+                            Locals.currentGroup = index;
+//                            refreshTreeView();
+                        }
+                        adg.cancel();
+                    }
+                });
+                adg.show();
+                break;
+//            case R.id.action_create_group:
+//                 利用弹出对话框的形式穿件新组
+//                final ActionDialogGenerator groupNameDialog = new ActionDialogGenerator(this);
+//                groupNameDialog.title(getString(R.string.group_name));
+//                View groupNameView = (View) getLayoutInflater().inflate(R.layout.edit_frame_layout, drawerLayout, false);
+//                final AppCompatEditText editText = (AppCompatEditText) groupNameView.findViewById(R.id.dialog_edit_text);
+//
+//                groupNameDialog.customView(groupNameView);
+//                groupNameDialog.onPositive(new MaterialDialog.SingleButtonCallback() {
+//                    @Override
+//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                        String trim = editText.getText().toString().trim();
+//                        if (!TextUtils.isEmpty(trim)) {
+//                            Group group = new Group();
+//                            group.setGroupName(trim);
+//                            group.setGroupId(KeyGenerator.generateGroupKey());
+//                            group.setGroupHeadId(ConfigUtils.getInstance().getUsername());
+//                            DbManager dbManager = new DbManager(MainActivity.this);
+//                            dbManager.saveGroup(group);
+//                            groupNameDialog.cancel();
+//                        } else {
+//                            groupNameDialog.cancel();
+//                            Snackbar.make(drawerLayout, getString(R.string.group_name_can_not_be_empty), Snackbar.LENGTH_LONG).show();
+//                        }
+//                    }
+//                });
+//                groupNameDialog.cancelable(false);
+//                groupNameDialog.setActionButton(DialogAction.POSITIVE, getString(R.string.ok));
+//                groupNameDialog.show();
+//                break;
+//            case R.id.action_dispatch:
+//                Intent intent = new Intent(MainActivity.this, GroupTaskActivity.class);
+//                startActivity(intent);
             default:
                 break;
         }

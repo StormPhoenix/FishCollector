@@ -1,28 +1,18 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.stormphoenix.fishcollector.R;
-import com.stormphoenix.fishcollector.adapter.MembersAdapter;
-import com.stormphoenix.fishcollector.mvp.model.beans.Account;
-import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
-import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeTaskItemHolder;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.impls.TreeTaskViewImpl;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces.ITreeView;
-import com.stormphoenix.fishcollector.shared.constants.MembersConstants;
 import com.unnamed.b.atv.model.TreeNode;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,9 +47,9 @@ public class TreeNodeFragment extends Fragment {
                 builder.create().show();
             }
         });
-//        TreeTaskItemHolder.OnTaskDispatchedListener listener = new TreeTaskItemHolder.OnTaskDispatchedListener() {
+//        TreeChooseHolder.ItemChosenListener listener = new TreeChooseHolder.ItemChosenListener() {
 //            @Override
-//            public void onTaskDispatched(BaseModel baseModel) {
+//            public void onItemChosen(BaseModel baseModel) {
 //                // 显示联系人列表
 //                if (MembersConstants.accounts == null) {
 //                    Snackbar.make(treeNodeWrapper, getString(R.string.members_message_is_not_get), Snackbar.LENGTH_LONG).show();

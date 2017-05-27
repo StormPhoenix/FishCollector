@@ -12,7 +12,7 @@ import android.net.NetworkInfo;
 public class NetManager {
     public static String getBaseUrl() {
 //        return "http://fish.yfi.ac.cn:9000/";
-        return "http://192.168.3.49:9000/";
+        return "http://192.168.3.51:9000/";
 //        return "http://192.168.1.108/fish_server/";
     }
 
