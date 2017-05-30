@@ -536,7 +536,7 @@
     <string name="action_current_group_data" >下载当前页面数据</string>
     <string name="group_empty">您尚未加入任何组</string>
     <string name="my_group">我管理的组</string>
-    <string name="join_group">我参与的组</string>
+    <string name="join_group">加入分组</string>
     <string name="havent_chosen_group">您尚未选择当前所在组别</string>
     <string name="dispatch_table_error">分配表有误，可能出现了严重错误</string>
     <string name="empty_group_prompt">当前还没有任何分组，\n点击红色按钮可以添加分组</string>
@@ -551,4 +551,6 @@
     <string name="action_download_current_page">下载当前页面信息</string>
     <string name="action_look_group">查看组</string>
     <string name="input_group_name">输入分组名字</string>
+    <string name="action_exit">退出</string>
+    <string name="input_group_id">输入分组id</string>
 </resources>

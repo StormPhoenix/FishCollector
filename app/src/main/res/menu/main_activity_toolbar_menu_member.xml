@@ -26,4 +26,9 @@
         android:title="@string/action_save"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/action_exit"
+        android:icon="@mipmap/ic_account_balance_wallet_white_24dp"
+        android:title="@string/action_exit"
+        app:showAsAction="never" />
 </menu>

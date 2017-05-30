@@ -39,4 +39,7 @@ public interface UserApi {
     // 用户创建分组
     @GET("user/create_group")
     Observable<HttpResult<GroupRecord>> createNewGroup(@Query("username") String username, @Query("password") String password, @Query("group_name") String name);
+
+    @GET("user/join_group")
+    Observable<HttpResult<GroupRecord>> joinGroup(@Query("username") String username, @Query("password") String password, @Query("group_id") String groupId);
 }

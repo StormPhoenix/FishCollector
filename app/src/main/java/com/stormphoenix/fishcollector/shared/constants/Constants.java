@@ -89,4 +89,8 @@ public class Constants {
     public static final int CREATE_GROUP_SUCCESS = 104;
     // 用户已经在某一个组内了
     public static final int USER_ALREADY_IN_GROUP = 105;
+    // 某一个组不存在
+    public static final int GROUP_NOT_EXISTS = 106;
+    // 加入某一个组成功
+    public static final int JOIN_GROUP_SUCCESS = 107;
 }

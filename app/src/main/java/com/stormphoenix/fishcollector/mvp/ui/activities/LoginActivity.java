@@ -82,7 +82,7 @@ public class LoginActivity extends BaseActivity {
                     return;
                 } else if (data.getResultCode() == Constants.LOGIN_SUCCESS_IN_GROUP) {
                     // 登录成功，并且在组内，保存用户数据
-                    ConfigUtils.getInstance().saveUserInfo(etUsername.getText().toString().trim(), etPassword.getText().toString().trim());
+                    ConfigUtils.getInstance().setUserInfo(etUsername.getText().toString().trim(), etPassword.getText().toString().trim());
                     ConfigUtils.getInstance().setUserLogin();
                     ConfigUtils.getInstance().setUserGroupId(data.getData().group.groupId);
 
@@ -98,7 +98,7 @@ public class LoginActivity extends BaseActivity {
                         }
                     }).start();
                 } else if (data.getResultCode() == Constants.LOGIN_SUCCESS_NOT_IN_GROUP) {
-                    ConfigUtils.getInstance().saveUserInfo(etUsername.getText().toString().trim(), etPassword.getText().toString().trim());
+                    ConfigUtils.getInstance().setUserInfo(etUsername.getText().toString().trim(), etPassword.getText().toString().trim());
                     ConfigUtils.getInstance().setUserLogin();
                     ConfigUtils.getInstance().setUserGroupId(null);
 

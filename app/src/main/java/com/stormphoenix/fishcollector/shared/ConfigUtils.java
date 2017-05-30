@@ -60,7 +60,7 @@ public class ConfigUtils {
         return userInfoSp.getString("group_id", null);
     }
 
-    public void saveUserInfo(String username, String password) {
+    public void setUserInfo(String username, String password) {
         userInfoSp.edit()
                 .putString("username", username)
                 .putString("password", password)

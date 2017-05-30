@@ -57,6 +57,7 @@ public class MainActivity extends BaseActivity {
     public static final int REQUEST_CODE_ADD_NODE = 5;
     public static final int IMAGE_ITEM_ADD = -1;
     public static final int REQUEST_CODE_SELECT = 100;
+    private static final int MSG_FINISH_JOIN_GROUP = 101;
 
     @BindView(R.id.toolbar_main)
     Toolbar toolbar;
@@ -82,8 +83,14 @@ public class MainActivity extends BaseActivity {
             switch (msg.what) {
                 case MSG_FINISH_CREATE_GROUP:
                     generator.cancel();
-                    Log.e(TAG, "handleMessage: invalidateOptionsMenu ");
+                    Log.e(TAG, "handleMessage: Create Group invalidate");
                     supportInvalidateOptionsMenu();
+                    break;
+                case MSG_FINISH_JOIN_GROUP:
+                    generator.cancel();
+                    Log.e(TAG, "handleMessage: Join Group invalidate");
+                    supportInvalidateOptionsMenu();
+                    Snackbar.make(contentMain, "加入组成功", Snackbar.LENGTH_LONG).show();
                     break;
                 default:
                     break;
@@ -381,6 +388,15 @@ public class MainActivity extends BaseActivity {
             case R.id.action_create_group:
                 showCreateGroupDialog();
                 break;
+            case R.id.action_exit:
+                ConfigUtils.getInstance().setUserLogout();
+                ConfigUtils.getInstance().setUserGroupId(null);
+                ConfigUtils.getInstance().setUserInfo(null, null);
+                finish();
+                break;
+            case R.id.action_join_group:
+                showJoinGroupDialog();
+                break;
 //            case R.id.action_download:
 //                HttpMethod.getInstance().downloadData(new RequestCallback<HttpResult<List<MonitoringSite>>>() {
 //                    @Override
@@ -462,6 +478,27 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void showJoinGroupDialog() {
+        final ActionDialogGenerator generator = new ActionDialogGenerator(MainActivity.this);
+        View dialgoView = LayoutInflater.from(MainActivity.this).inflate(R.layout.edit_frame_layout, contentMain, false);
+        final AppCompatEditText editText = (AppCompatEditText) dialgoView.findViewById(R.id.dialog_edit_text);
+        editText.setHint(getString(R.string.input_group_id));
+        generator.title(getString(R.string.join_group));
+        generator.customView(dialgoView);
+        generator.onPositive(new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                String groupId = editText.getText().toString().trim();
+                // 开始请求数据
+                requestJoinGroup(groupId);
+                generator.cancel();
+            }
+        });
+        generator.setActionButton(DialogAction.POSITIVE, getString(R.string.ok));
+        generator.cancelable(true);
+        generator.show();
+    }
+
     private void showCreateGroupDialog() {
         final ActionDialogGenerator generator = new ActionDialogGenerator(MainActivity.this);
         View dialgoView = LayoutInflater.from(MainActivity.this).inflate(R.layout.edit_frame_layout, contentMain, false);
@@ -481,6 +518,61 @@ public class MainActivity extends BaseActivity {
         generator.setActionButton(DialogAction.POSITIVE, getString(R.string.ok));
         generator.cancelable(true);
         generator.show();
+    }
+
+    // 发起加入分组的请求
+    private void requestJoinGroup(String groupId) {
+        HttpMethod.getInstance().joinGroup(groupId, new RequestCallback<HttpResult<GroupRecord>>() {
+            @Override
+            public void beforeRequest() {
+                if (generator == null) {
+                    generator = new ProgressDialogGenerator(MainActivity.this);
+                }
+                generator.title(getString(R.string.uploading_group));
+                generator.content(getString(R.string.please_waiting));
+                generator.circularProgress();
+                generator.cancelable(false);
+                generator.show();
+            }
+
+            @Override
+            public void success(final HttpResult<GroupRecord> data) {
+                switch (data.getResultCode()) {
+                    case Constants.USER_NOT_EXISTS:
+                        generator.cancel();
+                        Snackbar.make(contentMain, "用户不存在", Snackbar.LENGTH_LONG).show();
+                        break;
+                    case Constants.GROUP_NOT_EXISTS:
+                        generator.cancel();
+                        Snackbar.make(contentMain, "您要加入的组不存在", Snackbar.LENGTH_LONG).show();
+                        break;
+                    case Constants.JOIN_GROUP_SUCCESS:
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                FSManager.getInstance().saveRecordContent(data.getData());
+                                ConfigUtils.getInstance().setUserGroupId(data.getData().group.groupId);
+                                generator.cancel();
+                                // 因为是创建了分组，所以修改标题栏的菜单，同时弹出对话框显示返回的组id
+                                mHandler.sendEmptyMessage(MSG_FINISH_JOIN_GROUP);
+                            }
+                        }).start();
+                        break;
+                    case Constants.USER_ALREADY_IN_GROUP:
+                        generator.cancel();
+                        Snackbar.make(contentMain, "您已经加入了组", Snackbar.LENGTH_LONG).show();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onError(String errorMsg) {
+                Log.e(TAG, "onError: " + errorMsg);
+                generator.cancel();
+            }
+        });
     }
 
     // 发起创建分组的请求

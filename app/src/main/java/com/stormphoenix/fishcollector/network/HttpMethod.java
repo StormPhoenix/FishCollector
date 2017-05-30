@@ -10,7 +10,6 @@ import com.stormphoenix.fishcollector.network.model.GroupRecord;
 import com.stormphoenix.fishcollector.shared.ConfigUtils;
 import com.stormphoenix.fishcollector.shared.JsonParser;
 import com.stormphoenix.fishcollector.shared.NetManager;
-import com.stormphoenix.fishcollector.shared.constants.Constants;
 import com.stormphoenix.fishcollector.shared.rxutils.RxJavaCustomTransformer;
 
 import java.util.List;
@@ -196,6 +195,28 @@ public class HttpMethod {
                     @Override
                     public void onNext(HttpResult<Void> result) {
                         callback.success(result);
+                    }
+                });
+    }
+
+    public Subscription joinGroup(String groupId, final RequestCallback<HttpResult<GroupRecord>> callback) {
+        callback.beforeRequest();
+        return userApi.joinGroup(ConfigUtils.getInstance().getUsername(), ConfigUtils.getInstance().getPassword(), groupId)
+                .compose(RxJavaCustomTransformer.<HttpResult<GroupRecord>>defaultSchedulers())
+                .subscribe(new Subscriber<HttpResult<GroupRecord>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(HttpResult<GroupRecord> httpResult) {
+                        Log.e(TAG, "onNext: " + JsonParser.getInstance().toJson(httpResult));
+                        callback.success(httpResult);
                     }
                 });
     }
