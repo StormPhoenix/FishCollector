@@ -50,6 +50,16 @@ public class ConfigUtils {
                 .commit();
     }
 
+    public void setUserGroupId(String groupId) {
+        userInfoSp.edit()
+                .putString("group_id", groupId)
+                .commit();
+    }
+
+    public String getUserGroupId() {
+        return userInfoSp.getString("group_id", null);
+    }
+
     public void saveUserInfo(String username, String password) {
         userInfoSp.edit()
                 .putString("username", username)

@@ -541,6 +541,7 @@
     <string name="dispatch_table_error">分配表有误，可能出现了严重错误</string>
     <string name="empty_group_prompt">当前还没有任何分组，\n点击红色按钮可以添加分组</string>
     <string name="create_group_name">创建分组的名字</string>
+    <string name="create_group">创建分组</string>
     <string name="uploading_group">正在上传组数据</string>
     <string name="upload_data_failed">上传数据失败</string>
     <string name="action_create_group">创建组</string>
@@ -549,4 +550,5 @@
     <string name="action_upload_current_page">提交当前页面信息</string>
     <string name="action_download_current_page">下载当前页面信息</string>
     <string name="action_look_group">查看组</string>
+    <string name="input_group_name">输入分组名字</string>
 </resources>

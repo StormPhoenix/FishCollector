@@ -3,25 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_look_group"
+        android:id="@+id/action_look_group_member"
         android:icon="@drawable/ic_create_new_folder_white_24dp"
         android:title="@string/action_look_group"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_upload_current_page"
+        android:id="@+id/action_upload_current_page_member"
         android:icon="@mipmap/ic_account_balance_wallet_white_24dp"
         android:title="@string/action_upload_current_page"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_download_current_page"
+        android:id="@+id/action_download_current_page_member"
         android:icon="@mipmap/ic_account_balance_wallet_white_24dp"
         android:title="@string/action_download_current_page"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_save"
+        android:id="@+id/action_save_member"
         android:icon="@mipmap/ic_account_balance_wallet_white_24dp"
         android:title="@string/action_save"
         app:showAsAction="ifRoom" />

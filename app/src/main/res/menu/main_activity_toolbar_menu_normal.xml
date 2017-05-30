@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_create"
+        android:id="@+id/action_create_group"
         android:icon="@drawable/ic_create_new_folder_white_24dp"
         android:title="@string/action_create_group"
         app:showAsAction="never" />

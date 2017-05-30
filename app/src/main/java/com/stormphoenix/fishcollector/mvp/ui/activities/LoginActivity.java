@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import com.stormphoenix.fishcollector.Locals;
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.db.FSManager;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
@@ -18,16 +17,14 @@ import com.stormphoenix.fishcollector.mvp.ui.activities.base.BaseActivity;
 import com.stormphoenix.fishcollector.mvp.ui.dialog.ProgressDialogGenerator;
 import com.stormphoenix.fishcollector.network.HttpMethod;
 import com.stormphoenix.fishcollector.network.HttpResult;
-import com.stormphoenix.fishcollector.network.model.DispatchTable;
+import com.stormphoenix.fishcollector.network.model.GroupRecord;
 import com.stormphoenix.fishcollector.shared.ConfigUtils;
-
-import java.util.List;
+import com.stormphoenix.fishcollector.shared.constants.Constants;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity {
-
     @BindView(R.id.pb_login)
     ProgressBar pbLogin;
     @BindView(R.id.et_username)
@@ -70,31 +67,52 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
-        HttpMethod.getInstance().login(username, password, new RequestCallback<HttpResult<List<DispatchTable>>>() {
+        HttpMethod.getInstance().login(username, password, new RequestCallback<HttpResult<GroupRecord>>() {
             @Override
             public void beforeRequest() {
                 showProgress();
             }
 
             @Override
-            public void success(final HttpResult<List<DispatchTable>> data) {
-                if (data.getResultCode() == 0) {
+            public void success(final HttpResult<GroupRecord> data) {
+                if (data.getResultCode() == Constants.LOGIN_FAILED) {
+                    // 登录失败
+                    hideProgress();
+                    Snackbar.make(btnLogin, data.getResultMessage(), Snackbar.LENGTH_SHORT).show();
+                    return;
+                } else if (data.getResultCode() == Constants.LOGIN_SUCCESS_IN_GROUP) {
+                    // 登录成功，并且在组内，保存用户数据
                     ConfigUtils.getInstance().saveUserInfo(etUsername.getText().toString().trim(), etPassword.getText().toString().trim());
                     ConfigUtils.getInstance().setUserLogin();
+                    ConfigUtils.getInstance().setUserGroupId(data.getData().group.groupId);
+
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             // 保存信息
-                            FSManager.getInstance().saveAll(data.getData());
+                            FSManager.getInstance().saveRecordContent(data.getData());
                             hideProgress();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         }
                     }).start();
-                } else {
-                    hideProgress();
-                    Snackbar.make(btnLogin, getResources().getString(R.string.login_failed), Snackbar.LENGTH_SHORT).show();
+                } else if (data.getResultCode() == Constants.LOGIN_SUCCESS_NOT_IN_GROUP) {
+                    ConfigUtils.getInstance().saveUserInfo(etUsername.getText().toString().trim(), etPassword.getText().toString().trim());
+                    ConfigUtils.getInstance().setUserLogin();
+                    ConfigUtils.getInstance().setUserGroupId(null);
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // 保存信息
+                            FSManager.getInstance().saveRecordContent(null);
+                            hideProgress();
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }).start();
                 }
             }
 

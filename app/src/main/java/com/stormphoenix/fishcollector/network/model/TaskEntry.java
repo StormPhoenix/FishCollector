@@ -7,13 +7,11 @@ import com.google.gson.annotations.Expose;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class Acc {
+public class TaskEntry {
     @Expose
-    public String name;
+    public String modelId;
     @Expose
-    public String password;
+    public long modifyTime;
     @Expose
-    public boolean inGroup;
-    @Expose
-    public String groupId;
+    public long accessTime;
 }

@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stormphoenix.fishcollector.Locals;
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.BaseRecyclerAdapter;
 import com.stormphoenix.fishcollector.adapter.GroupAdapter;
@@ -52,36 +51,36 @@ public class GroupFragment extends ListBaseFragment<Group> {
 
     public void refreshData() {
         List<Group> groupList = new ArrayList<>();
-        if (groupType == MANAGE_GROUP_TYPE) {
-            if (Locals.userGroups != null && Locals.userGroups.size() != 0) {
-                for (Group group : Locals.userGroups) {
-                    if (group.header.name.equals(ConfigUtils.getInstance().getUsername())) {
-                        groupList.add(group);
-                    }
-                }
-            }
-            if (groupList.size() == 0) {
-                emptyWrapper.setVisibility(View.VISIBLE);
-            } else {
-                setupGroupInfo(groupList);
-                emptyWrapper.setVisibility(View.GONE);
-            }
-        } else if (groupType == JOIN_GROUP_TYPE) {
-            if (Locals.userGroups != null && Locals.userGroups.size() != 0) {
-                for (Group group : Locals.userGroups) {
-                    if (!group.header.name.equals(ConfigUtils.getInstance().getUsername())) {
-                        groupList.add(group);
-                    }
-                }
-            }
-            if (groupList.size() == 0) {
-                emptyWrapper.setVisibility(View.VISIBLE);
-            } else {
-                emptyWrapper.setVisibility(View.GONE);
-                setupGroupInfo(groupList);
-            }
-        }
-        mRefreshLayout.setRefreshing(false);
+//        if (groupType == MANAGE_GROUP_TYPE) {
+//            if (Locals.userGroups != null && Locals.userGroups.size() != 0) {
+//                for (Group group : Locals.userGroups) {
+//                    if (group.header.name.equals(ConfigUtils.getInstance().getUsername())) {
+//                        groupList.add(group);
+//                    }
+//                }
+//            }
+//            if (groupList.size() == 0) {
+//                emptyWrapper.setVisibility(View.VISIBLE);
+//            } else {
+//                setupGroupInfo(groupList);
+//                emptyWrapper.setVisibility(View.GONE);
+//            }
+//        } else if (groupType == JOIN_GROUP_TYPE) {
+//            if (Locals.userGroups != null && Locals.userGroups.size() != 0) {
+//                for (Group group : Locals.userGroups) {
+//                    if (!group.header.name.equals(ConfigUtils.getInstance().getUsername())) {
+//                        groupList.add(group);
+//                    }
+//                }
+//            }
+//            if (groupList.size() == 0) {
+//                emptyWrapper.setVisibility(View.VISIBLE);
+//            } else {
+//                emptyWrapper.setVisibility(View.GONE);
+//                setupGroupInfo(groupList);
+//            }
+//        }
+//        mRefreshLayout.setRefreshing(false);
     }
 
     private void setupGroupInfo(List<Group> data) {

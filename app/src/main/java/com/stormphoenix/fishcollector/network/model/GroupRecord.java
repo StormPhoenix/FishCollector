@@ -7,13 +7,9 @@ import com.google.gson.annotations.Expose;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class Acc {
+public class GroupRecord {
     @Expose
-    public String name;
+    public Group group;
     @Expose
-    public String password;
-    @Expose
-    public boolean inGroup;
-    @Expose
-    public String groupId;
+    public TaskTable taskTable;
 }

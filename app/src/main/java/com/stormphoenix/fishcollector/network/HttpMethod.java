@@ -5,15 +5,12 @@ import android.util.Log;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
-import com.stormphoenix.fishcollector.network.apis.DownloadApi;
-import com.stormphoenix.fishcollector.network.apis.GroupApi;
-import com.stormphoenix.fishcollector.network.apis.LoginApi;
-import com.stormphoenix.fishcollector.network.apis.SubmitSingleModelApi;
-import com.stormphoenix.fishcollector.network.model.DispatchTable;
-import com.stormphoenix.fishcollector.network.model.Group;
+import com.stormphoenix.fishcollector.network.apis.UserApi;
+import com.stormphoenix.fishcollector.network.model.GroupRecord;
 import com.stormphoenix.fishcollector.shared.ConfigUtils;
 import com.stormphoenix.fishcollector.shared.JsonParser;
 import com.stormphoenix.fishcollector.shared.NetManager;
+import com.stormphoenix.fishcollector.shared.constants.Constants;
 import com.stormphoenix.fishcollector.shared.rxutils.RxJavaCustomTransformer;
 
 import java.util.List;
@@ -36,10 +33,7 @@ public class HttpMethod {
 
     private static final String TAG = "HttpMethod";
     private static HttpMethod instance = null;
-    private SubmitSingleModelApi submitSingleModelApi = null;
-    private LoginApi loginApi = null;
-    private DownloadApi downloadApi = null;
-    private GroupApi groupApi = null;
+    private UserApi userApi = null;
 
     private OkHttpClient client = null;
 
@@ -55,10 +49,7 @@ public class HttpMethod {
                 .addConverterFactory(GsonConverterFactory.create(JsonParser.getInstance().getGson()))
                 .build();
 
-        submitSingleModelApi = retrofit.create(SubmitSingleModelApi.class);
-        loginApi = retrofit.create(LoginApi.class);
-        downloadApi = retrofit.create(DownloadApi.class);
-        groupApi = retrofit.create(GroupApi.class);
+        userApi = retrofit.create(UserApi.class);
     }
 
     public static HttpMethod getInstance() {
@@ -72,11 +63,12 @@ public class HttpMethod {
         return instance;
     }
 
-    public Subscription createNewGroup(String groupName, final RequestCallback<HttpResult<Group>> callback) {
+    // 创建一个分组
+    public Subscription createNewGroup(String groupName, final RequestCallback<HttpResult<GroupRecord>> callback) {
         callback.beforeRequest();
-        return groupApi.createNewGroup(ConfigUtils.getInstance().getUsername(), ConfigUtils.getInstance().getPassword(), groupName)
-                .compose(RxJavaCustomTransformer.<HttpResult<Group>>defaultSchedulers())
-                .subscribe(new Subscriber<HttpResult<Group>>() {
+        return userApi.createNewGroup(ConfigUtils.getInstance().getUsername(), ConfigUtils.getInstance().getPassword(), groupName)
+                .compose(RxJavaCustomTransformer.<HttpResult<GroupRecord>>defaultSchedulers())
+                .subscribe(new Subscriber<HttpResult<GroupRecord>>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -87,7 +79,7 @@ public class HttpMethod {
                     }
 
                     @Override
-                    public void onNext(HttpResult<Group> httpResult) {
+                    public void onNext(HttpResult<GroupRecord> httpResult) {
                         Log.e(TAG, "onNext: " + JsonParser.getInstance().toJson(httpResult));
                         callback.success(httpResult);
                     }
@@ -96,7 +88,7 @@ public class HttpMethod {
 
     public Subscription downloadData(final RequestCallback<HttpResult<List<MonitoringSite>>> callback) {
         callback.beforeRequest();
-        return downloadApi.downloadData(ConfigUtils.getInstance().getUsername(), ConfigUtils.getInstance().getPassword())
+        return userApi.downloadData(ConfigUtils.getInstance().getUsername(), ConfigUtils.getInstance().getPassword())
                 .compose(RxJavaCustomTransformer.<HttpResult<List<MonitoringSite>>>defaultSchedulers())
                 .subscribe(new Subscriber<HttpResult<List<MonitoringSite>>>() {
                     @Override
@@ -116,11 +108,11 @@ public class HttpMethod {
                 });
     }
 
-    public Subscription login(String username, String password, final RequestCallback<HttpResult<List<DispatchTable>>> callback) {
+    public Subscription login(String username, String password, final RequestCallback<HttpResult<GroupRecord>> callback) {
         callback.beforeRequest();
-        return loginApi.login(username, password)
-                .compose(RxJavaCustomTransformer.<HttpResult<List<DispatchTable>>>defaultSchedulers())
-                .subscribe(new Subscriber<HttpResult<List<DispatchTable>>>() {
+        return userApi.login(username, password)
+                .compose(RxJavaCustomTransformer.<HttpResult<GroupRecord>>defaultSchedulers())
+                .subscribe(new Subscriber<HttpResult<GroupRecord>>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -131,8 +123,8 @@ public class HttpMethod {
                     }
 
                     @Override
-                    public void onNext(HttpResult<List<DispatchTable>> listHttpResult) {
-                        callback.success(listHttpResult);
+                    public void onNext(HttpResult<GroupRecord> groupRecord) {
+                        callback.success(groupRecord);
                     }
                 });
     }
@@ -189,7 +181,7 @@ public class HttpMethod {
         callback.beforeRequest();
 
         RequestBody modelBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), JsonParser.getInstance().toJson(model));
-        return submitSingleModelApi.sumbitModel(modelType, modelBody)
+        return userApi.sumbitModel(modelType, modelBody)
                 .compose(RxJavaCustomTransformer.<HttpResult<Void>>defaultSchedulers())
                 .subscribe(new Subscriber<HttpResult<Void>>() {
                     @Override

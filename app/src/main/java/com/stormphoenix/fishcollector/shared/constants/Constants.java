@@ -77,4 +77,16 @@ public class Constants {
 
     public static final int REQUEST_GET_PHOTO_FROM_CAMERA = 11;
 
+    // 用户登录失败，或者用户不存在
+    public static final int LOGIN_FAILED = 100;
+    // 用户登录成功，并且在组内
+    public static final int LOGIN_SUCCESS_IN_GROUP = 101;
+    // 用户登录成功，但不在组内
+    public static final int LOGIN_SUCCESS_NOT_IN_GROUP = 102;
+    // 用户不存在
+    public static final int USER_NOT_EXISTS = 103;
+    // 创建分组成功
+    public static final int CREATE_GROUP_SUCCESS = 104;
+    // 用户已经在某一个组内了
+    public static final int USER_ALREADY_IN_GROUP = 105;
 }

@@ -26,7 +26,6 @@ import com.stormphoenix.fishcollector.mvp.ui.dialog.ProgressDialogGenerator;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.group.GroupFragment;
 import com.stormphoenix.fishcollector.network.HttpMethod;
 import com.stormphoenix.fishcollector.network.HttpResult;
-import com.stormphoenix.fishcollector.network.model.Group;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,52 +95,6 @@ public class GroupTaskActivity extends AppCompatActivity {
     }
 
     private void requestCreateNewGroup(String groupName) {
-        HttpMethod.getInstance().createNewGroup(groupName, new RequestCallback<HttpResult<Group>>() {
-            @Override
-            public void beforeRequest() {
-                if (generator == null) {
-                    generator = new ProgressDialogGenerator(GroupTaskActivity.this);
-                    generator.title(getString(R.string.uploading_group));
-                    generator.content(getString(R.string.please_waiting));
-                    generator.circularProgress();
-                    generator.cancelable(false);
-                }
-                generator.show();
-            }
-
-            @Override
-            public void success(HttpResult<Group> data) {
-                if (data.getResultCode() == 0) {
-                    // 成功
-                    Log.e(TAG, "success: ");
-                    FSManager.getInstance().saveGroupAsync(data.getData(), new FSManager.FsCallback<Void>() {
-                        @Override
-                        public void call(Void aVoid) {
-                            // 通知 Fragment 更新数据
-                            generator.cancel();
-                            managerFragment.refreshData();
-                            joinFragment.refreshData();
-                        }
-
-                        @Override
-                        public void onError(String errorMsg) {
-                            Snackbar.make(viewPager, errorMsg, Snackbar.LENGTH_LONG).show();
-                            generator.cancel();
-                        }
-                    });
-                } else {
-                    Log.e(TAG, "failed: ");
-                    Snackbar.make(viewPager, getString(R.string.upload_data_failed), Snackbar.LENGTH_LONG).show();
-                    generator.cancel();
-                }
-            }
-
-            @Override
-            public void onError(String errorMsg) {
-                Log.e(TAG, "onError: " + errorMsg);
-                generator.cancel();
-            }
-        });
     }
 
     @Override

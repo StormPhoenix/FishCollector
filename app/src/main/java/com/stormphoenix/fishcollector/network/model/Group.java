@@ -6,17 +6,15 @@ import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import java.util.List;
 
 /**
- * Created by StormPhoenix on 17-5-4.
+ * Created by StormPhoenix on 17-5-28.
  * StormPhoenix is a intelligent Android developer.
  */
 
 public class Group {
-    // "GRP" + 时间
     @Expose
     public String groupId;
     @Expose
     public String groupName;
-    // 组长
     @Expose
     public Acc header;
     @Expose
