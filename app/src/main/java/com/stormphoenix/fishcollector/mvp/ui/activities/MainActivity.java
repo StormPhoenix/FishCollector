@@ -238,17 +238,21 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 从这里开始创建树
+     * 切记，一定要判断是否有组
      */
     private void refreshTreeView() {
-        // 1、查看用户是否在组之中
-        // 2、
-        TreeNode.BaseNodeViewHolder holder = new TreeAddDeleteHolder(MainActivity.this);
         List<MonitoringSite> datas = new ArrayList<>();
-        List<MonitoringSite> monitoringSites = dbManager.queryAllMonitoringSite();
-        for (String mId : FSManager.getInstance().getRecordContent().group.monitoringSiteIds) {
-            dbManager.queryMSiteByKey(mId);
-            datas.add(dbManager.queryMSiteByKey(mId));
+        // 1、查看用户是否在组之中
+        if (FSManager.getInstance().getRecordContent() != null
+                && FSManager.getInstance().getRecordContent().group.monitoringSiteIds != null) {
+            for (String mId : FSManager.getInstance().getRecordContent().group.monitoringSiteIds) {
+                MonitoringSite site = dbManager.queryMSiteByKey(mId);
+                if (site != null) {
+                    datas.add(site);
+                }
+            }
         }
+        TreeNode.BaseNodeViewHolder holder = new TreeAddDeleteHolder(MainActivity.this);
         if (treeBuilder == null) {
             this.treeBuilder = new TreeBuilder(
                     MainActivity.this,
