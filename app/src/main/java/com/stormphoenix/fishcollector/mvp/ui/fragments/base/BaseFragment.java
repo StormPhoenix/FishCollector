@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -64,6 +66,27 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
     protected SubmitSingleModelView submitSingleModelView;
     protected SubmitPresenter submitPresenter;
 
+    public static final int HIDE_PROGRESS_AND_SUCCESS = 0;
+    public static final int HIDE_PROGRESS_BUT_FAILED = 1;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case HIDE_PROGRESS_AND_SUCCESS:
+                    submitSingleModelView.hideProgress();
+                    submitSingleModelView.onSubmitSuccess();
+                    break;
+                case HIDE_PROGRESS_BUT_FAILED:
+                    submitSingleModelView.hideProgress();
+                    submitSingleModelView.onSubmitError((String) msg.obj);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     @Override
     public void onStart() {
         Log.d(TAG, "onAttach: ");
@@ -96,8 +119,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
                 submitDialogGenerator.cancel();
             }
         };
-        submitPresenter = new SubmitPresenterImpl(submitSingleModelView);
-
+        submitPresenter = new SubmitPresenterImpl(mHandler ,submitSingleModelView);
         super.onStart();
     }
 

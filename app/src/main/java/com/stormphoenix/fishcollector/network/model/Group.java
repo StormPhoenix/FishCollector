@@ -20,5 +20,5 @@ public class Group {
     @Expose
     public List<Acc> members;
     @Expose
-    public List<MonitoringSite> monitoringSites;
+    public List<String> monitoringSiteIds;
 }

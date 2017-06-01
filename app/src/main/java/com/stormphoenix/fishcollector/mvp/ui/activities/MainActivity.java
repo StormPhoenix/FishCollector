@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -49,6 +50,9 @@ import com.stormphoenix.fishcollector.shared.constants.ModelConstant;
 import com.stormphoenix.fishcollector.shared.constants.ModelConstantMap;
 import com.unnamed.b.atv.model.TreeNode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity {
@@ -57,7 +61,6 @@ public class MainActivity extends BaseActivity {
     public static final int REQUEST_CODE_ADD_NODE = 5;
     public static final int IMAGE_ITEM_ADD = -1;
     public static final int REQUEST_CODE_SELECT = 100;
-    private static final int MSG_FINISH_JOIN_GROUP = 101;
 
     @BindView(R.id.toolbar_main)
     Toolbar toolbar;
@@ -76,6 +79,10 @@ public class MainActivity extends BaseActivity {
     CoordinatorLayout contentMain;
 
     private static final int MSG_FINISH_CREATE_GROUP = 1;
+    private static final int MSG_FINISH_JOIN_GROUP = 101;
+    private static final int MSG_USER_NOT_IN_GROUP = 102;
+    @BindView(R.id.show_text)
+    TextView showText;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -85,13 +92,20 @@ public class MainActivity extends BaseActivity {
                     generator.cancel();
                     Log.e(TAG, "handleMessage: Create Group invalidate");
                     supportInvalidateOptionsMenu();
+                    refreshDisplayWrapperStatus();
                     break;
                 case MSG_FINISH_JOIN_GROUP:
                     generator.cancel();
                     Log.e(TAG, "handleMessage: Join Group invalidate");
                     supportInvalidateOptionsMenu();
+                    refreshDisplayWrapperStatus();
                     Snackbar.make(contentMain, "加入组成功", Snackbar.LENGTH_LONG).show();
                     break;
+                case MSG_USER_NOT_IN_GROUP:
+                    generator.cancel();
+                    Log.e(TAG, "handleMessage: User Not In Group");
+                    supportInvalidateOptionsMenu();
+                    Snackbar.make(contentMain, "您不在组内，无法获取数据", Snackbar.LENGTH_SHORT).show();
                 default:
                     break;
             }
@@ -119,81 +133,46 @@ public class MainActivity extends BaseActivity {
      */
     @Override
     protected void initVariables() {
-        // 初始化当前登录用户所有的组
-//        FSManager.getInstance().queryAllGroupsAsync(new FSManager.FsCallback<List<Group>>() {
-//            @Override
-//            public void call(List<Group> groups) {
-//                Log.e(TAG, "call: " + groups.toString());
-//                Locals.userGroups = groups;
-//                if (Locals.userGroups == null || Locals.userGroups.size() == 0) {
-//                    Locals.currentGroup = -1;
-//                } else {
-//                    Locals.currentGroup = 0;
-//                }
-//            }
-//
-//            @Override
-//            public void onError(String errorMsg) {
-//                Snackbar.make(drawerLayout, errorMsg, Snackbar.LENGTH_LONG).show();
-//            }
-//        });
-//        FSManager.getInstance().queryDispatchTablesAsync(new FSManager.FsCallback<List<DispatchTable>>() {
-//            @Override
-//            public void call(List<DispatchTable> dispatchTables) {
-//                Log.e(TAG, "call: " + dispatchTables.toString());
-//                Locals.dispatchTables = dispatchTables;
-//                if (Locals.dispatchTables == null || Locals.dispatchTables.size() == 0) {
-//                    Locals.currentDispatchTable = -1;
-//                } else {
-//                    Locals.currentDispatchTable = 0;
-//                }
-//            }
-//
-//            @Override
-//            public void onError(String errorMsg) {
-//                Snackbar.make(drawerLayout, errorMsg, Snackbar.LENGTH_LONG).show();
-//            }
-//        });
         dbManager = new DbManager(this);
         // 点击树木项进行操作
-//        listener = new TreeAddDeleteHolder.ItemAddDeleteListener() {
-//            @Override
-//            public void onItemAddBtnClicked(TreeNode node, String key, String value) {
-//                if (ModelConstantMap.getHolder(value).subModels.isEmpty()) {
-//                    return;
-//                }
-//                currentNode = node;
-//                Intent view = new Intent(MainActivity.this, DialogStyleActivity.class);
-//                view.putExtra(key, value);
-//                startActivityForResult(view, REQUEST_CODE_ADD_NODE);
-//            }
-//
-//            @Override
-//            public void onItemDeleteBtnClicked(TreeNode node) {
-////                treeView.deleteNode(node);
-//                BaseModel attachedModel = ((ITreeView.TreeItem) (node.getValue())).getAttachedModel();
-//                dbManager.delete(attachedModel);
-//                if (((ITreeView.TreeItem) (node.getValue())).getAttachedFragment() == currentFragment) {
-//                    getFragmentManager().beginTransaction()
-//                            .remove(currentFragment)
-//                            .commit();
-//                    setMainContent();
-//                }
-//            }
-//        };
-        // 点击数目切换 Fragment
-//        nodeClickListener = new TreeNode.TreeNodeClickListener() {
-//            @Override
-//            public void onClick(TreeNode node, Object value) {
-//                ITreeView.TreeItem item = (ITreeView.TreeItem) value;
-//                String modelClassName = item.modelConstant;
-//                mEmptyDisplayWrapper.setVisibility(View.GONE);
-//                BaseFragment attachedFragment = item.getAttachedFragment();
-//                getFragmentManager().beginTransaction().replace(R.id.layout_fragment_wrapper, attachedFragment, attachedFragment.getClass().getName()).commit();
-//                currentFragment = attachedFragment;
-//                toolbar.setTitle(ModelConstantMap.getHolder(currentFragment.getAttachedBean().getClass().getName()).MODEL_NAME);
-//            }
-//        };
+        listener = new TreeAddDeleteHolder.ItemAddDeleteListener() {
+            @Override
+            public void onItemAddBtnClicked(TreeNode node, String key, String value) {
+                if (ModelConstantMap.getHolder(value).subModels.isEmpty()) {
+                    return;
+                }
+                currentNode = node;
+                Intent view = new Intent(MainActivity.this, DialogStyleActivity.class);
+                view.putExtra(key, value);
+                startActivityForResult(view, REQUEST_CODE_ADD_NODE);
+            }
+
+            @Override
+            public void onItemDeleteBtnClicked(TreeNode node) {
+//                treeView.deleteNode(node);
+                BaseModel attachedModel = ((ITreeView.TreeItem) (node.getValue())).getAttachedModel();
+                dbManager.delete(attachedModel);
+                if (((ITreeView.TreeItem) (node.getValue())).getAttachedFragment() == currentFragment) {
+                    getFragmentManager().beginTransaction()
+                            .remove(currentFragment)
+                            .commit();
+                    setMainContent();
+                }
+            }
+        };
+//         点击数目切换 Fragment
+        nodeClickListener = new TreeNode.TreeNodeClickListener() {
+            @Override
+            public void onClick(TreeNode node, Object value) {
+                ITreeView.TreeItem item = (ITreeView.TreeItem) value;
+                String modelClassName = item.modelConstant;
+                mEmptyDisplayWrapper.setVisibility(View.GONE);
+                BaseFragment attachedFragment = item.getAttachedFragment();
+                getFragmentManager().beginTransaction().replace(R.id.layout_fragment_wrapper, attachedFragment, attachedFragment.getClass().getName()).commit();
+                currentFragment = attachedFragment;
+                toolbar.setTitle(ModelConstantMap.getHolder(currentFragment.getAttachedBean().getClass().getName()).MODEL_NAME);
+            }
+        };
     }
 
     @Override
@@ -216,7 +195,7 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                        addMonitorSite();
+                        requestAddMSite();
                         setMainContent();
                     }
                 });
@@ -261,35 +240,36 @@ public class MainActivity extends BaseActivity {
      * 从这里开始创建树
      */
     private void refreshTreeView() {
-        // 先判断当前组是哪一个组
-//        if (Locals.userGroups == null || Locals.currentGroup == -1) {
-//            Snackbar.make(contentMain, getString(R.string.havent_chosen_group), Snackbar.LENGTH_LONG).show();
-//            return;
-//        }
-//
-//        if (Locals.dispatchTables == null || Locals.currentDispatchTable == -1) {
-//            Snackbar.make(contentMain, getString(R.string.dispatch_table_error), Snackbar.LENGTH_LONG).show();
-//            return;
-//        }
-
-//        TreeNode.BaseNodeViewHolder holder = new TreeAddDeleteHolder(MainActivity.this);
-//        if (treeBuilder == null) {
-//            if (Locals.isHeader) {
-//                this.treeBuilder = new TreeBuilder(MainActivity.this, holder, Locals.userGroups.get(Locals.currentGroup), Locals.dispatchTables.get(Locals.currentGroup), TreeBuilder.HEADER_TREE_TYPE);
-//            } else {
-//                this.treeBuilder = new TreeBuilder(MainActivity.this, holder, Locals.userGroups.get(Locals.currentGroup), Locals.dispatchTables.get(Locals.currentGroup), TreeBuilder.MEMBER_TREE_TYPE);
-//            }
-//        }
-//        treeBuilder.buildTree();
-//        treeViewWrapper.addView(treeBuilder.getAndroidTreeView().getView());
+        // 1、查看用户是否在组之中
+        // 2、
+        TreeNode.BaseNodeViewHolder holder = new TreeAddDeleteHolder(MainActivity.this);
+        List<MonitoringSite> datas = new ArrayList<>();
+        List<MonitoringSite> monitoringSites = dbManager.queryAllMonitoringSite();
+        for (String mId : FSManager.getInstance().getRecordContent().group.monitoringSiteIds) {
+            dbManager.queryMSiteByKey(mId);
+            datas.add(dbManager.queryMSiteByKey(mId));
+        }
+        if (treeBuilder == null) {
+            this.treeBuilder = new TreeBuilder(
+                    MainActivity.this,
+                    datas,
+                    TreeBuilder.TREE_HOLDER_ADD_AND_DELETE,
+                    listener);
+            this.treeBuilder.setNodeClickListener(nodeClickListener);
+        }
+        treeBuilder.buildTree();
+        View view = treeBuilder.getView();
+        treeViewWrapper.addView(view);
     }
 
-    private void addMonitorSite() {
+    // 请求添加监测点
+    private void requestAddMSite() {
         MonitoringSite model = new MonitoringSite();
         model.setModelId(KeyGenerator.generateModelKey(MonitoringSite.class.getSimpleName()));
         Long modelMainKey = saveLocal(model);
         model.setId(modelMainKey);
 
+        // 创建了一个 tree 节点
         ITreeView.TreeItem treeItem = new ITreeView.TreeItem(MonitoringSite.class.getName());
         treeItem.setAttachedModel(model);
 
@@ -297,7 +277,7 @@ public class MainActivity extends BaseActivity {
         attachedFragment.setModel(model);
         treeItem.setAttachedFragment(attachedFragment);
 
-//        treeView.addNode(null, treeItem);
+        treeBuilder.addNode(null, treeItem);
     }
 
     private void addNewNode(String modelClassName) {
@@ -319,7 +299,7 @@ public class MainActivity extends BaseActivity {
         attachedFragment.setModel(resultObj);
         treeItem.setAttachedFragment(attachedFragment);
 
-//        treeView.addNode(currentNode, treeItem);
+        treeBuilder.addNode(currentNode, treeItem);
     }
 
     private Long saveLocal(BaseModel modelObj) {
@@ -336,6 +316,8 @@ public class MainActivity extends BaseActivity {
 
     private void setMainContent() {
         if (treeBuilder == null) {
+            mEmptyDisplayWrapper.setVisibility(View.VISIBLE);
+            refreshDisplayWrapperStatus();
             return;
         }
         if (treeBuilder.getRootFirstChildFragment() != null) {
@@ -347,8 +329,37 @@ public class MainActivity extends BaseActivity {
                     .commit();
             toolbar.setTitle(ModelConstantMap.getHolder(currentFragment.getAttachedBean().getClass().getName()).MODEL_NAME);
         } else {
+            // 说明还没有树形结构
             mEmptyDisplayWrapper.setVisibility(View.VISIBLE);
+            refreshDisplayWrapperStatus();
         }
+    }
+
+    private void refreshDisplayWrapperStatus() {
+        if (isInGroup()) {
+            // 在组里面，判断是否是组长
+            if (isHeader()) {
+                showText.setText(getString(R.string.empty_data_prompt_header));
+            } else {
+                // 不是组长
+                showText.setText(getString(R.string.empty_data_prompt_member));
+            }
+        } else {
+            // 不在组里面
+            showText.setText(getString(R.string.empty_data_prompt_not_in_group));
+        }
+    }
+
+    private boolean isInGroup() {
+        return ConfigUtils.getInstance().getUserGroupId() != null;
+    }
+
+    private boolean isHeader() {
+        GroupRecord record = FSManager.getInstance().getRecordContent();
+        if (record == null) {
+            return false;
+        }
+        return record.group.header.name.equals(ConfigUtils.getInstance().getUsername());
     }
 
     @Override
@@ -366,11 +377,9 @@ public class MainActivity extends BaseActivity {
 
     private void createMenuDynamic(Menu menu) {
         // 判断是否在组里面，如果不在组里面，那么 record 可能为 null
-        GroupRecord record = FSManager.getInstance().getRecordContent();
-
-        if (ConfigUtils.getInstance().getUserGroupId() != null) {
+        if (isInGroup()) {
             // 在组里面，判断是否是组长
-            if (record.group.header.name.equals(ConfigUtils.getInstance().getUsername())) {
+            if (isHeader()) {
                 getMenuInflater().inflate(R.menu.main_activity_toolbar_menu_header, menu);
             } else {
                 // 不是组长
@@ -392,42 +401,74 @@ public class MainActivity extends BaseActivity {
                 ConfigUtils.getInstance().setUserLogout();
                 ConfigUtils.getInstance().setUserGroupId(null);
                 ConfigUtils.getInstance().setUserInfo(null, null);
+                dbManager.deleteAll();
                 finish();
                 break;
             case R.id.action_join_group:
                 showJoinGroupDialog();
                 break;
-//            case R.id.action_download:
-//                HttpMethod.getInstance().downloadData(new RequestCallback<HttpResult<List<MonitoringSite>>>() {
-//                    @Override
-//                    public void beforeRequest() {
-//                        generator.cancelable(false);
-//                        generator.circularProgress();
-//                        generator.title("下载");
-//                        generator.content("下载中...");
-//                        generator.show();
-//                    }
-//
-//                    @Override
-//                    public void success(HttpResult<List<MonitoringSite>> data) {
-//                        generator.cancel();
-//                        removeAllTreeView();
-//                        dbManager.saveModels(data.getData());
-//                        refreshTreeView();
-//                        setMainContent();
-//                    }
-//
-//                    @Override
-//                    public void onError(String errorMsg) {
-//                        generator.cancel();
-//                        Snackbar.make(contentMain, getResources().getString(R.string.download_data_failed), Snackbar.LENGTH_SHORT).show();
-//                    }
-//                });
-//                break;
+            case R.id.action_download_all_header:
+            case R.id.action_download_all_member:
+                HttpMethod.getInstance().requestTree(new RequestCallback<HttpResult<List<MonitoringSite>>>() {
+                    @Override
+                    public void beforeRequest() {
+                        if (generator == null) {
+                            generator = new ProgressDialogGenerator(MainActivity.this);
+                        }
+                        generator.cancelable(false);
+                        generator.circularProgress();
+                        generator.title("下载数据");
+                        generator.content("下载中...");
+                        generator.show();
+                    }
+
+                    @Override
+                    public void success(HttpResult<List<MonitoringSite>> data) {
+                        switch (data.getResultCode()) {
+                            case Constants.USER_NOT_IN_GROUP:
+                                // 尽快更新本地数据
+                                ConfigUtils.getInstance().setUserGroupId(null);
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        FSManager.getInstance().saveRecordContent(null);
+                                        mHandler.sendEmptyMessage(MSG_USER_NOT_IN_GROUP);
+                                    }
+                                }).start();
+                                break;
+                            case Constants.REQUEST_TREE_SUCCESS:
+                                removeAllTreeView();
+                                dbManager.saveModels(data.getData());
+                                refreshTreeView();
+                                generator.cancel();
+                                setMainContent();
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onError(String errorMsg) {
+                        Log.e(TAG, errorMsg);
+                        generator.cancel();
+                        Snackbar.make(contentMain, getResources().getString(R.string.download_data_failed), Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+            case R.id.action_upload_current_page_header:
+            case R.id.action_upload_current_page_member:
+                if (currentFragment == null) {
+                    Snackbar.make(contentMain, "当前没有数据可提交", Snackbar.LENGTH_LONG).show();
+                } else {
+                    currentFragment.uploadModel();
+                }
+                break;
+            case R.id.action_save_header:
+            case R.id.action_save_member:
+                if (currentFragment != null) {
+                    currentFragment.save();
+                }
+                break;
 //            case R.id.action_save:
-//                if (currentFragment != null) {
-//                    currentFragment.save();
-//                }
 //                break;
 //            case R.id.action_upload:
 //                if (currentFragment != null) {
@@ -624,6 +665,7 @@ public class MainActivity extends BaseActivity {
             public void onError(String errorMsg) {
                 Log.e(TAG, "onError: " + errorMsg);
                 generator.cancel();
+                Snackbar.make(contentMain, errorMsg, Snackbar.LENGTH_LONG).show();
             }
         });
     }

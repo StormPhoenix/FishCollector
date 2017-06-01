@@ -500,7 +500,7 @@
     <string name="locate_error">网络错误，无法定位</string>
     <string name="submiting">正在提交</string>
     <string name="please_waiting">请稍后...</string>
-    <string name="empty_data_prompt">已添加0个监测点\n请点击红色按钮添加检测点</string>
+    <string name="empty_data_prompt_header">已添加0个监测点\n请点击红色按钮添加检测点</string>
     <string name="already_inserted">该数据已经被插入</string>
     <string name="username_password_is_not_empty">用户名和密码不能为空</string>
     <string name="login_failed">登录失败</string>
@@ -553,4 +553,8 @@
     <string name="input_group_name">输入分组名字</string>
     <string name="action_exit">退出</string>
     <string name="input_group_id">输入分组id</string>
+    <string name="action_download_all">下载所有数据</string>
+    <string name="empty_data_prompt_member">尚无任何数据\\n请等待组长添加监测点</string>
+    <string name="empty_data_prompt_not_in_group">请加入组</string>
+    <string name="uploading_model">提交数据</string>
 </resources>

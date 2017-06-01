@@ -5,13 +5,16 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.stormphoenix.fishcollector.R;
+import com.stormphoenix.fishcollector.db.DbManager;
 import com.stormphoenix.fishcollector.db.FSManager;
+import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
 import com.stormphoenix.fishcollector.mvp.ui.activities.base.BaseActivity;
 import com.stormphoenix.fishcollector.mvp.ui.dialog.ProgressDialogGenerator;
@@ -21,10 +24,13 @@ import com.stormphoenix.fishcollector.network.model.GroupRecord;
 import com.stormphoenix.fishcollector.shared.ConfigUtils;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity {
+    private static final String TAG = LoginActivity.class.getName();
     @BindView(R.id.pb_login)
     ProgressBar pbLogin;
     @BindView(R.id.et_username)
@@ -91,10 +97,41 @@ public class LoginActivity extends BaseActivity {
                         public void run() {
                             // 保存信息
                             FSManager.getInstance().saveRecordContent(data.getData());
-                            hideProgress();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            // 保存完毕后开始下载节点树木数据
+                            HttpMethod.getInstance().downloadAllModels(ConfigUtils.getInstance().getUsername(),
+                                    ConfigUtils.getInstance().getPassword(), new RequestCallback<HttpResult<List<MonitoringSite>>>() {
+                                        @Override
+                                        public void beforeRequest() {
+                                        }
+
+                                        @Override
+                                        public void success(HttpResult<List<MonitoringSite>> data) {
+                                            switch (data.getResultCode()) {
+                                                case Constants.USER_NOT_EXISTS:
+                                                    Log.e(TAG, "USER_NOT_EXISTS");
+                                                    finish();
+                                                    break;
+                                                case Constants.USER_NOT_IN_GROUP:
+                                                    Log.e(TAG, "USER_NOT_IN_GROUP");
+                                                    finish();
+                                                    break;
+                                                case Constants.NO_MONITOR_DATA:
+                                                    hideProgress();
+                                                    enterMainPage();
+                                                    break;
+                                                case Constants.PULL_ALL_DATA_SUCCESS:
+                                                    hideProgress();
+                                                    new DbManager(LoginActivity.this).saveModels(data.getData());
+                                                    enterMainPage();
+                                                    break;
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onError(String errorMsg) {
+                                            enterMainPage();
+                                        }
+                                    });
                         }
                     }).start();
                 } else if (data.getResultCode() == Constants.LOGIN_SUCCESS_NOT_IN_GROUP) {
@@ -108,9 +145,7 @@ public class LoginActivity extends BaseActivity {
                             // 保存信息
                             FSManager.getInstance().saveRecordContent(null);
                             hideProgress();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            enterMainPage();
                         }
                     }).start();
                 }
@@ -140,6 +175,12 @@ public class LoginActivity extends BaseActivity {
         submitDialogGenerator.circularProgress();
         submitDialogGenerator.cancelable(false);
         submitDialogGenerator.show();
+    }
+
+    private void enterMainPage() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void register(View view) {

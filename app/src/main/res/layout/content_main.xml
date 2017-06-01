@@ -27,12 +27,13 @@
                 android:src="@drawable/ic_hourglass_empty_indigo_600_48dp" />
 
             <TextView
+                android:id="@+id/show_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/img_empty"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="@string/empty_data_prompt" />
+                android:text="@string/empty_data_prompt_header" />
         </RelativeLayout>
     </RelativeLayout>
 

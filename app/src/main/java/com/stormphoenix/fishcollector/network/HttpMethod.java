@@ -62,6 +62,28 @@ public class HttpMethod {
         return instance;
     }
 
+    public Subscription downloadAllModels(String username, String password, final RequestCallback<HttpResult<List<MonitoringSite>>> callback) {
+        callback.beforeRequest();
+        return userApi.downloadAllModel(username, password)
+                .compose(RxJavaCustomTransformer.<HttpResult<List<MonitoringSite>>>defaultSchedulers())
+                .subscribe(new Subscriber<HttpResult<List<MonitoringSite>>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(HttpResult<List<MonitoringSite>> listHttpResult) {
+                        Log.e(TAG, "onNext: " + JsonParser.getInstance().toJson(listHttpResult));
+                        callback.success(listHttpResult);
+                    }
+                });
+    }
+
     // 创建一个分组
     public Subscription createNewGroup(String groupName, final RequestCallback<HttpResult<GroupRecord>> callback) {
         callback.beforeRequest();
@@ -85,9 +107,9 @@ public class HttpMethod {
                 });
     }
 
-    public Subscription downloadData(final RequestCallback<HttpResult<List<MonitoringSite>>> callback) {
+    public Subscription requestTree(final RequestCallback<HttpResult<List<MonitoringSite>>> callback) {
         callback.beforeRequest();
-        return userApi.downloadData(ConfigUtils.getInstance().getUsername(), ConfigUtils.getInstance().getPassword())
+        return userApi.requestTree(ConfigUtils.getInstance().getUsername(), ConfigUtils.getInstance().getPassword())
                 .compose(RxJavaCustomTransformer.<HttpResult<List<MonitoringSite>>>defaultSchedulers())
                 .subscribe(new Subscriber<HttpResult<List<MonitoringSite>>>() {
                     @Override
@@ -180,7 +202,10 @@ public class HttpMethod {
         callback.beforeRequest();
 
         RequestBody modelBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), JsonParser.getInstance().toJson(model));
-        return userApi.sumbitModel(modelType, modelBody)
+        return userApi.submitModel(modelType,
+                ConfigUtils.getInstance().getUsername(),
+                ConfigUtils.getInstance().getPassword(),
+                modelBody)
                 .compose(RxJavaCustomTransformer.<HttpResult<Void>>defaultSchedulers())
                 .subscribe(new Subscriber<HttpResult<Void>>() {
                     @Override

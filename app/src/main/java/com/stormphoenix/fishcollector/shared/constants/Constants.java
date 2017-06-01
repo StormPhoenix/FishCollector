@@ -93,4 +93,16 @@ public class Constants {
     public static final int GROUP_NOT_EXISTS = 106;
     // 加入某一个组成功
     public static final int JOIN_GROUP_SUCCESS = 107;
+    // 用户不在组内
+    public static final int USER_NOT_IN_GROUP = 108;
+    // 请求获取树数据成功
+    public static final int REQUEST_TREE_SUCCESS = 109;
+    // 提交某一个model成功
+    public static final int SUBMIT_SUCCESS = 110;
+    // 没有权限提交
+    public static final int SUBMIT_NO_RIGHT = 111;
+    // 没有数据
+    public static final int NO_MONITOR_DATA = 112;
+    // 下载所有数据成功
+    public static final int PULL_ALL_DATA_SUCCESS = 113;
 }

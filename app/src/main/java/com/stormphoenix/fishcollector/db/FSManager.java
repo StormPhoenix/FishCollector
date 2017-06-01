@@ -25,7 +25,7 @@ public class FSManager {
     private static final String ACCOUNT_RECORD = "account_record.json";
 
     // 保证 record 的同步
-    public volatile GroupRecord record = null;
+    private volatile GroupRecord record = null;
 
     private static FSManager instance = null;
 

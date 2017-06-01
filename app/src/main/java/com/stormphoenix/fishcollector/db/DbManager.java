@@ -217,6 +217,19 @@ public class DbManager {
         return modelsList;
     }
 
+    public MonitoringSite queryMSiteByKey(String key) {
+        DaoSession daoSession = new DaoMaster(devOpenHelper.getReadableDatabase()).newSession();
+        MonitoringSiteDao dao = daoSession.getMonitoringSiteDao();
+        List<MonitoringSite> sites = dao.queryBuilder()
+                .where(MonitoringSiteDao.Properties.ModelId.eq(key))
+                .build().list();
+        if (sites == null || sites.size() == 0) {
+            return null;
+        } else {
+            return sites.get(0);
+        }
+    }
+
     public List<MonitoringSite> queryAllMonitoringSite() {
         DaoSession daoSession = new DaoMaster(devOpenHelper.getReadableDatabase()).newSession();
         MonitoringSiteDao dao = daoSession.getMonitoringSiteDao();

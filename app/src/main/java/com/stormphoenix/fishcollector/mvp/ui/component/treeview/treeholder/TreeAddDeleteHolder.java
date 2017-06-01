@@ -12,6 +12,7 @@ import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.mvp.model.beans.FractureSurface;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+import com.stormphoenix.fishcollector.mvp.ui.component.treeview.TreeViewListener;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces.ITreeView;
 import com.stormphoenix.fishcollector.shared.constants.ModelConstant;
 import com.stormphoenix.fishcollector.shared.constants.ModelConstantMap;
@@ -111,7 +112,7 @@ public class TreeAddDeleteHolder extends TreeNode.BaseNodeViewHolder<ITreeView.T
         arrowView.setIconText(context.getResources().getString(active ? R.string.ic_keyboard_arrow_down : R.string.ic_keyboard_arrow_right));
     }
 
-    public static interface ItemAddDeleteListener {
+    public static interface ItemAddDeleteListener extends TreeViewListener{
         void onItemAddBtnClicked(TreeNode node, String key, String value);
 
         void onItemDeleteBtnClicked(TreeNode node);
