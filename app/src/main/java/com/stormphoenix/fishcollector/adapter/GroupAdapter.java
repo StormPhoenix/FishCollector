@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.stormphoenix.fishcollector.R;
-import com.stormphoenix.fishcollector.network.model.Group;
+import com.stormphoenix.fishcollector.network.model.Acc;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ import java.util.List;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class GroupAdapter extends BaseRecyclerAdapter<Group> {
+public class GroupAdapter extends BaseRecyclerAdapter<Acc> {
 
-    public GroupAdapter(Context context, List<Group> members) {
+    public GroupAdapter(Context context, List<Acc> members) {
         super(context, members);
         mContext = context;
         data = members;
@@ -34,28 +34,37 @@ public class GroupAdapter extends BaseRecyclerAdapter<Group> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_groups, parent, false);
-        GroupHolder holder = new GroupHolder(mContext, view);
+        AccountHolder holder = new AccountHolder(mContext, view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        GroupHolder groupHolder = (GroupHolder) holder;
-        groupHolder.bind(data.get(position));
+        AccountHolder accountHolder = (AccountHolder) holder;
+        accountHolder.bind(data.get(position), position);
     }
 
-    public static class GroupHolder extends RecyclerView.ViewHolder {
+    public static class AccountHolder extends RecyclerView.ViewHolder {
         Context context = null;
         TextView name;
+        TextView memberPos;
 
-        public GroupHolder(Context context, View itemView) {
+        public AccountHolder(Context context, View itemView) {
             super(itemView);
             this.context = context;
-            name = (TextView) itemView.findViewById(R.id.text_group_name);
+            name = (TextView) itemView.findViewById(R.id.text_username);
+            memberPos = (TextView) itemView.findViewById(R.id.text_user_position);
         }
 
-        public void bind(Group group) {
-            name.setText(group.groupName);
+        public void bind(Acc account, int pos) {
+            name.setText(account.name);
+            if (pos == 0) {
+                memberPos.setText("组长");
+                memberPos.setTextColor(context.getResources().getColor(R.color.colorAccent));
+            } else {
+                memberPos.setText("组员");
+                memberPos.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            }
         }
     }
 }

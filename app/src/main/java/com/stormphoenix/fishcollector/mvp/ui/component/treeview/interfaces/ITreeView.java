@@ -23,12 +23,28 @@ public interface ITreeView {
 
     void setItemOprationListener(TreeAddDeleteHolder.ItemAddDeleteListener listener);
 
-    void addNode(TreeNode node, TreeItem item);
+    void addNode(TreeNode node, DataTreeItem item);
 
     void deleteNode(TreeNode node);
 
-    public static class TreeItem {
-        public TreeItem(String modelConstant) {
+    public static class MemberTreeItem {
+        private String username;
+
+        public MemberTreeItem(String username) {
+            this.username = username;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+    }
+
+    public static class DataTreeItem {
+        public DataTreeItem(String modelConstant) {
             this.modelConstant = modelConstant;
         }
 

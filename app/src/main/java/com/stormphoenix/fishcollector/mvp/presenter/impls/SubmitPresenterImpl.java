@@ -16,8 +16,6 @@ import com.stormphoenix.fishcollector.network.model.GroupRecord;
 import com.stormphoenix.fishcollector.shared.ConfigUtils;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
 
-import java.security.MessageDigest;
-
 /**
  * Created by Developer on 17-1-19.
  * Wang Cheng is a intelligent Android developer.
@@ -38,7 +36,7 @@ public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView
 
     @Override
     public void submit(String modelType, BaseModel model) {
-        HttpMethod.getInstance().submitModel(modelType, model, this);
+        HttpMethod.getInstance().uploadModel(modelType, model, this);
     }
 
     @Override

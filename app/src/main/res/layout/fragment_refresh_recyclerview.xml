@@ -34,6 +34,6 @@
             android:layout_below="@id/img_empty"
             android:gravity="center"
             android:padding="10dp"
-            android:text="@string/empty_group_prompt" />
+            android:text="@string/empty_members" />
     </RelativeLayout>
 </RelativeLayout>

@@ -1,8 +1,6 @@
 package com.stormphoenix.fishcollector.mvp.ui.component.treeview.treeholder;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -19,11 +17,11 @@ import com.stormphoenix.fishcollector.shared.constants.ModelConstantMap;
 import com.unnamed.b.atv.model.TreeNode;
 
 /**
- * Created by Developer on 16-12-26.
- * Wang Cheng is a intelligent Android developer.
+ * Created by StormPhoenix on 17-6-2.
+ * StormPhoenix is a intelligent Android developer.
  */
 
-public class TreeAddDeleteHolder extends TreeNode.BaseNodeViewHolder<ITreeView.DataTreeItem> {
+public class TreeAddHolder extends TreeNode.BaseNodeViewHolder<ITreeView.DataTreeItem> {
     public static final String TAG = "TreeAddDeleteHolder";
 
     private TextView tvValue;
@@ -31,21 +29,21 @@ public class TreeAddDeleteHolder extends TreeNode.BaseNodeViewHolder<ITreeView.D
     private PrintView arrowView;
     private Context context;
 
-    private ItemAddDeleteListener listener = null;
+    private TreeAddHolder.ItemAddListener listener = null;
 
-    public TreeAddDeleteHolder(Context context) {
+    public TreeAddHolder(Context context) {
         super(context);
         this.context = context;
     }
 
-    public void setItemOperationListener(ItemAddDeleteListener listener) {
+    public void setItemOperationListener(TreeAddHolder.ItemAddListener listener) {
         this.listener = listener;
     }
 
     @Override
     public View createNodeView(final TreeNode node, final ITreeView.DataTreeItem value) {
         final LayoutInflater inflater = LayoutInflater.from(context);
-        final View view = inflater.inflate(R.layout.tree_add_delete_node, null, false);
+        final View view = inflater.inflate(R.layout.tree_add_node, null, false);
 
         BaseModel attachedModel = value.getAttachedModel();
         // 节点名字
@@ -71,35 +69,8 @@ public class TreeAddDeleteHolder extends TreeNode.BaseNodeViewHolder<ITreeView.D
             @Override
             public void onClick(View v) {
                 if (listener != null) {
-                    listener.onItemAddBtnClicked(node, "model_name", value.modelConstant);
+                    listener.onItemAddBtnClicked(node, "model_id", value.modelConstant);
                 }
-            }
-        });
-
-        view.findViewById(R.id.btn_delete).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(context.getString(R.string.delete));
-                builder.setMessage(context.getString(R.string.sure_to_delete));
-                builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        if (listener != null) {
-                            listener.onItemDeleteBtnClicked(node);
-                        }
-                        getTreeView().removeNode(node);
-                    }
-                });
-                builder.setCancelable(false);
-                builder.create().show();
             }
         });
         return view;
@@ -110,9 +81,7 @@ public class TreeAddDeleteHolder extends TreeNode.BaseNodeViewHolder<ITreeView.D
         arrowView.setIconText(context.getResources().getString(active ? R.string.ic_keyboard_arrow_down : R.string.ic_keyboard_arrow_right));
     }
 
-    public static interface ItemAddDeleteListener extends TreeViewListener {
+    public static interface ItemAddListener extends TreeViewListener {
         void onItemAddBtnClicked(TreeNode node, String key, String value);
-
-        void onItemDeleteBtnClicked(TreeNode node);
     }
 }

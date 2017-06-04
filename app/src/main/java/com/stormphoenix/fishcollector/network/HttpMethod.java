@@ -7,6 +7,7 @@ import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
 import com.stormphoenix.fishcollector.network.apis.UserApi;
 import com.stormphoenix.fishcollector.network.model.GroupRecord;
+import com.stormphoenix.fishcollector.network.model.TaskTable;
 import com.stormphoenix.fishcollector.shared.ConfigUtils;
 import com.stormphoenix.fishcollector.shared.JsonParser;
 import com.stormphoenix.fishcollector.shared.NetManager;
@@ -151,7 +152,7 @@ public class HttpMethod {
     }
 
     public Subscription submitModelWithPhoto(String modelType, BaseModel model, final RequestCallback<HttpResult<Void>> callback) {
-        return submitModel(modelType, model, callback);
+        return uploadModel(modelType, model, callback);
 //        callback.beforeRequest();
 //        String[] paths = null;
 //        try {
@@ -198,13 +199,37 @@ public class HttpMethod {
 //                });
     }
 
-    public Subscription submitModel(String modelType, BaseModel model, final RequestCallback<HttpResult<Void>> callback) {
+    public Subscription uploadModel(String modelType, BaseModel model, final RequestCallback<HttpResult<Void>> callback) {
         callback.beforeRequest();
 
         RequestBody modelBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), JsonParser.getInstance().toJson(model));
-        return userApi.submitModel(modelType,
+        return userApi.uploadModel(modelType,
                 ConfigUtils.getInstance().getUsername(),
                 ConfigUtils.getInstance().getPassword(),
+                modelBody)
+                .compose(RxJavaCustomTransformer.<HttpResult<Void>>defaultSchedulers())
+                .subscribe(new Subscriber<HttpResult<Void>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(HttpResult<Void> result) {
+                        callback.success(result);
+                    }
+                });
+    }
+
+    public Subscription uploadTaskTable(String username, String password, TaskTable taskTable, final RequestCallback<HttpResult<Void>> callback) {
+        callback.beforeRequest();
+        RequestBody modelBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), JsonParser.getInstance().toJson(taskTable));
+        return userApi.uploadTaskTable(username,
+                password,
                 modelBody)
                 .compose(RxJavaCustomTransformer.<HttpResult<Void>>defaultSchedulers())
                 .subscribe(new Subscriber<HttpResult<Void>>() {

@@ -22,7 +22,7 @@ import com.unnamed.b.atv.model.TreeNode;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class TreeChooseHolder extends TreeNode.BaseNodeViewHolder<ITreeView.TreeItem> {
+public class TreeChooseHolder extends TreeNode.BaseNodeViewHolder<ITreeView.DataTreeItem> {
     public static final String TAG = TreeChooseHolder.class.getSimpleName();
     private PrintView arrowView;
     private TextView nodeValue;
@@ -44,7 +44,7 @@ public class TreeChooseHolder extends TreeNode.BaseNodeViewHolder<ITreeView.Tree
     }
 
     @Override
-    public View createNodeView(TreeNode node, ITreeView.TreeItem value) {
+    public View createNodeView(TreeNode node, ITreeView.DataTreeItem value) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         final View view = inflater.inflate(R.layout.tree_choose_node, null, false);
         // 节点名字

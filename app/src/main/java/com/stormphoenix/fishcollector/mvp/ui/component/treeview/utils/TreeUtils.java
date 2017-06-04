@@ -22,15 +22,15 @@ public class TreeUtils {
 
     public static TreeNode createTaskTreeNode(Context context, BaseModel model, TreeChooseHolder.ItemChosenListener listener) {
         String modelClassName = model.getClass().getName();
-        ITreeView.TreeItem treeItem = new ITreeView.TreeItem(modelClassName);
+        ITreeView.DataTreeItem dataTreeItem = new ITreeView.DataTreeItem(modelClassName);
         Log.e(TAG, "createTreeNode: " + model.getClass().getName());
-        treeItem.setAttachedModel(model);
+        dataTreeItem.setAttachedModel(model);
         /** ********* 设置对应的fragment ********** **/
 //        BaseFragment attachedFragment = (BaseFragment) Fragment.instantiate(context, ModelConstantMap.getHolder(modelClassName).fragmentClassName);
-//        treeItem.setAttachedFragment(attachedFragment);
+//        dataTreeItem.setAttachedFragment(attachedFragment);
 //        attachedFragment.setModel(model);
 
-        TreeNode treeNode = new TreeNode(treeItem);
+        TreeNode treeNode = new TreeNode(dataTreeItem);
         TreeChooseHolder holder = new TreeChooseHolder(context);
         holder.setItemChosenListener(listener);
         treeNode.setViewHolder(holder);
@@ -46,18 +46,18 @@ public class TreeUtils {
      */
     public static TreeNode createTreeNode(Context context, BaseModel model, TreeAddDeleteHolder.ItemAddDeleteListener listener) {
         String modelClassName = model.getClass().getName();
-        // 创建一个 TreeItem 保存 BaseModel 的信息
-        ITreeView.TreeItem treeItem = new ITreeView.TreeItem(modelClassName);
+        // 创建一个 DataTreeItem 保存 BaseModel 的信息
+        ITreeView.DataTreeItem dataTreeItem = new ITreeView.DataTreeItem(modelClassName);
         Log.e(TAG, "createTreeNode: " + model.getClass().getName());
-        treeItem.setAttachedModel(model);
+        dataTreeItem.setAttachedModel(model);
 
-        /** ********* 设置对应的 fragment， 将其添加到 TreeItem 里面 ********** **/
+        /** ********* 设置对应的 fragment， 将其添加到 DataTreeItem 里面 ********** **/
         BaseFragment attachedFragment = (BaseFragment) Fragment.instantiate(context, ModelConstantMap.getHolder(modelClassName).fragmentClassName);
-        treeItem.setAttachedFragment(attachedFragment);
+        dataTreeItem.setAttachedFragment(attachedFragment);
         attachedFragment.setModel(model);
 
-        // TreeItem 传入 TreeNode
-        TreeNode treeNode = new TreeNode(treeItem);
+        // DataTreeItem 传入 TreeNode
+        TreeNode treeNode = new TreeNode(dataTreeItem);
         TreeAddDeleteHolder holder = new TreeAddDeleteHolder(context);
         holder.setItemOperationListener(listener);
         treeNode.setViewHolder(holder);

@@ -105,4 +105,8 @@ public class Constants {
     public static final int NO_MONITOR_DATA = 112;
     // 下载所有数据成功
     public static final int PULL_ALL_DATA_SUCCESS = 113;
+    // 用户不是组长
+    public static final int USER_IS_NOT_HEADER = 114;
+    // 成功
+    public static final int SUCCESS = 0;
 }

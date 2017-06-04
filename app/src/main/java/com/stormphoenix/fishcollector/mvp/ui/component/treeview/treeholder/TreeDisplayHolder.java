@@ -1,8 +1,6 @@
 package com.stormphoenix.fishcollector.mvp.ui.component.treeview.treeholder;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -22,7 +20,7 @@ import com.unnamed.b.atv.model.TreeNode;
  * Wang Cheng is a intelligent Android developer.
  */
 
-public class TreeDisplayHolder extends TreeNode.BaseNodeViewHolder<ITreeView.TreeItem> {
+public class TreeDisplayHolder extends TreeNode.BaseNodeViewHolder<ITreeView.DataTreeItem> {
     public static final String TAG = "TreeAddDeleteHolder";
 
     private TextView nodeValue;
@@ -36,7 +34,7 @@ public class TreeDisplayHolder extends TreeNode.BaseNodeViewHolder<ITreeView.Tre
     }
 
     @Override
-    public View createNodeView(final TreeNode node, final ITreeView.TreeItem value) {
+    public View createNodeView(final TreeNode node, final ITreeView.DataTreeItem value) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         final View view = inflater.inflate(R.layout.tree_display_node, null, false);
 

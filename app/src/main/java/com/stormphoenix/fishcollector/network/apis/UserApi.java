@@ -20,15 +20,20 @@ import rx.Observable;
  */
 
 public interface UserApi {
+    // 上传组长的分配表
+    @POST("user/upload_task_table")
+    Observable<HttpResult<Void>> uploadTaskTable(@Query("username") String username,
+                                                 @Query("password") String password,
+                                                 @Body RequestBody tableBody);
+
     // 用户登录，返回关于该用户的组信息
     @GET("user/pull_all_models")
     Observable<HttpResult<List<MonitoringSite>>> downloadAllModel(@Query("username") String username, @Query("password") String password);
 
-
     // 用户提交数据
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("user/submit_model")
-    Observable<HttpResult<Void>> submitModel(@Query("model_type") String modelType,
+    Observable<HttpResult<Void>> uploadModel(@Query("model_type") String modelType,
                                              @Query("username") String username,
                                              @Query("password") String password,
                                              @Body RequestBody modelBody);

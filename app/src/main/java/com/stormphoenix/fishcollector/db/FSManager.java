@@ -1,8 +1,9 @@
 package com.stormphoenix.fishcollector.db;
 
-import com.google.gson.Gson;
 import com.stormphoenix.fishcollector.FishApplication;
 import com.stormphoenix.fishcollector.network.model.GroupRecord;
+import com.stormphoenix.fishcollector.network.model.TaskEntry;
+import com.stormphoenix.fishcollector.network.model.TaskTable;
 import com.stormphoenix.fishcollector.shared.JsonParser;
 
 import java.io.BufferedReader;
@@ -14,6 +15,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by StormPhoenix on 17-5-4.
@@ -89,5 +94,37 @@ public class FSManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    synchronized public void saveTaskEntry(String username, String modelId) {
+        GroupRecord recordContent = getRecordContent();
+        TaskTable taskTable = null;
+        Map<String, Set<TaskEntry>> taskEntries = null;
+        Set<TaskEntry> entries = null;
+
+        if (recordContent.taskTable == null) {
+            taskTable = new TaskTable();
+            taskTable.groupId = recordContent.group.groupId;
+            recordContent.taskTable = taskTable;
+        } else {
+            taskTable = recordContent.taskTable;
+        }
+
+        if (taskTable.taskEntries == null) {
+            taskEntries = new HashMap<>();
+            taskTable.taskEntries = taskEntries;
+        } else {
+            taskEntries = taskTable.taskEntries;
+        }
+
+        if (taskEntries.containsKey(username)) {
+            taskEntries.get(username).add(new TaskEntry(modelId));
+        } else {
+            entries = new HashSet<>();
+            TaskEntry taskEntry = new TaskEntry(modelId);
+            entries.add(taskEntry);
+            taskEntries.put(username, entries);
+        }
+        saveRecordContent(recordContent);
     }
 }

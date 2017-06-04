@@ -117,7 +117,7 @@ public class TreeTaskViewImpl implements ITreeView {
             return null;
         }
 
-        return ((TreeItem) (root.getChildren().get(0).getValue())).getAttachedFragment();
+        return ((DataTreeItem) (root.getChildren().get(0).getValue())).getAttachedFragment();
     }
 
     @Override
@@ -126,7 +126,7 @@ public class TreeTaskViewImpl implements ITreeView {
     }
 
     @Override
-    public void addNode(TreeNode node, TreeItem item) {
+    public void addNode(TreeNode node, DataTreeItem item) {
         TreeNode parentTreeNode = null;
         TreeNode tempNode = null;
 

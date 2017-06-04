@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_upload_task_header"
+        android:icon="@mipmap/ic_account_balance_wallet_white_24dp"
+        android:title="@string/action_upload_local_task"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_refresh_task_header"
+        android:icon="@mipmap/ic_account_balance_wallet_white_24dp"
+        android:title="@string/action_refresh_task"
+        app:showAsAction="never" />
+</menu>

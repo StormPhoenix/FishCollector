@@ -143,6 +143,7 @@ public class MainActivity extends BaseActivity {
                 }
                 currentNode = node;
                 Intent view = new Intent(MainActivity.this, DialogStyleActivity.class);
+                view.putExtra(DialogStyleActivity.SHOW_TYPE, DialogStyleActivity.SHOW_TYPE_SUB_MODELS);
                 view.putExtra(key, value);
                 startActivityForResult(view, REQUEST_CODE_ADD_NODE);
             }
@@ -150,9 +151,9 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onItemDeleteBtnClicked(TreeNode node) {
 //                treeView.deleteNode(node);
-                BaseModel attachedModel = ((ITreeView.TreeItem) (node.getValue())).getAttachedModel();
+                BaseModel attachedModel = ((ITreeView.DataTreeItem) (node.getValue())).getAttachedModel();
                 dbManager.delete(attachedModel);
-                if (((ITreeView.TreeItem) (node.getValue())).getAttachedFragment() == currentFragment) {
+                if (((ITreeView.DataTreeItem) (node.getValue())).getAttachedFragment() == currentFragment) {
                     getFragmentManager().beginTransaction()
                             .remove(currentFragment)
                             .commit();
@@ -164,7 +165,7 @@ public class MainActivity extends BaseActivity {
         nodeClickListener = new TreeNode.TreeNodeClickListener() {
             @Override
             public void onClick(TreeNode node, Object value) {
-                ITreeView.TreeItem item = (ITreeView.TreeItem) value;
+                ITreeView.DataTreeItem item = (ITreeView.DataTreeItem) value;
                 String modelClassName = item.modelConstant;
                 mEmptyDisplayWrapper.setVisibility(View.GONE);
                 BaseFragment attachedFragment = item.getAttachedFragment();
@@ -252,18 +253,17 @@ public class MainActivity extends BaseActivity {
                 }
             }
         }
-        TreeNode.BaseNodeViewHolder holder = new TreeAddDeleteHolder(MainActivity.this);
-        if (treeBuilder == null) {
-            this.treeBuilder = new TreeBuilder(
-                    MainActivity.this,
-                    datas,
-                    TreeBuilder.TREE_HOLDER_ADD_AND_DELETE,
-                    listener);
-            this.treeBuilder.setNodeClickListener(nodeClickListener);
-        }
+        this.treeBuilder = new TreeBuilder(
+                MainActivity.this,
+                datas,
+                TreeBuilder.TREE_HOLDER_ADD_AND_DELETE,
+                listener,
+                false);
+        this.treeBuilder.setNodeClickListener(nodeClickListener);
         treeBuilder.buildTree();
-        View view = treeBuilder.getView();
-        treeViewWrapper.addView(view);
+        treeViewWrapper.removeAllViews();
+        treeViewWrapper.addView(treeBuilder.getView());
+        System.gc();
     }
 
     // 请求添加监测点
@@ -274,18 +274,18 @@ public class MainActivity extends BaseActivity {
         model.setId(modelMainKey);
 
         // 创建了一个 tree 节点
-        ITreeView.TreeItem treeItem = new ITreeView.TreeItem(MonitoringSite.class.getName());
-        treeItem.setAttachedModel(model);
+        ITreeView.DataTreeItem dataTreeItem = new ITreeView.DataTreeItem(MonitoringSite.class.getName());
+        dataTreeItem.setAttachedModel(model);
 
         BaseFragment attachedFragment = (BaseFragment) Fragment.instantiate(this, ModelConstantMap.getHolder(ModelConstant.MONITORING_SITE).fragmentClassName);
         attachedFragment.setModel(model);
-        treeItem.setAttachedFragment(attachedFragment);
+        dataTreeItem.setAttachedFragment(attachedFragment);
 
-        treeBuilder.addNode(null, treeItem);
+        treeBuilder.addNode(null, dataTreeItem);
     }
 
     private void addNewNode(String modelClassName) {
-        BaseModel attachedModel = ((ITreeView.TreeItem) currentNode.getValue()).getAttachedModel();
+        BaseModel attachedModel = ((ITreeView.DataTreeItem) currentNode.getValue()).getAttachedModel();
         if (attachedModel == null) {
             Log.e(TAG, "addNewNode: model == null");
         }
@@ -295,15 +295,15 @@ public class MainActivity extends BaseActivity {
         Long saveId = saveLocal(resultObj);
         resultObj.setId(saveId);
 
-        ITreeView.TreeItem treeItem = new ITreeView.TreeItem(modelClassName);
-        treeItem.setAttachedModel(resultObj);
+        ITreeView.DataTreeItem dataTreeItem = new ITreeView.DataTreeItem(modelClassName);
+        dataTreeItem.setAttachedModel(resultObj);
 
         Log.e(TAG, "addNewNode: " + ModelConstantMap.getHolder(resultObj.getClass().getName()).fragmentClassName);
         BaseFragment attachedFragment = (BaseFragment) Fragment.instantiate(this, ModelConstantMap.getHolder(resultObj.getClass().getName()).fragmentClassName);
         attachedFragment.setModel(resultObj);
-        treeItem.setAttachedFragment(attachedFragment);
+        dataTreeItem.setAttachedFragment(attachedFragment);
 
-        treeBuilder.addNode(currentNode, treeItem);
+        treeBuilder.addNode(currentNode, dataTreeItem);
     }
 
     private Long saveLocal(BaseModel modelObj) {
@@ -398,6 +398,11 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_manager_group_header:
+                // 管理组
+                Intent intent = new Intent(MainActivity.this, GroupTaskActivity.class);
+                startActivity(intent);
+                break;
             case R.id.action_create_group:
                 showCreateGroupDialog();
                 break;
@@ -535,8 +540,8 @@ public class MainActivity extends BaseActivity {
             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                 String groupId = editText.getText().toString().trim();
                 // 开始请求数据
-                requestJoinGroup(groupId);
                 generator.cancel();
+                requestJoinGroup(groupId);
             }
         });
         generator.setActionButton(DialogAction.POSITIVE, getString(R.string.ok));
@@ -570,14 +575,14 @@ public class MainActivity extends BaseActivity {
         HttpMethod.getInstance().joinGroup(groupId, new RequestCallback<HttpResult<GroupRecord>>() {
             @Override
             public void beforeRequest() {
-                if (generator == null) {
+                if (MainActivity.this.generator == null) {
                     generator = new ProgressDialogGenerator(MainActivity.this);
                 }
-                generator.title(getString(R.string.uploading_group));
-                generator.content(getString(R.string.please_waiting));
-                generator.circularProgress();
-                generator.cancelable(false);
-                generator.show();
+                MainActivity.this.generator.title(getString(R.string.join_group));
+                MainActivity.this.generator.content(getString(R.string.please_waiting));
+                MainActivity.this.generator.circularProgress();
+                MainActivity.this.generator.cancelable(false);
+                MainActivity.this.generator.show();
             }
 
             @Override
@@ -597,9 +602,44 @@ public class MainActivity extends BaseActivity {
                             public void run() {
                                 FSManager.getInstance().saveRecordContent(data.getData());
                                 ConfigUtils.getInstance().setUserGroupId(data.getData().group.groupId);
-                                generator.cancel();
                                 // 因为是创建了分组，所以修改标题栏的菜单，同时弹出对话框显示返回的组id
-                                mHandler.sendEmptyMessage(MSG_FINISH_JOIN_GROUP);
+                                // 然后下载数据，更新界面
+                                // 保存完毕后开始下载节点树木数据
+                                HttpMethod.getInstance().downloadAllModels(ConfigUtils.getInstance().getUsername(),
+                                        ConfigUtils.getInstance().getPassword(), new RequestCallback<HttpResult<List<MonitoringSite>>>() {
+                                            @Override
+                                            public void beforeRequest() {
+                                            }
+
+                                            @Override
+                                            public void success(HttpResult<List<MonitoringSite>> data) {
+                                                switch (data.getResultCode()) {
+                                                    case Constants.USER_NOT_EXISTS:
+                                                        Log.e(TAG, "USER_NOT_EXISTS");
+                                                        finish();
+                                                        break;
+                                                    case Constants.USER_NOT_IN_GROUP:
+                                                        Log.e(TAG, "USER_NOT_IN_GROUP");
+                                                        finish();
+                                                        break;
+                                                    case Constants.NO_MONITOR_DATA:
+                                                        mHandler.sendEmptyMessage(MSG_FINISH_CREATE_GROUP);
+                                                        break;
+                                                    case Constants.PULL_ALL_DATA_SUCCESS:
+                                                        new DbManager(MainActivity.this).saveModels(data.getData());
+                                                        refreshTreeView();
+                                                        setMainContent();
+                                                        mHandler.sendEmptyMessage(MSG_FINISH_CREATE_GROUP);
+                                                        break;
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onError(String errorMsg) {
+                                                Log.e(TAG, "onError: " + errorMsg);
+                                                mHandler.sendEmptyMessage(MSG_FINISH_CREATE_GROUP);
+                                            }
+                                        });
                             }
                         }).start();
                         break;

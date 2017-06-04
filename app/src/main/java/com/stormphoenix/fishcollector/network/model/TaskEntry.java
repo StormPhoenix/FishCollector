@@ -14,4 +14,29 @@ public class TaskEntry {
     public long modifyTime;
     @Expose
     public long accessTime;
+
+    public TaskEntry() {
+    }
+
+    public TaskEntry(String modelId) {
+        this.modelId = modelId;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof TaskEntry) {
+            if (((TaskEntry) obj).modelId.equals(modelId)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return modelId.hashCode();
+    }
 }

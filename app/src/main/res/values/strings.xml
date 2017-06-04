@@ -554,7 +554,11 @@
     <string name="action_exit">退出</string>
     <string name="input_group_id">输入分组id</string>
     <string name="action_download_all">下载所有数据</string>
-    <string name="empty_data_prompt_member">尚无任何数据\\n请等待组长添加监测点</string>
+    <string name="empty_data_prompt_member">尚无任何数据\n请等待组长添加监测点</string>
     <string name="empty_data_prompt_not_in_group">请加入组</string>
     <string name="uploading_model">提交数据</string>
+    <string name="group_member">组内成员</string>
+    <string name="empty_members">尚无任何成员</string>
+    <string name="action_upload_local_task">提交任务分配表</string>
+    <string name="action_refresh_task">刷新任务分配表</string>
 </resources>
