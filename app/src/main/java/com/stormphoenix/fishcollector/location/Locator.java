@@ -23,6 +23,8 @@ public class Locator {
         if (PermissionsUtils.checkLocationPermissions(context)) {
             locationPresenter.attachView(view);
             locationPresenter.locate();
+        } else {
+            PermissionsUtils.requestLocationPermissions(context);
         }
     }
 }
