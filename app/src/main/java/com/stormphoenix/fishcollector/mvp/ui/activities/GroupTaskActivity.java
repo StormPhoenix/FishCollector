@@ -70,6 +70,7 @@ public class GroupTaskActivity extends AppCompatActivity {
 
     private void initViews() {
         toolbar.setTitle(getString(R.string.manager_group));
+        toolbar.setTitle(ConfigUtils.getInstance().getUserGroupId());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

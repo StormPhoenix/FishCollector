@@ -159,7 +159,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
 
     protected void uploadModel(BaseModel model) {
         if (model != null) {
-            submitPresenter.submit(model.getClass().getSimpleName(), model);
+            submitPresenter.submitModel(model.getClass().getSimpleName(), model);
         }
     }
 

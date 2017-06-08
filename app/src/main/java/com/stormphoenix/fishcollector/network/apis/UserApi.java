@@ -32,11 +32,19 @@ public interface UserApi {
 
     // 用户提交数据
     @Headers({"Content-Type: application/json", "Accept: application/json"})
-    @POST("user/submit_model")
-    Observable<HttpResult<Void>> uploadModel(@Query("model_type") String modelType,
+    @POST("user/upload_model")
+    Observable<HttpResult<Void>> uploadModel(@Query("username") String username,
+                                             @Query("password") String password,
+                                             @Query("model_type") String modelType,
+                                             @Body RequestBody modelBody);
+
+    // 用户提交图片数据
+    @POST("user/upload_photo")
+    Observable<HttpResult<Void>> uploadPhoto(@Query("model_type") String modelType,
                                              @Query("username") String username,
                                              @Query("password") String password,
-                                             @Body RequestBody modelBody);
+                                             @Query("model_id") String modelId,
+                                             @Body RequestBody body);
 
     // 用户登录，返回关于该用户的组信息
     @GET("user/login")

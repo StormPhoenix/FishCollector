@@ -1,10 +1,17 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments.base;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+import com.stormphoenix.fishcollector.mvp.ui.dialog.UploadDialogGenerator;
 import com.stormphoenix.fishcollector.shared.PicturePathUtils;
+import com.stormphoenix.fishcollector.shared.ReflectUtils;
 import com.stormphoenix.imagepicker.LocalVariables;
 import com.stormphoenix.imagepicker.bean.ImageItem;
 
@@ -23,7 +30,16 @@ public abstract class BaseImageListFragment extends BaseFragment {
     protected int maxImgCount;
     protected ImagePickerAdapter adapter;
     protected ArrayList<ImageItem> selImageList;
-    private String TAG = "BaseImageListFragment";
+    public static final String TAG = BaseImageListFragment.class.getSimpleName();
+
+    private UploadDialogGenerator uploadDialogGenerator = null;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        uploadDialogGenerator = new UploadDialogGenerator(getActivity());
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
 
     protected void updatePicturesData() {
         selImageList = new ArrayList<>();
@@ -70,8 +86,11 @@ public abstract class BaseImageListFragment extends BaseFragment {
     @Override
     protected void uploadModel(BaseModel model) {
         if (model != null && model.checkValue()) {
-//            super.uploadModel();
-            submitPresenter.submitWithPhoto(model.getClass().getSimpleName(), model);
+            String[] paths = ReflectUtils.getModelPhotoPaths(model);
+            uploadDialogGenerator.setProgressCount(paths.length);
+            uploadDialogGenerator.build();
+            uploadDialogGenerator.setCancelable(false);
+            submitPresenter.submitModelAndPhoto(model.getClass().getSimpleName(), model, paths, uploadDialogGenerator);
         } else {
             Snackbar.make(mFragmentView, "数据不完善，无法提交", Snackbar.LENGTH_SHORT).show();
         }

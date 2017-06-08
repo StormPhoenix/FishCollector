@@ -8,6 +8,7 @@ import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.presenter.impls.base.BasePresenterImpl;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.SubmitPresenter;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
+import com.stormphoenix.fishcollector.mvp.ui.dialog.UploadDialogGenerator;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.mvp.view.SubmitSingleModelView;
 import com.stormphoenix.fishcollector.network.HttpMethod;
@@ -35,13 +36,69 @@ public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView
     }
 
     @Override
-    public void submit(String modelType, BaseModel model) {
+    public void submitModel(String modelType, BaseModel model) {
         HttpMethod.getInstance().uploadModel(modelType, model, this);
     }
 
+    /**
+     * 提交ｍｏｄｅｌ和ｐｈｏｔｏｓ，但是一定要注意等待ｍｏｄｅｌ提交完了再继续添加
+     *
+     * @param modelType
+     * @param model
+     * @param paths
+     * @param generator
+     */
     @Override
-    public void submitWithPhoto(String modelType, BaseModel model) {
-        HttpMethod.getInstance().submitModelWithPhoto(modelType, model, this);
+    public void submitModelAndPhoto(final String modelType, final BaseModel model, final String paths[], final UploadDialogGenerator generator) {
+        HttpMethod.getInstance().uploadModel(modelType, model, new RequestCallback<HttpResult<Void>>() {
+            @Override
+            public void beforeRequest() {
+                mBaseView.showProgress();
+            }
+
+            @Override
+            public void success(HttpResult<Void> data) {
+                switch (data.getResultCode()) {
+                    case Constants.USER_NOT_EXISTS:
+                    case Constants.USER_NOT_IN_GROUP:
+                    case Constants.GROUP_NOT_EXISTS:
+                    case Constants.ERROR:
+                        mBaseView.hideProgress();
+                        mBaseView.onSubmitError("发生严重错误，错误码是：" + data.getResultCode());
+                        break;
+                    case Constants.SUBMIT_SUCCESS:
+                        // 提交成功，继续提交图片
+                        mBaseView.hideProgress();
+                        generator.show();
+                        if (paths != null && paths.length != 0) {
+                            HttpMethod.getInstance().uploadPhoto(modelType, model.getModelId(), paths, generator.getWrapper());
+                        }
+                        break;
+                    case Constants.SUBMIT_NO_RIGHT:
+                        mBaseView.hideProgress();
+                        mBaseView.onSubmitError("您没有权限提交数据");
+                        break;
+                    case Constants.UPPER_NODE_NOT_EXISTS:
+                        mBaseView.hideProgress();
+                        mBaseView.onSubmitError("请您先提交上级数据");
+                        break;
+                    case Constants.TASK_TABLE_NOT_EXISTS:
+                        mBaseView.hideProgress();
+                        mBaseView.onSubmitError("分配表不存在，请等待组长分配");
+                        break;
+                    default:
+                        mBaseView.hideProgress();
+                        mBaseView.onSubmitError("未知错误");
+                        break;
+                }
+            }
+
+            @Override
+            public void onError(String errorMsg) {
+                mBaseView.hideProgress();
+                mBaseView.onSubmitError(errorMsg);
+            }
+        });
     }
 
     @Override
@@ -62,8 +119,17 @@ public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView
                 // 每次提交成功都要更新数据
                 refreshLocalFile();
                 break;
+            case Constants.UPPER_NODE_NOT_EXISTS:
+                mBaseView.hideProgress();
+                mBaseView.onSubmitError(data.getResultMessage());
+                break;
+            case Constants.TASK_TABLE_NOT_EXISTS:
+                mBaseView.hideProgress();
+                mBaseView.onSubmitError("分配表不存在，请等待组长分配");
+                break;
             default:
                 mBaseView.hideProgress();
+                mBaseView.onSubmitError("发生了严重错误");
                 break;
 //            case 0:
 //                mBaseView.onSubmitSuccess();

@@ -77,6 +77,8 @@ public class Constants {
 
     public static final int REQUEST_GET_PHOTO_FROM_CAMERA = 11;
 
+    // 错误信息
+    public static final int ERROR = 1;
     // 用户登录失败，或者用户不存在
     public static final int LOGIN_FAILED = 100;
     // 用户登录成功，并且在组内
@@ -107,6 +109,18 @@ public class Constants {
     public static final int PULL_ALL_DATA_SUCCESS = 113;
     // 用户不是组长
     public static final int USER_IS_NOT_HEADER = 114;
+    // 分配表不存在
+    public static final int TASK_TABLE_NOT_EXISTS = 115;
+    // 上级节点不存在
+    public static final int UPPER_NODE_NOT_EXISTS = 116;
     // 成功
     public static final int SUCCESS = 0;
+    // 上传图片失败
+    public static final int UPLOAD_PHOTO_FAILED = 117;
+    // 上传图片成功
+    public static final int UPLOAD_PHOTO_SUCCESS = 118;
+    // 查找的ＭＯＤＥＬ不存在
+    public static final int MODEL_NOT_EXISTS = 119;
+    // 不允许提交
+    public static final int UPLOAD_PHOTO_NOT_ALLOW = 120;
 }

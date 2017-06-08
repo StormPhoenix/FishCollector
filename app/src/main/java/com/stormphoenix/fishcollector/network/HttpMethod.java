@@ -5,17 +5,22 @@ import android.util.Log;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
+import com.stormphoenix.fishcollector.mvp.ui.dialog.UploadDialogGenerator;
 import com.stormphoenix.fishcollector.network.apis.UserApi;
 import com.stormphoenix.fishcollector.network.model.GroupRecord;
 import com.stormphoenix.fishcollector.network.model.TaskTable;
+import com.stormphoenix.fishcollector.network.progress.ProgressHelper;
+import com.stormphoenix.fishcollector.network.progress.UIProgressRequestListener;
 import com.stormphoenix.fishcollector.shared.ConfigUtils;
 import com.stormphoenix.fishcollector.shared.JsonParser;
 import com.stormphoenix.fishcollector.shared.NetManager;
 import com.stormphoenix.fishcollector.shared.rxutils.RxJavaCustomTransformer;
 
+import java.io.File;
 import java.util.List;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Retrofit;
@@ -151,61 +156,46 @@ public class HttpMethod {
                 });
     }
 
-    public Subscription submitModelWithPhoto(String modelType, BaseModel model, final RequestCallback<HttpResult<Void>> callback) {
-        return uploadModel(modelType, model, callback);
-//        callback.beforeRequest();
-//        String[] paths = null;
-//        try {
-//            Method getPicMethod = model.getClass().getMethod("getPhoto", (Class[]) null);
-//            String path = (String) getPicMethod.invoke(model, null);
-//            paths = PicturePathUtils.processPicturePath(path);
-//        } catch (NoSuchMethodException e) {
-//            e.printStackTrace();
-//        } catch (InvocationTargetException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            Log.e(TAG, "submitModelWithPhoto: " + e.toString());
-//        }
-//        if (paths == null) {
-//            return null;
-//        }
-//
-//        MultipartBody.Builder builder = new MultipartBody.Builder();
-//        for (String path : paths) {
-//            File file = new File(path);
-//            builder.addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
-//        }
-//        builder.addFormDataPart("json", JsonParser.getInstance().toJson(model));
-//
-//        return submitSingleModelApi.submitWithPhoto(modelType, builder.build())
-//                .compose(RxJavaCustomTransformer.<HttpResult<Void>>defaultSchedulers())
-//                .subscribe(new Subscriber<HttpResult<Void>>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        callback.onError(e.toString());
-//                    }
-//
-//                    @Override
-//                    public void onNext(HttpResult<Void> result) {
-//                        callback.success(result);
-//                    }
-//                });
+    /**
+     * 提交图片
+     */
+    public void uploadPhoto(String modelType, String modelId, String[] paths, final UploadDialogGenerator.ProgressBarsWrapper wrapper) {
+        for (int index = 0; index < paths.length; index++) {
+            final int finalIndex = index;
+            UIProgressRequestListener progressListener = new UIProgressRequestListener() {
+                @Override
+                public void onUIRequestProgress(long bytesWrite, long contentLength, boolean done) {
+                    Log.e(TAG, "onUIRequestProgress: is done " + done);
+                    //ui层回调
+                    int value = (int) (((float) bytesWrite) / contentLength * 100);
+                    wrapper.setProgress(finalIndex, value, done);
+                }
+            };
+            // 可能有多张图片，每一张图片对应一次请求
+            upload(modelType, modelId, paths[index], progressListener);
+        }
+    }
+
+    private void upload(String modelType, String modelId, String imagePath, UIProgressRequestListener progressListener) {
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        File file = new File(imagePath);
+        MultipartBody body = new MultipartBody.Builder().addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("image/*"), file)).build();
+        userApi.uploadPhoto(modelType,
+                ConfigUtils.getInstance().getUsername(),
+                ConfigUtils.getInstance().getPassword(),
+                modelId,
+                ProgressHelper.addProgressRequestListener(body, progressListener))
+                .compose(RxJavaCustomTransformer.<HttpResult<Void>>defaultSchedulers())
+                .subscribe();
     }
 
     public Subscription uploadModel(String modelType, BaseModel model, final RequestCallback<HttpResult<Void>> callback) {
         callback.beforeRequest();
 
         RequestBody modelBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), JsonParser.getInstance().toJson(model));
-        return userApi.uploadModel(modelType,
-                ConfigUtils.getInstance().getUsername(),
+        return userApi.uploadModel(ConfigUtils.getInstance().getUsername(),
                 ConfigUtils.getInstance().getPassword(),
+                modelType,
                 modelBody)
                 .compose(RxJavaCustomTransformer.<HttpResult<Void>>defaultSchedulers())
                 .subscribe(new Subscriber<HttpResult<Void>>() {
