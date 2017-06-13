@@ -31,7 +31,6 @@ public class CatchTools extends BaseObservable implements BaseModel {
     private String name;
     //照片路径，多个路径用分号隔开
     @Nullable
-    @Expose
     private String photo;
     //网型
     @Nullable

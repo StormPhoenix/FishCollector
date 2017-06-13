@@ -57,7 +57,6 @@ public class MonitoringSite extends BaseObservable implements BaseModel, Cloneab
     @Expose
     private String river;
     @Nullable
-    @Expose
     private String photo;
     @Nullable
     @Expose

@@ -30,7 +30,6 @@ public class DominantPhytoplanktonSpecies extends BaseObservable implements Base
     @Expose
     private String name;
     @Nullable
-    @Expose
     private String photo;
     @Nullable
     @Expose

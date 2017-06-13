@@ -27,6 +27,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_download_photos_header"
+        android:icon="@mipmap/ic_account_balance_wallet_white_24dp"
+        android:title="@string/action_download_photos"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_save_header"
         android:icon="@mipmap/ic_account_balance_wallet_white_24dp"
         android:title="@string/action_save"

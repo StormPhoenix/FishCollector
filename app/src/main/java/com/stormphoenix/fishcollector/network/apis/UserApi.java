@@ -20,6 +20,12 @@ import rx.Observable;
  */
 
 public interface UserApi {
+    @GET("/user/download_photos_info")
+    Observable<HttpResult<List<String>>> downloadPhotosInfo(@Query("username") String username,
+                                                            @Query("password") String password,
+                                                            @Query("model_id") String modelId,
+                                                            @Query("modle_type") String modelType);
+
     // 上传组长的分配表
     @POST("user/upload_task_table")
     Observable<HttpResult<Void>> uploadTaskTable(@Query("username") String username,

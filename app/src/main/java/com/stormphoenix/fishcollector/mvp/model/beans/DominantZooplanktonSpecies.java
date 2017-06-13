@@ -29,7 +29,6 @@ public class DominantZooplanktonSpecies extends BaseObservable implements BaseMo
     @Expose
     private String name;
     @Nullable
-    @Expose
     private String photo;
     @Nullable
     @Expose

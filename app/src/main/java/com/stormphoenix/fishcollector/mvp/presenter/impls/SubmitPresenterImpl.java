@@ -8,7 +8,7 @@ import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.presenter.impls.base.BasePresenterImpl;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.SubmitPresenter;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
-import com.stormphoenix.fishcollector.mvp.ui.dialog.UploadDialogGenerator;
+import com.stormphoenix.fishcollector.mvp.ui.dialog.MultiProgressDialogGenerator;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.mvp.view.SubmitSingleModelView;
 import com.stormphoenix.fishcollector.network.HttpMethod;
@@ -49,7 +49,7 @@ public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView
      * @param generator
      */
     @Override
-    public void submitModelAndPhoto(final String modelType, final BaseModel model, final String paths[], final UploadDialogGenerator generator) {
+    public void submitModelAndPhoto(final String modelType, final BaseModel model, final String paths[], final MultiProgressDialogGenerator generator) {
         HttpMethod.getInstance().uploadModel(modelType, model, new RequestCallback<HttpResult<Void>>() {
             @Override
             public void beforeRequest() {

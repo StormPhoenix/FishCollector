@@ -5,7 +5,7 @@ import android.util.Log;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
-import com.stormphoenix.fishcollector.mvp.ui.dialog.UploadDialogGenerator;
+import com.stormphoenix.fishcollector.mvp.ui.dialog.MultiProgressDialogGenerator;
 import com.stormphoenix.fishcollector.network.apis.UserApi;
 import com.stormphoenix.fishcollector.network.model.GroupRecord;
 import com.stormphoenix.fishcollector.network.model.TaskTable;
@@ -159,7 +159,7 @@ public class HttpMethod {
     /**
      * 提交图片
      */
-    public void uploadPhoto(String modelType, String modelId, String[] paths, final UploadDialogGenerator.ProgressBarsWrapper wrapper) {
+    public void uploadPhoto(String modelType, String modelId, String[] paths, final MultiProgressDialogGenerator.ProgressBarsWrapper wrapper) {
         for (int index = 0; index < paths.length; index++) {
             final int finalIndex = index;
             UIProgressRequestListener progressListener = new UIProgressRequestListener() {
@@ -186,7 +186,42 @@ public class HttpMethod {
                 modelId,
                 ProgressHelper.addProgressRequestListener(body, progressListener))
                 .compose(RxJavaCustomTransformer.<HttpResult<Void>>defaultSchedulers())
-                .subscribe();
+                .subscribe(new Subscriber<HttpResult<Void>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // do something
+                        Log.e(TAG, "onError: " + e.toString());
+                    }
+
+                    @Override
+                    public void onNext(HttpResult<Void> result) {
+                    }
+                });
+    }
+
+    public Subscription downloadPhotosInfo(String username, String password, String modelId, String modelType, final RequestCallback<HttpResult<List<String>>> callback) {
+        callback.beforeRequest();
+        return userApi.downloadPhotosInfo(username, password, modelId, modelType)
+                .compose(RxJavaCustomTransformer.<HttpResult<List<String>>>defaultSchedulers())
+                .subscribe(new Subscriber<HttpResult<List<String>>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(HttpResult<List<String>> result) {
+                        callback.success(result);
+                    }
+                });
     }
 
     public Subscription uploadModel(String modelType, BaseModel model, final RequestCallback<HttpResult<Void>> callback) {

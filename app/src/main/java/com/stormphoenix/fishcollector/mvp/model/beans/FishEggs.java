@@ -26,7 +26,6 @@ public class FishEggs extends BaseObservable implements BaseModel {
     @SerializedName("sampelId")
     private String modelId;
     @Nullable
-    @Expose
     private String photo;
     @Nullable
     @Expose

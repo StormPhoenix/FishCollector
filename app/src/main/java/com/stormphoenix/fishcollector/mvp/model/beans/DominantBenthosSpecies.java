@@ -30,7 +30,6 @@ public class DominantBenthosSpecies extends BaseObservable implements BaseModel 
     @Expose
     private String name;
     @Nullable
-    @Expose
     private String photo;
     @Nullable
     @Expose

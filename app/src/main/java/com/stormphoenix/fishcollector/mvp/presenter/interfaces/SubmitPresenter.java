@@ -1,10 +1,7 @@
 package com.stormphoenix.fishcollector.mvp.presenter.interfaces;
 
-import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
-import com.stormphoenix.fishcollector.mvp.ui.dialog.UploadDialogGenerator;
-
-import java.util.List;
+import com.stormphoenix.fishcollector.mvp.ui.dialog.MultiProgressDialogGenerator;
 
 /**
  * Created by Developer on 17-1-19.
@@ -14,5 +11,5 @@ import java.util.List;
 public interface SubmitPresenter {
     public void submitModel(String modelType, BaseModel model);
 
-    public void submitModelAndPhoto(String modelType, BaseModel model, String paths[], UploadDialogGenerator barsWrapper);
+    public void submitModelAndPhoto(String modelType, BaseModel model, String paths[], MultiProgressDialogGenerator barsWrapper);
 }

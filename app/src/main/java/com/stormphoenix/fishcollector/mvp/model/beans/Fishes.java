@@ -25,7 +25,6 @@ public class Fishes extends BaseObservable implements BaseModel {
     @SerializedName("sampleId")
     private String modelId;
     @Nullable
-    @Expose
     private String photo;
     @Nullable
     @Expose

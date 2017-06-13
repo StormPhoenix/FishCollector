@@ -471,6 +471,39 @@ public class MainActivity extends BaseActivity {
                     currentFragment.uploadModel();
                 }
                 break;
+            case R.id.action_download_photos_header:
+            case R.id.action_download_photos_member:
+                if (currentFragment != null) {
+                    BaseModel attachedBean = currentFragment.getAttachedBean();
+                    HttpMethod.getInstance().downloadPhotosInfo(ConfigUtils.getInstance().getUsername(), ConfigUtils.getInstance().getPassword(), attachedBean.getModelId(), attachedBean.getClass().getSimpleName(),
+                            new RequestCallback<HttpResult<List<String>>>() {
+                                @Override
+                                public void beforeRequest() {
+                                    if (generator == null) {
+                                        generator = new ProgressDialogGenerator(MainActivity.this);
+                                    }
+                                    generator.cancelable(false);
+                                    generator.circularProgress();
+                                    generator.title("下载数据");
+                                    generator.content("下载中...");
+                                    generator.show();
+                                }
+
+                                @Override
+                                public void success(HttpResult<List<String>> data) {
+                                    generator.cancel();
+//                                    。。
+                                    Log.e(TAG, "success: " + data.getData().toString());
+                                }
+
+                                @Override
+                                public void onError(String errorMsg) {
+                                    generator.cancel();
+                                }
+                            }
+                    );
+                }
+                break;
             case R.id.action_save_header:
             case R.id.action_save_member:
                 if (currentFragment != null) {

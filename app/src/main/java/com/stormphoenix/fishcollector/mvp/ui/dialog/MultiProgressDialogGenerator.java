@@ -21,7 +21,7 @@ import java.util.List;
  * StormPhoenix is a intelligent Android developer.
  */
 
-public class UploadDialogGenerator {
+public class MultiProgressDialogGenerator {
 
     private Activity context;
     private View dialogView;
@@ -44,9 +44,9 @@ public class UploadDialogGenerator {
     public static class ProgressBarsWrapper {
         private List<NumberProgressBar> pbs;
         private boolean[] dones;
-        private UploadDialogGenerator generator;
+        private MultiProgressDialogGenerator generator;
 
-        public ProgressBarsWrapper(UploadDialogGenerator generator, List<NumberProgressBar> bars) {
+        public ProgressBarsWrapper(MultiProgressDialogGenerator generator, List<NumberProgressBar> bars) {
             pbs = bars;
             dones = new boolean[bars.size()];
             this.generator = generator;
@@ -71,7 +71,7 @@ public class UploadDialogGenerator {
         }
     }
 
-    public UploadDialogGenerator(Activity context) {
+    public MultiProgressDialogGenerator(Activity context) {
         this.context = context;
     }
 
