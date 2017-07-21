@@ -10,6 +10,7 @@ import com.stormphoenix.fishcollector.mvp.presenter.interfaces.SubmitPresenter;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
 import com.stormphoenix.fishcollector.mvp.ui.dialog.MultiProgressDialogGenerator;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
+import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.mvp.view.SubmitSingleModelView;
 import com.stormphoenix.fishcollector.network.HttpMethod;
 import com.stormphoenix.fishcollector.network.HttpResult;
@@ -71,7 +72,7 @@ public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView
                         mBaseView.hideProgress();
                         generator.show();
                         if (paths != null && paths.length != 0) {
-                            HttpMethod.getInstance().uploadPhoto(modelType, model.getModelId(), paths, generator.getWrapper());
+                            HttpMethod.getInstance().uploadPhotos(modelType, model.getModelId(), paths, generator.getWrapper());
                         }
                         break;
                     case Constants.SUBMIT_NO_RIGHT:
@@ -99,6 +100,11 @@ public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView
                 mBaseView.onSubmitError(errorMsg);
             }
         });
+    }
+
+    @Override
+    public void downloadPhotos(BaseModel model, String[] paths, MultiProgressDialogGenerator generator, BaseImageListFragment fragment) {
+        HttpMethod.getInstance().downloadPhotos(model, paths, generator.getWrapper(),fragment);
     }
 
     @Override

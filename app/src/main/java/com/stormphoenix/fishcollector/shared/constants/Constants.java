@@ -123,4 +123,6 @@ public class Constants {
     public static final int MODEL_NOT_EXISTS = 119;
     // 不允许提交
     public static final int UPLOAD_PHOTO_NOT_ALLOW = 120;
+    // 没有照片
+    public static final int NO_PHOTOS = 121;
 }

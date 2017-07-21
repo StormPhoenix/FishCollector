@@ -13,7 +13,8 @@ public class NetManager {
     public static String getBaseUrl() {
 //        return "http://fish.yfi.ac.cn:9000/";
 //        return "http://119.28.77.220:9000/";
-        return "http://192.168.3.51:9000/";
+//        return "http://192.168.1.114:9000/";
+        return "http://192.168.3.58:9000/";
 //        return "http://10.164.13.7:9000/";
 //        return "http://192.168.1.108/fish_server/";
     }

@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.stormphoenix.fishcollector.FishApplication;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
+import com.stormphoenix.fishcollector.db.DbManager;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.ui.dialog.MultiProgressDialogGenerator;
-import com.stormphoenix.fishcollector.shared.PicturePathUtils;
+import com.stormphoenix.fishcollector.shared.PhotosPathUtils;
 import com.stormphoenix.fishcollector.shared.ReflectUtils;
 import com.stormphoenix.imagepicker.LocalVariables;
 import com.stormphoenix.imagepicker.bean.ImageItem;
@@ -19,6 +21,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Developer on 17-1-17.
@@ -32,16 +35,18 @@ public abstract class BaseImageListFragment extends BaseFragment {
     protected ArrayList<ImageItem> selImageList;
     public static final String TAG = BaseImageListFragment.class.getSimpleName();
 
-    private MultiProgressDialogGenerator multiProgressDialogGenerator = null;
+    private MultiProgressDialogGenerator uploadPDGenerator = null;
+    private MultiProgressDialogGenerator downloadPDGenerator = null;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        multiProgressDialogGenerator = new MultiProgressDialogGenerator(getActivity());
+        uploadPDGenerator = new MultiProgressDialogGenerator(getActivity());
+        downloadPDGenerator = new MultiProgressDialogGenerator(getActivity());
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    protected void updatePicturesData() {
+    public void updatePicturesData() {
         selImageList = new ArrayList<>();
 
         Method getPhotoMethod = null;
@@ -64,17 +69,30 @@ public abstract class BaseImageListFragment extends BaseFragment {
             e.printStackTrace();
         }
 
-        String[] paths = PicturePathUtils.processPicturePath(path);
+        String[] paths = PhotosPathUtils.processPhotosPath(path);
         if (paths != null) {
+            List<String> pathsList = new ArrayList<>();
+//                    Arrays.asList(path);
             for (String tempPath : paths) {
-                if (!new File(tempPath).exists()) {
+                if (new File(tempPath).exists()) {
+                    // 如果图片不存在说明图片没有下载下来，此处最好把这个字段去掉
+                    pathsList.add(tempPath);
+                } else {
                     continue;
                 }
                 ImageItem item = new ImageItem();
                 item.path = tempPath;
                 selImageList.add(item);
             }
+            if (pathsList.size() == 0) {
+                ReflectUtils.setModelPhotoPaths(attachedBean, (String) null);
+            } else {
+                String[] results = new String[pathsList.size()];
+                ReflectUtils.setModelPhotoPaths(attachedBean, pathsList.toArray(results));
+            }
+            new DbManager(FishApplication.getInstance()).save(attachedBean);
         }
+
         adapter.setImages(selImageList);
     }
 
@@ -84,13 +102,46 @@ public abstract class BaseImageListFragment extends BaseFragment {
     }
 
     @Override
+    public void downloadPhotos(List photoNames) {
+        if (attachedBean != null) {
+            downloadPDGenerator.setProgressCount(photoNames.size());
+            downloadPDGenerator.build();
+            downloadPDGenerator.setCancelable(false);
+            // 这里要判断服务器下载下来的图片是否与本地重复，如果重复就不用下载了
+            // 判断依据是图片的名字是否重复
+            String[] modelPaths = ReflectUtils.getModelPhotoPaths(attachedBean);
+            if (modelPaths != null && modelPaths.length != 0) {
+                for (String path : modelPaths) {
+                    for (String photoName : (List<String>) photoNames) {
+                        String name = path.substring(path.lastIndexOf(File.separatorChar) + 1);
+                        if (name.equals(photoName)) {
+                            photoNames.remove(photoName);
+                        }
+                    }
+                }
+            }
+
+            if (photoNames.size() == 0) {
+                return;
+            }
+
+            String[] paths = new String[photoNames.size()];
+            for (int i = 0; i < photoNames.size(); i++) {
+                paths[i] = (String) photoNames.get(i);
+            }
+            submitPresenter.downloadPhotos(attachedBean, paths, downloadPDGenerator, this);
+        }
+    }
+
+    @Override
     protected void uploadModel(BaseModel model) {
         if (model != null && model.checkValue()) {
             String[] paths = ReflectUtils.getModelPhotoPaths(model);
-            multiProgressDialogGenerator.setProgressCount(paths.length);
-            multiProgressDialogGenerator.build();
-            multiProgressDialogGenerator.setCancelable(false);
-            submitPresenter.submitModelAndPhoto(model.getClass().getSimpleName(), model, paths, multiProgressDialogGenerator);
+            uploadPDGenerator.setProgressCount(paths.length);
+            uploadPDGenerator.build();
+            uploadPDGenerator.setCancelable(false);
+            // 为了赶工，这里写的很乱
+            submitPresenter.submitModelAndPhoto(model.getClass().getSimpleName(), model, paths, uploadPDGenerator);
         } else {
             Snackbar.make(mFragmentView, "数据不完善，无法提交", Snackbar.LENGTH_SHORT).show();
         }
@@ -125,7 +176,7 @@ public abstract class BaseImageListFragment extends BaseFragment {
             for (String tempPath : LocalVariables.newImageFilePaths) {
                 File tempFile = new File(tempPath);
                 if (tempFile.exists()) {
-                    photoPaths = PicturePathUtils.appendPath(photoPaths, tempPath);
+                    photoPaths = PhotosPathUtils.appendPath(photoPaths, tempPath);
                 }
             }
 

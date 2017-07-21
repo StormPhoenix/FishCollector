@@ -59,4 +59,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.daimajia.numberprogressbar:library:1.4@aar'
+    compile 'org.greenrobot:essentials:3.0.0-RC1'
 }

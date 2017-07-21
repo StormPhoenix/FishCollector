@@ -12,6 +12,24 @@ import okhttp3.Response;
  * StormPhoenix is a intelligent Android developer.
  */
 public class ProgressHelper {
+
+    public static OkHttpClient createClientWithProgressResponseListener( final ProgressResponseListener progressListener){
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.networkInterceptors().add(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                //拦截
+                Response originalResponse = chain.proceed(chain.request());
+                //包装响应体并返回
+                return originalResponse.newBuilder()
+                        .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                        .build();
+            }
+        });
+        return builder.build();
+    }
+
+
     /**
      * 包装OkHttpClient，用于下载文件的回调
      * @param client 待包装的OkHttpClient

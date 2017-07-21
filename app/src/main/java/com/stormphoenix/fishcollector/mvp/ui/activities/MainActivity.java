@@ -1,8 +1,10 @@
 package com.stormphoenix.fishcollector.mvp.ui.activities;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -183,6 +186,11 @@ public class MainActivity extends BaseActivity {
         btnAddSite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 先判断是否在组内。。。
+                if (ConfigUtils.getInstance().getUserGroupId() == null) {
+                    Snackbar.make(contentMain, getString(R.string.user_not_in_group_can_not_add_data), Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle(getString(R.string.add_monitor));
                 builder.setMessage(getString(R.string.sure_to_add_monitor));
@@ -473,35 +481,12 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.action_download_photos_header:
             case R.id.action_download_photos_member:
-                if (currentFragment != null) {
-                    BaseModel attachedBean = currentFragment.getAttachedBean();
-                    HttpMethod.getInstance().downloadPhotosInfo(ConfigUtils.getInstance().getUsername(), ConfigUtils.getInstance().getPassword(), attachedBean.getModelId(), attachedBean.getClass().getSimpleName(),
-                            new RequestCallback<HttpResult<List<String>>>() {
-                                @Override
-                                public void beforeRequest() {
-                                    if (generator == null) {
-                                        generator = new ProgressDialogGenerator(MainActivity.this);
-                                    }
-                                    generator.cancelable(false);
-                                    generator.circularProgress();
-                                    generator.title("下载数据");
-                                    generator.content("下载中...");
-                                    generator.show();
-                                }
-
-                                @Override
-                                public void success(HttpResult<List<String>> data) {
-                                    generator.cancel();
-//                                    。。
-                                    Log.e(TAG, "success: " + data.getData().toString());
-                                }
-
-                                @Override
-                                public void onError(String errorMsg) {
-                                    generator.cancel();
-                                }
-                            }
-                    );
+                // 下载图片
+                // 首先要检查是否有存储权限，没有的话就无法存储图片
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 110);
+                } else {
+                    downloadPhotos();
                 }
                 break;
             case R.id.action_save_header:
@@ -559,6 +544,61 @@ public class MainActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void downloadPhotos() {
+        if (currentFragment != null) {
+            BaseModel attachedBean = currentFragment.getAttachedBean();
+            HttpMethod.getInstance().downloadPhotosInfo(ConfigUtils.getInstance().getUsername(), ConfigUtils.getInstance().getPassword(), attachedBean.getModelId(), attachedBean.getClass().getSimpleName(),
+                    new RequestCallback<HttpResult<List<String>>>() {
+                        @Override
+                        public void beforeRequest() {
+                            if (generator == null) {
+                                generator = new ProgressDialogGenerator(MainActivity.this);
+                            }
+                            generator.cancelable(false);
+                            generator.circularProgress();
+                            generator.title("下载数据");
+                            generator.content("下载中...");
+                            generator.show();
+                        }
+
+                        @Override
+                        public void success(HttpResult<List<String>> data) {
+                            generator.cancel();
+//                                    下载图片信息成功，继续下载图片
+                            Log.e(TAG, "success: " + data.toString());
+                            switch (data.getResultCode()) {
+                                case Constants.USER_NOT_EXISTS:
+                                    Snackbar.make(contentMain, getString(R.string.user_not_exists), Snackbar.LENGTH_LONG).show();
+                                    break;
+                                case Constants.USER_NOT_IN_GROUP:
+                                    Snackbar.make(contentMain, getString(R.string.user_not_in_group), Snackbar.LENGTH_LONG).show();
+                                    break;
+                                case Constants.NO_PHOTOS:
+                                    Snackbar.make(contentMain, getString(R.string.no_photos), Snackbar.LENGTH_LONG).show();
+                                    break;
+                                case Constants.SUCCESS:
+                                    if (data.getData() != null || data.getData().size() != 0) {
+                                        // 图片信息获取成功，且图片不为空
+                                        if (currentFragment != null) {
+                                            currentFragment.downloadPhotos(data.getData());
+                                            break;
+                                        }
+                                    }
+                                    Snackbar.make(contentMain, getString(R.string.no_photos), Snackbar.LENGTH_LONG).show();
+                                    break;
+                            }
+                        }
+
+                        @Override
+                        public void onError(String errorMsg) {
+                            Log.e(TAG, "failed: " + errorMsg);
+                            generator.cancel();
+                        }
+                    }
+            );
+        }
     }
 
     private void showJoinGroupDialog() {
@@ -755,5 +795,17 @@ public class MainActivity extends BaseActivity {
             currentFragment = null;
         }
         System.gc();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 110) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                downloadPhotos();
+            } else {
+                Snackbar.make(contentMain, "未获得存储权限，无法下载图片", Snackbar.LENGTH_SHORT).show();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

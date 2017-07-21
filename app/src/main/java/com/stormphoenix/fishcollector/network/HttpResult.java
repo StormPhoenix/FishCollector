@@ -11,6 +11,11 @@ public class HttpResult<T> {
     @Expose
     private T data;
 
+    @Override
+    public String toString() {
+        return "{ resultCode:" + resultCode + " , resultMessage:" + resultMessage + " }";
+    }
+
     public int getResultCode() {
         return resultCode;
     }

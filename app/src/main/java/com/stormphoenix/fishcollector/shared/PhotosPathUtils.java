@@ -9,8 +9,16 @@ import java.util.List;
  * Wang Cheng is a intelligent Android developer.
  */
 
-public class PicturePathUtils {
-    public static String[] processPicturePath(String path) {
+public class PhotosPathUtils {
+    public static String mergePhotosPath(String[] paths) {
+        String result = null;
+        for (String path : paths) {
+            result = appendPath(result, path);
+        }
+        return result;
+    }
+
+    public static String[] processPhotosPath(String path) {
         if (path == null) {
             return null;
         }

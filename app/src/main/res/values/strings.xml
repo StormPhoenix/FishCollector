@@ -563,4 +563,8 @@
     <string name="action_refresh_task">刷新任务分配表</string>
     <string name="group_id">组ＩＤ：</string>
     <string name="action_download_photos">下载当前页面的照片</string>
+    <string name="user_not_exists">用户不存在</string>
+    <string name="user_not_in_group">用户不在组中</string>
+    <string name="no_photos">用户没有图片</string>
+    <string name="user_not_in_group_can_not_add_data">用户不在组内，无法添加数据</string>
 </resources>

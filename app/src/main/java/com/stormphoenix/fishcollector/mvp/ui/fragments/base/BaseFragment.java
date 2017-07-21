@@ -23,6 +23,8 @@ import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.BasePresente
 import com.stormphoenix.fishcollector.mvp.ui.dialog.ProgressDialogGenerator;
 import com.stormphoenix.fishcollector.mvp.view.SubmitSingleModelView;
 
+import java.util.List;
+
 import butterknife.ButterKnife;
 import rx.Subscription;
 
@@ -119,7 +121,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
                 submitDialogGenerator.cancel();
             }
         };
-        submitPresenter = new SubmitPresenterImpl(mHandler ,submitSingleModelView);
+        submitPresenter = new SubmitPresenterImpl(mHandler, submitSingleModelView);
         super.onStart();
     }
 
@@ -151,6 +153,9 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
         } else {
             Snackbar.make(mFragmentView, "数据不完善，无法提交", Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    public void downloadPhotos(List<String> photoNames) {
     }
 
     public BaseModel getAttachedBean() {
