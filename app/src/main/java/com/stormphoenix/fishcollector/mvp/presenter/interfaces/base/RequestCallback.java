@@ -5,12 +5,12 @@ package com.stormphoenix.fishcollector.mvp.presenter.interfaces.base;
  */
 
 public interface RequestCallback<T> {
-	// called when request is post
+    // called when request is post
     void beforeRequest();
 
-	// called when reponse is return success
+    // called when reponse is return success
     void success(T data);
 
-	// called when error is occurred
+    // called when error is occurred
     void onError(String errorMsg);
 }

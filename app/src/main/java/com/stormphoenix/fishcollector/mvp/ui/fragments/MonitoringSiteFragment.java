@@ -31,7 +31,6 @@ import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragmen
 import com.stormphoenix.fishcollector.mvp.view.LocationView;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
-import com.stormphoenix.fishcollector.shared.textutils.DefaultTextWatcher;
 import com.stormphoenix.imagepicker.FishImageType;
 import com.stormphoenix.imagepicker.ImagePicker;
 import com.stormphoenix.imagepicker.bean.ImageItem;
@@ -100,7 +99,8 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
 //    private String site = null;
 
     MonitoringSite model = null;
-    Locator locator = null;
+    Locator startPosLocator = null;
+    Locator endPosLocator = null;
     LocationView startLocationView;
     LocationView endLocationView;
 
@@ -139,13 +139,14 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
 //        cityIndex = AddressUtils.getCityIndex();
 //        detailAddress = AddressUtils.getAddressDetails();
 //        site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
-        locator = new Locator();
 
         startLocationView = new LocationView() {
             @Override
             public void onLocationSuccess(double longitude, double latitude) {
                 etStartLongitude.setText(String.valueOf(longitude));
                 etStartLatitude.setText(String.valueOf(latitude));
+                ((MonitoringSite) attachedBean).setStartLongitude((float) longitude);
+                ((MonitoringSite) attachedBean).setStartLatitude((float) latitude);
             }
 
             @Override
@@ -172,6 +173,8 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
             public void onLocationSuccess(double longitude, double latitude) {
                 etEndLongitude.setText(String.valueOf(longitude));
                 etEndLatitude.setText(String.valueOf(latitude));
+                ((MonitoringSite) attachedBean).setEndLongitude((float) longitude);
+                ((MonitoringSite) attachedBean).setEndLatitude((float) latitude);
             }
 
             @Override
@@ -192,6 +195,9 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
                 pbEndLocation.setVisibility(View.GONE);
             }
         };
+
+        startPosLocator = new Locator(startLocationView);
+        endPosLocator = new Locator(endLocationView);
 
         onDateSetListener = new TimeSelectorDialogGenerator.DefaultTimeSetListener() {
             @Override
@@ -225,6 +231,7 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e(TAG, "onItemSelected: " + position);
                 if (position == -1) {
+                    model.setWeather(null);
                     return;
                 } else {
                     model.setWeather(Constants.SAMPLE_WEATHER[position]);
@@ -240,14 +247,15 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
         if (model.getWeather() != null) {
             for (int index = 0; index < Constants.SAMPLE_WEATHER.length; index++) {
                 if (model.getWeather().equals(Constants.SAMPLE_WEATHER[index])) {
-                    spinWeather.setSelection(index);
+                    spinWeather.setSelection(index + 1);
                     break;
                 }
             }
         } else {
-            spinWeather.setSelection(0);
-            model.setWeather(Constants.SAMPLE_WEATHER[0]);
+            spinWeather.setSelection(-1);
+            model.setWeather(null);
         }
+
         etTemperature.addTextChangedListener(new DefaultFloatTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -260,67 +268,17 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
                 ((MonitoringSite) attachedBean).setTemperature(text);
             }
         });
-
-        etStartLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                try {
-                    super.afterTextChanged(s);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
-                    text = 0;
-                }
-                ((MonitoringSite) attachedBean).setStartLatitude(text);
-            }
-        });
-
-        etStartLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                try {
-                    super.afterTextChanged(s);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
-                    text = 0;
-                }
-                ((MonitoringSite) attachedBean).setStartLongitude(text);
-            }
-        });
-        etEndLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                try {
-                    super.afterTextChanged(s);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
-                    text = 0;
-                }
-                ((MonitoringSite) attachedBean).setEndLatitude(text);
-            }
-        });
-        etEndLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                try {
-                    super.afterTextChanged(s);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
-                    text = 0;
-                }
-                ((MonitoringSite) attachedBean).setEndLongitude(text);
-            }
-        });
-
-        etDetailsAddress.setText(model.getSite());
-        etDetailsAddress.addTextChangedListener(new DefaultTextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                super.afterTextChanged(s);
-//                detailAddress = text;
-//                site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
-                ((MonitoringSite) attachedBean).setSite(text);
-            }
-        });
+//
+//        etDetailsAddress.setText(model.getSite());
+//        etDetailsAddress.addTextChangedListener(new DefaultTextWatcher() {
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                super.afterTextChanged(s);
+////                detailAddress = text;
+////                site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
+//                ((MonitoringSite) attachedBean).setSite(text);
+//            }
+//        });
 
 //        spinProvince.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, Constants.PROVINCE));
 //        spinProvince.setSelection(cityPosition);
@@ -411,10 +369,10 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_start_location:
-                locator.startLocate(startLocationView, getActivity());
+                startPosLocator.startLocate(getActivity());
                 break;
             case R.id.img_end_location:
-                locator.startLocate(endLocationView, getActivity());
+                endPosLocator.startLocate(getActivity());
                 break;
             case R.id.img_select_date_monitor:
                 Log.e(TAG, "onClick: et_date");

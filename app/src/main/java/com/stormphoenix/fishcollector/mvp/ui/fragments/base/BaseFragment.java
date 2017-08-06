@@ -35,42 +35,17 @@ import rx.Subscription;
 
 public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
 
+    public static final int HIDE_PROGRESS_AND_SUCCESS = 0;
+    public static final int HIDE_PROGRESS_BUT_FAILED = 1;
     private static final String TAG = "BaseFragment";
     protected T mPresenter;
     protected View mFragmentView;
     protected Subscription mSubscription;
-
     protected ViewDataBinding binding = null;
     protected BaseModel attachedBean = null;
-
-    public void setModel(BaseModel model) {
-        this.attachedBean = model;
-    }
-
-    public void save() {
-        DbManager manager = new DbManager(getActivity());
-        if (attachedBean != null) {
-            manager.save(attachedBean);
-            Snackbar.make(mFragmentView, "保存成功", Snackbar.LENGTH_SHORT).show();
-        }
-    }
-
-    public void updateData() {
-    }
-
-    protected abstract int getLayoutId();
-
-    protected abstract void initVariables();
-
-    protected abstract void initViews(View view);
-
     protected ProgressDialogGenerator submitDialogGenerator;
     protected SubmitSingleModelView submitSingleModelView;
     protected SubmitPresenter submitPresenter;
-
-    public static final int HIDE_PROGRESS_AND_SUCCESS = 0;
-    public static final int HIDE_PROGRESS_BUT_FAILED = 1;
-
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -88,6 +63,26 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
             }
         }
     };
+
+    public void setModel(BaseModel model) {
+        this.attachedBean = model;
+    }
+
+    public void save() {
+        DbManager manager = new DbManager(getActivity());
+        if (attachedBean != null) {
+            manager.save(attachedBean);
+        }
+    }
+
+    public void updateData() {
+    }
+
+    protected abstract int getLayoutId();
+
+    protected abstract void initVariables();
+
+    protected abstract void initViews(View view);
 
     @Override
     public void onStart() {

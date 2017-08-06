@@ -23,17 +23,6 @@ import java.util.List;
  */
 @Entity
 public class MonitoringSite extends BaseObservable implements BaseModel, Cloneable {
-    @Override
-    public MonitoringSite clone() {
-        MonitoringSite obj = null;
-        try {
-            obj = (MonitoringSite) super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        return obj;
-    }
-
     /**
      * 这个是给后台使用的主键，用时间拼凑的
      */
@@ -84,11 +73,9 @@ public class MonitoringSite extends BaseObservable implements BaseModel, Cloneab
     private float temperature;
     @Nullable
     private int userId;
-
     // ***********************************
     @Id
     private Long id;
-
     @Expose
     @SerializedName("fractureSurfacesByInverstigationId")
     @ToMany(referencedJoinProperty = "foreignKey")
@@ -103,7 +90,6 @@ public class MonitoringSite extends BaseObservable implements BaseModel, Cloneab
      */
     @Generated(hash = 1608688954)
     private transient MonitoringSiteDao myDao;
-
     @Generated(hash = 1479612113)
     public MonitoringSite(String modelId, String institution, String investigator,
                           String investigationDate, String site, String river, String photo,
@@ -134,6 +120,17 @@ public class MonitoringSite extends BaseObservable implements BaseModel, Cloneab
     }
 
     @Override
+    public MonitoringSite clone() {
+        MonitoringSite obj = null;
+        try {
+            obj = (MonitoringSite) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
+
+    @Override
     public boolean checkValue() {
         if (modelId == null ||
                 institution == null ||
@@ -141,13 +138,8 @@ public class MonitoringSite extends BaseObservable implements BaseModel, Cloneab
                 investigationDate == null ||
                 site == null ||
                 river == null ||
-                photo == null ||
                 startTime == null ||
                 endTime == null ||
-                startLatitude == 0 ||
-                startLongitude == 0 ||
-                endLatitude == 0 ||
-                endLongitude == 0 ||
                 id == null) {
             return false;
         } else {

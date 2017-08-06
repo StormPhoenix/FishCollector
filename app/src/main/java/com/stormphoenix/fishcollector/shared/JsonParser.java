@@ -15,6 +15,13 @@ public class JsonParser {
 
     private Gson gson;
 
+    private JsonParser() {
+        gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                .create();
+    }
+
     public static JsonParser getInstance() {
         if (instance == null) {
             synchronized (JsonParser.class) {
@@ -28,13 +35,6 @@ public class JsonParser {
 
     public Gson getGson() {
         return gson;
-    }
-
-    private JsonParser() {
-        gson = new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
-                .setDateFormat("yyyy-MM-dd HH:mm:ss")
-                .create();
     }
 
     public Object fromJson(String json, Class clazz) {

@@ -73,7 +73,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:hint="@string/detection_unit"
-                    android:paddingLeft="10dp"
                     android:singleLine="true"
                     android:text="@={monitoringSiteBean.institution}" />
             </android.support.design.widget.TextInputLayout>
@@ -132,6 +131,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/address_details"
+                    android:text="@={monitoringSiteBean.site}"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
@@ -285,7 +285,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="5dp"
                         android:hint="@string/start_longitude"
-                        android:inputType="number"
+                        android:inputType="number|numberDecimal"
                         android:paddingLeft="10dp"
                         android:singleLine="true"
                         android:text="@{String.valueOf(monitoringSiteBean.startLongitude)}" />
@@ -306,6 +306,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="5dp"
                     android:hint="@string/start_latitude"
+                    android:inputType="number|numberDecimal"
                     android:paddingLeft="10dp"
                     android:singleLine="true"
                     android:text="@{String.valueOf(monitoringSiteBean.startLatitude)}" />
@@ -345,6 +346,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_toLeftOf="@id/img_end_location"
                         android:hint="@string/end_longitude"
+                        android:inputType="number|numberDecimal"
                         android:paddingLeft="10dp"
                         android:singleLine="true"
                         android:text="@{String.valueOf(monitoringSiteBean.endLongitude)}" />
@@ -364,6 +366,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="5dp"
                     android:hint="@string/end_latitude"
+                    android:inputType="number|numberDecimal"
                     android:paddingLeft="10dp"
                     android:singleLine="true"
                     android:text="@{String.valueOf(monitoringSiteBean.endLatitude)}" />

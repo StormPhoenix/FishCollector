@@ -44,15 +44,13 @@ public interface ITreeView {
     }
 
     public static class DataTreeItem {
+        public String modelConstant;
+        private BaseFragment attachedFragment = null;
+        private BaseModel attachedModel = null;
+
         public DataTreeItem(String modelConstant) {
             this.modelConstant = modelConstant;
         }
-
-        public String modelConstant;
-
-        private BaseFragment attachedFragment = null;
-
-        private BaseModel attachedModel = null;
 
         public BaseModel getAttachedModel() {
             return attachedModel;

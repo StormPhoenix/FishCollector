@@ -1,7 +1,6 @@
 package com.stormphoenix.fishcollector.network.model;
 
 import com.google.gson.annotations.Expose;
-import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 
 import java.util.List;
 

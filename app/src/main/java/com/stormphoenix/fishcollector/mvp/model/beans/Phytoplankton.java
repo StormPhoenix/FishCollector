@@ -62,6 +62,8 @@ public class Phytoplankton extends BaseObservable implements BaseModel {
      */
     @Generated(hash = 1895206844)
     private transient PhytoplanktonDao myDao;
+    @Generated(hash = 844368361)
+    private transient Long fractureSurface__resolvedKey;
 
     @Generated(hash = 1124047863)
     public Phytoplankton(String modelId, String photo, int quality, float biomass,
@@ -82,7 +84,6 @@ public class Phytoplankton extends BaseObservable implements BaseModel {
     @Override
     public boolean checkValue() {
         if (modelId == null ||
-                photo == null ||
                 idFractureSurface == null ||
                 id == null ||
                 foreignKey == null) {
@@ -147,9 +148,6 @@ public class Phytoplankton extends BaseObservable implements BaseModel {
     public void setForeignKey(Long foreignKey) {
         this.foreignKey = foreignKey;
     }
-
-    @Generated(hash = 844368361)
-    private transient Long fractureSurface__resolvedKey;
 
     /**
      * To-one relationship, resolved on first access.

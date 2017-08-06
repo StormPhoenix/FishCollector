@@ -75,6 +75,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/net_area"
+                        android:inputType="number|numberDecimal"
                         android:singleLine="true"
                         android:text="@{String.valueOf(catchToolsBean.netMouthArea)}" />
                 </android.support.design.widget.TextInputLayout>
@@ -100,6 +101,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/net_angle"
+                        android:inputType="number|numberDecimal"
                         android:singleLine="true"
                         android:text="@{String.valueOf(catchToolsBean.netMouthDip)}" />
                 </android.support.design.widget.TextInputLayout>
@@ -121,16 +123,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/net_velocity"
+                        android:inputType="number|numberDecimal"
                         android:singleLine="true"
                         android:text="@{String.valueOf(catchToolsBean.netMouthVelocity)}" />
                 </android.support.design.widget.TextInputLayout>
 
                 <TextView
-                    android:layout_gravity="center_vertical"
-                    android:text="m/s"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="m/s" />
             </LinearLayout>
 
             <RelativeLayout

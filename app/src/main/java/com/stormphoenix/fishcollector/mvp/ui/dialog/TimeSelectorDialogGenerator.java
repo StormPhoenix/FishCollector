@@ -60,8 +60,8 @@ public class TimeSelectorDialogGenerator {
     }
 
     public static abstract class DefaultTimeSetListener implements OnDateSetListener {
-        private SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         protected String fomatedTimeText;
+        private SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         @Override
         public void onDateSet(TimePickerDialog timePickerView, long millseconds) {

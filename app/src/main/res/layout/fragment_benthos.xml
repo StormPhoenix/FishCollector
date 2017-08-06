@@ -42,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/nums"
-                    android:inputType="number"
+                    android:inputType="number|numberDecimal"
                     android:singleLine="true"
                     android:text="@{String.valueOf(benthosBean.quality)}" />
             </android.support.design.widget.TextInputLayout>
@@ -71,7 +71,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/create_mount"
-                    android:inputType="numberDecimal"
+                    android:inputType="number|numberDecimal"
                     android:singleLine="true"
                     android:text="@{String.valueOf(benthosBean.biomass)}" />
             </android.support.design.widget.TextInputLayout>

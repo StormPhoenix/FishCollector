@@ -24,12 +24,21 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
     private OnRecyclerViewItemClickListener listener;
     private boolean isAdded;   //是否额外添加了最后一个图片
 
-    public interface OnRecyclerViewItemClickListener {
-        void onItemClick(View view, int position);
+    public ImagePickerAdapter(Context mContext, List<ImageItem> data, int maxImgCount) {
+        this.mContext = mContext;
+        this.maxImgCount = maxImgCount;
+        this.mInflater = LayoutInflater.from(mContext);
+        setImages(data);
     }
 
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         this.listener = listener;
+    }
+
+    public List<ImageItem> getImages() {
+        //由于图片未选满时，最后一张显示添加图片，因此这个方法返回真正的已选图片
+        if (isAdded) return new ArrayList<>(mData.subList(0, mData.size() - 1));
+        else return mData;
     }
 
     public void setImages(List<ImageItem> data) {
@@ -41,19 +50,6 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
             isAdded = false;
         }
         notifyDataSetChanged();
-    }
-
-    public List<ImageItem> getImages() {
-        //由于图片未选满时，最后一张显示添加图片，因此这个方法返回真正的已选图片
-        if (isAdded) return new ArrayList<>(mData.subList(0, mData.size() - 1));
-        else return mData;
-    }
-
-    public ImagePickerAdapter(Context mContext, List<ImageItem> data, int maxImgCount) {
-        this.mContext = mContext;
-        this.maxImgCount = maxImgCount;
-        this.mInflater = LayoutInflater.from(mContext);
-        setImages(data);
     }
 
     @Override
@@ -69,6 +65,10 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
     @Override
     public int getItemCount() {
         return mData.size();
+    }
+
+    public interface OnRecyclerViewItemClickListener {
+        void onItemClick(View view, int position);
     }
 
     public class SelectedPicViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

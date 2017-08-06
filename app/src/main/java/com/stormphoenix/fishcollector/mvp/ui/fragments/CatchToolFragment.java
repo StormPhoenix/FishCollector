@@ -62,10 +62,9 @@ public class CatchToolFragment extends BaseImageListFragment implements ImagePic
     EditText etEndTimeTools;
     @BindView(R.id.rv_pic_catch_tools)
     RecyclerView rvPicCatchTools;
-
-    private CatchTools model;
     OnDateSetListener onStartDateSetListener = null;
     OnDateSetListener onEndDateSetListener = null;
+    private CatchTools model;
 
     @Override
     protected int getLayoutId() {
@@ -120,6 +119,7 @@ public class CatchToolFragment extends BaseImageListFragment implements ImagePic
                 model.setNetMouthDip(text);
             }
         });
+
         etNetArea.addTextChangedListener(new DefaultFloatTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {

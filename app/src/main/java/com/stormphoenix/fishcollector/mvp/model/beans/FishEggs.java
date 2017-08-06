@@ -65,6 +65,8 @@ public class FishEggs extends BaseObservable implements BaseModel {
      */
     @Generated(hash = 1913398067)
     private transient FishEggsDao myDao;
+    @Generated(hash = 822618378)
+    private transient Long catches__resolvedKey;
 
     @Generated(hash = 1515414799)
     public FishEggs(String modelId, String photo, String period, float diameter,
@@ -185,9 +187,6 @@ public class FishEggs extends BaseObservable implements BaseModel {
     public void setForeignKey(Long foreignKey) {
         this.foreignKey = foreignKey;
     }
-
-    @Generated(hash = 822618378)
-    private transient Long catches__resolvedKey;
 
     /**
      * To-one relationship, resolved on first access.

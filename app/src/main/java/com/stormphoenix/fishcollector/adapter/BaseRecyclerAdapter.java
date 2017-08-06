@@ -83,13 +83,13 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
         notifyItemRemoved(index);
     }
 
+    public List<T> getData() {
+        return data;
+    }
+
     public void setData(List<T> data) {
         this.data.clear();
         this.data.addAll(data);
-    }
-
-    public List<T> getData() {
-        return data;
     }
 
     @Override

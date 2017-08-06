@@ -18,6 +18,11 @@ public class ConfigUtils {
     private SharedPreferences userInfoSp = null;
     private SharedPreferences taskDispatch = null;
 
+    private ConfigUtils(Context context) {
+        userInfoSp = context.getSharedPreferences("user_info", MODE_PRIVATE);
+        taskDispatch = context.getSharedPreferences("task_dispatch", MODE_PRIVATE);
+    }
+
     public static ConfigUtils getInstance() {
         if (INSTANCE == null) {
             synchronized (ConfigUtils.class) {
@@ -27,11 +32,6 @@ public class ConfigUtils {
             }
         }
         return INSTANCE;
-    }
-
-    private ConfigUtils(Context context) {
-        userInfoSp = context.getSharedPreferences("user_info", MODE_PRIVATE);
-        taskDispatch = context.getSharedPreferences("task_dispatch", MODE_PRIVATE);
     }
 
     public boolean isUserLogin() {
@@ -50,14 +50,14 @@ public class ConfigUtils {
                 .commit();
     }
 
+    public String getUserGroupId() {
+        return userInfoSp.getString("group_id", null);
+    }
+
     public void setUserGroupId(String groupId) {
         userInfoSp.edit()
                 .putString("group_id", groupId)
                 .commit();
-    }
-
-    public String getUserGroupId() {
-        return userInfoSp.getString("group_id", null);
     }
 
     public void setUserInfo(String username, String password) {

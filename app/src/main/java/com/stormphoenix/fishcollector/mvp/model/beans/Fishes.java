@@ -62,6 +62,8 @@ public class Fishes extends BaseObservable implements BaseModel {
      */
     @Generated(hash = 963653936)
     private transient FishesDao myDao;
+    @Generated(hash = 822618378)
+    private transient Long catches__resolvedKey;
 
     @Generated(hash = 135400818)
     public Fishes(String modelId, String photo, float bodyLength, float length,
@@ -84,7 +86,6 @@ public class Fishes extends BaseObservable implements BaseModel {
     @Override
     public boolean checkValue() {
         if (modelId == null ||
-                photo == null ||
                 id_Catches == null ||
                 id == null ||
                 foreignKey == null) {
@@ -165,9 +166,6 @@ public class Fishes extends BaseObservable implements BaseModel {
     public void setForeignKey(Long foreignKey) {
         this.foreignKey = foreignKey;
     }
-
-    @Generated(hash = 822618378)
-    private transient Long catches__resolvedKey;
 
     /**
      * To-one relationship, resolved on first access.

@@ -31,16 +31,12 @@ public class TreeChooseHolder extends TreeNode.BaseNodeViewHolder<ITreeView.Data
 
     private ItemChosenListener listener = null;
 
-    public void setItemChosenListener(ItemChosenListener listener) {
-        this.listener = listener;
-    }
-
-    public static interface ItemChosenListener extends TreeAddDeleteHolder.ItemAddDeleteListener {
-        void onItemChosen(BaseModel baseModel);
-    }
-
     public TreeChooseHolder(Context context) {
         super(context);
+    }
+
+    public void setItemChosenListener(ItemChosenListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -76,5 +72,9 @@ public class TreeChooseHolder extends TreeNode.BaseNodeViewHolder<ITreeView.Data
             }
         });
         return view;
+    }
+
+    public static interface ItemChosenListener extends TreeAddDeleteHolder.ItemAddDeleteListener {
+        void onItemChosen(BaseModel baseModel);
     }
 }

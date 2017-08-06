@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_chose"
-        android:title="@string/action_save"
         android:icon="@mipmap/ic_check_circle_white_18dp"
+        android:title="@string/action_save"
         app:showAsAction="always" />
 </menu>

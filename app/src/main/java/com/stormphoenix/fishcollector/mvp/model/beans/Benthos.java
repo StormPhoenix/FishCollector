@@ -75,6 +75,8 @@ public class Benthos extends BaseObservable implements BaseModel {
      */
     @Generated(hash = 792678032)
     private transient BenthosDao myDao;
+    @Generated(hash = 844368361)
+    private transient Long fractureSurface__resolvedKey;
 
     @Generated(hash = 791386)
     public Benthos(String modelId, String photo, int quality, float biomass,
@@ -95,7 +97,6 @@ public class Benthos extends BaseObservable implements BaseModel {
     @Override
     public boolean checkValue() {
         if (modelId == null ||
-                photo == null ||
                 idFractureSurface == null ||
                 id == null ||
                 foreignKey == null) {
@@ -160,9 +161,6 @@ public class Benthos extends BaseObservable implements BaseModel {
     public void setForeignKey(Long foreignKey) {
         this.foreignKey = foreignKey;
     }
-
-    @Generated(hash = 844368361)
-    private transient Long fractureSurface__resolvedKey;
 
     /**
      * To-one relationship, resolved on first access.

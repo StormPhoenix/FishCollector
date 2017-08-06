@@ -9,10 +9,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
+import com.stormphoenix.fishcollector.databinding.FragmentFractureSurfaceBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.FractureSurface;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
-import com.stormphoenix.fishcollector.databinding.FragmentFractureSurfaceBinding;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 
 import butterknife.BindView;
@@ -61,7 +61,7 @@ public class FractureSurfaceFragment extends BaseFragment implements AdapterView
         }
 
         Log.i(TAG, "initViews: samplePosition : " + samplePosition);
-        spinCollectPos.setSelection(samplePosition);
+        spinCollectPos.setSelection(samplePosition + 1);
         spinCollectPos.setOnItemSelectedListener(this);
 
         etShoreDistance.addTextChangedListener(new DefaultFloatTextWatcher() {

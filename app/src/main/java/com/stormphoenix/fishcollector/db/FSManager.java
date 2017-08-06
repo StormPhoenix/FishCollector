@@ -30,11 +30,12 @@ public class FSManager {
     private static final String GROUP_TASK_RECORD = "group_task_record.json";
     // 保存账户的文件
     private static final String ACCOUNT_RECORD = "account_record.json";
-
+    private static FSManager instance = null;
     // 保证 record 的同步
     private volatile GroupRecord record = null;
 
-    private static FSManager instance = null;
+    private FSManager() {
+    }
 
     public static FSManager getInstance() {
         if (instance == null) {
@@ -47,9 +48,6 @@ public class FSManager {
             }
         }
         return instance;
-    }
-
-    private FSManager() {
     }
 
     public synchronized GroupRecord getRecordContent() {

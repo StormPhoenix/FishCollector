@@ -48,6 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/shore_distance"
+                    android:inputType="number|numberDecimal"
                     android:singleLine="true"
                     android:text="@{String.valueOf(fractureSurfaceBean.distance2Bank)}" />
             </android.support.design.widget.TextInputLayout>

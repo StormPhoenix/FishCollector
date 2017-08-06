@@ -59,6 +59,8 @@ public class DominantBenthosSpecies extends BaseObservable implements BaseModel 
      */
     @Generated(hash = 655655680)
     private transient DominantBenthosSpeciesDao myDao;
+    @Generated(hash = 1006378000)
+    private transient Long benthos__resolvedKey;
 
     @Generated(hash = 1178577145)
     public DominantBenthosSpecies(String modelId, String name, String photo,
@@ -82,7 +84,6 @@ public class DominantBenthosSpecies extends BaseObservable implements BaseModel 
     public boolean checkValue() {
         if (modelId == null ||
                 name == null ||
-                photo == null ||
                 idBenthos == null ||
                 id == null) {
             return false;
@@ -157,9 +158,6 @@ public class DominantBenthosSpecies extends BaseObservable implements BaseModel 
     public void setForeignKey(Long foreignKey) {
         this.foreignKey = foreignKey;
     }
-
-    @Generated(hash = 1006378000)
-    private transient Long benthos__resolvedKey;
 
     /**
      * To-one relationship, resolved on first access.

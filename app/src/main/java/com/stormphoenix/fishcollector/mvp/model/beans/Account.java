@@ -5,9 +5,9 @@ import android.support.annotation.Nullable;
 import com.google.gson.annotations.Expose;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by Developer on 16-12-28.
@@ -55,9 +55,9 @@ public class Account {
 
     @Generated(hash = 105013457)
     public Account(@NotNull String username, @NotNull String password,
-            String telephone, String email, String description,
-            @NotNull String active, @NotNull String superiorName, String roleName,
-            boolean isDespatched, Long id) {
+                   String telephone, String email, String description,
+                   @NotNull String active, @NotNull String superiorName, String roleName,
+                   boolean isDespatched, Long id) {
         this.username = username;
         this.password = password;
         this.telephone = telephone;

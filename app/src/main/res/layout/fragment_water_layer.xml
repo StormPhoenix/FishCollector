@@ -47,6 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/depth"
+                    android:inputType="number|numberDecimal"
                     android:singleLine="true"
                     android:text="@{String.valueOf(waterLayerBean.depth)}" />
             </android.support.design.widget.TextInputLayout>
@@ -77,6 +78,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/water_temperature"
+                    android:inputType="number|numberDecimal"
                     android:singleLine="true"
                     android:text="@{String.valueOf(waterLayerBean.temperature)}" />
             </android.support.design.widget.TextInputLayout>
@@ -104,6 +106,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/water_level"
+                    android:inputType="number|numberDecimal"
                     android:singleLine="true"
                     android:text="@{String.valueOf(waterLayerBean.waterLevel)}" />
             </android.support.design.widget.TextInputLayout>
@@ -125,6 +128,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/water_velocity"
+                    android:inputType="number|numberDecimal"
                     android:singleLine="true"
                     android:text="@{String.valueOf(waterLayerBean.velocity)}" />
             </android.support.design.widget.TextInputLayout>

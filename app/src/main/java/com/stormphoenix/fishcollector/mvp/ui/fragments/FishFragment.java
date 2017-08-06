@@ -16,7 +16,6 @@ import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
 import com.stormphoenix.fishcollector.databinding.FragmentFishBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.Fishes;
-import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 import com.stormphoenix.imagepicker.FishImageType;
@@ -33,6 +32,7 @@ import butterknife.ButterKnife;
 import static com.stormphoenix.fishcollector.mvp.ui.activities.MainActivity.IMAGE_ITEM_ADD;
 import static com.stormphoenix.fishcollector.mvp.ui.activities.MainActivity.REQUEST_CODE_SELECT;
 import static com.stormphoenix.imagepicker.ImagePicker.REQUEST_CODE_PREVIEW;
+
 /**
  * Created by Developer on 16-12-27.
  * Wang Cheng is a intelligent Android developer.

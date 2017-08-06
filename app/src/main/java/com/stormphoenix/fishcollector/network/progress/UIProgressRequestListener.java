@@ -13,6 +13,26 @@ import java.lang.ref.WeakReference;
 
 public abstract class UIProgressRequestListener implements ProgressRequestListener {
     private static final int REQUEST_UPDATE = 0x01;
+    //主线程Handler
+    private final Handler mHandler = new UIHandler(Looper.getMainLooper(), this);
+
+    @Override
+    public void onRequestProgress(long bytesRead, long contentLength, boolean done) {
+        //通过Handler发送进度消息
+        Message message = Message.obtain();
+        message.obj = new ProgressModel(bytesRead, contentLength, done);
+        message.what = REQUEST_UPDATE;
+        mHandler.sendMessage(message);
+    }
+
+    /**
+     * UI层回调抽象方法
+     *
+     * @param bytesWrite    当前写入的字节长度
+     * @param contentLength 总字节长度
+     * @param done          是否写入完成
+     */
+    public abstract void onUIRequestProgress(long bytesWrite, long contentLength, boolean done);
 
     //处理UI层的Handler子类
     private static class UIHandler extends Handler {
@@ -42,23 +62,4 @@ public abstract class UIProgressRequestListener implements ProgressRequestListen
             }
         }
     }
-    //主线程Handler
-    private final Handler mHandler = new UIHandler(Looper.getMainLooper(), this);
-
-    @Override
-    public void onRequestProgress(long bytesRead, long contentLength, boolean done) {
-        //通过Handler发送进度消息
-        Message message = Message.obtain();
-        message.obj = new ProgressModel(bytesRead, contentLength, done);
-        message.what = REQUEST_UPDATE;
-        mHandler.sendMessage(message);
-    }
-
-    /**
-     * UI层回调抽象方法
-     * @param bytesWrite 当前写入的字节长度
-     * @param contentLength 总字节长度
-     * @param done 是否写入完成
-     */
-    public abstract void onUIRequestProgress(long bytesWrite, long contentLength, boolean done);
 }

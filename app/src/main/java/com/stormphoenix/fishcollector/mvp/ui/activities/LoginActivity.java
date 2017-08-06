@@ -31,6 +31,7 @@ import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity {
     private static final String TAG = LoginActivity.class.getName();
+    protected ProgressDialogGenerator submitDialogGenerator;
     @BindView(R.id.pb_login)
     ProgressBar pbLogin;
     @BindView(R.id.et_username)
@@ -39,8 +40,6 @@ public class LoginActivity extends BaseActivity {
     EditText etPassword;
     @BindView(R.id.btn_login)
     Button btnLogin;
-
-    protected ProgressDialogGenerator submitDialogGenerator;
     @BindView(R.id.login_bar)
     Toolbar loginBar;
 

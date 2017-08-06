@@ -17,16 +17,16 @@ public class FishApplication extends Application {
 
     private static Context instance = null;
 
+    public static Context getInstance() {
+        return instance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         MembersConstants.accounts = null;
         initImageLoader();
         instance = this;
-    }
-
-    public static Context getInstance() {
-        return instance;
     }
 
     private void initImageLoader() {

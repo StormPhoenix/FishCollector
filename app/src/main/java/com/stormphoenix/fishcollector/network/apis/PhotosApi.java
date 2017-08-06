@@ -1,7 +1,5 @@
 package com.stormphoenix.fishcollector.network.apis;
 
-import com.stormphoenix.fishcollector.network.HttpResult;
-
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.POST;

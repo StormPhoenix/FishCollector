@@ -14,14 +14,14 @@ import com.stormphoenix.fishcollector.permissions.PermissionsUtils;
 public class Locator {
     LocationPresenterImpl locationPresenter;
 
-    public Locator() {
+    public Locator(LocationView locationView) {
         locationPresenter = new LocationPresenterImpl();
         locationPresenter.onCreate();
+        locationPresenter.attachView(locationView);
     }
 
-    public void startLocate(LocationView view, Activity context) {
+    public void startLocate(Activity context) {
         if (PermissionsUtils.checkLocationPermissions(context)) {
-            locationPresenter.attachView(view);
             locationPresenter.locate();
         } else {
             PermissionsUtils.requestLocationPermissions(context);

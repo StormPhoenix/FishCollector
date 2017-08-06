@@ -18,9 +18,9 @@ import rx.Observable;
 import rx.Subscriber;
 
 public class SplashActivity extends BaseActivity {
+    private static final String TAG = SplashActivity.class.getName();
     @BindView(R.id.imageView4)
     ImageView imageView4;
-    private static final String TAG = SplashActivity.class.getName();
 
     @Override
     protected int getLayoutId() {

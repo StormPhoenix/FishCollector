@@ -39,11 +39,9 @@ public class GroupTaskFragment extends Fragment {
 
     @BindView(R.id.text_no_data)
     TextView textNoData;
-    private TreeBuilder treeBuilder;
-
     @BindView(R.id.group_tree_view_wrapper)
     FrameLayout treeViewWrapper;
-
+    private TreeBuilder treeBuilder;
     private View rootView;
     private TreeViewListener listener = null;
 

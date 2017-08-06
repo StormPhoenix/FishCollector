@@ -74,6 +74,8 @@ public class WaterLayer extends BaseObservable implements BaseModel {
      */
     @Generated(hash = 1028787526)
     private transient WaterLayerDao myDao;
+    @Generated(hash = 1875589804)
+    private transient Long measurePoint__resolvedKey;
 
     @Generated(hash = 1884360656)
     public WaterLayer(String modelId, String layer, float depth, float temperature,
@@ -179,9 +181,6 @@ public class WaterLayer extends BaseObservable implements BaseModel {
     public void setForeignKey(Long foreignKey) {
         this.foreignKey = foreignKey;
     }
-
-    @Generated(hash = 1875589804)
-    private transient Long measurePoint__resolvedKey;
 
     /**
      * To-one relationship, resolved on first access.

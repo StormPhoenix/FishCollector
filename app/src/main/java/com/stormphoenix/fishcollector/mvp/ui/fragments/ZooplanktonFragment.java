@@ -13,18 +13,15 @@ import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
 import com.stormphoenix.fishcollector.databinding.FragmentZooplanktonBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.Zooplankton;
-import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultIntTextWatcher;
-import com.stormphoenix.imagepicker.DirUtils;
 import com.stormphoenix.imagepicker.FishImageType;
 import com.stormphoenix.imagepicker.ImagePicker;
 import com.stormphoenix.imagepicker.bean.ImageItem;
 import com.stormphoenix.imagepicker.ui.ImageGridActivity;
 import com.stormphoenix.imagepicker.ui.ImagePreviewDelActivity;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;

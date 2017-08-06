@@ -1,6 +1,5 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -14,7 +13,6 @@ import com.stormphoenix.fishcollector.location.Locator;
 import com.stormphoenix.fishcollector.mvp.model.beans.MeasuringLine;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.mvp.view.LocationView;
-import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,9 +40,9 @@ public class MeasureLineFragment extends BaseFragment {
     ImageButton imgBtnEndLocationLine;
     @BindView(R.id.pb_end_location_line)
     ProgressBar pbEndLocationLine;
-
+    Locator startPosLocator = null;
+    Locator endPosLocator = null;
     private MeasuringLine model;
-    private Locator locator = null;
     private LocationView startLocationView;
     private LocationView endLocationView;
 
@@ -70,11 +68,11 @@ public class MeasureLineFragment extends BaseFragment {
         assert model.getForeignKey() != null;
         model.setIdFractureSurface(model.getFractureSurface().getModelId());
 
-        locator = new Locator();
-
         startLocationView = new LocationView() {
             @Override
             public void onLocationSuccess(double longitude, double latitude) {
+                model.setStartLongitude((float) longitude);
+                model.setStartLatitude((float) latitude);
                 etStartLongitude.setText(String.valueOf(longitude));
                 etStartLatitude.setText(String.valueOf(latitude));
             }
@@ -101,6 +99,8 @@ public class MeasureLineFragment extends BaseFragment {
         endLocationView = new LocationView() {
             @Override
             public void onLocationSuccess(double longitude, double latitude) {
+                model.setEndLongitude((float) longitude);
+                model.setEndLatitude((float) latitude);
                 etEndLongitude.setText(String.valueOf(longitude));
                 etEndLatitude.setText(String.valueOf(latitude));
             }
@@ -123,71 +123,74 @@ public class MeasureLineFragment extends BaseFragment {
                 pbEndLocationLine.setVisibility(View.GONE);
             }
         };
+
+        startPosLocator = new Locator(startLocationView);
+        endPosLocator = new Locator(endLocationView);
     }
 
     @Override
     protected void initViews(View view) {
-        etStartLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                try {
-                    super.afterTextChanged(s);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
-                    text = 0;
-                }
-                model.setStartLatitude(text);
-            }
-        });
+//        etStartLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                try {
+//                    super.afterTextChanged(s);
+//                } catch (NumberFormatException e) {
+//                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+//                    text = 0;
+//                }
+//                model.setStartLatitude(text);
+//            }
+//        });
 
-        etStartLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                try {
-                    super.afterTextChanged(s);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
-                    text = 0;
-                }
-                model.setStartLongitude(text);
-            }
-        });
+//        etStartLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                try {
+//                    super.afterTextChanged(s);
+//                } catch (NumberFormatException e) {
+//                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+//                    text = 0;
+//                }
+//                model.setStartLongitude(text);
+//            }
+//        });
 
-        etEndLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                try {
-                    super.afterTextChanged(s);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
-                    text = 0;
-                }
-                model.setEndLongitude(text);
-            }
-        });
+//        etEndLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                try {
+//                    super.afterTextChanged(s);
+//                } catch (NumberFormatException e) {
+//                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+//                    text = 0;
+//                }
+//                model.setEndLongitude(text);
+//            }
+//        });
 
-        etEndLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                try {
-                    super.afterTextChanged(s);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
-                    text = 0;
-                }
-                model.setEndLatitude(text);
-            }
-        });
+//        etEndLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                try {
+//                    super.afterTextChanged(s);
+//                } catch (NumberFormatException e) {
+//                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+//                    text = 0;
+//                }
+//                model.setEndLatitude(text);
+//            }
+//        });
     }
 
     @OnClick({R.id.imgBtn_start_location_line, R.id.imgBtn_end_location_line})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imgBtn_start_location_line:
-                locator.startLocate(startLocationView, getActivity());
+                startPosLocator.startLocate(getActivity());
                 break;
             case R.id.imgBtn_end_location_line:
-                locator.startLocate(endLocationView, getActivity());
+                endPosLocator.startLocate(getActivity());
                 break;
         }
     }

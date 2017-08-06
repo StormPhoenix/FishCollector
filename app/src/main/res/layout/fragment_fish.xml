@@ -42,6 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/body_length"
+                    android:inputType="number|numberDecimal"
                     android:text="@{String.valueOf(fishBean.bodyLength)}" />
             </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
@@ -69,6 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/whole_length"
+                    android:inputType="number|numberDecimal"
                     android:singleLine="true"
                     android:text="@{String.valueOf(fishBean.length)}" />
             </android.support.design.widget.TextInputLayout>
@@ -97,6 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/body_weight"
+                    android:inputType="number|numberDecimal"
                     android:singleLine="true"
                     android:text="@{String.valueOf(fishBean.bodyWeight)}" />
             </android.support.design.widget.TextInputLayout>

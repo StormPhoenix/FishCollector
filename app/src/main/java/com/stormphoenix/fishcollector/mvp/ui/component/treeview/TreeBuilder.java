@@ -34,20 +34,17 @@ import java.util.Set;
  */
 
 public class TreeBuilder {
+    public static final int TREE_HOLDER_ADD_AND_DELETE = 0;
+    public static final int TREE_HOLDER_ADD = 1;
     private static final String TAG = TreeBuilder.class.getName();
-
     private AndroidTreeView androidTreeView;
     private TreeNode root = null;
     private Context mContext;
     private List<MonitoringSite> data;
     private int treeHolderType = -1;
     private boolean isTaskDispatch = false;
-
     private TreeViewListener listener = null;
     private TreeNode.TreeNodeClickListener nodeClickListener = null;
-
-    public static final int TREE_HOLDER_ADD_AND_DELETE = 0;
-    public static final int TREE_HOLDER_ADD = 1;
 
     public TreeBuilder(Context context, List<MonitoringSite> data, int treeHolderType, TreeViewListener listener, boolean isTaskDispatch) {
         this.mContext = context;

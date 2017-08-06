@@ -71,7 +71,7 @@
                     android:layout_toLeftOf="@id/tv_dom_benthos_biomass_unit">
 
                     <EditText
-                        android:inputType="numberDecimal"
+                        android:inputType="number|numberDecimal"
                         android:id="@+id/et_dom_benthos_biomass"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

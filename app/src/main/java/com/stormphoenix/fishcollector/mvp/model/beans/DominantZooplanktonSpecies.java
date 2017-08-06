@@ -58,6 +58,8 @@ public class DominantZooplanktonSpecies extends BaseObservable implements BaseMo
      */
     @Generated(hash = 781743425)
     private transient DominantZooplanktonSpeciesDao myDao;
+    @Generated(hash = 253600324)
+    private transient Long zooplankton__resolvedKey;
 
     @Generated(hash = 325900820)
     public DominantZooplanktonSpecies(String modelId, String name, String photo,
@@ -81,7 +83,6 @@ public class DominantZooplanktonSpecies extends BaseObservable implements BaseMo
     public boolean checkValue() {
         if (modelId == null ||
                 name == null ||
-                photo == null ||
                 idZooplankton == null ||
                 id == null ||
                 foreignKey == null) {
@@ -157,9 +158,6 @@ public class DominantZooplanktonSpecies extends BaseObservable implements BaseMo
     public void setForeignKey(Long foreignKey) {
         this.foreignKey = foreignKey;
     }
-
-    @Generated(hash = 253600324)
-    private transient Long zooplankton__resolvedKey;
 
     /**
      * To-one relationship, resolved on first access.

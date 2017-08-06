@@ -25,15 +25,12 @@ public class DialogStyleActivity extends BaseActivity {
     public static final String SHOW_TYPE = "show_type";
     public static final int SHOW_TYPE_SUB_MODELS = 0;
     public static final int SHOW_TYPE_MEMBERS = 1;
-    private int showType = -1;
-
     public static final String MODEL_NAME = "model_name";
-
     @BindView(R.id.toolbar_dialog)
     Toolbar toolbar;
     @BindView(R.id.linear_chose_btn_wrapper)
     CheckBoxWrapper choseBtnWrapper;
-
+    private int showType = -1;
     private String modelName;
     private List<String> subModelNames;
     private String modelId;

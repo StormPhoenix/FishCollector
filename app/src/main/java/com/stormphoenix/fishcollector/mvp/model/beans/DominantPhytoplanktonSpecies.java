@@ -59,6 +59,8 @@ public class DominantPhytoplanktonSpecies extends BaseObservable implements Base
      */
     @Generated(hash = 1308065015)
     private transient DominantPhytoplanktonSpeciesDao myDao;
+    @Generated(hash = 1533042808)
+    private transient Long phytoplankton__resolvedKey;
 
     @Generated(hash = 889410372)
     public DominantPhytoplanktonSpecies(String modelId, String name, String photo,
@@ -82,7 +84,6 @@ public class DominantPhytoplanktonSpecies extends BaseObservable implements Base
     public boolean checkValue() {
         if (modelId == null ||
                 name == null ||
-                photo == null ||
                 idPhytoplankton == null ||
                 foreignKey == null) {
             return false;
@@ -156,9 +157,6 @@ public class DominantPhytoplanktonSpecies extends BaseObservable implements Base
     public void setForeignKey(Long foreignKey) {
         this.foreignKey = foreignKey;
     }
-
-    @Generated(hash = 1533042808)
-    private transient Long phytoplankton__resolvedKey;
 
     /**
      * To-one relationship, resolved on first access.

@@ -5,9 +5,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
+import com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces.ITreeView;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.treeholder.TreeAddDeleteHolder;
 import com.stormphoenix.fishcollector.mvp.ui.component.treeview.treeholder.TreeChooseHolder;
-import com.stormphoenix.fishcollector.mvp.ui.component.treeview.interfaces.ITreeView;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.shared.constants.ModelConstantMap;
 import com.unnamed.b.atv.model.TreeNode;
@@ -39,6 +39,7 @@ public class TreeUtils {
 
     /**
      * 根据 BaseModel 创建一个 TreeNode
+     *
      * @param context
      * @param model
      * @param listener

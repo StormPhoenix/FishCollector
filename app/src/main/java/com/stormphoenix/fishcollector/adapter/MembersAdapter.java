@@ -19,22 +19,17 @@ import java.util.List;
  */
 public class MembersAdapter extends BaseRecyclerAdapter<Account> {
 
-    public void setListener(OnMemberItemClickListener listener) {
-        this.listener = listener;
-    }
-
-    public static interface OnMemberItemClickListener {
-        public void onMemberItemClick(Account account);
-    }
-
     private OnMemberItemClickListener listener = null;
     private Context context = null;
     private List<Account> members = null;
-
     public MembersAdapter(Context context, List<Account> members) {
         super(context, members);
         this.context = context;
         this.members = members;
+    }
+
+    public void setListener(OnMemberItemClickListener listener) {
+        this.listener = listener;
     }
 
     public void setMembers(List<Account> members) {
@@ -71,6 +66,10 @@ public class MembersAdapter extends BaseRecyclerAdapter<Account> {
     @Override
     protected Animator[] getAnimators(View itemView) {
         return new Animator[0];
+    }
+
+    public static interface OnMemberItemClickListener {
+        public void onMemberItemClick(Account account);
     }
 
     public static class MembersHolder extends RecyclerView.ViewHolder {

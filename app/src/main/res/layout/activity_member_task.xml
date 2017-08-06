@@ -11,10 +11,10 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
-            android:title="@string/manager_group"
             android:id="@+id/group_manager_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:title="@string/manager_group" />
 
         <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
         <!--app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->

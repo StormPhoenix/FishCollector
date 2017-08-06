@@ -50,6 +50,8 @@ public class Sediment extends BaseObservable implements BaseModel {
      */
     @Generated(hash = 1423276668)
     private transient SedimentDao myDao;
+    @Generated(hash = 844368361)
+    private transient Long fractureSurface__resolvedKey;
 
     @Generated(hash = 1927794312)
     public Sediment(String modelId, String photo, String id_FractureSurface,
@@ -68,7 +70,6 @@ public class Sediment extends BaseObservable implements BaseModel {
     @Override
     public boolean checkValue() {
         if (modelId == null ||
-                photo == null ||
                 id_FractureSurface == null ||
                 id == null ||
                 foreignKey == null) {
@@ -117,9 +118,6 @@ public class Sediment extends BaseObservable implements BaseModel {
     public void setForeignKey(Long foreignKey) {
         this.foreignKey = foreignKey;
     }
-
-    @Generated(hash = 844368361)
-    private transient Long fractureSurface__resolvedKey;
 
     /**
      * To-one relationship, resolved on first access.

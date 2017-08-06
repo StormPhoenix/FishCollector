@@ -61,6 +61,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/egg_diameter"
+                        android:inputType="number|numberDecimal"
                         android:singleLine="true"
                         android:text="@{String.valueOf(fishEggBean.diameter)}" />
                 </android.support.design.widget.TextInputLayout>
@@ -89,6 +90,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/egg_membrane_diameter"
+                        android:inputType="number|numberDecimal"
                         android:singleLine="true"
                         android:text="@{String.valueOf(fishEggBean.emDiameter)}" />
                 </android.support.design.widget.TextInputLayout>
@@ -131,7 +133,7 @@
                 android:scrollbarStyle="outsideOverlay"
                 app:layoutManager="android.support.v7.widget.GridLayoutManager"
                 app:spanCount="4"
-                tools:listitem="@layout/list_item_image"/>
+                tools:listitem="@layout/list_item_image" />
         </LinearLayout>
     </ScrollView>
 </layout>

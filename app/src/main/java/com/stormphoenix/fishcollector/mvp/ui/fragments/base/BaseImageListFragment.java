@@ -28,13 +28,12 @@ import java.util.List;
  * Wang Cheng is a intelligent Android developer.
  */
 
-public abstract class BaseImageListFragment extends BaseFragment {
+public abstract class BaseImageListFragment extends BaseFragment implements ImagePickerAdapter.OnRecyclerViewItemClickListener{
 
+    public static final String TAG = BaseImageListFragment.class.getSimpleName();
     protected int maxImgCount;
     protected ImagePickerAdapter adapter;
     protected ArrayList<ImageItem> selImageList;
-    public static final String TAG = BaseImageListFragment.class.getSimpleName();
-
     private MultiProgressDialogGenerator uploadPDGenerator = null;
     private MultiProgressDialogGenerator downloadPDGenerator = null;
 
@@ -110,24 +109,28 @@ public abstract class BaseImageListFragment extends BaseFragment {
             // 这里要判断服务器下载下来的图片是否与本地重复，如果重复就不用下载了
             // 判断依据是图片的名字是否重复
             String[] modelPaths = ReflectUtils.getModelPhotoPaths(attachedBean);
+            List<String> copyList = new ArrayList<>();
+            copyList.addAll(photoNames);
+
             if (modelPaths != null && modelPaths.length != 0) {
                 for (String path : modelPaths) {
+                    String name = path.substring(path.lastIndexOf(File.separatorChar) + 1);
                     for (String photoName : (List<String>) photoNames) {
-                        String name = path.substring(path.lastIndexOf(File.separatorChar) + 1);
                         if (name.equals(photoName)) {
-                            photoNames.remove(photoName);
+                            copyList.remove(name);
+                            break;
                         }
                     }
                 }
             }
 
-            if (photoNames.size() == 0) {
+            if (copyList.size() == 0) {
                 return;
             }
 
-            String[] paths = new String[photoNames.size()];
-            for (int i = 0; i < photoNames.size(); i++) {
-                paths[i] = (String) photoNames.get(i);
+            String[] paths = new String[copyList.size()];
+            for (int i = 0; i < copyList.size(); i++) {
+                paths[i] = (String) copyList.get(i);
             }
             submitPresenter.downloadPhotos(attachedBean, paths, downloadPDGenerator, this);
         }
@@ -137,7 +140,11 @@ public abstract class BaseImageListFragment extends BaseFragment {
     protected void uploadModel(BaseModel model) {
         if (model != null && model.checkValue()) {
             String[] paths = ReflectUtils.getModelPhotoPaths(model);
-            uploadPDGenerator.setProgressCount(paths.length);
+            if (paths == null || paths.length == 0) {
+                uploadPDGenerator.setProgressCount(0);
+            } else {
+                uploadPDGenerator.setProgressCount(paths.length);
+            }
             uploadPDGenerator.build();
             uploadPDGenerator.setCancelable(false);
             // 为了赶工，这里写的很乱
@@ -145,6 +152,11 @@ public abstract class BaseImageListFragment extends BaseFragment {
         } else {
             Snackbar.make(mFragmentView, "数据不完善，无法提交", Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+
     }
 
     @Override

@@ -47,11 +47,10 @@ public class DominantZooplanktonFragment extends BaseFragment implements ImagePi
     EditText etDomZoopName;
     @BindView(R.id.rv_pic_dom_zooplankton)
     RecyclerView rvPicDomZooplankton;
-
-    private DominantZooplanktonSpecies model;
     int maxImgCount;
     ImagePickerAdapter adapter;
     ArrayList<ImageItem> selImageList;
+    private DominantZooplanktonSpecies model;
 
     @Override
     protected int getLayoutId() {

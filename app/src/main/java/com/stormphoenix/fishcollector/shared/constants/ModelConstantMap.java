@@ -1,7 +1,6 @@
 package com.stormphoenix.fishcollector.shared.constants;
 
 import com.stormphoenix.fishcollector.R;
-import com.stormphoenix.fishcollector.mvp.model.beans.DominantPhytoplanktonSpecies;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.BenthosFragment;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.CatchFragment;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.CatchToolFragment;
@@ -51,10 +50,6 @@ public class ModelConstantMap {
 
     private static Map<String, ModelHolder> modelMap = new LinkedHashMap<>();
 
-    public static ModelHolder getHolder(String className) {
-        return modelMap.get(className);
-    }
-
     static {
         modelMap.put(ModelConstant.BENTHOS, BENTHOS_HOLDER);
         modelMap.put(ModelConstant.CATCHES, CATCHES_HOLDER);
@@ -72,6 +67,10 @@ public class ModelConstantMap {
         modelMap.put(ModelConstant.SEDIMENT, SEDIMENT_HOLDER);
         modelMap.put(ModelConstant.WATER_LAYER, WATER_LAYER_HOLDER);
         modelMap.put(ModelConstant.ZOOPLANKTON, ZOOPLANKTON_HOLDER);
+    }
+
+    public static ModelHolder getHolder(String className) {
+        return modelMap.get(className);
     }
 
     /**

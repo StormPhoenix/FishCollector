@@ -27,7 +27,7 @@ public class PhotosPathUtils {
              * 之所以这样做是为了防止一些意外情况，比如照片被删除了，但是数据库保存的路径却没有改变，
              * 这样在写入服务端的时候，数据就会奔溃
               */
-        String[] paths = path.split("&");
+        String[] paths = path.split("`");
         List<String> result = new ArrayList<>();
         for (String tempPath : paths) {
             if (new File(tempPath).exists()) {
@@ -41,7 +41,7 @@ public class PhotosPathUtils {
         if (rawStr == null) {
             return prefix;
         } else {
-            return rawStr + "&" + prefix;
+            return rawStr + "`" + prefix;
         }
     }
 }

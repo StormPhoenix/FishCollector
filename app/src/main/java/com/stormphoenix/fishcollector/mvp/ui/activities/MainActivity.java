@@ -60,18 +60,19 @@ import butterknife.BindView;
 
 public class MainActivity extends BaseActivity {
 
-    private static final String TAG = "MainActivity";
     public static final int REQUEST_CODE_ADD_NODE = 5;
     public static final int IMAGE_ITEM_ADD = -1;
     public static final int REQUEST_CODE_SELECT = 100;
-
+    private static final String TAG = "MainActivity";
+    private static final int MSG_FINISH_CREATE_GROUP = 1;
+    private static final int MSG_FINISH_JOIN_GROUP = 101;
+    private static final int MSG_USER_NOT_IN_GROUP = 102;
     @BindView(R.id.toolbar_main)
     Toolbar toolbar;
     @BindView(R.id.activity_main)
     DrawerLayout drawerLayout;
     @BindView(R.id.tree_view_wrapper)
     FrameLayout treeViewWrapper;
-
     @BindView(R.id.btn_add_site_main)
     FloatingActionButton btnAddSite;
     @BindView(R.id.layout_fragment_wrapper)
@@ -80,13 +81,9 @@ public class MainActivity extends BaseActivity {
     RelativeLayout mEmptyDisplayWrapper;
     @BindView(R.id.content_main)
     CoordinatorLayout contentMain;
-
-    private static final int MSG_FINISH_CREATE_GROUP = 1;
-    private static final int MSG_FINISH_JOIN_GROUP = 101;
-    private static final int MSG_USER_NOT_IN_GROUP = 102;
     @BindView(R.id.show_text)
     TextView showText;
-
+    private ProgressDialogGenerator generator = null;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -114,8 +111,6 @@ public class MainActivity extends BaseActivity {
             }
         }
     };
-
-    private ProgressDialogGenerator generator = null;
     private DbManager dbManager = null;
 
     private TreeAddDeleteHolder.ItemAddDeleteListener listener = null;
@@ -424,6 +419,10 @@ public class MainActivity extends BaseActivity {
             case R.id.action_join_group:
                 showJoinGroupDialog();
                 break;
+            case R.id.action_download_current_page_header:
+            case R.id.action_download_current_page_member:
+
+                break;
             case R.id.action_download_all_header:
             case R.id.action_download_all_member:
                 HttpMethod.getInstance().requestTree(new RequestCallback<HttpResult<List<MonitoringSite>>>() {
@@ -476,6 +475,7 @@ public class MainActivity extends BaseActivity {
                 if (currentFragment == null) {
                     Snackbar.make(contentMain, "当前没有数据可提交", Snackbar.LENGTH_LONG).show();
                 } else {
+                    currentFragment.save();
                     currentFragment.uploadModel();
                 }
                 break;
@@ -493,6 +493,7 @@ public class MainActivity extends BaseActivity {
             case R.id.action_save_member:
                 if (currentFragment != null) {
                     currentFragment.save();
+                    Snackbar.make(currentFragment.getView(), "保存成功", Snackbar.LENGTH_SHORT).show();
                 }
                 break;
 //            case R.id.action_save:

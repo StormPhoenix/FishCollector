@@ -15,7 +15,7 @@ import com.stormphoenix.fishcollector.mvp.view.LocationView;
 public class LocationPresenterImpl extends BasePresenterImpl<LocationView, Location> implements LocationPresenter {
     @Override
     public void locate() {
-        LocateApi.Locate(FishApplication.getInstance(),this);
+        LocateApi.Locate(FishApplication.getInstance(), this);
     }
 
     @Override

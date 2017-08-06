@@ -33,10 +33,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class GroupTaskActivity extends AppCompatActivity {
-    private static final String TAG = GroupTaskActivity.class.getSimpleName();
-
     public static final int REQUEST_CODE_CHOSE_MEMBER = 48;
-
+    private static final String TAG = GroupTaskActivity.class.getSimpleName();
     @BindView(R.id.tab_layout)
     SmartTabLayout tabLayout;
     @BindView(R.id.view_pager)

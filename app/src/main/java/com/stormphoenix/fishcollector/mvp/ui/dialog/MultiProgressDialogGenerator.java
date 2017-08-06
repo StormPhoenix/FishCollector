@@ -31,48 +31,15 @@ public class MultiProgressDialogGenerator {
 
     private boolean cancelabe = false;
     private int progressCount = 0;
+    private ProgressBarsWrapper wrapper;
+    private AlertDialog.Builder builder;
+    private AlertDialog alertDialog;
+    public MultiProgressDialogGenerator(Activity context) {
+        this.context = context;
+    }
 
     public ProgressBarsWrapper getWrapper() {
         return wrapper;
-    }
-
-    private ProgressBarsWrapper wrapper;
-
-    private AlertDialog.Builder builder;
-    private AlertDialog alertDialog;
-
-    public static class ProgressBarsWrapper {
-        private List<NumberProgressBar> pbs;
-        private boolean[] dones;
-        private MultiProgressDialogGenerator generator;
-
-        public ProgressBarsWrapper(MultiProgressDialogGenerator generator, List<NumberProgressBar> bars) {
-            pbs = bars;
-            dones = new boolean[bars.size()];
-            this.generator = generator;
-            Arrays.fill(dones, false);
-        }
-
-        public void setProgress(int index, int progress, boolean done) {
-            pbs.get(index).setProgress(progress);
-            dones[index] = done;
-            if (checkCanDismiss()) {
-                generator.dismiss();
-            }
-        }
-
-        private boolean checkCanDismiss() {
-            for (boolean isDone : dones) {
-                if (!isDone) {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
-
-    public MultiProgressDialogGenerator(Activity context) {
-        this.context = context;
     }
 
     public void setProgressCount(int count) {
@@ -122,6 +89,36 @@ public class MultiProgressDialogGenerator {
     public void show() {
         if (alertDialog != null) {
             alertDialog.show();
+        }
+    }
+
+    public static class ProgressBarsWrapper {
+        private List<NumberProgressBar> pbs;
+        private boolean[] dones;
+        private MultiProgressDialogGenerator generator;
+
+        public ProgressBarsWrapper(MultiProgressDialogGenerator generator, List<NumberProgressBar> bars) {
+            pbs = bars;
+            dones = new boolean[bars.size()];
+            this.generator = generator;
+            Arrays.fill(dones, false);
+        }
+
+        public void setProgress(int index, int progress, boolean done) {
+            pbs.get(index).setProgress(progress);
+            dones[index] = done;
+            if (checkCanDismiss()) {
+                generator.dismiss();
+            }
+        }
+
+        private boolean checkCanDismiss() {
+            for (boolean isDone : dones) {
+                if (!isDone) {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

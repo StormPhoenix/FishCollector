@@ -70,8 +70,8 @@ public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView
                     case Constants.SUBMIT_SUCCESS:
                         // 提交成功，继续提交图片
                         mBaseView.hideProgress();
-                        generator.show();
                         if (paths != null && paths.length != 0) {
+                            generator.show();
                             HttpMethod.getInstance().uploadPhotos(modelType, model.getModelId(), paths, generator.getWrapper());
                         }
                         break;
@@ -104,7 +104,7 @@ public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView
 
     @Override
     public void downloadPhotos(BaseModel model, String[] paths, MultiProgressDialogGenerator generator, BaseImageListFragment fragment) {
-        HttpMethod.getInstance().downloadPhotos(model, paths, generator.getWrapper(),fragment);
+        HttpMethod.getInstance().downloadPhotos(model, paths, generator.getWrapper(), fragment);
     }
 
     @Override

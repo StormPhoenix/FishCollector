@@ -83,6 +83,8 @@ public class FractureSurface extends BaseObservable implements BaseModel {
      */
     @Generated(hash = 857002845)
     private transient FractureSurfaceDao myDao;
+    @Generated(hash = 272232982)
+    private transient Long monitoringSite__resolvedKey;
 
     @Generated(hash = 1731540934)
     public FractureSurface(String modelId, String position, float distance2Bank,
@@ -161,9 +163,6 @@ public class FractureSurface extends BaseObservable implements BaseModel {
     public void setForeignKey(Long foreignKey) {
         this.foreignKey = foreignKey;
     }
-
-    @Generated(hash = 272232982)
-    private transient Long monitoringSite__resolvedKey;
 
     /**
      * To-one relationship, resolved on first access.

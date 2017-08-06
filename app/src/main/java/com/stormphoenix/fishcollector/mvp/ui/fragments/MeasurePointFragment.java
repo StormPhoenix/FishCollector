@@ -1,6 +1,5 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -14,7 +13,6 @@ import com.stormphoenix.fishcollector.location.Locator;
 import com.stormphoenix.fishcollector.mvp.model.beans.MeasurePoint;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.mvp.view.LocationView;
-import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -50,10 +48,11 @@ public class MeasurePointFragment extends BaseFragment {
         assert model.getForeignKey() != null;
         model.setIdMeasuringLine(model.getMeasuringLine().getModelId());
 
-        locator = new Locator();
         locationView = new LocationView() {
             @Override
             public void onLocationSuccess(double longitude, double latitude) {
+                model.setLongitude((float) longitude);
+                model.setLatitude((float) latitude);
                 etLongitude.setText(String.valueOf(longitude));
                 etLatitude.setText(String.valueOf(latitude));
             }
@@ -76,6 +75,7 @@ public class MeasurePointFragment extends BaseFragment {
                 pbLocation.setVisibility(View.GONE);
             }
         };
+        locator = new Locator(locationView);
     }
 
     @Override
@@ -91,38 +91,38 @@ public class MeasurePointFragment extends BaseFragment {
 
     @Override
     protected void initViews(View view) {
-        etLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                try {
-                    super.afterTextChanged(s);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
-                    text = 0;
-                }
-                model.setLongitude(text);
-            }
-        });
+//        etLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                try {
+//                    super.afterTextChanged(s);
+//                } catch (NumberFormatException e) {
+//                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+//                    text = 0;
+//                }
+//                model.setLongitude(text);
+//            }
+//        });
 
-        etLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                try {
-                    super.afterTextChanged(s);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
-                    text = 0;
-                }
-                model.setLatitude(text);
-            }
-        });
+//        etLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                try {
+//                    super.afterTextChanged(s);
+//                } catch (NumberFormatException e) {
+//                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+//                    text = 0;
+//                }
+//                model.setLatitude(text);
+//            }
+//        });
     }
 
     @OnClick(R.id.imgBtn_location)
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imgBtn_location:
-                locator.startLocate(locationView, getActivity());
+                locator.startLocate(getActivity());
                 break;
         }
     }

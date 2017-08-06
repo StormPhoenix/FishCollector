@@ -68,6 +68,8 @@ public class MeasuringLine extends BaseObservable implements BaseModel {
      */
     @Generated(hash = 1481508108)
     private transient MeasuringLineDao myDao;
+    @Generated(hash = 844368361)
+    private transient Long fractureSurface__resolvedKey;
 
     @Generated(hash = 1134349867)
     public MeasuringLine(String modelId, float startLongitude, float startLatitude,
@@ -169,9 +171,6 @@ public class MeasuringLine extends BaseObservable implements BaseModel {
     public void setForeignKey(Long foreignKey) {
         this.foreignKey = foreignKey;
     }
-
-    @Generated(hash = 844368361)
-    private transient Long fractureSurface__resolvedKey;
 
     /**
      * To-one relationship, resolved on first access.

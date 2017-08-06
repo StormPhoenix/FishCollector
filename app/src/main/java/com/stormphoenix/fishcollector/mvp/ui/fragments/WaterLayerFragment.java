@@ -37,7 +37,6 @@ public class WaterLayerFragment extends BaseFragment implements AdapterView.OnIt
     EditText etWaterVelocity;
 
     private WaterLayer model;
-    private int waterLayerPosition = -1;
 
     @Override
     protected int getLayoutId() {
@@ -120,32 +119,26 @@ public class WaterLayerFragment extends BaseFragment implements AdapterView.OnIt
         spWaterLayer.setAdapter(new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item, Constants.WATER_LAYER));
         if (model.getLayer() == null) {
-            waterLayerPosition = -1;
+            spWaterLayer.setSelection(-1);
         } else {
-            for (waterLayerPosition = 0; waterLayerPosition < Constants.WATER_LAYER.length; waterLayerPosition++) {
-                if (Constants.WATER_LAYER[waterLayerPosition].equals(model.getLayer())) {
+            for (int index = 0; index < Constants.WATER_LAYER.length; index++) {
+                if (Constants.WATER_LAYER[index].equals(model.getLayer())) {
+                    spWaterLayer.setSelection(index + 1);
                     break;
                 }
             }
         }
-        spWaterLayer.setSelection(waterLayerPosition);
         spWaterLayer.setOnItemSelectedListener(this);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Log.e(TAG, "onItemSelected: " + position);
         switch (parent.getId()) {
             case R.id.sp_water_layer:
-                waterLayerPosition = position;
                 if (position == -1) {
-                    Log.e(TAG, "onItemSelected: -1");
                     model.setLayer(null);
-                } else if (position < Constants.WATER_LAYER.length) {
-                    Log.e(TAG, "onItemSelected: " + Constants.WATER_LAYER[waterLayerPosition]);
-                    model.setLayer(Constants.WATER_LAYER[position]);
                 } else {
-                    model.setLayer(null);
+                    model.setLayer(Constants.WATER_LAYER[position]);
                 }
                 break;
         }
