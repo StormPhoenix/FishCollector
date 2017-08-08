@@ -15,12 +15,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_download_current_page_member"
-        android:icon="@mipmap/ic_account_balance_wallet_white_24dp"
-        android:title="@string/action_download_current_page"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/action_download_all_member"
         android:icon="@mipmap/ic_account_balance_wallet_white_24dp"
         android:title="@string/action_download_all"
@@ -36,7 +30,13 @@
         android:id="@+id/action_save_member"
         android:icon="@mipmap/ic_account_balance_wallet_white_24dp"
         android:title="@string/action_save"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_download_current_page_member"
+        android:icon="@drawable/ic_system_update_alt_white_24dp"
+        android:title="@string/action_download_current_page"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_exit"

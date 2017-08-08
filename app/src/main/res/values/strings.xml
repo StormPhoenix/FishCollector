@@ -567,4 +567,6 @@
     <string name="user_not_in_group">用户不在组中</string>
     <string name="no_photos">用户没有图片</string>
     <string name="user_not_in_group_can_not_add_data">用户不在组内，无法添加数据</string>
+    <string name="no_right_to_add">您没有权限添加数据</string>
+    <string name="only_add_fra">您只能添加监测点和断面数据</string>
 </resources>

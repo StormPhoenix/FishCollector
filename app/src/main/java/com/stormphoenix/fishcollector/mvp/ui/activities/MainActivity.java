@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -46,6 +47,7 @@ import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragmen
 import com.stormphoenix.fishcollector.network.HttpMethod;
 import com.stormphoenix.fishcollector.network.HttpResult;
 import com.stormphoenix.fishcollector.network.model.GroupRecord;
+import com.stormphoenix.fishcollector.network.model.TaskEntry;
 import com.stormphoenix.fishcollector.shared.ConfigUtils;
 import com.stormphoenix.fishcollector.shared.KeyGenerator;
 import com.stormphoenix.fishcollector.shared.ModelUtils;
@@ -61,6 +63,7 @@ import com.unnamed.b.atv.model.TreeNode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 
@@ -142,14 +145,33 @@ public class MainActivity extends BaseActivity {
         listener = new TreeAddDeleteHolder.ItemAddDeleteListener() {
             @Override
             public void onItemAddBtnClicked(TreeNode node, String key, String value) {
-                if (ModelConstantMap.getHolder(value).subModels.isEmpty()) {
-                    return;
+                boolean result = false;
+                GroupRecord recordContent = FSManager.getInstance().getRecordContent();
+                String username = ConfigUtils.getInstance().getUsername();
+                BaseModel attachedModel = ((ITreeView.DataTreeItem) node.getValue()).getAttachedModel();
+                String modelId = attachedModel.getModelId();
+                // 如果是组员
+                if (!recordContent.group.header.name.equals(username)) {
+                    Set<TaskEntry> taskEntries = recordContent.taskTable.taskEntries.get(username);
+                    for (TaskEntry taskEntry : taskEntries) {
+                        if (taskEntry.modelId.equals(modelId)) {
+                            result = true;
+                            break;
+                        }
+                    }
+                    if (result) {
+                        addTreeNode(node, key, value);
+                    } else {
+                        Toast.makeText(MainActivity.this, getString(R.string.no_right_to_add), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // 是组长，组长只能添加断面
+                    if (modelId.startsWith("MON")) {
+                        addTreeNode(node, key, value);
+                    } else {
+                        Toast.makeText(MainActivity.this, getString(R.string.only_add_fra), Toast.LENGTH_SHORT).show();
+                    }
                 }
-                currentNode = node;
-                Intent view = new Intent(MainActivity.this, DialogStyleActivity.class);
-                view.putExtra(DialogStyleActivity.SHOW_TYPE, DialogStyleActivity.SHOW_TYPE_SUB_MODELS);
-                view.putExtra(key, value);
-                startActivityForResult(view, REQUEST_CODE_ADD_NODE);
             }
 
             @Override
@@ -178,6 +200,17 @@ public class MainActivity extends BaseActivity {
                 toolbar.setTitle(ModelConstantMap.getHolder(currentFragment.getAttachedBean().getClass().getName()).MODEL_NAME);
             }
         };
+    }
+
+    private void addTreeNode(TreeNode node, String key, String value) {
+        if (ModelConstantMap.getHolder(value).subModels.isEmpty()) {
+            return;
+        }
+        currentNode = node;
+        Intent view = new Intent(MainActivity.this, DialogStyleActivity.class);
+        view.putExtra(DialogStyleActivity.SHOW_TYPE, DialogStyleActivity.SHOW_TYPE_SUB_MODELS);
+        view.putExtra(key, value);
+        startActivityForResult(view, REQUEST_CODE_ADD_NODE);
     }
 
     @Override
@@ -462,52 +495,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.action_download_current_page_header:
             case R.id.action_download_current_page_member:
-                if (currentFragment != null) {
-                    HttpMethod.getInstance().downloadSingleModel(ConfigUtils.getInstance().getUsername(),
-                            ConfigUtils.getInstance().getPassword(),
-                            currentFragment.getAttachedBean().getClass().getSimpleName(),
-                            currentFragment.getAttachedBean().getModelId(),
-                            new RequestCallback<HttpResult<String>>() {
-                                @Override
-                                public void beforeRequest() {
-                                    // 这里要加上一个进度条吧
-                                    if (generator == null) {
-                                        generator = new ProgressDialogGenerator(MainActivity.this);
-                                    }
-                                    generator.cancelable(false);
-                                    generator.circularProgress();
-                                    generator.title("下载数据");
-                                    generator.content("下载中...");
-                                    generator.show();
-                                }
-
-                                @Override
-                                public void success(HttpResult<String> data) {
-                                    generator.cancel();
-                                    switch (data.getResultCode()) {
-                                        case Constants.SUCCESS:
-                                            if (currentFragment != null) {
-                                                currentFragment.updateModelByJson(data.getData());
-                                            }
-                                            break;
-                                        case Constants.USER_NOT_EXISTS:
-                                            break;
-                                        case Constants.USER_NOT_IN_GROUP:
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-
-                                @Override
-                                public void onError(String errorMsg) {
-                                    generator.cancel();
-                                    Snackbar.make(contentMain,errorMsg,Snackbar.LENGTH_LONG).show();
-                                }
-                            });
-                } else {
-                    // 我也不知道要写什么 ... ...
-                }
+                downloadModel();
                 break;
             case R.id.action_download_all_header:
             case R.id.action_download_all_member:
@@ -567,13 +555,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.action_download_photos_header:
             case R.id.action_download_photos_member:
-                // 下载图片
-                // 首先要检查是否有存储权限，没有的话就无法存储图片
-                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 110);
-                } else {
-                    downloadPhotos();
-                }
+                downloadPhotos();
                 break;
             case R.id.action_save_header:
             case R.id.action_save_member:
@@ -582,58 +564,74 @@ public class MainActivity extends BaseActivity {
                     Snackbar.make(currentFragment.getView(), "保存成功", Snackbar.LENGTH_SHORT).show();
                 }
                 break;
-//            case R.id.action_save:
-//                break;
-//            case R.id.action_upload:
-//                if (currentFragment != null) {
-//                    currentFragment.uploadModel();
-//                }
-//                break;
-//            case R.id.action_manager_group:
-//                Intent intent = new Intent(MainActivity.this, GroupTaskActivity.class);
-//                startActivity(intent);
-//                break;
-
-//            case R.id.action_create_group:
-//                 利用弹出对话框的形式穿件新组
-//                final ActionDialogGenerator groupNameDialog = new ActionDialogGenerator(this);
-//                groupNameDialog.title(getString(R.string.group_name));
-//                View groupNameView = (View) getLayoutInflater().inflate(R.layout.edit_frame_layout, drawerLayout, false);
-//                final AppCompatEditText editText = (AppCompatEditText) groupNameView.findViewById(R.id.dialog_edit_text);
-//
-//                groupNameDialog.customView(groupNameView);
-//                groupNameDialog.onPositive(new MaterialDialog.SingleButtonCallback() {
-//                    @Override
-//                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                        String trim = editText.getText().toString().trim();
-//                        if (!TextUtils.isEmpty(trim)) {
-//                            Group group = new Group();
-//                            group.setGroupName(trim);
-//                            group.setGroupId(KeyGenerator.generateGroupKey());
-//                            group.setGroupHeadId(ConfigUtils.getInstance().getUsername());
-//                            DbManager dbManager = new DbManager(MainActivity.this);
-//                            dbManager.saveGroup(group);
-//                            groupNameDialog.cancel();
-//                        } else {
-//                            groupNameDialog.cancel();
-//                            Snackbar.make(drawerLayout, getString(R.string.group_name_can_not_be_empty), Snackbar.LENGTH_LONG).show();
-//                        }
-//                    }
-//                });
-//                groupNameDialog.cancelable(false);
-//                groupNameDialog.setActionButton(DialogAction.POSITIVE, getString(R.string.ok));
-//                groupNameDialog.show();
-//                break;
-//            case R.id.action_dispatch:
-//                Intent intent = new Intent(MainActivity.this, GroupTaskActivity.class);
-//                startActivity(intent);
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    // 从网络更新当前的 MODEL
+    private void downloadModel() {
+        if (currentFragment != null) {
+            HttpMethod.getInstance().downloadSingleModel(ConfigUtils.getInstance().getUsername(),
+                    ConfigUtils.getInstance().getPassword(),
+                    currentFragment.getAttachedBean().getClass().getSimpleName(),
+                    currentFragment.getAttachedBean().getModelId(),
+                    new RequestCallback<HttpResult<String>>() {
+                        @Override
+                        public void beforeRequest() {
+                            // 这里要加上一个进度条吧
+                            if (generator == null) {
+                                generator = new ProgressDialogGenerator(MainActivity.this);
+                            }
+                            generator.cancelable(false);
+                            generator.circularProgress();
+                            generator.title("下载数据");
+                            generator.content("下载中...");
+                            generator.show();
+                        }
+
+                        @Override
+                        public void success(HttpResult<String> data) {
+                            generator.cancel();
+                            switch (data.getResultCode()) {
+                                case Constants.SUCCESS:
+                                    if (currentFragment != null) {
+                                        currentFragment.updateModelByJson(data.getData());
+                                    }
+                                    break;
+                                case Constants.USER_NOT_EXISTS:
+                                    break;
+                                case Constants.USER_NOT_IN_GROUP:
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        @Override
+                        public void onError(String errorMsg) {
+                            generator.cancel();
+                            Snackbar.make(contentMain, errorMsg, Snackbar.LENGTH_LONG).show();
+                        }
+                    });
+        } else {
+            // 我也不知道要写什么 ... ...
+        }
+    }
+
+    // 从网络下载当前 Model 的图片
     private void downloadPhotos() {
+        // 下载图片
+        // 首先要检查是否有存储权限，没有的话就无法存储图片
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 110);
+        } else {
+            realDownloadPhotos();
+        }
+    }
+
+    private void realDownloadPhotos() {
         if (currentFragment != null) {
             BaseModel attachedBean = currentFragment.getAttachedBean();
             HttpMethod.getInstance().downloadPhotosInfo(ConfigUtils.getInstance().getUsername(), ConfigUtils.getInstance().getPassword(), attachedBean.getModelId(), attachedBean.getClass().getSimpleName(),
@@ -888,7 +886,7 @@ public class MainActivity extends BaseActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == 110) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                downloadPhotos();
+                realDownloadPhotos();
             } else {
                 Snackbar.make(contentMain, "未获得存储权限，无法下载图片", Snackbar.LENGTH_SHORT).show();
             }
