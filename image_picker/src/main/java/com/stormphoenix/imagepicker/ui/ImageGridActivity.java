@@ -124,9 +124,9 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
             setResult(ImagePicker.RESULT_CODE_ITEMS, intent);  //多选不允许裁剪裁剪，返回数据
 //            **********************
             ArrayList<ImageItem> images = imagePicker.getSelectedImages();
-            LocalVariables.newImageFilePaths = new ArrayList<String>();
+            LocalVariables.currentImageFilePaths = new ArrayList<String>();
             for (ImageItem item : images) {
-                LocalVariables.newImageFilePaths.add(item.path);
+                LocalVariables.currentImageFilePaths.add(item.path);
             }
             System.gc();
             finish();

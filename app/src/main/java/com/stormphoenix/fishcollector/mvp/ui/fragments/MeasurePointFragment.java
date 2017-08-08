@@ -38,6 +38,12 @@ public class MeasurePointFragment extends BaseFragment {
     private MeasurePoint model;
 
     @Override
+    protected void refreshFragment() {
+        etLatitude.setText(String.valueOf(model.getLatitude()));
+        etLongitude.setText(String.valueOf(model.getLongitude()));
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.fragment_measure_point;
     }

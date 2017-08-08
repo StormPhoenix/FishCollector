@@ -548,7 +548,7 @@
     <string name="action_join_group">参加组</string>
     <string name="action_manager_group">管理组</string>
     <string name="action_upload_current_page">提交当前页面信息</string>
-    <string name="action_download_current_page">下载当前页面信息</string>
+    <string name="action_download_current_page">更新当前页面信息</string>
     <string name="action_look_group">查看组</string>
     <string name="input_group_name">输入分组名字</string>
     <string name="action_exit">退出</string>

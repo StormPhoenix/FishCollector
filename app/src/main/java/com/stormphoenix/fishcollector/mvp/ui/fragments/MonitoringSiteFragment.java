@@ -54,7 +54,7 @@ import static com.stormphoenix.imagepicker.ImagePicker.REQUEST_CODE_PREVIEW;
  * 维护 监测点 界面
  */
 @SuppressLint("ValidFragment")
-public class MonitoringSiteFragment extends BaseImageListFragment implements AdapterView.OnItemSelectedListener, ImagePickerAdapter.OnRecyclerViewItemClickListener {
+public class MonitoringSiteFragment extends BaseImageListFragment implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "MonitoringSiteFragment";
     @BindView(R.id.et_temperature)
@@ -110,7 +110,30 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
 
     @BindView(R.id.spin_weather)
     MaterialSpinner spinWeather;
+    @BindView(R.id.et_detection_unit)
+    EditText etDetectionUnit;
+    @BindView(R.id.et_monitors)
+    EditText etMonitors;
+    @BindView(R.id.et_water_area)
+    EditText etWaterArea;
     private ArrayAdapter<String> weatherAdapter;
+
+    @Override
+    protected void refreshFragment() {
+        etTemperature.setText(String.valueOf(model.getTemperature()));
+        etDetectionUnit.setText(model.getInstitution());
+        etMonitors.setText(model.getInvestigator());
+        etDate.setText(model.getInvestigationDate());
+        etDetailsAddress.setText(model.getSite());
+        etWaterArea.setText(model.getRiver());
+        etStartTime.setText(model.getStartTime());
+        etEndTime.setText(model.getEndTime());
+        setSpinnerSelection();
+        etStartLongitude.setText(String.valueOf(model.getStartLongitude()));
+        etStartLatitude.setText(String.valueOf(model.getStartLatitude()));
+        etEndLatitude.setText(String.valueOf(model.getEndLatitude()));
+        etEndLongitude.setText(String.valueOf(model.getEndLongitude()));
+    }
 
     @Override
     public void onStart() {
@@ -244,17 +267,7 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
             }
         });
 
-        if (model.getWeather() != null) {
-            for (int index = 0; index < Constants.SAMPLE_WEATHER.length; index++) {
-                if (model.getWeather().equals(Constants.SAMPLE_WEATHER[index])) {
-                    spinWeather.setSelection(index + 1);
-                    break;
-                }
-            }
-        } else {
-            spinWeather.setSelection(-1);
-            model.setWeather(null);
-        }
+        setSpinnerSelection();
 
         etTemperature.addTextChangedListener(new DefaultFloatTextWatcher() {
             @Override
@@ -291,9 +304,22 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
         initPicturesListView();
     }
 
+    private void setSpinnerSelection() {
+        if (model.getWeather() != null) {
+            for (int index = 0; index < Constants.SAMPLE_WEATHER.length; index++) {
+                if (model.getWeather().equals(Constants.SAMPLE_WEATHER[index])) {
+                    spinWeather.setSelection(index + 1);
+                    break;
+                }
+            }
+        } else {
+            spinWeather.setSelection(-1);
+            model.setWeather(null);
+        }
+    }
+
     private void initPicturesListView() {
         selImageList = new ArrayList<>();
-        maxImgCount = 10;
         adapter = new ImagePickerAdapter(this.getActivity(), selImageList, maxImgCount);
         adapter.setOnItemClickListener(this);
 
@@ -397,5 +423,10 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }

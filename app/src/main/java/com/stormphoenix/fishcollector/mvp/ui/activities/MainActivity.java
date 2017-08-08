@@ -42,18 +42,24 @@ import com.stormphoenix.fishcollector.mvp.ui.component.treeview.treeholder.TreeA
 import com.stormphoenix.fishcollector.mvp.ui.dialog.ActionDialogGenerator;
 import com.stormphoenix.fishcollector.mvp.ui.dialog.ProgressDialogGenerator;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
+import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.network.HttpMethod;
 import com.stormphoenix.fishcollector.network.HttpResult;
 import com.stormphoenix.fishcollector.network.model.GroupRecord;
 import com.stormphoenix.fishcollector.shared.ConfigUtils;
 import com.stormphoenix.fishcollector.shared.KeyGenerator;
 import com.stormphoenix.fishcollector.shared.ModelUtils;
+import com.stormphoenix.fishcollector.shared.ReflectUtils;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
 import com.stormphoenix.fishcollector.shared.constants.ModelConstant;
 import com.stormphoenix.fishcollector.shared.constants.ModelConstantMap;
+import com.stormphoenix.imagepicker.ImagePicker;
+import com.stormphoenix.imagepicker.LocalVariables;
+import com.stormphoenix.imagepicker.bean.ImageItem;
 import com.unnamed.b.atv.model.TreeNode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -224,7 +230,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.e(TAG, "onActivityResult:");
         switch (requestCode) {
             case REQUEST_CODE_ADD_NODE:
                 if (resultCode == RESULT_OK) {
@@ -234,10 +239,46 @@ public class MainActivity extends BaseActivity {
                 break;
             case REQUEST_CODE_SELECT:
                 // 图片选择完毕，更新数据
-                currentFragment.updateData();
+                if (currentFragment != null
+                        && currentFragment instanceof BaseImageListFragment) {
+                    if (LocalVariables.currentImageFilePaths == null) {
+                        LocalVariables.currentImageFilePaths = new ArrayList<>();
+                    }
+                    String[] photoPaths = ReflectUtils.getModelPhotoPaths(currentFragment.getAttachedBean());
+                    if (photoPaths != null) {
+                        LocalVariables.currentImageFilePaths.addAll(Arrays.asList(photoPaths));
+                    }
+                    // 除重
+                    List<String> resultPaths = new ArrayList<>();
+                    for (String path : LocalVariables.currentImageFilePaths) {
+                        if (!resultPaths.contains(path)) {
+                            resultPaths.add(path);
+                        }
+                    }
+                    LocalVariables.currentImageFilePaths = resultPaths;
+                    System.gc();
+
+                    currentFragment.updateData();
+                }
+                break;
+            case ImagePicker.REQUEST_CODE_PREVIEW:
+                List<ImageItem> imageItems = (List<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_IMAGE_ITEMS);
+                List<String> imagePaths = new ArrayList<>();
+
+                for (ImageItem item : imageItems) {
+                    imagePaths.add(item.path);
+                }
+
+                if (currentFragment != null) {
+                    LocalVariables.currentImageFilePaths = imagePaths;
+                    currentFragment.updateData();
+                }
                 break;
         }
-        super.onActivityResult(requestCode, resultCode, data);
+        super.
+
+                onActivityResult(requestCode, resultCode, data);
+
     }
 
     /**
@@ -421,7 +462,52 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.action_download_current_page_header:
             case R.id.action_download_current_page_member:
+                if (currentFragment != null) {
+                    HttpMethod.getInstance().downloadSingleModel(ConfigUtils.getInstance().getUsername(),
+                            ConfigUtils.getInstance().getPassword(),
+                            currentFragment.getAttachedBean().getClass().getSimpleName(),
+                            currentFragment.getAttachedBean().getModelId(),
+                            new RequestCallback<HttpResult<String>>() {
+                                @Override
+                                public void beforeRequest() {
+                                    // 这里要加上一个进度条吧
+                                    if (generator == null) {
+                                        generator = new ProgressDialogGenerator(MainActivity.this);
+                                    }
+                                    generator.cancelable(false);
+                                    generator.circularProgress();
+                                    generator.title("下载数据");
+                                    generator.content("下载中...");
+                                    generator.show();
+                                }
 
+                                @Override
+                                public void success(HttpResult<String> data) {
+                                    generator.cancel();
+                                    switch (data.getResultCode()) {
+                                        case Constants.SUCCESS:
+                                            if (currentFragment != null) {
+                                                currentFragment.updateModelByJson(data.getData());
+                                            }
+                                            break;
+                                        case Constants.USER_NOT_EXISTS:
+                                            break;
+                                        case Constants.USER_NOT_IN_GROUP:
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+
+                                @Override
+                                public void onError(String errorMsg) {
+                                    generator.cancel();
+                                    Snackbar.make(contentMain,errorMsg,Snackbar.LENGTH_LONG).show();
+                                }
+                            });
+                } else {
+                    // 我也不知道要写什么 ... ...
+                }
                 break;
             case R.id.action_download_all_header:
             case R.id.action_download_all_member:

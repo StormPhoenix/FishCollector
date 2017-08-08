@@ -20,6 +20,12 @@ import rx.Observable;
  */
 
 public interface UserApi {
+    @GET("/user/download_single_model")
+    Observable<HttpResult<String >> downloadSingleModel(@Query("username") String username,
+                                                        @Query("password") String password,
+                                                        @Query("model_type") String modelType,
+                                                        @Query("model_id") String modelId);
+
     @GET("/user/download_photos_info")
     Observable<HttpResult<List<String>>> downloadPhotosInfo(@Query("username") String username,
                                                             @Query("password") String password,

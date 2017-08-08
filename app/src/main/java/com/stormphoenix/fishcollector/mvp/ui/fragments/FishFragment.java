@@ -70,7 +70,6 @@ public class FishFragment extends BaseImageListFragment implements ImagePickerAd
 
     private void initPicturesListView() {
         selImageList = new ArrayList<>();
-        maxImgCount = 10;
         adapter = new ImagePickerAdapter(this.getActivity(), selImageList, maxImgCount);
         adapter.setOnItemClickListener(this);
 
@@ -180,5 +179,13 @@ public class FishFragment extends BaseImageListFragment implements ImagePickerAd
     public void updateData() {
         super.updateData();
         updatePicturesData();
+    }
+
+    @Override
+    protected void refreshFragment() {
+        etWholeLength.setText(String.valueOf(model.getLength()));
+        etBodyLengthFish.setText(String.valueOf(model.getBodyLength()));
+        etBodyWeightFish.setText(String.valueOf(model.getBodyWeight()));
+        etAgeFish.setText(String.valueOf(model.getAge()));
     }
 }

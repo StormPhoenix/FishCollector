@@ -8,5 +8,5 @@ import java.util.List;
  */
 
 public class LocalVariables {
-    public static List<String> newImageFilePaths = null;
+    public static List<String> currentImageFilePaths = null;
 }

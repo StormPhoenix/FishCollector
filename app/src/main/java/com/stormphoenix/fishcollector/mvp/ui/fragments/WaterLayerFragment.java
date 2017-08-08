@@ -39,6 +39,15 @@ public class WaterLayerFragment extends BaseFragment implements AdapterView.OnIt
     private WaterLayer model;
 
     @Override
+    protected void refreshFragment() {
+        etDepthWaterLayer.setText(String.valueOf(model.getDepth()));
+        etWaterTemperature.setText(String.valueOf(model.getTemperature()));
+        etWaterVelocity.setText(String.valueOf(model.getVelocity()));
+        etWaterLevel.setText(String.valueOf(model.getWaterLevel()));
+        setSpinnerSelection();
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.fragment_water_layer;
     }
@@ -118,6 +127,11 @@ public class WaterLayerFragment extends BaseFragment implements AdapterView.OnIt
 
         spWaterLayer.setAdapter(new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item, Constants.WATER_LAYER));
+        setSpinnerSelection();
+        spWaterLayer.setOnItemSelectedListener(this);
+    }
+
+    private void setSpinnerSelection() {
         if (model.getLayer() == null) {
             spWaterLayer.setSelection(-1);
         } else {
@@ -128,7 +142,6 @@ public class WaterLayerFragment extends BaseFragment implements AdapterView.OnIt
                 }
             }
         }
-        spWaterLayer.setOnItemSelectedListener(this);
     }
 
     @Override

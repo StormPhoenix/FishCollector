@@ -46,6 +46,12 @@ public class FishEggFragment extends BaseImageListFragment implements ImagePicke
     EditText etEmDiameter;
     @BindView(R.id.rv_pic_fish_egg)
     RecyclerView rvPicFishEgg;
+    @BindView(R.id.et_puberty)
+    EditText etPuberty;
+    @BindView(R.id.et_pigment_prop)
+    EditText etPigmentProp;
+    @BindView(R.id.et_embryo_traits)
+    EditText etEmbryoTraits;
 
     private FishEggs model;
 
@@ -104,7 +110,6 @@ public class FishEggFragment extends BaseImageListFragment implements ImagePicke
 
     private void initPicturesListView() {
         selImageList = new ArrayList<>();
-        maxImgCount = 10;
         adapter = new ImagePickerAdapter(this.getActivity(), selImageList, maxImgCount);
         adapter.setOnItemClickListener(this);
 
@@ -143,10 +148,24 @@ public class FishEggFragment extends BaseImageListFragment implements ImagePicke
     }
 
     @Override
+    protected void refreshFragment() {
+        etPuberty.setText(model.getPeriod());
+        etEggDiameter.setText(String.valueOf(model.getDiameter()));
+        etEmDiameter.setText(String.valueOf(model.getEmDiameter()));
+        etPigmentProp.setText(model.getPigmentProp());
+        etEmbryoTraits.setText(model.getEmbryoProp());
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }

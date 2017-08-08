@@ -34,6 +34,12 @@ public class FractureSurfaceFragment extends BaseFragment implements AdapterView
     private FractureSurface model;
 
     @Override
+    protected void refreshFragment() {
+        etShoreDistance.setText(String.valueOf(model.getDistance2Bank()));
+        setSpinnerSelection();
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.fragment_fracture_surface;
     }
@@ -50,18 +56,7 @@ public class FractureSurfaceFragment extends BaseFragment implements AdapterView
     protected void initViews(View view) {
         spinCollectPos.setAdapter(new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item, Constants.SAMPLE_POSITION));
-        if (model.getPosition() == null) {
-            samplePosition = -1;
-        } else {
-            for (samplePosition = 0; samplePosition < Constants.SAMPLE_POSITION.length; samplePosition++) {
-                if (Constants.SAMPLE_POSITION[samplePosition].equals(model.getPosition())) {
-                    break;
-                }
-            }
-        }
-
-        Log.i(TAG, "initViews: samplePosition : " + samplePosition);
-        spinCollectPos.setSelection(samplePosition + 1);
+        setSpinnerSelection();
         spinCollectPos.setOnItemSelectedListener(this);
 
         etShoreDistance.addTextChangedListener(new DefaultFloatTextWatcher() {
@@ -76,6 +71,21 @@ public class FractureSurfaceFragment extends BaseFragment implements AdapterView
                 model.setDistance2Bank(text);
             }
         });
+    }
+
+    private void setSpinnerSelection() {
+        if (model.getPosition() == null) {
+            samplePosition = -1;
+        } else {
+            for (samplePosition = 0; samplePosition < Constants.SAMPLE_POSITION.length; samplePosition++) {
+                if (Constants.SAMPLE_POSITION[samplePosition].equals(model.getPosition())) {
+                    break;
+                }
+            }
+        }
+
+        Log.i(TAG, "initViews: samplePosition : " + samplePosition);
+        spinCollectPos.setSelection(samplePosition + 1);
     }
 
     @Override

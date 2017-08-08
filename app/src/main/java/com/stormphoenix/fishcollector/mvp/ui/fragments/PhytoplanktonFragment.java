@@ -47,6 +47,12 @@ public class PhytoplanktonFragment extends BaseImageListFragment implements Imag
     private Phytoplankton model;
 
     @Override
+    protected void refreshFragment() {
+        etPhytoplanktonMount.setText(model.getQuality());
+        etPhytoplanktonBiomass.setText(String.valueOf(model.getBiomass()));
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.fragment_phytoplankton;
     }
@@ -91,7 +97,6 @@ public class PhytoplanktonFragment extends BaseImageListFragment implements Imag
 
     private void initPicturesListView() {
         selImageList = new ArrayList<>();
-        maxImgCount = 10;
         adapter = new ImagePickerAdapter(this.getActivity(), selImageList, maxImgCount);
         adapter.setOnItemClickListener(this);
 

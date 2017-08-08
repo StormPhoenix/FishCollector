@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.gson.annotations.Expose;
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.db.DbManager;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
@@ -22,7 +23,10 @@ import com.stormphoenix.fishcollector.mvp.presenter.interfaces.SubmitPresenter;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.BasePresenter;
 import com.stormphoenix.fishcollector.mvp.ui.dialog.ProgressDialogGenerator;
 import com.stormphoenix.fishcollector.mvp.view.SubmitSingleModelView;
+import com.stormphoenix.fishcollector.shared.JsonParser;
 
+import java.io.File;
+import java.lang.reflect.Field;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -77,6 +81,30 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
 
     public void updateData() {
     }
+
+    public void updateModelByJson(String modelJson) {
+        Class<? extends BaseModel> modelClass = attachedBean.getClass();
+        BaseModel newModel = (BaseModel) JsonParser.getInstance().fromJson(modelJson, modelClass);
+
+        Field[] fields = modelClass.getDeclaredFields();
+        if (fields != null) {
+            for (Field field : fields) {
+                if (field.getAnnotation(Expose.class)!=null) {
+                    try {
+                        field.setAccessible(true);
+                        field.set(attachedBean, field.get(newModel));
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        newModel = null;
+        System.gc();
+        refreshFragment();
+    }
+
+    protected abstract void refreshFragment();
 
     protected abstract int getLayoutId();
 

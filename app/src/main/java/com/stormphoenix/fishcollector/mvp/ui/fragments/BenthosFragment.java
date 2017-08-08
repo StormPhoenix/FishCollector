@@ -53,6 +53,12 @@ public class BenthosFragment extends BaseImageListFragment implements ImagePicke
     }
 
     @Override
+    protected void refreshFragment() {
+        etMountBenthos.setText(model.getQuality());
+        etBenthosBiomass.setText(String.valueOf(model.getBiomass()));
+    }
+
+    @Override
     protected void initVariables() {
         model = (Benthos) attachedBean;
         assert model.getForeignKey() != null;
@@ -103,7 +109,6 @@ public class BenthosFragment extends BaseImageListFragment implements ImagePicke
 
     private void initPicturesListView() {
         selImageList = new ArrayList<>();
-        maxImgCount = 10;
         adapter = new ImagePickerAdapter(this.getActivity(), selImageList, maxImgCount);
         adapter.setOnItemClickListener(this);
 

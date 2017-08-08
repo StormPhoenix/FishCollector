@@ -55,7 +55,6 @@ public class SedimentFragment extends BaseImageListFragment implements ImagePick
 
     private void initPicturesListView() {
         selImageList = new ArrayList<>();
-        maxImgCount = 10;
         adapter = new ImagePickerAdapter(this.getActivity(), selImageList, maxImgCount);
         adapter.setOnItemClickListener(this);
 
@@ -91,5 +90,10 @@ public class SedimentFragment extends BaseImageListFragment implements ImagePick
     public void updateData() {
         super.updateData();
         updatePicturesData();
+    }
+
+    @Override
+    protected void refreshFragment() {
+
     }
 }

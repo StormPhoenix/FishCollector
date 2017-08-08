@@ -131,7 +131,6 @@ public class DominantBenthosFragment extends BaseImageListFragment implements Im
 
     private void initPicturesListView() {
         selImageList = new ArrayList<>();
-        maxImgCount = 10;
         adapter = new ImagePickerAdapter(this.getActivity(), selImageList, maxImgCount);
         adapter.setOnItemClickListener(this);
 
@@ -140,5 +139,12 @@ public class DominantBenthosFragment extends BaseImageListFragment implements Im
         rvPicDomBenthos.setAdapter(adapter);
 
         updatePicturesData();
+    }
+
+    @Override
+    protected void refreshFragment() {
+        etDomBenthosBiomass.setText(String.valueOf(model.getBiomass()));
+        etDomBenthosMount.setText(String.valueOf(model.getQuality()));
+        etDomBenthosName.setText(model.getName());
     }
 }

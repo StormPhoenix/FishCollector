@@ -23,7 +23,7 @@ import org.greenrobot.greendao.annotation.Unique;
 public class FishEggs extends BaseObservable implements BaseModel {
     @Unique
     @Expose
-    @SerializedName("sampelId")
+    @SerializedName("sampleId")
     private String modelId;
     @Nullable
     private String photo;

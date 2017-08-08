@@ -47,6 +47,14 @@ public class MeasureLineFragment extends BaseFragment {
     private LocationView endLocationView;
 
     @Override
+    protected void refreshFragment() {
+        etEndLatitude.setText(String.valueOf(model.getEndLatitude()));
+        etEndLongitude.setText(String.valueOf(model.getEndLongitude()));
+        etStartLatitude.setText(String.valueOf(model.getStartLatitude()));
+        etStartLongitude.setText(String.valueOf(model.getStartLongitude()));
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.fragment_measure_line;
     }

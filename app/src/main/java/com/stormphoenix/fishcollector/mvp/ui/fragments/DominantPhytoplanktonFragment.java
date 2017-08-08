@@ -53,6 +53,13 @@ public class DominantPhytoplanktonFragment extends BaseImageListFragment impleme
     }
 
     @Override
+    protected void refreshFragment() {
+        etDomPhytoplanktonBiomass.setText(String.valueOf(model.getBiomass()));
+        etDomPhytoplanktonMount.setText(String.valueOf(model.getQuality()));
+        etDomPhyName.setText(model.getName());
+    }
+
+    @Override
     public void onItemClick(View view, int position) {
         switch (position) {
             case IMAGE_ITEM_ADD:
@@ -74,7 +81,6 @@ public class DominantPhytoplanktonFragment extends BaseImageListFragment impleme
 
     private void initPicturesListView() {
         selImageList = new ArrayList<>();
-        maxImgCount = 10;
         adapter = new ImagePickerAdapter(this.getActivity(), selImageList, maxImgCount);
         adapter.setOnItemClickListener(this);
 

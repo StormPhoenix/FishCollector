@@ -102,7 +102,6 @@ public class ZooplanktonFragment extends BaseImageListFragment implements ImageP
 
     private void initPicturesListView() {
         selImageList = new ArrayList<>();
-        maxImgCount = 10;
         adapter = new ImagePickerAdapter(this.getActivity(), selImageList, maxImgCount);
         adapter.setOnItemClickListener(this);
 
@@ -117,6 +116,12 @@ public class ZooplanktonFragment extends BaseImageListFragment implements ImageP
     public void updateData() {
         super.updateData();
         updatePicturesData();
+    }
+
+    @Override
+    protected void refreshFragment() {
+        etZooplanktonMount.setText(model.getQuality());
+        etZooplanktonBiomass.setText(String.valueOf(model.getBiomass()));
     }
 
     @Override

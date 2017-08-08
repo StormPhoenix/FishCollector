@@ -118,7 +118,6 @@ public class DominantZooplanktonFragment extends BaseFragment implements ImagePi
 
     private void initPicturesListView() {
         selImageList = new ArrayList<>();
-        maxImgCount = 10;
         adapter = new ImagePickerAdapter(this.getActivity(), selImageList, maxImgCount);
         adapter.setOnItemClickListener(this);
 
@@ -154,5 +153,12 @@ public class DominantZooplanktonFragment extends BaseFragment implements ImagePi
     public void updateData() {
         super.updateData();
         updatePicturesData();
+    }
+
+    @Override
+    protected void refreshFragment() {
+        etDomZooplanktonBiomass.setText(String.valueOf(model.getBiomass()));
+        etDomZooplanktonMount.setText(String.valueOf(model.getQuality()));
+        etDomZoopName.setText(model.getName());
     }
 }

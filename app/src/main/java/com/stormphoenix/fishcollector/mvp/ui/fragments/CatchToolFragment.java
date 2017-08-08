@@ -151,7 +151,6 @@ public class CatchToolFragment extends BaseImageListFragment implements ImagePic
 
     private void initPicturesListView() {
         selImageList = new ArrayList<>();
-        maxImgCount = 10;
         adapter = new ImagePickerAdapter(this.getActivity(), selImageList, maxImgCount);
         adapter.setOnItemClickListener(this);
 
@@ -188,6 +187,17 @@ public class CatchToolFragment extends BaseImageListFragment implements ImagePic
     public void updateData() {
         super.updateData();
         updatePicturesData();
+    }
+
+    @Override
+    protected void refreshFragment() {
+        etNetName.setText(model.getName());
+        etNetType.setText(model.getNetsModel());
+        etNetArea.setText(String.valueOf(model.getNetMouthArea()));
+        etNetAngle.setText(String.valueOf(model.getNetMouthDip()));
+        etNetVelocity.setText(String.valueOf(model.getNetMouthVelocity()));
+        etStartTimeTools.setText(model.getStartTime());
+        etEndTimeTools.setText(model.getEndTime());
     }
 
     @Override

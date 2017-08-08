@@ -287,6 +287,27 @@ public class HttpMethod {
                 });
     }
 
+    public void downloadSingleModel(String username, String password, String modelType, String modelId, final RequestCallback<HttpResult<String>> callback) {
+        callback.beforeRequest();
+        userApi.downloadSingleModel(username, password,modelType,modelId)
+                .compose(RxJavaCustomTransformer.<HttpResult<String>>defaultSchedulers())
+                .subscribe(new Subscriber<HttpResult<String>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(HttpResult<String> stringHttpResult) {
+                        callback.success(stringHttpResult);
+                    }
+                });
+    }
+
     public Subscription downloadPhotosInfo(String username, String password, String modelId, String modelType, final RequestCallback<HttpResult<List<String>>> callback) {
         callback.beforeRequest();
         return userApi.downloadPhotosInfo(username, password, modelId, modelType)

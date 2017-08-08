@@ -31,7 +31,7 @@ import java.util.List;
 public abstract class BaseImageListFragment extends BaseFragment implements ImagePickerAdapter.OnRecyclerViewItemClickListener{
 
     public static final String TAG = BaseImageListFragment.class.getSimpleName();
-    protected int maxImgCount;
+    protected int maxImgCount = 20;
     protected ImagePickerAdapter adapter;
     protected ArrayList<ImageItem> selImageList;
     private MultiProgressDialogGenerator uploadPDGenerator = null;
@@ -71,7 +71,6 @@ public abstract class BaseImageListFragment extends BaseFragment implements Imag
         String[] paths = PhotosPathUtils.processPhotosPath(path);
         if (paths != null) {
             List<String> pathsList = new ArrayList<>();
-//                    Arrays.asList(path);
             for (String tempPath : paths) {
                 if (new File(tempPath).exists()) {
                     // 如果图片不存在说明图片没有下载下来，此处最好把这个字段去掉
@@ -155,37 +154,23 @@ public abstract class BaseImageListFragment extends BaseFragment implements Imag
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-
-    }
-
-    @Override
     public void updateData() {
-        if (LocalVariables.newImageFilePaths != null) {
-            Method setPhotoMethod = null;
-            Method getPhotoMethod = null;
+        if (LocalVariables.currentImageFilePaths != null) {
+            Method photoMethodSetter = null;
             try {
-                setPhotoMethod = attachedBean.getClass().getDeclaredMethod("setPhoto", String.class);
-                getPhotoMethod = attachedBean.getClass().getDeclaredMethod("getPhoto", (Class<?>[]) null);
+                photoMethodSetter = attachedBean.getClass().getDeclaredMethod("setPhoto", String.class);
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }
 
-            if (setPhotoMethod == null || getPhotoMethod == null) {
-                LocalVariables.newImageFilePaths = null;
+            if (photoMethodSetter == null) {
+                LocalVariables.currentImageFilePaths = null;
                 return;
             }
 
             String photoPaths = null;
-            try {
-                photoPaths = (String) getPhotoMethod.invoke(attachedBean, null);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
 
-            for (String tempPath : LocalVariables.newImageFilePaths) {
+            for (String tempPath : LocalVariables.currentImageFilePaths) {
                 File tempFile = new File(tempPath);
                 if (tempFile.exists()) {
                     photoPaths = PhotosPathUtils.appendPath(photoPaths, tempPath);
@@ -193,14 +178,14 @@ public abstract class BaseImageListFragment extends BaseFragment implements Imag
             }
 
             try {
-                setPhotoMethod.invoke(attachedBean, photoPaths);
+                photoMethodSetter.invoke(attachedBean, photoPaths);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             }
 
-            LocalVariables.newImageFilePaths = null;
+            LocalVariables.currentImageFilePaths = null;
             save();
         }
     }

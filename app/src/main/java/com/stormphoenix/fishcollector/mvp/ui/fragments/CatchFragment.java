@@ -50,6 +50,14 @@ public class CatchFragment extends BaseImageListFragment implements ImagePickerA
     private Catches model;
 
     @Override
+    protected void refreshFragment() {
+        etLittleFishNum.setText(String .valueOf(model.getFryQuality()));
+        etFryTotalNum.setText(String .valueOf(model.getTotalQuality()));
+        etFishName.setText(model.getName());
+        etEggMount.setText(String.valueOf(model.getEggQuality()));
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.fragment_catch;
     }
@@ -148,7 +156,6 @@ public class CatchFragment extends BaseImageListFragment implements ImagePickerA
 
     private void initPicturesListView() {
         selImageList = new ArrayList<>();
-        maxImgCount = 10;
         adapter = new ImagePickerAdapter(this.getActivity(), selImageList, maxImgCount);
         adapter.setOnItemClickListener(this);
 
