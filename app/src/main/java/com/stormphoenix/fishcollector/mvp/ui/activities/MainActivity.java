@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.stormphoenix.fishcollector.FishApplication;
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.db.DbManager;
 import com.stormphoenix.fishcollector.db.FSManager;
@@ -51,6 +52,7 @@ import com.stormphoenix.fishcollector.network.model.TaskEntry;
 import com.stormphoenix.fishcollector.shared.ConfigUtils;
 import com.stormphoenix.fishcollector.shared.KeyGenerator;
 import com.stormphoenix.fishcollector.shared.ModelUtils;
+import com.stormphoenix.fishcollector.shared.NetManager;
 import com.stormphoenix.fishcollector.shared.ReflectUtils;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
 import com.stormphoenix.fishcollector.shared.constants.ModelConstant;
@@ -546,16 +548,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.action_upload_current_page_header:
             case R.id.action_upload_current_page_member:
-                if (currentFragment == null) {
-                    Snackbar.make(contentMain, "当前没有数据可提交", Snackbar.LENGTH_LONG).show();
-                } else {
-                    currentFragment.save();
-                    currentFragment.uploadModel();
-                }
-                break;
-            case R.id.action_download_photos_header:
-            case R.id.action_download_photos_member:
-                downloadPhotos();
+                uploadModel();
                 break;
             case R.id.action_save_header:
             case R.id.action_save_member:
@@ -570,8 +563,21 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // 向网络提交当前数据
+    private void uploadModel() {
+        if (!isNetworkError()) return;
+        if (currentFragment == null) {
+            Snackbar.make(contentMain, "当前没有数据可提交", Snackbar.LENGTH_LONG).show();
+        } else {
+            currentFragment.save();
+            currentFragment.uploadModel();
+        }
+        return;
+    }
+
     // 从网络更新当前的 MODEL
     private void downloadModel() {
+        if (!isNetworkError()) return;
         if (currentFragment != null) {
             HttpMethod.getInstance().downloadSingleModel(ConfigUtils.getInstance().getUsername(),
                     ConfigUtils.getInstance().getPassword(),
@@ -598,6 +604,7 @@ public class MainActivity extends BaseActivity {
                                 case Constants.SUCCESS:
                                     if (currentFragment != null) {
                                         currentFragment.updateModelByJson(data.getData());
+                                        downloadPhotos();
                                     }
                                     break;
                                 case Constants.USER_NOT_EXISTS:
@@ -617,6 +624,15 @@ public class MainActivity extends BaseActivity {
                     });
         } else {
             // 我也不知道要写什么 ... ...
+        }
+    }
+
+    private boolean isNetworkError() {
+        if (NetManager.isNetworkWorkWell(FishApplication.getInstance())) {
+            return true;
+        } else {
+            Snackbar.make(contentMain, getString(R.string.net_error), Snackbar.LENGTH_LONG).show();
+            return false;
         }
     }
 
