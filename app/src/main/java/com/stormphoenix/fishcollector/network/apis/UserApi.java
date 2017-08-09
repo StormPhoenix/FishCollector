@@ -21,10 +21,10 @@ import rx.Observable;
 
 public interface UserApi {
     @GET("/user/download_single_model")
-    Observable<HttpResult<String >> downloadSingleModel(@Query("username") String username,
-                                                        @Query("password") String password,
-                                                        @Query("model_type") String modelType,
-                                                        @Query("model_id") String modelId);
+    Observable<HttpResult<String>> downloadSingleModel(@Query("username") String username,
+                                                       @Query("password") String password,
+                                                       @Query("model_type") String modelType,
+                                                       @Query("model_id") String modelId);
 
     @GET("/user/download_photos_info")
     Observable<HttpResult<List<String>>> downloadPhotosInfo(@Query("username") String username,
@@ -32,11 +32,15 @@ public interface UserApi {
                                                             @Query("model_id") String modelId,
                                                             @Query("modle_type") String modelType);
 
+    @GET("user/download_task_table")
+    Observable<HttpResult<GroupRecord>> downloadTaskTable(@Query("username") String username,
+                                                          @Query("password") String password);
+
     // 上传组长的分配表
     @POST("user/upload_task_table")
     Observable<HttpResult<Void>> uploadTaskTable(@Query("username") String username,
                                                  @Query("password") String password,
-                                                 @Body RequestBody tableBody);
+                                                 @Body RequestBody groupRecordBody);
 
     // 用户登录，返回关于该用户的组信息
     @GET("user/pull_all_models")

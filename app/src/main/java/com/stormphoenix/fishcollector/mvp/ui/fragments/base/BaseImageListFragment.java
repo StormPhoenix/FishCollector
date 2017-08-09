@@ -28,7 +28,7 @@ import java.util.List;
  * Wang Cheng is a intelligent Android developer.
  */
 
-public abstract class BaseImageListFragment extends BaseFragment implements ImagePickerAdapter.OnRecyclerViewItemClickListener{
+public abstract class BaseImageListFragment extends BaseFragment implements ImagePickerAdapter.OnRecyclerViewItemClickListener {
 
     public static final String TAG = BaseImageListFragment.class.getSimpleName();
     protected int maxImgCount = 20;
@@ -101,6 +101,7 @@ public abstract class BaseImageListFragment extends BaseFragment implements Imag
 
     @Override
     public void downloadPhotos(List photoNames) {
+
         if (attachedBean != null) {
             downloadPDGenerator.setProgressCount(photoNames.size());
             downloadPDGenerator.build();
@@ -135,19 +136,43 @@ public abstract class BaseImageListFragment extends BaseFragment implements Imag
         }
     }
 
+    private BaseModel createNewModel(List<String> imagePathList) {
+        BaseModel newModel = ReflectUtils.cloneBaseModel(attachedBean);
+
+        String newPath = null;
+        if (imagePathList != null && imagePathList.size() != 0) {
+            for (String path : imagePathList) {
+                newPath = PhotosPathUtils.appendPath(newPath, new File(path).getName());
+            }
+        }
+        ReflectUtils.setModelPhotoPaths(newModel, newPath);
+        return newModel;
+    }
+
     @Override
     protected void uploadModel(BaseModel model) {
         if (model != null && model.checkValue()) {
-            String[] paths = ReflectUtils.getModelPhotoPaths(model);
-            if (paths == null || paths.length == 0) {
+            // 先对model中的图片数据进行处理，防止提交不存在的图片
+            String[] absolutePaths = ReflectUtils.getModelPhotoPaths(model);
+            List<String> absolutePathList = new ArrayList<>();
+            if (absolutePaths != null && absolutePaths.length != 0) {
+                for (String absolutePath : absolutePaths) {
+                    if (new File(absolutePath).exists()) {
+                        absolutePathList.add(absolutePath);
+                    }
+                }
+            }
+            BaseModel newModel = createNewModel(absolutePathList);
+
+            if (absolutePathList == null || absolutePathList.size() == 0) {
                 uploadPDGenerator.setProgressCount(0);
             } else {
-                uploadPDGenerator.setProgressCount(paths.length);
+                uploadPDGenerator.setProgressCount(absolutePathList.size());
             }
             uploadPDGenerator.build();
             uploadPDGenerator.setCancelable(false);
             // 为了赶工，这里写的很乱
-            submitPresenter.submitModelAndPhoto(model.getClass().getSimpleName(), model, paths, uploadPDGenerator);
+            submitPresenter.submitModelAndPhoto(model.getClass().getSimpleName(), newModel, absolutePathList.toArray(new String[absolutePathList.size()]), uploadPDGenerator);
         } else {
             Snackbar.make(mFragmentView, "数据不完善，无法提交", Snackbar.LENGTH_SHORT).show();
         }

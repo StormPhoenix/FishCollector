@@ -22,7 +22,7 @@ import com.stormphoenix.fishcollector.mvp.ui.fragments.group.GroupMemberFragment
 import com.stormphoenix.fishcollector.mvp.ui.fragments.group.GroupTaskFragment;
 import com.stormphoenix.fishcollector.network.HttpMethod;
 import com.stormphoenix.fishcollector.network.HttpResult;
-import com.stormphoenix.fishcollector.network.model.TaskTable;
+import com.stormphoenix.fishcollector.network.model.GroupRecord;
 import com.stormphoenix.fishcollector.shared.ConfigUtils;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
 
@@ -85,10 +85,59 @@ public class GroupTaskActivity extends AppCompatActivity {
                 return true;
             case R.id.action_refresh_task_header:
                 // 从网络获取数据刷新本地
+                downloadTaskTable();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void downloadTaskTable() {
+        final ProgressDialogGenerator generator = new ProgressDialogGenerator(this);
+        generator.title(getResources().getString(R.string.downloading));
+        generator.content(getResources().getString(R.string.please_waiting));
+        generator.circularProgress();
+        generator.cancelable(false);
+
+        HttpMethod.getInstance().downloadTaskTable(ConfigUtils.getInstance().getUsername(),
+                ConfigUtils.getInstance().getPassword(),
+                new RequestCallback<HttpResult<GroupRecord>>() {
+                    @Override
+                    public void beforeRequest() {
+                        generator.show();
+                    }
+
+                    @Override
+                    public void success(HttpResult<GroupRecord> data) {
+                        switch (data.getResultCode()) {
+                            case Constants.USER_NOT_EXISTS:
+                                Snackbar.make(taskWrapper, "用户不存在，无法上传数据", Snackbar.LENGTH_LONG).show();
+                                generator.cancel();
+                                break;
+                            case Constants.USER_NOT_IN_GROUP:
+                                Snackbar.make(taskWrapper, "用户不在组中，无法上传数据", Snackbar.LENGTH_LONG).show();
+                                generator.cancel();
+                                break;
+                            case Constants.SUCCESS:
+                                FSManager.getInstance().saveRecordContent(data.getData());
+                                groupTaskFrag.updateData();
+                                generator.cancel();
+                                break;
+                            case Constants.GROUP_RECORD_NOT_EXISTS:
+                                Snackbar.make(taskWrapper, "表不存在无法下载", Snackbar.LENGTH_LONG).show();
+                                generator.cancel();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onError(String errorMsg) {
+                        Snackbar.make(taskWrapper, errorMsg, Snackbar.LENGTH_LONG).show();
+                        generator.cancel();
+                    }
+                });
     }
 
     private void uploadTaskTable() {
@@ -98,15 +147,15 @@ public class GroupTaskActivity extends AppCompatActivity {
         generator.circularProgress();
         generator.cancelable(false);
 
-        TaskTable taskTable = FSManager.getInstance().getRecordContent().taskTable;
-        if (taskTable == null) {
+        GroupRecord recordContent = FSManager.getInstance().getRecordContent();
+        if (recordContent == null) {
             Snackbar.make(taskWrapper, "尚未有任务分配信息", Snackbar.LENGTH_LONG).show();
             return;
         }
 
-        HttpMethod.getInstance().uploadTaskTable(ConfigUtils.getInstance().getUsername(),
+        HttpMethod.getInstance().uploadGroupRecord(ConfigUtils.getInstance().getUsername(),
                 ConfigUtils.getInstance().getPassword(),
-                taskTable,
+                recordContent,
                 new RequestCallback<HttpResult<Void>>() {
                     @Override
                     public void beforeRequest() {
@@ -126,6 +175,10 @@ public class GroupTaskActivity extends AppCompatActivity {
                                 break;
                             case Constants.USER_IS_NOT_HEADER:
                                 Snackbar.make(taskWrapper, "用户不是组长，无法上传数据", Snackbar.LENGTH_LONG).show();
+                                generator.cancel();
+                                break;
+                            case Constants.UPLOAD_BEFORE_UPDATE:
+                                Snackbar.make(taskWrapper, data.getResultMessage(), Snackbar.LENGTH_LONG).show();
                                 generator.cancel();
                                 break;
                             case Constants.SUCCESS:

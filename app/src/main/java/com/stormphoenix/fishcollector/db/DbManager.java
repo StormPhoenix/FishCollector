@@ -201,18 +201,16 @@ public class DbManager {
             if (field.getType() == List.class) {
                 field.setAccessible(true);
                 try {
-                    modelsList.add((List<BaseModel>) field.get(baseModel));
+                    List<BaseModel> baseModels = (List<BaseModel>) field.get(baseModel);
+                    if (baseModels == null || baseModels.size() == 0) {
+                        continue;
+                    } else {
+                        modelsList.add(baseModels);
+                    }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
-//            if (field.getAnnotation(ToMany.class) != null) {
-//                try {
-//                    modelsList.add((List<BaseModel>) field.get(baseModel));
-//                } catch (IllegalAccessException e) {
-//                    e.printStackTrace();
-//                }
-//            }
         }
         return modelsList;
     }

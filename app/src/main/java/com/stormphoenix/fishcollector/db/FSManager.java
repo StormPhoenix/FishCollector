@@ -72,6 +72,11 @@ public class FSManager {
         }
     }
 
+    public synchronized void deleteRecordContent() {
+        File storeFile = new File(FishApplication.getInstance().getFilesDir(), GROUP_TASK_RECORD);
+        storeFile.deleteOnExit();
+    }
+
     /**
      * 保存新的组数据，同时更新 record 变量
      *

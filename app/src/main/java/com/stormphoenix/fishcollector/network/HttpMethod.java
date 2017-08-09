@@ -14,7 +14,6 @@ import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragmen
 import com.stormphoenix.fishcollector.network.apis.PhotosApi;
 import com.stormphoenix.fishcollector.network.apis.UserApi;
 import com.stormphoenix.fishcollector.network.model.GroupRecord;
-import com.stormphoenix.fishcollector.network.model.TaskTable;
 import com.stormphoenix.fishcollector.network.progress.ProgressHelper;
 import com.stormphoenix.fishcollector.network.progress.UIProgressRequestListener;
 import com.stormphoenix.fishcollector.network.progress.UIProgressResponseListener;
@@ -80,6 +79,27 @@ public class HttpMethod {
             }
         }
         return instance;
+    }
+
+    public Subscription downloadTaskTable(String username, String password, final RequestCallback<HttpResult<GroupRecord>> callback) {
+        callback.beforeRequest();
+        return userApi.downloadTaskTable(username, password)
+                .compose(RxJavaCustomTransformer.<HttpResult<GroupRecord>>defaultSchedulers())
+                .subscribe(new Subscriber<HttpResult<GroupRecord>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(HttpResult<GroupRecord> groupRecordHttpResult) {
+                        callback.success(groupRecordHttpResult);
+                    }
+                });
     }
 
     public Subscription downloadAllModels(String username, String password, final RequestCallback<HttpResult<List<MonitoringSite>>> callback) {
@@ -261,8 +281,12 @@ public class HttpMethod {
     }
 
     private void uploadPhoto(String modelType, String modelId, String imagePath, UIProgressRequestListener progressListener) {
-        OkHttpClient client = new OkHttpClient.Builder().build();
         File file = new File(imagePath);
+        if (!file.exists()) {
+            return;
+        }
+
+        OkHttpClient client = new OkHttpClient.Builder().build();
         MultipartBody body = new MultipartBody.Builder().addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("image/*"), file)).build();
         userApi.uploadPhoto(modelType,
                 ConfigUtils.getInstance().getUsername(),
@@ -289,7 +313,7 @@ public class HttpMethod {
 
     public void downloadSingleModel(String username, String password, String modelType, String modelId, final RequestCallback<HttpResult<String>> callback) {
         callback.beforeRequest();
-        userApi.downloadSingleModel(username, password,modelType,modelId)
+        userApi.downloadSingleModel(username, password, modelType, modelId)
                 .compose(RxJavaCustomTransformer.<HttpResult<String>>defaultSchedulers())
                 .subscribe(new Subscriber<HttpResult<String>>() {
                     @Override
@@ -355,9 +379,9 @@ public class HttpMethod {
                 });
     }
 
-    public Subscription uploadTaskTable(String username, String password, TaskTable taskTable, final RequestCallback<HttpResult<Void>> callback) {
+    public Subscription uploadGroupRecord(String username, String password, GroupRecord groupRecord, final RequestCallback<HttpResult<Void>> callback) {
         callback.beforeRequest();
-        RequestBody modelBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), JsonParser.getInstance().toJson(taskTable));
+        RequestBody modelBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), JsonParser.getInstance().toJson(groupRecord));
         return userApi.uploadTaskTable(username,
                 password,
                 modelBody)

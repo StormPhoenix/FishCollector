@@ -9,6 +9,10 @@ import com.google.gson.annotations.Expose;
 
 public class GroupRecord {
     @Expose
+    public long modifyTime;
+    @Expose
+    public long accessTime;
+    @Expose
     public Group group;
     @Expose
     public TaskTable taskTable;

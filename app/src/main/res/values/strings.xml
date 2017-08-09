@@ -569,4 +569,6 @@
     <string name="user_not_in_group_can_not_add_data">用户不在组内，无法添加数据</string>
     <string name="no_right_to_add">您没有权限添加数据</string>
     <string name="only_add_fra">您只能添加监测点和断面数据</string>
+    <string name="only_header_can_add_msite">只有组长才能添加监测点</string>
+    <string name="downloading">正在下载...</string>
 </resources>

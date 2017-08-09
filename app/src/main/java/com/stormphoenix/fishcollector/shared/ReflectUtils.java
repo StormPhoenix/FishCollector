@@ -2,8 +2,10 @@ package com.stormphoenix.fishcollector.shared;
 
 import android.util.Log;
 
+import com.google.gson.annotations.Expose;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -71,5 +73,27 @@ public class ReflectUtils {
             Log.e(TAG, "uploadPhotos: " + e.toString());
         }
         return paths;
+    }
+
+    public static BaseModel cloneBaseModel(BaseModel model) {
+        BaseModel newModel = null;
+        try {
+            newModel = model.getClass().newInstance();
+            Field[] fields = model.getClass().getDeclaredFields();
+            if (fields != null || fields.length != 0) {
+                for (Field field : fields) {
+                    if (field.getAnnotation(Expose.class) != null) {
+                        field.setAccessible(true);
+                        field.set(newModel, field.get(model));
+                    }
+                }
+            }
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } finally {
+            return newModel;
+        }
     }
 }

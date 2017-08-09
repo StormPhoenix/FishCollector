@@ -154,11 +154,16 @@ public class MainActivity extends BaseActivity {
                 String modelId = attachedModel.getModelId();
                 // 如果是组员
                 if (!recordContent.group.header.name.equals(username)) {
-                    Set<TaskEntry> taskEntries = recordContent.taskTable.taskEntries.get(username);
-                    for (TaskEntry taskEntry : taskEntries) {
-                        if (taskEntry.modelId.equals(modelId)) {
-                            result = true;
-                            break;
+                    if (recordContent.taskTable == null
+                            || recordContent.taskTable.taskEntries == null) {
+                        result = false;
+                    } else {
+                        Set<TaskEntry> taskEntries = recordContent.taskTable.taskEntries.get(username);
+                        for (TaskEntry taskEntry : taskEntries) {
+                            if (taskEntry.modelId.equals(modelId)) {
+                                result = true;
+                                break;
+                            }
                         }
                     }
                     if (result) {
@@ -226,7 +231,11 @@ public class MainActivity extends BaseActivity {
                 if (ConfigUtils.getInstance().getUserGroupId() == null) {
                     Snackbar.make(contentMain, getString(R.string.user_not_in_group_can_not_add_data), Snackbar.LENGTH_SHORT).show();
                     return;
+                } else if (!ConfigUtils.getInstance().getUsername().equals(FSManager.getInstance().getRecordContent().group.header.name)) {
+                    Snackbar.make(contentMain, getString(R.string.only_header_can_add_msite), Snackbar.LENGTH_SHORT).show();
+                    return;
                 }
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle(getString(R.string.add_monitor));
                 builder.setMessage(getString(R.string.sure_to_add_monitor));
@@ -349,6 +358,13 @@ public class MainActivity extends BaseActivity {
     private void requestAddMSite() {
         MonitoringSite model = new MonitoringSite();
         model.setModelId(KeyGenerator.generateModelKey(MonitoringSite.class.getSimpleName()));
+        GroupRecord recordContent = FSManager.getInstance().getRecordContent();
+        if (recordContent.group.monitoringSiteIds == null) {
+            recordContent.group.monitoringSiteIds = new ArrayList<>();
+        }
+        recordContent.group.monitoringSiteIds.add(model.getModelId());
+        FSManager.getInstance().saveRecordContent(recordContent);
+
         Long modelMainKey = saveLocal(model);
         model.setId(modelMainKey);
 
@@ -489,6 +505,7 @@ public class MainActivity extends BaseActivity {
                 ConfigUtils.getInstance().setUserLogout();
                 ConfigUtils.getInstance().setUserGroupId(null);
                 ConfigUtils.getInstance().setUserInfo(null, null);
+                FSManager.getInstance().deleteRecordContent();
                 dbManager.deleteAll();
                 finish();
                 break;
@@ -497,7 +514,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.action_download_current_page_header:
             case R.id.action_download_current_page_member:
-                downloadModel();
+                updateCurrentModel();
                 break;
             case R.id.action_download_all_header:
             case R.id.action_download_all_member:
@@ -530,7 +547,16 @@ public class MainActivity extends BaseActivity {
                                 break;
                             case Constants.REQUEST_TREE_SUCCESS:
                                 removeAllTreeView();
-                                dbManager.saveModels(data.getData());
+                                List<MonitoringSite> msData = data.getData();
+                                dbManager.saveModels(msData);
+
+                                List<String> msIds = new ArrayList<String>();
+                                for (MonitoringSite ms : msData) {
+                                    msIds.add(ms.getModelId());
+                                }
+                                GroupRecord recordContent = FSManager.getInstance().getRecordContent();
+                                recordContent.group.monitoringSiteIds = msIds;
+                                FSManager.getInstance().saveRecordContent(recordContent);
                                 refreshTreeView();
                                 generator.cancel();
                                 setMainContent();
@@ -576,7 +602,7 @@ public class MainActivity extends BaseActivity {
     }
 
     // 从网络更新当前的 MODEL
-    private void downloadModel() {
+    private void updateCurrentModel() {
         if (!isNetworkError()) return;
         if (currentFragment != null) {
             HttpMethod.getInstance().downloadSingleModel(ConfigUtils.getInstance().getUsername(),

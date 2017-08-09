@@ -125,4 +125,8 @@ public class Constants {
     public static final int UPLOAD_PHOTO_NOT_ALLOW = 120;
     // 没有照片
     public static final int NO_PHOTOS = 121;
+    // 提交数据表前，请先刷新数据
+    public static final int UPLOAD_BEFORE_UPDATE = 123;
+    // 表记录不存在
+    public static final int GROUP_RECORD_NOT_EXISTS = 124;
 }
