@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
-import com.stormphoenix.fishcollector.databinding.FragmentWaterLayerBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.WaterLayer;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
@@ -62,12 +61,6 @@ public class WaterLayerFragment extends BaseFragment implements AdapterView.OnIt
 
     @Override
     public void onStart() {
-        if (binding != null && attachedBean != null) {
-            Log.e(TAG, "onStart: binding != null && attachedBean != null");
-            ((FragmentWaterLayerBinding) binding).setWaterLayerBean((WaterLayer) attachedBean);
-        } else {
-            Log.e(TAG, "onStart: binding == null || attachedBean == null");
-        }
         super.onStart();
     }
 
@@ -129,6 +122,7 @@ public class WaterLayerFragment extends BaseFragment implements AdapterView.OnIt
                 android.R.layout.simple_spinner_item, Constants.WATER_LAYER));
         setSpinnerSelection();
         spWaterLayer.setOnItemSelectedListener(this);
+        refreshFragment();
     }
 
     private void setSpinnerSelection() {

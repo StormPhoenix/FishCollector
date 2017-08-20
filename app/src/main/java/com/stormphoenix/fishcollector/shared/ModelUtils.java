@@ -20,7 +20,7 @@ public class ModelUtils {
         Long result = null;
         try {
             getIdMethod = obj.getClass().getDeclaredMethod("getId", (Class<?>[]) null);
-            result = (Long) getIdMethod.invoke(obj, (Class<?>[]) null);
+            result = (Long) getIdMethod.invoke(obj);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

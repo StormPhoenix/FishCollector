@@ -10,11 +10,11 @@ import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
-import com.stormphoenix.fishcollector.databinding.FragmentDominantPhytoplanktonSpeciesBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.DominantPhytoplanktonSpecies;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultIntTextWatcher;
+import com.stormphoenix.fishcollector.shared.textutils.DefaultTextWatcher;
 import com.stormphoenix.imagepicker.FishImageType;
 import com.stormphoenix.imagepicker.ImagePicker;
 import com.stormphoenix.imagepicker.bean.ImageItem;
@@ -100,15 +100,18 @@ public class DominantPhytoplanktonFragment extends BaseImageListFragment impleme
 
     @Override
     public void onStart() {
-        if (binding != null && attachedBean != null) {
-            ((FragmentDominantPhytoplanktonSpeciesBinding) binding).setDomPhytopBean((DominantPhytoplanktonSpecies) attachedBean);
-        } else {
-        }
         super.onStart();
     }
 
     @Override
     protected void initViews(View view) {
+        etDomPhyName.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                super.onTextChanged(s, start, before, count);
+                model.setName(s.toString());
+            }
+        });
         etDomPhytoplanktonMount.addTextChangedListener(new DefaultIntTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -134,7 +137,7 @@ public class DominantPhytoplanktonFragment extends BaseImageListFragment impleme
                 model.setBiomass(text);
             }
         });
-
+        refreshFragment();
         initPicturesListView();
     }
 

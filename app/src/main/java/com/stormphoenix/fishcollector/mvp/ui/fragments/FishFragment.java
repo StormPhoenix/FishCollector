@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
-import com.stormphoenix.fishcollector.databinding.FragmentFishBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.Fishes;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
@@ -103,12 +102,6 @@ public class FishFragment extends BaseImageListFragment implements ImagePickerAd
 
     @Override
     public void onStart() {
-        if (binding != null && attachedBean != null) {
-            Log.e(TAG, "onStart: binding != null && attachedBean != null");
-            ((FragmentFishBinding) binding).setFishBean((Fishes) attachedBean);
-        } else {
-            Log.e(TAG, "onStart: binding == null || attachedBean == null");
-        }
         super.onStart();
     }
 
@@ -165,6 +158,7 @@ public class FishFragment extends BaseImageListFragment implements ImagePickerAd
                 model.setAge(text);
             }
         });
+        refreshFragment();
     }
 
     @Override

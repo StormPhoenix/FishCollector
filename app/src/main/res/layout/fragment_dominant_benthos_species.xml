@@ -2,26 +2,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <import type="com.stormphoenix.fishcollector.mvp.model.beans.DominantBenthosSpecies" />
-
-        <variable
-            name="dominantBenthosBean"
-            type="DominantBenthosSpecies" />
-    </data>
-
     <ScrollView
-        android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
         <LinearLayout
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -47,8 +38,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/nums"
                         android:inputType="number"
-                        android:singleLine="true"
-                        android:text="@{String.valueOf(dominantBenthosBean.quality)}" />
+                        android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -71,13 +61,12 @@
                     android:layout_toLeftOf="@id/tv_dom_benthos_biomass_unit">
 
                     <EditText
-                        android:inputType="number|numberDecimal"
                         android:id="@+id/et_dom_benthos_biomass"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/create_mount"
-                        android:singleLine="true"
-                        android:text="@{String.valueOf(dominantBenthosBean.biomass)}" />
+                        android:inputType="number|numberDecimal"
+                        android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -111,7 +100,7 @@
                 android:scrollbarStyle="outsideOverlay"
                 app:layoutManager="android.support.v7.widget.GridLayoutManager"
                 app:spanCount="4"
-                tools:listitem="@layout/list_item_image"/>
+                tools:listitem="@layout/list_item_image" />
         </LinearLayout>
     </ScrollView>
 </layout>

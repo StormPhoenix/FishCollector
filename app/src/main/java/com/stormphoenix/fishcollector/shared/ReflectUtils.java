@@ -22,7 +22,7 @@ public class ReflectUtils {
         try {
             // 利用反射查找 getMethod方法
             Method getPicMethod = model.getClass().getMethod("getPhoto", (Class[]) null);
-            result = (String) getPicMethod.invoke(model, null);
+            result = (String) getPicMethod.invoke(model);
             result = PhotosPathUtils.appendPath(result, path);
             setModelPhotoPaths(model, result);
         } catch (NoSuchMethodException e) {
@@ -61,7 +61,7 @@ public class ReflectUtils {
         try {
             // 利用反射查找 getMethod方法
             Method getPicMethod = model.getClass().getMethod("getPhoto", (Class[]) null);
-            String path = (String) getPicMethod.invoke(model, null);
+            String path = (String) getPicMethod.invoke(model);
             paths = PhotosPathUtils.processPhotosPath(path);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();

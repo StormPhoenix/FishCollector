@@ -91,7 +91,7 @@ public class DbManager {
         if (DaoSession.class.getDeclaredMethod(methodName, (Class<?>[]) null) != null) {
             Method method = DaoSession.class.getDeclaredMethod(methodName, (Class<?>[]) null);
             DaoSession daoSession = new DaoMaster(devOpenHelper.getWritableDatabase()).newSession();
-            AbstractDao dao = (AbstractDao) method.invoke(daoSession, null);
+            AbstractDao dao = (AbstractDao) method.invoke(daoSession);
             return dao;
         } else {
             return null;

@@ -61,7 +61,7 @@ public abstract class BaseImageListFragment extends BaseFragment implements Imag
 
         String path = null;
         try {
-            path = (String) getPhotoMethod.invoke(attachedBean, null);
+            path = (String) getPhotoMethod.invoke(attachedBean);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

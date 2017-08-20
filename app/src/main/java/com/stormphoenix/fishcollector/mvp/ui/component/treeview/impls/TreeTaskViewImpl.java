@@ -91,7 +91,7 @@ public class TreeTaskViewImpl implements ITreeView {
         for (Method method : methods) {
             String methodName = method.getName();
             if (methodName.startsWith("get") && method.getReturnType().equals(List.class)) {
-                List<BaseModel> objList = (List<BaseModel>) method.invoke(obj, null);
+                List<BaseModel> objList = (List<BaseModel>) method.invoke(obj);
                 for (BaseModel mObj : objList) {
                     TreeNode tempNode = treeRecursion(mObj);
                     if (tempNode != null) {

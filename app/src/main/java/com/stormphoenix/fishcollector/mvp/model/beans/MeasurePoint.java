@@ -2,7 +2,6 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.Expose;
@@ -102,7 +101,6 @@ public class MeasurePoint extends BaseObservable implements BaseModel {
         this.modelId = modelId;
     }
 
-    @Bindable
     public float getLongitude() {
         return this.longitude;
     }
@@ -111,7 +109,6 @@ public class MeasurePoint extends BaseObservable implements BaseModel {
         this.longitude = longitude;
     }
 
-    @Bindable
     public float getLatitude() {
         return this.latitude;
     }

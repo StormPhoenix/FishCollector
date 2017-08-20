@@ -11,11 +11,11 @@ import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
-import com.stormphoenix.fishcollector.databinding.FragmentDominantZooplanktonSpeciesBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.DominantZooplanktonSpecies;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultIntTextWatcher;
+import com.stormphoenix.fishcollector.shared.textutils.DefaultTextWatcher;
 import com.stormphoenix.imagepicker.DirUtils;
 import com.stormphoenix.imagepicker.FishImageType;
 import com.stormphoenix.imagepicker.ImagePicker;
@@ -66,15 +66,19 @@ public class DominantZooplanktonFragment extends BaseFragment implements ImagePi
 
     @Override
     public void onStart() {
-        if (binding != null && attachedBean != null) {
-            ((FragmentDominantZooplanktonSpeciesBinding) binding).setDomZoopBean((DominantZooplanktonSpecies) attachedBean);
-        } else {
-        }
         super.onStart();
     }
 
     @Override
     protected void initViews(View view) {
+        etDomZoopName.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
+                model.setName(s.toString());
+            }
+        });
+
         etDomZooplanktonMount.addTextChangedListener(new DefaultIntTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -100,7 +104,7 @@ public class DominantZooplanktonFragment extends BaseFragment implements ImagePi
                 model.setBiomass(text);
             }
         });
-
+        refreshFragment();
         initPicturesListView();
     }
 

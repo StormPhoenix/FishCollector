@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -11,10 +12,10 @@ import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
-import com.stormphoenix.fishcollector.databinding.FragmentCatchBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.Catches;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultIntTextWatcher;
+import com.stormphoenix.fishcollector.shared.textutils.DefaultTextWatcher;
 import com.stormphoenix.imagepicker.FishImageType;
 import com.stormphoenix.imagepicker.ImagePicker;
 import com.stormphoenix.imagepicker.bean.ImageItem;
@@ -51,8 +52,8 @@ public class CatchFragment extends BaseImageListFragment implements ImagePickerA
 
     @Override
     protected void refreshFragment() {
-        etLittleFishNum.setText(String .valueOf(model.getFryQuality()));
-        etFryTotalNum.setText(String .valueOf(model.getTotalQuality()));
+        etLittleFishNum.setText(String.valueOf(model.getFryQuality()));
+        etFryTotalNum.setText(String.valueOf(model.getTotalQuality()));
         etFishName.setText(model.getName());
         etEggMount.setText(String.valueOf(model.getEggQuality()));
     }
@@ -72,17 +73,19 @@ public class CatchFragment extends BaseImageListFragment implements ImagePickerA
 
     @Override
     public void onStart() {
-        if (binding != null && attachedBean != null) {
-            Log.e(TAG, "onStart: binding != null && attachedBean != null");
-            ((FragmentCatchBinding) binding).setCatchBean(model);
-        } else {
-            Log.e(TAG, "onStart: binding == null || attachedBean == null");
-        }
         super.onStart();
     }
 
     @Override
     protected void initViews(View view) {
+        etFishName.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
+                model.setName(s.toString());
+            }
+        });
+
         etFryTotalNum.addTextChangedListener(new DefaultIntTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -123,6 +126,7 @@ public class CatchFragment extends BaseImageListFragment implements ImagePickerA
             }
         });
 
+        refreshFragment();
         initPicturesListView();
     }
 

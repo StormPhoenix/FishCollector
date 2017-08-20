@@ -2,15 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <import type="com.stormphoenix.fishcollector.mvp.model.beans.Catches" />
-
-        <variable
-            name="catchBean"
-            type="Catches" />
-    </data>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,8 +32,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/fish_name"
-                            android:text="@={catchBean.name}" />
-                        android:singleLine="true"/>
+                            android:singleLine="true" />
                     </android.support.design.widget.TextInputLayout>
                 </RelativeLayout>
 

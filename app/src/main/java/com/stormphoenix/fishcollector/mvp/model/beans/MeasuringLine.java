@@ -1,7 +1,6 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.Expose;
@@ -112,7 +111,6 @@ public class MeasuringLine extends BaseObservable implements BaseModel {
         this.modelId = modelId;
     }
 
-    @Bindable
     public float getStartLongitude() {
         return this.startLongitude;
     }
@@ -121,7 +119,6 @@ public class MeasuringLine extends BaseObservable implements BaseModel {
         this.startLongitude = startLongitude;
     }
 
-    @Bindable
     public float getStartLatitude() {
         return this.startLatitude;
     }
@@ -130,7 +127,6 @@ public class MeasuringLine extends BaseObservable implements BaseModel {
         this.startLatitude = startLatitude;
     }
 
-    @Bindable
     public float getEndLongitude() {
         return this.endLongitude;
     }
@@ -139,7 +135,6 @@ public class MeasuringLine extends BaseObservable implements BaseModel {
         this.endLongitude = endLongitude;
     }
 
-    @Bindable
     public float getEndLatitude() {
         return this.endLatitude;
     }

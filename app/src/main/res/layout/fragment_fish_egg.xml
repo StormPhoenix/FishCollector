@@ -2,15 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <import type="com.stormphoenix.fishcollector.mvp.model.beans.FishEggs" />
-
-        <variable
-            name="fishEggBean"
-            type="FishEggs" />
-    </data>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -18,8 +9,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -34,8 +25,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/puberty"
-                        android:singleLine="true"
-                        android:text="@={fishEggBean.period}" />
+                        android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -106,8 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/pigment_property"
-                    android:singleLine="true"
-                    android:text="@={fishEggBean.pigmentProp}" />
+                    android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -119,8 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/embryo_traits"
-                    android:singleLine="true"
-                    android:text="@={fishEggBean.embryoProp}" />
+                    android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.v7.widget.RecyclerView

@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
-import com.stormphoenix.fishcollector.databinding.FragmentFractureSurfaceBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.FractureSurface;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
@@ -71,6 +70,7 @@ public class FractureSurfaceFragment extends BaseFragment implements AdapterView
                 model.setDistance2Bank(text);
             }
         });
+        refreshFragment();
     }
 
     private void setSpinnerSelection() {
@@ -90,12 +90,6 @@ public class FractureSurfaceFragment extends BaseFragment implements AdapterView
 
     @Override
     public void onStart() {
-        if (binding != null && attachedBean != null) {
-            Log.e(TAG, "onStart: binding != null && attachedBean != null");
-            ((FragmentFractureSurfaceBinding) binding).setFractureSurfaceBean((FractureSurface) attachedBean);
-        } else {
-            Log.e(TAG, "onStart: binding == null || attachedBean == null");
-        }
         super.onStart();
     }
 

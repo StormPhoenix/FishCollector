@@ -2,15 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <import type="com.stormphoenix.fishcollector.mvp.model.beans.Fishes" />
-
-        <variable
-            name="fishBean"
-            type="Fishes" />
-    </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,8 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/body_length"
-                    android:inputType="number|numberDecimal"
-                    android:text="@{String.valueOf(fishBean.bodyLength)}" />
+                    android:inputType="number|numberDecimal" />
             </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
 
@@ -71,8 +61,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/whole_length"
                     android:inputType="number|numberDecimal"
-                    android:singleLine="true"
-                    android:text="@{String.valueOf(fishBean.length)}" />
+                    android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
 
@@ -100,8 +89,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/body_weight"
                     android:inputType="number|numberDecimal"
-                    android:singleLine="true"
-                    android:text="@{String.valueOf(fishBean.bodyWeight)}" />
+                    android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
 
@@ -121,8 +109,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/age"
-                    android:inputType="number"
-                    android:text="@{String.valueOf(fishBean.age)}" />
+                    android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
 
             <TextView

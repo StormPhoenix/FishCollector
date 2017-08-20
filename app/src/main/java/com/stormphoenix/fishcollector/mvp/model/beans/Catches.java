@@ -2,10 +2,8 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
-import com.android.databinding.library.baseAdapters.BR;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
@@ -127,14 +125,12 @@ public class Catches extends BaseObservable implements BaseModel {
         this.modelId = modelId;
     }
 
-    @Bindable
     public String getName() {
         return this.name;
     }
 
     public void setName(String name) {
         this.name = name;
-        notifyPropertyChanged(BR.name);
     }
 
     public String getPhoto() {

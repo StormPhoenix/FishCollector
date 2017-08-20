@@ -14,10 +14,10 @@ import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
-import com.stormphoenix.fishcollector.databinding.FragmentFishEggBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.FishEggs;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
+import com.stormphoenix.fishcollector.shared.textutils.DefaultTextWatcher;
 import com.stormphoenix.imagepicker.FishImageType;
 import com.stormphoenix.imagepicker.ImagePicker;
 import com.stormphoenix.imagepicker.bean.ImageItem;
@@ -69,17 +69,32 @@ public class FishEggFragment extends BaseImageListFragment implements ImagePicke
 
     @Override
     public void onStart() {
-        if (binding != null && attachedBean != null) {
-            Log.e(TAG, "onStart: binding != null && attachedBean != null");
-            ((FragmentFishEggBinding) binding).setFishEggBean((FishEggs) attachedBean);
-        } else {
-            Log.e(TAG, "onStart: binding == null || attachedBean == null");
-        }
         super.onStart();
     }
 
     @Override
     protected void initViews(View view) {
+        etEmbryoTraits.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                super.onTextChanged(s, start, before, count);
+                model.setEmbryoProp(s.toString());
+            }
+        });
+        etPigmentProp.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                super.onTextChanged(s, start, before, count);
+                model.setPigmentProp(s.toString());
+            }
+        });
+        etPuberty.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                super.onTextChanged(s, start, before, count);
+                model.setPeriod(s.toString());
+            }
+        });
         etEggDiameter.addTextChangedListener(new DefaultFloatTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -104,7 +119,7 @@ public class FishEggFragment extends BaseImageListFragment implements ImagePicke
                 model.setEmDiameter(text);
             }
         });
-
+        refreshFragment();
         initPicturesListView();
     }
 

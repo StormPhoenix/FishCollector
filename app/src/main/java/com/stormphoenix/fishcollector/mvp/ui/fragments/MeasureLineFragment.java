@@ -1,5 +1,6 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -8,11 +9,12 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
-import com.stormphoenix.fishcollector.databinding.FragmentMeasureLineBinding;
 import com.stormphoenix.fishcollector.location.Locator;
 import com.stormphoenix.fishcollector.mvp.model.beans.MeasuringLine;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.mvp.view.LocationView;
+import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
+import com.stormphoenix.fishcollector.shared.textutils.DefaultTextWatcher;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -61,12 +63,6 @@ public class MeasureLineFragment extends BaseFragment {
 
     @Override
     public void onStart() {
-        if (binding != null && attachedBean != null) {
-            Log.e(TAG, "onStart: binding != null && attachedBean != null");
-            ((FragmentMeasureLineBinding) binding).setMeasuringLineBean((MeasuringLine) attachedBean);
-        } else {
-            Log.e(TAG, "onStart: binding == null || attachedBean == null");
-        }
         super.onStart();
     }
 
@@ -138,57 +134,57 @@ public class MeasureLineFragment extends BaseFragment {
 
     @Override
     protected void initViews(View view) {
-//        etStartLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                try {
-//                    super.afterTextChanged(s);
-//                } catch (NumberFormatException e) {
-//                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
-//                    text = 0;
-//                }
-//                model.setStartLatitude(text);
-//            }
-//        });
+        etEndLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+                    text = 0;
+                }
+                model.setEndLatitude(text);
+            }
+        });
+        etEndLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+                    text = 0;
+                }
+                model.setEndLongitude(text);
+            }
+        });
+        etStartLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+                    text = 0;
+                }
+                model.setStartLatitude(text);
+            }
+        });
 
-//        etStartLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                try {
-//                    super.afterTextChanged(s);
-//                } catch (NumberFormatException e) {
-//                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
-//                    text = 0;
-//                }
-//                model.setStartLongitude(text);
-//            }
-//        });
+        etStartLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+                    text = 0;
+                }
+                model.setStartLongitude(text);
+            }
+        });
 
-//        etEndLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                try {
-//                    super.afterTextChanged(s);
-//                } catch (NumberFormatException e) {
-//                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
-//                    text = 0;
-//                }
-//                model.setEndLongitude(text);
-//            }
-//        });
-
-//        etEndLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                try {
-//                    super.afterTextChanged(s);
-//                } catch (NumberFormatException e) {
-//                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
-//                    text = 0;
-//                }
-//                model.setEndLatitude(text);
-//            }
-//        });
+        refreshFragment();
     }
 
     @OnClick({R.id.imgBtn_start_location_line, R.id.imgBtn_end_location_line})

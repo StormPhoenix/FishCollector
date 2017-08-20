@@ -3,15 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <import type="com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite" />
-
-        <variable
-            name="monitoringSiteBean"
-            type="MonitoringSite" />
-    </data>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,37 +21,6 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 
-            <!--<LinearLayout-->
-            <!--android:id="@+id/spinner_layout"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:weightSum="2">-->
-
-            <!--<Spinner-->
-            <!--android:id="@+id/sp_province"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1">-->
-
-            <!--</Spinner>-->
-
-            <!--<View-->
-            <!--android:layout_width="0.5dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_marginBottom="3dp"-->
-            <!--android:layout_marginTop="3dp"-->
-            <!--android:background="#bdbdbd" />-->
-
-            <!--<Spinner-->
-            <!--android:id="@+id/sp_city"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1">-->
-
-            <!--</Spinner>-->
-            <!--</LinearLayout>-->
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/et_detection_unit_wrapper"
@@ -73,8 +33,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:hint="@string/detection_unit"
-                    android:singleLine="true"
-                    android:text="@={monitoringSiteBean.institution}" />
+                    android:singleLine="true" />
+                <!--android:text="@={monitoringSiteBean.institution}" -->
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -87,8 +47,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/monitors"
-                    android:singleLine="true"
-                    android:text="@={monitoringSiteBean.investigator}" />
+                    android:singleLine="true" />
+                <!--android:text="@={monitoringSiteBean.investigator}" -->
             </android.support.design.widget.TextInputLayout>
 
             <RelativeLayout
@@ -115,8 +75,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/date"
-                        android:singleLine="true"
-                        android:text="@={monitoringSiteBean.investigationDate}" />
+                        android:singleLine="true" />
+                    <!--android:text="@={monitoringSiteBean.investigationDate}" -->
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -131,8 +91,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/address_details"
-                    android:text="@={monitoringSiteBean.site}"
                     android:singleLine="true" />
+                <!--android:text="@={monitoringSiteBean.site}" -->
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -146,8 +106,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/water_area"
-                    android:singleLine="true"
-                    android:text="@={monitoringSiteBean.river}" />
+                    android:singleLine="true" />
+                <!--android:text="@={monitoringSiteBean.river}" -->
             </android.support.design.widget.TextInputLayout>
 
             <RelativeLayout
@@ -172,10 +132,11 @@
                         android:id="@+id/et_start_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:editable="false"
                         android:hint="@string/start_time"
                         android:inputType="datetime"
-                        android:singleLine="true"
-                        android:text="@={monitoringSiteBean.startTime}" />
+                        android:singleLine="true" />
+                    <!--android:text="@={monitoringSiteBean.startTime}" -->
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -201,10 +162,11 @@
                         android:id="@+id/et_end_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:editable="false"
                         android:hint="@string/end_date"
                         android:inputType="datetime"
-                        android:singleLine="true"
-                        android:text="@={monitoringSiteBean.endTime}" />
+                        android:singleLine="true" />
+                    <!--android:text="@={monitoringSiteBean.endTime}" -->
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -239,8 +201,8 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/heat"
                         android:inputType="number"
-                        android:singleLine="true"
-                        android:text="@{String.valueOf(monitoringSiteBean.temperature)}" />
+                        android:singleLine="true" />
+                    <!--android:text="@{String.valueOf(monitoringSiteBean.temperature)}" -->
                 </android.support.design.widget.TextInputLayout>
 
                 <TextView
@@ -287,8 +249,8 @@
                         android:hint="@string/start_longitude"
                         android:inputType="number|numberDecimal"
                         android:paddingLeft="10dp"
-                        android:singleLine="true"
-                        android:text="@{String.valueOf(monitoringSiteBean.startLongitude)}" />
+                        android:singleLine="true" />
+                    <!--android:text="@{String.valueOf(monitoringSiteBean.startLongitude)}" -->
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -308,8 +270,8 @@
                     android:hint="@string/start_latitude"
                     android:inputType="number|numberDecimal"
                     android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:text="@{String.valueOf(monitoringSiteBean.startLatitude)}" />
+                    android:singleLine="true" />
+                <!--android:text="@{String.valueOf(monitoringSiteBean.startLatitude)}" -->
             </android.support.design.widget.TextInputLayout>
 
             <RelativeLayout
@@ -348,8 +310,8 @@
                         android:hint="@string/end_longitude"
                         android:inputType="number|numberDecimal"
                         android:paddingLeft="10dp"
-                        android:singleLine="true"
-                        android:text="@{String.valueOf(monitoringSiteBean.endLongitude)}" />
+                        android:singleLine="true" />
+                    <!--android:text="@{String.valueOf(monitoringSiteBean.endLongitude)}" -->
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -368,8 +330,8 @@
                     android:hint="@string/end_latitude"
                     android:inputType="number|numberDecimal"
                     android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:text="@{String.valueOf(monitoringSiteBean.endLatitude)}" />
+                    android:singleLine="true" />
+                <!--android:text="@{String.valueOf(monitoringSiteBean.endLatitude)}" -->
             </android.support.design.widget.TextInputLayout>
 
             <android.support.v7.widget.RecyclerView

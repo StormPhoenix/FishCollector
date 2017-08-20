@@ -2,15 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <import type="com.stormphoenix.fishcollector.mvp.model.beans.CatchTools" />
-
-        <variable
-            name="catchToolsBean"
-            type="CatchTools" />
-    </data>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,8 +27,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/name"
-                        android:singleLine="true"
-                        android:text="@={catchToolsBean.name}" />
+                        android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -54,8 +44,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/net_type"
-                        android:singleLine="true"
-                        android:text="@={catchToolsBean.netsModel}" />
+                        android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -157,9 +146,9 @@
                         android:id="@+id/et_start_time_tools"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:editable="false"
                         android:hint="@string/start_time"
-                        android:inputType="datetime"
-                        android:text="@={catchToolsBean.startTime}" />
+                        android:inputType="datetime" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -184,9 +173,9 @@
                         android:id="@+id/et_end_time_tools"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:editable="false"
                         android:hint="@string/end_time"
-                        android:inputType="datetime"
-                        android:text="@={catchToolsBean.endTime}" />
+                        android:inputType="datetime" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 

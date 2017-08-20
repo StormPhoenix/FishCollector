@@ -1,10 +1,8 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
-import com.android.databinding.library.baseAdapters.BR;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
@@ -156,54 +154,44 @@ public class MonitoringSite extends BaseObservable implements BaseModel, Cloneab
         this.modelId = modelId;
     }
 
-    @Bindable
     public String getInstitution() {
         return this.institution;
     }
 
     public void setInstitution(String institution) {
         this.institution = institution;
-        notifyPropertyChanged(BR.institution);
     }
 
-    @Bindable
     public String getInvestigator() {
         return this.investigator;
     }
 
     public void setInvestigator(String investigator) {
         this.investigator = investigator;
-        notifyPropertyChanged(BR.investigator);
     }
 
-    @Bindable
     public String getInvestigationDate() {
         return this.investigationDate;
     }
 
     public void setInvestigationDate(String investigationDate) {
         this.investigationDate = investigationDate;
-        notifyPropertyChanged(BR.investigationDate);
     }
 
-    @Bindable
     public String getSite() {
         return this.site;
     }
 
     public void setSite(String site) {
         this.site = site;
-        notifyPropertyChanged(BR.site);
     }
 
-    @Bindable
     public String getRiver() {
         return this.river;
     }
 
     public void setRiver(String river) {
         this.river = river;
-        notifyPropertyChanged(BR.river);
     }
 
     public String getPhoto() {
@@ -214,24 +202,20 @@ public class MonitoringSite extends BaseObservable implements BaseModel, Cloneab
         this.photo = photo;
     }
 
-    @Bindable
     public String getStartTime() {
         return this.startTime;
     }
 
     public void setStartTime(String startTime) {
         this.startTime = startTime;
-        notifyPropertyChanged(BR.startTime);
     }
 
-    @Bindable
     public String getEndTime() {
         return this.endTime;
     }
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
-        notifyPropertyChanged(BR.endTime);
     }
 
     public float getStartLongitude() {
@@ -266,14 +250,12 @@ public class MonitoringSite extends BaseObservable implements BaseModel, Cloneab
         this.endLatitude = endLatitude;
     }
 
-    @Bindable
     public String getWeather() {
         return this.weather;
     }
 
     public void setWeather(String weather) {
         this.weather = weather;
-        notifyPropertyChanged(BR.weather);
     }
 
     public float getTemperature() {

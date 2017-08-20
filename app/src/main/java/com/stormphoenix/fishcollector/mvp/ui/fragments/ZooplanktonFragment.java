@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
-import com.stormphoenix.fishcollector.databinding.FragmentZooplanktonBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.Zooplankton;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
@@ -60,12 +59,6 @@ public class ZooplanktonFragment extends BaseImageListFragment implements ImageP
 
     @Override
     public void onStart() {
-        if (binding != null && attachedBean != null) {
-            Log.e(TAG, "onStart: binding != null && attachedBean != null");
-            ((FragmentZooplanktonBinding) binding).setZooplanktopBean((Zooplankton) attachedBean);
-        } else {
-            Log.e(TAG, "onStart: binding == null || attachedBean == null");
-        }
         super.onStart();
     }
 
@@ -97,6 +90,7 @@ public class ZooplanktonFragment extends BaseImageListFragment implements ImageP
             }
         });
 
+        refreshFragment();
         initPicturesListView();
     }
 

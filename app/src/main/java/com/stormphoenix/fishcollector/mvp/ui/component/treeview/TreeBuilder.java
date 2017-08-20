@@ -197,7 +197,7 @@ public class TreeBuilder {
             String methodName = method.getName();
             if (methodName.startsWith("get") && method.getReturnType().equals(List.class)) {
                 // 找到的下级节点组装成链表
-                List<BaseModel> objList = (List<BaseModel>) method.invoke(obj, null);
+                List<BaseModel> objList = (List<BaseModel>) method.invoke(obj);
                 for (BaseModel mObj : objList) {
                     TreeNode tempNode = createDataTreeNode(mContext, mObj, createTreeNodeHolder());
                     /*

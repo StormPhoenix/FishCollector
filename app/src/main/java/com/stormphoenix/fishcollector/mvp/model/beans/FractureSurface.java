@@ -2,7 +2,6 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.Expose;
@@ -122,7 +121,6 @@ public class FractureSurface extends BaseObservable implements BaseModel {
         this.modelId = modelId;
     }
 
-    @Bindable
     public String getPosition() {
         return this.position;
     }
@@ -131,7 +129,6 @@ public class FractureSurface extends BaseObservable implements BaseModel {
         this.position = position;
     }
 
-    @Bindable
     public float getDistance2Bank() {
         return this.distance2Bank;
     }

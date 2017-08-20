@@ -18,11 +18,11 @@ import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
-import com.stormphoenix.fishcollector.databinding.FragmentCatchToolsBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.CatchTools;
 import com.stormphoenix.fishcollector.mvp.ui.dialog.TimeSelectorDialogGenerator;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
+import com.stormphoenix.fishcollector.shared.textutils.DefaultTextWatcher;
 import com.stormphoenix.imagepicker.FishImageType;
 import com.stormphoenix.imagepicker.ImagePicker;
 import com.stormphoenix.imagepicker.bean.ImageItem;
@@ -96,17 +96,43 @@ public class CatchToolFragment extends BaseImageListFragment implements ImagePic
 
     @Override
     public void onStart() {
-        if (binding != null && attachedBean != null) {
-            Log.e(TAG, "onStart: binding != null && attachedBean != null");
-            ((FragmentCatchToolsBinding) binding).setCatchToolsBean((CatchTools) attachedBean);
-        } else {
-            Log.e(TAG, "onStart: binding == null || attachedBean == null");
-        }
         super.onStart();
     }
 
     @Override
     protected void initViews(View view) {
+        etEndTimeTools.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                super.onTextChanged(s, start, before, count);
+                model.setEndTime(s.toString());
+            }
+        });
+
+        etStartTimeTools.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                super.onTextChanged(s, start, before, count);
+                model.setStartTime(s.toString());
+            }
+        });
+
+        etNetName.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                super.onTextChanged(s, start, before, count);
+                model.setName(s.toString());
+            }
+        });
+
+        etNetType.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                super.onTextChanged(s, start, before, count);
+                model.setNetsModel(s.toString());
+            }
+        });
+
         etNetAngle.addTextChangedListener(new DefaultFloatTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -145,7 +171,7 @@ public class CatchToolFragment extends BaseImageListFragment implements ImagePic
                 model.setNetMouthVelocity(text);
             }
         });
-
+        refreshFragment();
         initPicturesListView();
     }
 

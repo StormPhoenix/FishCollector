@@ -11,11 +11,11 @@ import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
-import com.stormphoenix.fishcollector.databinding.FragmentDominantBenthosSpeciesBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.DominantBenthosSpecies;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultIntTextWatcher;
+import com.stormphoenix.fishcollector.shared.textutils.DefaultTextWatcher;
 import com.stormphoenix.imagepicker.FishImageType;
 import com.stormphoenix.imagepicker.ImagePicker;
 import com.stormphoenix.imagepicker.bean.ImageItem;
@@ -62,17 +62,19 @@ public class DominantBenthosFragment extends BaseImageListFragment implements Im
 
     @Override
     public void onStart() {
-        if (binding != null && attachedBean != null) {
-            Log.e(TAG, "onStart: binding != null && attachedBean != null");
-            ((FragmentDominantBenthosSpeciesBinding) binding).setDominantBenthosBean((DominantBenthosSpecies) attachedBean);
-        } else {
-            Log.e(TAG, "onStart: binding == null || attachedBean == null");
-        }
         super.onStart();
     }
 
     @Override
     protected void initViews(View view) {
+        etDomBenthosName.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
+                model.setName(s.toString());
+            }
+        });
+
         etDomBenthosMount.addTextChangedListener(new DefaultIntTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -98,7 +100,7 @@ public class DominantBenthosFragment extends BaseImageListFragment implements Im
                 model.setBiomass(text);
             }
         });
-
+        refreshFragment();
         initPicturesListView();
     }
 

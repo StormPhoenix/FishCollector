@@ -2,15 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <import type="com.stormphoenix.fishcollector.mvp.model.beans.Phytoplankton" />
-
-        <variable
-            name="phytoplankBean"
-            type="Phytoplankton" />
-    </data>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,8 +39,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/nums"
                         android:inputType="numberDecimal"
-                        android:singleLine="true"
-                        android:text="@{String.valueOf(phytoplankBean.quality)}" />
+                        android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -76,8 +66,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/create_mount"
-                        android:singleLine="true"
-                        android:text="@{String.valueOf(phytoplankBean.quality)}" />
+                        android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 

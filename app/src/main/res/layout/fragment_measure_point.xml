@@ -1,14 +1,5 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-
-        <import type="com.stormphoenix.fishcollector.mvp.model.beans.MeasurePoint" />
-
-        <variable
-            name="measuringPointBean"
-            type="MeasurePoint" />
-    </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -44,10 +35,9 @@
                     android:id="@+id/et_longitude"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number|numberDecimal"
                     android:hint="@string/longitude"
-                    android:singleLine="true"
-                    android:text="@{String.valueOf(measuringPointBean.longitude)}" />
+                    android:inputType="number|numberDecimal"
+                    android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
 
@@ -63,10 +53,9 @@
                     android:id="@+id/et_latitude"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number|numberDecimal"
                     android:hint="@string/latitude"
-                    android:singleLine="true"
-                    android:text="@{String.valueOf(measuringPointBean.latitude)}" />
+                    android:inputType="number|numberDecimal"
+                    android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
     </LinearLayout>

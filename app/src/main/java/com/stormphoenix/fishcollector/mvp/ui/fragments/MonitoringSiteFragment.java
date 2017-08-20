@@ -23,7 +23,6 @@ import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
-import com.stormphoenix.fishcollector.databinding.FragmentMonitorSiteBinding;
 import com.stormphoenix.fishcollector.location.Locator;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.ui.dialog.TimeSelectorDialogGenerator;
@@ -31,6 +30,7 @@ import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragmen
 import com.stormphoenix.fishcollector.mvp.view.LocationView;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
+import com.stormphoenix.fishcollector.shared.textutils.DefaultTextWatcher;
 import com.stormphoenix.imagepicker.FishImageType;
 import com.stormphoenix.imagepicker.ImagePicker;
 import com.stormphoenix.imagepicker.bean.ImageItem;
@@ -137,13 +137,6 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
 
     @Override
     public void onStart() {
-        Log.i(TAG, "onStart");
-        if (binding != null && attachedBean != null) {
-            Log.e(TAG, "onStart: binding != null && attachedBean != null");
-            ((FragmentMonitorSiteBinding) binding).setMonitoringSiteBean((MonitoringSite) attachedBean);
-        } else {
-            Log.e(TAG, "onStart: binding == null || attachedBean == null");
-        }
         super.onStart();
     }
 
@@ -268,7 +261,6 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
         });
 
         setSpinnerSelection();
-
         etTemperature.addTextChangedListener(new DefaultFloatTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -281,26 +273,112 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
                 ((MonitoringSite) attachedBean).setTemperature(text);
             }
         });
-//
-//        etDetailsAddress.setText(model.getSite());
-//        etDetailsAddress.addTextChangedListener(new DefaultTextWatcher() {
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                super.afterTextChanged(s);
-////                detailAddress = text;
-////                site = String.valueOf(cityPosition) + "|" + String.valueOf(cityIndex) + "$" + detailAddress;
-//                ((MonitoringSite) attachedBean).setSite(text);
-//            }
-//        });
 
-//        spinProvince.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, Constants.PROVINCE));
-//        spinProvince.setSelection(cityPosition);
-//        spinProvince.setOnItemSelectedListener(this);
-//
-//        spinCity.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, Constants.CITY[cityPosition]));
-//        spinCity.setSelection(cityIndex);
-//        spinCity.setOnItemSelectedListener(this);
+        etDetectionUnit.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
+                model.setInstitution(text);
+            }
+        });
 
+        etMonitors.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
+                model.setInvestigator(text);
+            }
+        });
+
+        etDate.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
+                model.setInvestigationDate(text);
+            }
+        });
+
+        etDetailsAddress.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
+                model.setSite(text);
+            }
+        });
+
+        etWaterArea.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
+                model.setRiver(text);
+            }
+        });
+
+        etStartTime.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
+                model.setStartTime(text);
+            }
+        });
+
+        etEndTime.addTextChangedListener(new DefaultTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
+                model.setEndTime(text);
+            }
+        });
+
+        etStartLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    text = 0;
+                }
+                model.setStartLongitude(text);
+            }
+        });
+
+        etStartLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    text = 0;
+                }
+                model.setStartLatitude(text);
+            }
+        });
+
+        etEndLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    text = 0;
+                }
+                model.setEndLatitude(text);
+            }
+        });
+
+        etEndLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    text = 0;
+                }
+                model.setEndLongitude(text);
+            }
+        });
+
+        refreshFragment();
         initPicturesListView();
     }
 

@@ -1,15 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-        <import type="com.stormphoenix.fishcollector.mvp.model.beans.WaterLayer" />
-
-        <variable
-            name="waterLayerBean"
-            type="WaterLayer" />
-    </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,8 +39,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/depth"
                     android:inputType="number|numberDecimal"
-                    android:singleLine="true"
-                    android:text="@{String.valueOf(waterLayerBean.depth)}" />
+                    android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
             <TextView
@@ -79,8 +69,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/water_temperature"
                     android:inputType="number|numberDecimal"
-                    android:singleLine="true"
-                    android:text="@{String.valueOf(waterLayerBean.temperature)}" />
+                    android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
             <TextView
@@ -107,8 +96,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/water_level"
                     android:inputType="number|numberDecimal"
-                    android:singleLine="true"
-                    android:text="@{String.valueOf(waterLayerBean.waterLevel)}" />
+                    android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
 
@@ -129,8 +117,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/water_velocity"
                     android:inputType="number|numberDecimal"
-                    android:singleLine="true"
-                    android:text="@{String.valueOf(waterLayerBean.velocity)}" />
+                    android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
             <TextView

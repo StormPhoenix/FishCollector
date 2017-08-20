@@ -1,6 +1,6 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments;
 
-import android.util.Log;
+import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -8,11 +8,11 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
-import com.stormphoenix.fishcollector.databinding.FragmentMeasurePointBinding;
 import com.stormphoenix.fishcollector.location.Locator;
 import com.stormphoenix.fishcollector.mvp.model.beans.MeasurePoint;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseFragment;
 import com.stormphoenix.fishcollector.mvp.view.LocationView;
+import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -86,42 +86,37 @@ public class MeasurePointFragment extends BaseFragment {
 
     @Override
     public void onStart() {
-        if (binding != null && attachedBean != null) {
-            Log.e(TAG, "onStart: binding != null && attachedBean != null");
-            ((FragmentMeasurePointBinding) binding).setMeasuringPointBean((MeasurePoint) attachedBean);
-        } else {
-            Log.e(TAG, "onStart: binding == null || attachedBean == null");
-        }
         super.onStart();
     }
 
     @Override
     protected void initViews(View view) {
-//        etLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                try {
-//                    super.afterTextChanged(s);
-//                } catch (NumberFormatException e) {
-//                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
-//                    text = 0;
-//                }
-//                model.setLongitude(text);
-//            }
-//        });
+        etLongitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+                    text = 0;
+                }
+                model.setLongitude(text);
+            }
+        });
 
-//        etLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                try {
-//                    super.afterTextChanged(s);
-//                } catch (NumberFormatException e) {
-//                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
-//                    text = 0;
-//                }
-//                model.setLatitude(text);
-//            }
-//        });
+        etLatitude.addTextChangedListener(new DefaultFloatTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    super.afterTextChanged(s);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.input_type_error), Toast.LENGTH_SHORT).show();
+                    text = 0;
+                }
+                model.setLatitude(text);
+            }
+        });
+        refreshFragment();
     }
 
     @OnClick(R.id.imgBtn_location)

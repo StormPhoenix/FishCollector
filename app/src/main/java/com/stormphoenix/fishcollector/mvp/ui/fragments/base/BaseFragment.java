@@ -1,8 +1,6 @@
 package com.stormphoenix.fishcollector.mvp.ui.fragments.base;
 
 import android.app.Fragment;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -45,7 +43,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
     protected T mPresenter;
     protected View mFragmentView;
     protected Subscription mSubscription;
-    protected ViewDataBinding binding = null;
     protected BaseModel attachedBean = null;
     protected ProgressDialogGenerator submitDialogGenerator;
     protected SubmitSingleModelView submitSingleModelView;
@@ -89,7 +86,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
         Field[] fields = modelClass.getDeclaredFields();
         if (fields != null) {
             for (Field field : fields) {
-                if (field.getAnnotation(Expose.class)!=null) {
+                if (field.getAnnotation(Expose.class) != null) {
                     try {
                         field.setAccessible(true);
                         field.set(attachedBean, field.get(newModel));
@@ -157,12 +154,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mFragmentView == null) {
-            binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
-            if (binding != null) {
-                mFragmentView = binding.getRoot();
-            } else {
-                mFragmentView = inflater.inflate(getLayoutId(), container, false);
-            }
+            mFragmentView = inflater.inflate(getLayoutId(), container, false);
             ButterKnife.bind(this, mFragmentView);
             initVariables();
             initViews(mFragmentView);

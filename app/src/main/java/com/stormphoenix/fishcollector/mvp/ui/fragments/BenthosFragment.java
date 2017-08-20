@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
-import com.stormphoenix.fishcollector.databinding.FragmentBenthosBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.Benthos;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
@@ -67,12 +66,6 @@ public class BenthosFragment extends BaseImageListFragment implements ImagePicke
 
     @Override
     public void onStart() {
-        if (binding != null && attachedBean != null) {
-            Log.e(TAG, "onStart: binding != null && attachedBean != null");
-            ((FragmentBenthosBinding) binding).setBenthosBean((Benthos) attachedBean);
-        } else {
-            Log.e(TAG, "onStart: binding == null || attachedBean == null");
-        }
         super.onStart();
     }
 
@@ -103,7 +96,7 @@ public class BenthosFragment extends BaseImageListFragment implements ImagePicke
                 model.setBiomass(text);
             }
         });
-
+        refreshFragment();
         initPicturesListView();
     }
 

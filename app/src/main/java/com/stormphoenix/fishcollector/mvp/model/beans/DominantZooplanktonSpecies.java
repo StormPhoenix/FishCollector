@@ -2,7 +2,6 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.Expose;
@@ -101,7 +100,6 @@ public class DominantZooplanktonSpecies extends BaseObservable implements BaseMo
         this.modelId = modelId;
     }
 
-    @Bindable
     public String getName() {
         return this.name;
     }
@@ -118,7 +116,6 @@ public class DominantZooplanktonSpecies extends BaseObservable implements BaseMo
         this.photo = photo;
     }
 
-    @Bindable
     public float getQuality() {
         return this.quality;
     }
@@ -127,7 +124,6 @@ public class DominantZooplanktonSpecies extends BaseObservable implements BaseMo
         this.quality = quality;
     }
 
-    @Bindable
     public float getBiomass() {
         return this.biomass;
     }

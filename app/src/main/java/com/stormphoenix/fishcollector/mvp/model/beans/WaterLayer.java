@@ -123,7 +123,6 @@ public class WaterLayer extends BaseObservable implements BaseModel {
 
     public void setLayer(String layer) {
         this.layer = layer;
-//        notifyPropertyChanged(BR.layer);
     }
 
     public float getDepth() {

@@ -2,7 +2,6 @@ package com.stormphoenix.fishcollector.mvp.model.beans;
 
 
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.Expose;
@@ -120,7 +119,6 @@ public class FishEggs extends BaseObservable implements BaseModel {
         this.photo = photo;
     }
 
-    @Bindable
     public String getPeriod() {
         return this.period;
     }
@@ -129,7 +127,6 @@ public class FishEggs extends BaseObservable implements BaseModel {
         this.period = period;
     }
 
-    @Bindable
     public float getDiameter() {
         return this.diameter;
     }
@@ -138,7 +135,6 @@ public class FishEggs extends BaseObservable implements BaseModel {
         this.diameter = diameter;
     }
 
-    @Bindable
     public float getEmDiameter() {
         return this.emDiameter;
     }
@@ -147,7 +143,6 @@ public class FishEggs extends BaseObservable implements BaseModel {
         this.emDiameter = emDiameter;
     }
 
-    @Bindable
     public String getPigmentProp() {
         return this.pigmentProp;
     }
@@ -156,7 +151,6 @@ public class FishEggs extends BaseObservable implements BaseModel {
         this.pigmentProp = pigmentProp;
     }
 
-    @Bindable
     public String getEmbryoProp() {
         return this.embryoProp;
     }

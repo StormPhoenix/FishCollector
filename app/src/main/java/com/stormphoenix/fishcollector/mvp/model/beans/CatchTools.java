@@ -1,7 +1,6 @@
 package com.stormphoenix.fishcollector.mvp.model.beans;
 
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.Expose;
@@ -131,7 +130,6 @@ public class CatchTools extends BaseObservable implements BaseModel {
         this.modelId = modelId;
     }
 
-    @Bindable
     public String getName() {
         return this.name;
     }
@@ -148,7 +146,6 @@ public class CatchTools extends BaseObservable implements BaseModel {
         this.photo = photo;
     }
 
-    @Bindable
     public String getNetsModel() {
         return this.netsModel;
     }
@@ -173,7 +170,6 @@ public class CatchTools extends BaseObservable implements BaseModel {
         this.netMouthDip = netMouthDip;
     }
 
-    @Bindable
     public String getStartTime() {
         return this.startTime;
     }
@@ -182,7 +178,6 @@ public class CatchTools extends BaseObservable implements BaseModel {
         this.startTime = startTime;
     }
 
-    @Bindable
     public String getEndTime() {
         return this.endTime;
     }

@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.stormphoenix.fishcollector.R;
 import com.stormphoenix.fishcollector.adapter.ImagePickerAdapter;
-import com.stormphoenix.fishcollector.databinding.FragmentPhytoplanktonBinding;
 import com.stormphoenix.fishcollector.mvp.model.beans.Phytoplankton;
 import com.stormphoenix.fishcollector.mvp.ui.fragments.base.BaseImageListFragment;
 import com.stormphoenix.fishcollector.shared.textutils.DefaultFloatTextWatcher;
@@ -59,12 +58,6 @@ public class PhytoplanktonFragment extends BaseImageListFragment implements Imag
 
     @Override
     public void onStart() {
-        if (binding != null && attachedBean != null) {
-            Log.e(TAG, "onStart: binding != null && attachedBean != null");
-            ((FragmentPhytoplanktonBinding) binding).setPhytoplankBean((Phytoplankton) attachedBean);
-        } else {
-            Log.e(TAG, "onStart: binding == null || attachedBean == null");
-        }
         super.onStart();
     }
 
@@ -140,7 +133,7 @@ public class PhytoplanktonFragment extends BaseImageListFragment implements Imag
                 model.setBiomass(text);
             }
         });
-
+        refreshFragment();
         initPicturesListView();
     }
 }
