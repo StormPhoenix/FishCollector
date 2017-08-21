@@ -7,6 +7,12 @@
     android:paddingRight="10dp"
     android:paddingTop="10dp">
 
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_pic_sediment"
         android:layout_width="match_parent"
@@ -19,5 +25,5 @@
         app:layoutManager="android.support.v7.widget.GridLayoutManager"
         app:spanCount="4"
         tools:listitem="@layout/list_item_image" />
-
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

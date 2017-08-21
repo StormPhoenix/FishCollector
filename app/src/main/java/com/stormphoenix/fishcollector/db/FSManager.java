@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -72,7 +73,11 @@ public class FSManager {
         }
     }
 
-    public synchronized void deleteRecordContent() {
+    public synchronized void deleteAllFiles() {
+        deleteRecordContent();
+    }
+
+    private synchronized void deleteRecordContent() {
         File storeFile = new File(FishApplication.getInstance().getFilesDir(), GROUP_TASK_RECORD);
         storeFile.deleteOnExit();
     }
@@ -100,6 +105,34 @@ public class FSManager {
             e.printStackTrace();
         }
     }
+
+//    public synchronized Map<String, Boolean> getPhotoRecord() {
+//        if (photoRecord == null) {
+//            File storeFile = new File(FishApplication.getInstance().getFilesDir(), PHOTO_UPLOAD_RECORD);
+//            StringBuilder builder = new StringBuilder();
+//            try {
+//                if (!storeFile.exists()) {
+//                    storeFile.createNewFile();
+//                }
+//                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(storeFile)));
+//                String temp = null;
+//                while ((temp = reader.readLine()) != null) {
+//                    builder.append(temp);
+//                }
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            String jsonStringList = builder.toString();
+//            if (jsonStringList == null || jsonStringList.equals("")) {
+//                photoRecord = new HashMap<>();
+//            } else {
+//                photoRecord = (Map<String, Boolean>) JsonParser.getInstance().fromJson(jsonStringList, new ArrayList<String>().getClass());
+//            }
+//        }
+//        return photoRecord;
+//    }
 
     synchronized public void saveTaskEntry(String username, String modelId) {
         GroupRecord recordContent = getRecordContent();

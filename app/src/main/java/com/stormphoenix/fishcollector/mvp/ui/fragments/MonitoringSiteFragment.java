@@ -383,7 +383,7 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
     }
 
     private void setSpinnerSelection() {
-        if (model.getWeather() != null) {
+        if (model != null &&model.getWeather() != null) {
             for (int index = 0; index < Constants.SAMPLE_WEATHER.length; index++) {
                 if (model.getWeather().equals(Constants.SAMPLE_WEATHER[index])) {
                     spinWeather.setSelection(index + 1);

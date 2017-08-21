@@ -49,7 +49,7 @@ public interface UserApi {
     // 用户提交数据
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("user/upload_model")
-    Observable<HttpResult<Void>> uploadModel(@Query("username") String username,
+    Observable<HttpResult<List<String>>> uploadModel(@Query("username") String username,
                                              @Query("password") String password,
                                              @Query("model_type") String modelType,
                                              @Body RequestBody modelBody);

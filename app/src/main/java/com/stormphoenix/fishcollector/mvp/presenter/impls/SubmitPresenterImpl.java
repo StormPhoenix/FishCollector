@@ -18,12 +18,15 @@ import com.stormphoenix.fishcollector.network.model.GroupRecord;
 import com.stormphoenix.fishcollector.shared.ConfigUtils;
 import com.stormphoenix.fishcollector.shared.constants.Constants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Developer on 17-1-19.
  * Wang Cheng is a intelligent Android developer.
  */
 
-public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView, HttpResult<Void>> implements SubmitPresenter {
+public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView, HttpResult<List<String>>> implements SubmitPresenter {
 
     private Handler mHandler;
 
@@ -51,14 +54,14 @@ public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView
      */
     @Override
     public void submitModelAndPhoto(final String modelType, final BaseModel model, final String paths[], final MultiProgressDialogGenerator generator) {
-        HttpMethod.getInstance().uploadModel(modelType, model, new RequestCallback<HttpResult<Void>>() {
+        HttpMethod.getInstance().uploadModel(modelType, model, new RequestCallback<HttpResult<List<String>>>() {
             @Override
             public void beforeRequest() {
                 mBaseView.showProgress();
             }
 
             @Override
-            public void success(HttpResult<Void> data) {
+            public void success(HttpResult<List<String>> data) {
                 switch (data.getResultCode()) {
                     case Constants.USER_NOT_EXISTS:
                     case Constants.USER_NOT_IN_GROUP:
@@ -70,9 +73,20 @@ public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView
                     case Constants.SUBMIT_SUCCESS:
                         // 提交成功，继续提交图片
                         mBaseView.hideProgress();
-                        if (paths != null && paths.length != 0) {
+                        List<String> fileNames = data.getData();
+                        if (fileNames != null && fileNames.size() != 0) {
+                            generator.setProgressCount(fileNames.size());
+                            generator.build();
                             generator.show();
-                            HttpMethod.getInstance().uploadPhotos(modelType, model.getModelId(), paths, generator.getWrapper());
+                            List<String> needImage = new ArrayList<String>();
+                            for (String fileName: fileNames) {
+                                for (String filePath: paths) {
+                                    if (filePath.endsWith(fileName)) {
+                                        needImage.add(filePath);
+                                    }
+                                }
+                            }
+                            HttpMethod.getInstance().uploadPhotos(modelType, model.getModelId(), needImage, generator.getWrapper());
                         }
                         break;
                     case Constants.SUBMIT_NO_RIGHT:
@@ -114,7 +128,7 @@ public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView
     }
 
     @Override
-    public void success(HttpResult<Void> data) {
+    public void success(HttpResult<List<String>> data) {
         super.success(data);
         switch (data.getResultCode()) {
             case Constants.SUBMIT_NO_RIGHT:
@@ -137,19 +151,6 @@ public class SubmitPresenterImpl extends BasePresenterImpl<SubmitSingleModelView
                 mBaseView.hideProgress();
                 mBaseView.onSubmitError("发生了严重错误");
                 break;
-//            case 0:
-//                mBaseView.onSubmitSuccess();
-//                break;
-//            case 4:
-//                mBaseView.onSubmitError(FishApplication.getInstance().getResources().getString(R.string.already_inserted));
-//                break;
-//            case 6:
-//                mBaseView.onSubmitError(FishApplication.getInstance().getString(R.string.submit_parent_data));
-//                break;
-//            default:
-//                Log.e("TAG", "error " + data.getResultCode());
-//                mBaseView.onSubmitError("data error");
-//                break;
         }
     }
 

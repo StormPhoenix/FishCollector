@@ -129,4 +129,5 @@ public class Constants {
     public static final int UPLOAD_BEFORE_UPDATE = 123;
     // 表记录不存在
     public static final int GROUP_RECORD_NOT_EXISTS = 124;
+    public static final int NO_SUCH_MODEL = 125;
 }

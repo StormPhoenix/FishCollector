@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.stormphoenix.fishcollector.FishApplication;
 import com.stormphoenix.fishcollector.db.DbManager;
+import com.stormphoenix.fishcollector.db.FSManager;
 import com.stormphoenix.fishcollector.mvp.model.beans.MonitoringSite;
 import com.stormphoenix.fishcollector.mvp.model.beans.interfaces.BaseModel;
 import com.stormphoenix.fishcollector.mvp.presenter.interfaces.base.RequestCallback;
@@ -208,8 +209,8 @@ public class HttpMethod {
     /**
      * 提交图片
      */
-    public void uploadPhotos(String modelType, String modelId, String[] paths, final MultiProgressDialogGenerator.ProgressBarsWrapper wrapper) {
-        for (int index = 0; index < paths.length; index++) {
+    public void uploadPhotos(String modelType, String modelId, List<String> paths, final MultiProgressDialogGenerator.ProgressBarsWrapper wrapper) {
+        for (int index = 0; index < paths.size(); index++) {
             final int finalIndex = index;
             UIProgressRequestListener progressListener = new UIProgressRequestListener() {
                 @Override
@@ -221,7 +222,7 @@ public class HttpMethod {
                 }
             };
             // 可能有多张图片，每一张图片对应一次请求
-            uploadPhoto(modelType, modelId, paths[index], progressListener);
+            uploadPhoto(modelType, modelId, paths.get(index), progressListener);
         }
     }
 
@@ -280,7 +281,7 @@ public class HttpMethod {
                 });
     }
 
-    private void uploadPhoto(String modelType, String modelId, String imagePath, UIProgressRequestListener progressListener) {
+    private void uploadPhoto(String modelType, String modelId, final String imagePath, UIProgressRequestListener progressListener) {
         File file = new File(imagePath);
         if (!file.exists()) {
             return;
@@ -353,7 +354,7 @@ public class HttpMethod {
                 });
     }
 
-    public Subscription uploadModel(String modelType, BaseModel model, final RequestCallback<HttpResult<Void>> callback) {
+    public Subscription uploadModel(String modelType, BaseModel model, final RequestCallback<HttpResult<List<String>>> callback) {
         callback.beforeRequest();
 
         RequestBody modelBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), JsonParser.getInstance().toJson(model));
@@ -361,8 +362,8 @@ public class HttpMethod {
                 ConfigUtils.getInstance().getPassword(),
                 modelType,
                 modelBody)
-                .compose(RxJavaCustomTransformer.<HttpResult<Void>>defaultSchedulers())
-                .subscribe(new Subscriber<HttpResult<Void>>() {
+                .compose(RxJavaCustomTransformer.<HttpResult<List<String>>>defaultSchedulers())
+                .subscribe(new Subscriber<HttpResult<List<String>>>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -373,7 +374,7 @@ public class HttpMethod {
                     }
 
                     @Override
-                    public void onNext(HttpResult<Void> result) {
+                    public void onNext(HttpResult<List<String>> result) {
                         callback.success(result);
                     }
                 });

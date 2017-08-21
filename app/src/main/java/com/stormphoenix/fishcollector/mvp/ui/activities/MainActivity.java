@@ -1,6 +1,7 @@
 package com.stormphoenix.fishcollector.mvp.ui.activities;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +24,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -78,6 +81,10 @@ public class MainActivity extends BaseActivity {
     private static final int MSG_FINISH_CREATE_GROUP = 1;
     private static final int MSG_FINISH_JOIN_GROUP = 101;
     private static final int MSG_USER_NOT_IN_GROUP = 102;
+
+    private boolean isTabBarShown = true;
+    private boolean isTabBarMoving = false;
+
     @BindView(R.id.toolbar_main)
     Toolbar toolbar;
     @BindView(R.id.activity_main)
@@ -285,21 +292,22 @@ public class MainActivity extends BaseActivity {
                 // 图片选择完毕，更新数据
                 if (currentFragment != null
                         && currentFragment instanceof BaseImageListFragment) {
-                    if (LocalVariables.currentImageFilePaths == null) {
-                        LocalVariables.currentImageFilePaths = new ArrayList<>();
+                    if (LocalVariables.selectedImageFilePaths == null) {
+                        LocalVariables.selectedImageFilePaths = new ArrayList<>();
                     }
+
                     String[] photoPaths = ReflectUtils.getModelPhotoPaths(currentFragment.getAttachedBean());
                     if (photoPaths != null) {
-                        LocalVariables.currentImageFilePaths.addAll(Arrays.asList(photoPaths));
+                        LocalVariables.selectedImageFilePaths.addAll(Arrays.asList(photoPaths));
                     }
                     // 除重
                     List<String> resultPaths = new ArrayList<>();
-                    for (String path : LocalVariables.currentImageFilePaths) {
+                    for (String path : LocalVariables.selectedImageFilePaths) {
                         if (!resultPaths.contains(path)) {
                             resultPaths.add(path);
                         }
                     }
-                    LocalVariables.currentImageFilePaths = resultPaths;
+                    LocalVariables.selectedImageFilePaths = resultPaths;
                     System.gc();
 
                     currentFragment.updateData();
@@ -314,15 +322,12 @@ public class MainActivity extends BaseActivity {
                 }
 
                 if (currentFragment != null) {
-                    LocalVariables.currentImageFilePaths = imagePaths;
+                    LocalVariables.selectedImageFilePaths = imagePaths;
                     currentFragment.updateData();
                 }
                 break;
         }
-        super.
-
-                onActivityResult(requestCode, resultCode, data);
-
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
@@ -505,7 +510,7 @@ public class MainActivity extends BaseActivity {
                 ConfigUtils.getInstance().setUserLogout();
                 ConfigUtils.getInstance().setUserGroupId(null);
                 ConfigUtils.getInstance().setUserInfo(null, null);
-                FSManager.getInstance().deleteRecordContent();
+                FSManager.getInstance().deleteAllFiles();
                 dbManager.deleteAll();
                 finish();
                 break;
@@ -591,7 +596,7 @@ public class MainActivity extends BaseActivity {
 
     // 向网络提交当前数据
     private void uploadModel() {
-        if (!isNetworkError()) return;
+        if (isNetworkError()) return;
         if (currentFragment == null) {
             Snackbar.make(contentMain, "当前没有数据可提交", Snackbar.LENGTH_LONG).show();
         } else {
@@ -603,7 +608,7 @@ public class MainActivity extends BaseActivity {
 
     // 从网络更新当前的 MODEL
     private void updateCurrentModel() {
-        if (!isNetworkError()) return;
+        if (isNetworkError()) return;
         if (currentFragment != null) {
             HttpMethod.getInstance().downloadSingleModel(ConfigUtils.getInstance().getUsername(),
                     ConfigUtils.getInstance().getPassword(),
@@ -637,6 +642,9 @@ public class MainActivity extends BaseActivity {
                                     break;
                                 case Constants.USER_NOT_IN_GROUP:
                                     break;
+                                case Constants.NO_SUCH_MODEL:
+                                    Snackbar.make(contentMain, "请先提交该节点，再更新数据", Snackbar.LENGTH_LONG).show();
+                                    break;
                                 default:
                                     break;
                             }
@@ -655,15 +663,15 @@ public class MainActivity extends BaseActivity {
 
     private boolean isNetworkError() {
         if (NetManager.isNetworkWorkWell(FishApplication.getInstance())) {
-            return true;
+            return false;
         } else {
             Snackbar.make(contentMain, getString(R.string.net_error), Snackbar.LENGTH_LONG).show();
-            return false;
+            return true;
         }
     }
 
     // 从网络下载当前 Model 的图片
-    private void downloadPhotos() {
+    public void downloadPhotos() {
         // 下载图片
         // 首先要检查是否有存储权限，没有的话就无法存储图片
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -675,6 +683,13 @@ public class MainActivity extends BaseActivity {
 
     private void realDownloadPhotos() {
         if (currentFragment != null) {
+            // 如果正在下载，就不要调用了
+            if (currentFragment instanceof BaseImageListFragment) {
+                if (((BaseImageListFragment) currentFragment).isDownloadingPhotos()) {
+                    return;
+                }
+            }
+
             BaseModel attachedBean = currentFragment.getAttachedBean();
             HttpMethod.getInstance().downloadPhotosInfo(ConfigUtils.getInstance().getUsername(), ConfigUtils.getInstance().getPassword(), attachedBean.getModelId(), attachedBean.getClass().getSimpleName(),
                     new RequestCallback<HttpResult<List<String>>>() {
@@ -688,10 +703,12 @@ public class MainActivity extends BaseActivity {
                             generator.title("下载数据");
                             generator.content("下载中...");
                             generator.show();
+                            ((BaseImageListFragment) currentFragment).startDownload();
                         }
 
                         @Override
                         public void success(HttpResult<List<String>> data) {
+                            ((BaseImageListFragment) currentFragment).stopDownload();
                             generator.cancel();
 //                                    下载图片信息成功，继续下载图片
                             Log.e(TAG, "success: " + data.toString());
@@ -722,6 +739,7 @@ public class MainActivity extends BaseActivity {
                         public void onError(String errorMsg) {
                             Log.e(TAG, "failed: " + errorMsg);
                             generator.cancel();
+                            ((BaseImageListFragment) currentFragment).stopDownload();
                         }
                     }
             );
@@ -934,5 +952,69 @@ public class MainActivity extends BaseActivity {
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public void hideFloatBtn() {
+        if (isTabBarShown && !isTabBarMoving) {
+            btnAddSite.animate()
+                    .setDuration(500)
+                    .setInterpolator(new AccelerateInterpolator())
+                    .translationXBy(btnAddSite.getWidth())
+                    .setListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            isTabBarShown = false;
+                            isTabBarMoving = true;
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            animation.removeAllListeners();
+                            isTabBarMoving = false;
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+        }
+    }
+
+    public void showFloatBtn() {
+        if (!isTabBarShown && !isTabBarMoving) {
+            btnAddSite.animate()
+                    .setDuration(500)
+                    .setInterpolator(new DecelerateInterpolator())
+                    .translationXBy(-btnAddSite.getWidth())
+                    .setListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            isTabBarShown = true;
+                            isTabBarMoving = true;
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            animation.removeAllListeners();
+                            isTabBarMoving = false;
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+        }
     }
 }
