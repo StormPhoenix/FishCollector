@@ -211,7 +211,13 @@ public abstract class BaseImageListFragment extends BaseFragment implements Imag
                     }
                 }
             }
-            BaseModel newModel = createNewModel(Arrays.asList(absolutePaths));
+
+            BaseModel newModel = null;
+            if (absolutePaths == null) {
+                newModel = createNewModel(new ArrayList<String>());
+            } else {
+                newModel = createNewModel(Arrays.asList(absolutePaths));
+            }
 
             if (exsistPathoPaths == null || exsistPathoPaths.size() == 0) {
                 uploadPDGenerator.setProgressCount(0);
