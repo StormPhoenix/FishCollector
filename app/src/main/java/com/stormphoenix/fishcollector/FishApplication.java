@@ -45,7 +45,7 @@ public class FishApplication extends Application {
 //                .cacheOnDisc(true)
 //                .cacheInMemory(true)
 //                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
-//                .bitmapConfig(Bitmap.Config.RGB_565)
+//               A .bitmapConfig(Bitmap.Config.RGB_565)
 //                .build();
 //        ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this)
 //                .defaultDisplayImageOptions(displayImageOptions)
