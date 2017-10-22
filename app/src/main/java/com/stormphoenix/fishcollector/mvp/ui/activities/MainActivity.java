@@ -588,6 +588,10 @@ public class MainActivity extends BaseActivity {
                     Snackbar.make(currentFragment.getView(), "保存成功", Snackbar.LENGTH_SHORT).show();
                 }
                 break;
+            case R.id.action_refresh_task_member:
+                // 查看组
+                downloadTaskTable();
+                break;
             default:
                 break;
         }
@@ -1016,5 +1020,52 @@ public class MainActivity extends BaseActivity {
                         }
                     });
         }
+    }
+
+    private void downloadTaskTable() {
+        final ProgressDialogGenerator generator = new ProgressDialogGenerator(this);
+        generator.title(getResources().getString(R.string.downloading));
+        generator.content(getResources().getString(R.string.please_waiting));
+        generator.circularProgress();
+        generator.cancelable(false);
+
+        HttpMethod.getInstance().downloadTaskTable(ConfigUtils.getInstance().getUsername(),
+                ConfigUtils.getInstance().getPassword(),
+                new RequestCallback<HttpResult<GroupRecord>>() {
+                    @Override
+                    public void beforeRequest() {
+                        generator.show();
+                    }
+
+                    @Override
+                    public void success(HttpResult<GroupRecord> data) {
+                        switch (data.getResultCode()) {
+                            case Constants.USER_NOT_EXISTS:
+                                Snackbar.make(contentMain, "用户不存在，无法上传数据", Snackbar.LENGTH_LONG).show();
+                                generator.cancel();
+                                break;
+                            case Constants.USER_NOT_IN_GROUP:
+                                Snackbar.make(contentMain, "用户不在组中，无法上传数据", Snackbar.LENGTH_LONG).show();
+                                generator.cancel();
+                                break;
+                            case Constants.SUCCESS:
+                                FSManager.getInstance().saveRecordContent(data.getData());
+                                generator.cancel();
+                                break;
+                            case Constants.GROUP_RECORD_NOT_EXISTS:
+                                Snackbar.make(contentMain, "表不存在无法下载", Snackbar.LENGTH_LONG).show();
+                                generator.cancel();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onError(String errorMsg) {
+                        Snackbar.make(contentMain, errorMsg, Snackbar.LENGTH_LONG).show();
+                        generator.cancel();
+                    }
+                });
     }
 }

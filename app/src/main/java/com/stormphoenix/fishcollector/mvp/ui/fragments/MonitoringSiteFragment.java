@@ -392,7 +392,7 @@ public class MonitoringSiteFragment extends BaseImageListFragment implements Ada
             }
         } else {
             spinWeather.setSelection(-1);
-            model.setWeather(null);
+//            model.setWeather(null);
         }
     }
 

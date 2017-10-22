@@ -41,6 +41,8 @@ public class SedimentFragment extends BaseImageListFragment implements ImagePick
         return R.layout.fragment_sediment;
     }
 
+    int i = 0;
+
     @Override
     protected void initVariables() {
         model = (Sediment) attachedBean;

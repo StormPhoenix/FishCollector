@@ -47,7 +47,7 @@ public class PhytoplanktonFragment extends BaseImageListFragment implements Imag
 
     @Override
     protected void refreshFragment() {
-        etPhytoplanktonMount.setText(model.getQuality());
+        etPhytoplanktonMount.setText(String.valueOf(model.getQuality()));
         etPhytoplanktonBiomass.setText(String.valueOf(model.getBiomass()));
     }
 
